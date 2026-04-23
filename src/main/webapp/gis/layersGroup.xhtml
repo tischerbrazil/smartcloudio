@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" 
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+	<h:form id="layersFormLG">		
+			
+
+	<p:dataTable var="layerg" draggableRows="true"
+		value="#{applicationEntityBean.appLayersGroup}"
+		converter="layerConverter" selectionMode="single"
+		rowKey="#{layerg.layerid}" id="layersg">
+
+		
+			<p:ajax event="rowSelect"
+			listener="#{applicationEntityBean.onRowSelect}" update="layersFormLG:layersg message"
+			oncomplete="fetchDataX(args.namehash)" />
+
+			<p:ajax event="rowReorder"
+			listener="#{applicationEntityBean.onReorderGroup}"
+			 oncomplete="handleOrderLayersGroup(xhr, status, args)"
+			 update="layersFormLG:layersg message"  
+			 />
+			 
+			
+	
+
+		<p:column headerText="Camadas">
+
+			<p:commandButton
+				styleClass="#{layerg.father ? 'ui-button-danger' : ''}"
+				icon="pi pi-angle-down" id="basic" type="button" />
+
+			<p:overlayPanel at="left bottom" my="left top" for="basic"
+				style="width:300px">
+
+				<h:inputHidden id="txt5" value="#{layerg.opacity}" />
+
+				<p:slider for="txt5" minValue="0.01" maxValue="1.00" step="0.01"
+					style="margin-bottom: 30px;margin-bottom: 30px">
+					<p:ajax event="slideEnd"
+						oncomplete="handleChangeOpacity(xhr, status, args)"
+						listener="#{applicationEntityBean.onSlideEnd}" update="message" />
+					<f:attribute name="idLayer" value="#{layerg.layerid}" />
+				</p:slider>
+
+				<p:selectBooleanCheckbox value="#{layerg.visible}">
+					<p:ajax update="message"
+						oncomplete="handleChangeVisible(xhr, status, args)"
+						listener="#{applicationEntityBean.addMessageNew}" />
+					<f:attribute name="idLayer" value="#{layerg.layerid}" />
+				</p:selectBooleanCheckbox>
+
+				<p:commandButton style="float: right; margin-left: 10px"
+					icon="pi pi-palette" id="le"
+					onclick="layerEdit([{name:'layerid', value: '#{layerg.layerhash}'}])"
+					title="Editar" />
+
+				<p:commandButton style="float: right; margin-left: 10px"
+					icon="pi pi-list" id="lg"
+					onclick="layerGeom([{name:'layerid', value: '#{layerg.layerhash}'}])"
+					title="Registros" />
+
+				<p:commandButton style="float: right" rendered="#{layerg.father}"
+					icon="pi pi-server" id="group"
+					actionListener="#{applicationEntityBean.layersGroupLoad()}"
+					update="message layersFormLG"
+					oncomplete="PF('layersGroup').show();">
+					<f:param name="layerId" value="#{layerg.layerid}" />
+				</p:commandButton>
+
+			</p:overlayPanel>
+        			
+       						#{layerg.name}
+
+					</p:column>
+	</p:dataTable>
+
+</h:form>
+</ui:composition>

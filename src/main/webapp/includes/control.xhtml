@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<section class="content">
+
+		<style>
+.inline-block {
+	display: inline-block;
+}
+
+.inline-block2 {
+	display: inline-block;
+	vertical-align: top;
+}
+</style>
+
+
+
+
+		<style>
+/* Login Page ================================== */
+.login-page {
+	background-color: #7100bc;
+	padding-left: 0;
+	max-width: 660px;
+	margin: 5% auto;
+	overflow-x: hidden;
+}
+
+.login-page .login-box .msg {
+	color: #555;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.login-page .login-box a {
+	font-size: 14px;
+	text-decoration: none;
+	color: #00BCD4;
+}
+
+.login-page .login-box .logo {
+	margin-bottom: 20px;
+}
+
+.login-page .login-box .logo a {
+	font-size: 26px;
+	display: block;
+	width: 100%;
+	text-align: center;
+	color: #fff;
+}
+
+.login-page .login-box .logo small {
+	display: block;
+	width: 100%;
+	align: center;
+	text-align: center;
+	color: #fff;
+	margin-top: -5px;
+}
+</style>
+		
+	
+		
+	
+			<div>
+				<div>
+					<div class="card">
+						<div class="header">
+							<h1>
+								Controle de Versões							</h1>
+						</div>
+
+						<div class="body">
+										
+						<ui:repeat value="#{urlControlBean.getComp(id)}"  var="_control">
+						<h1><strong>#{_control.name}</strong></h1> 
+						
+						
+						<ui:repeat id="xx"  value="#{_control.versions}" var="_item2"> 
+      	
+      		<h4>
+                 <strong>
+                 	<h:link value="#{_item2.name}" 
+                    	outcome="/version" >
+                        	<f:param name="objectId" value="#{_item2.uuid}"/>
+                     </h:link>
+                 </strong>
+          </h4>
+      		</ui:repeat>
+      		
+      		<hr/>
+      		
+      		
+      		<ui:repeat id="yy"  value="#{_control.geometrias}" var="_item33"> 
+      	
+      		<h4>
+                 <strong>
+                 	<h:link value="uu-#{_item33.nome}" 
+                    	outcome="/post" >
+                        	<f:param name="id" value="#{_item33.uuid}"/>
+                     </h:link>
+                 </strong>
+          </h4>
+      		</ui:repeat>
+						
+						
+						</ui:repeat>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+
+		
+
+
+
+
+
+
+	</section>
+</ui:composition>

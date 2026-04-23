@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+    
+	
+      <section class="category-banner d-flex justify-content-center">
+        <div class="container" id="bannerdesktop">
+          <div class="col-10 col-md-12">
+            <div class="container-category-banner d-flex justify-content-center">
+              <ul class="category-list-banner">
+                <li class="category-item-banner">
+                  <div>
+                    <img src="/themes/bs5-ecommerce/img/banner-contador (1).webp" alt=""/>
+
+                    <div class="counter">
+                      <div class="days">
+                        <div class="number" id="days"> 00 </div>
+                        <div class="day" id="day-label">Dia</div>  
+                      </div>
+                      <div class="ping">:</div>
+                      <div class="hours">
+                        <div class="number" id="hours"> 00 </div>
+                        <div class="hr" id="hours-label">Hr</div>
+                      </div>
+                      <div class="ping">:</div>
+                      <div class="minutes">
+                        <div class="number" id="minutes"> 00 </div>
+                        <div class="min" id="minutes-label">Min</div>
+                      </div>
+                      <div class="ping">:</div>
+                      <div class="seconds">
+                        <div class="number" id="seconds"> 00 </div>
+                        <div class="seg" id="seconds-label">Seg</div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+
+     
+      <section class="bannercontador">
+        <div class="container" id="mobilebanner">
+          <div class="row-fluid">
+            <div class="picturebannermobile">
+              <img src="/themes/bs5-ecommerce/img/banner-contador-mob.png" alt="" width=""/>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="counter-mobile">
+        <div class="days-mobile">
+          <div class="number" id="days-mobile">00</div>
+          <div class="day" id="day-label-mobile">Dias</div>
+        </div>
+        <div class="ping">:</div>
+        <div class="hours-mobile">
+          <div class="number" id="hours-mobile">00</div>
+          <div class="day" id="hours-label-mobile">Horas</div>
+        </div>
+        <div class="ping">:</div>
+        <div class="minutes-mobile">
+          <div class="number" id="minutes-mobile">00</div>
+          <div class="day" id="minutes-label-mobile">Minutos</div>
+        </div>     
+        <div class="ping">:</div>
+        <div class="seconds-mobile">
+          <div class="number" id="seconds-mobile">00</div>
+          <div class="day" id="seconds-label-mobile">Segundos</div>
+        </div>
+      </div>
+    
+    
+    <br/>
+<ui:fragment rendered="true">
+    <script src="/resources/includes/timer/timer.js"></script> 
+		</ui:fragment>
+</ui:composition>

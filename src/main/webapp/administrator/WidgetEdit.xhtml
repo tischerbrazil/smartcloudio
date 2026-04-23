@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="changeOrderForm">
+		<h4>
+			<p:commandButton value="Salvar" id="saveBtn2"
+				oncomplete="PF('changeOrder').hide()"
+				action="#{moduloBean.saveAction}"
+				update="msgs pageform:tablayer:modules"
+				style="font-size: 15px;padding: 3px" icon="pi pi-save" />
+			#{''}
+			<p:commandButton value="Fechar" id="closeBtn2"
+				oncomplete="PF('changeOrder').hide()"
+				style="font-size: 15px;padding: 3px" icon="pi pi-window-minimize" />
+		</h4>
+		<div class="row clearfix">
+			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+				<div class="form-group">
+					<span><i class="fa fa-list"></i><label for="firstName"
+						class="control-label">#{''}Ativo</label> </span>
+					<div class="form-line">
+						<p:selectBooleanCheckbox
+							value="#{moduloBean.moduleComponentMap.enabled}" />
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+				<div class="form-group">
+					<span><i class="fa fa-list"></i><label for="firstName"
+						class="control-label">#{''}Ordem</label> </span>
+					<div class="form-line">
+						<p:spinner id="offsetX" size="2"
+							value="#{moduloBean.moduleComponentMap.ordering}" min="1"
+							max="100" />
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+				<div class="form-group">
+					<span><i class="fa fa-tablet-alt"></i><label for="mod_class"
+						class="control-label">#{''}Bloco</label> </span>
+					<div class="form-line">
+
+
+						<p:selectOneMenu hideNoSelectionOption="true"
+						filter="true"	filterMatchMode="contains"
+							converter="omnifaces.SelectItemsConverter" id="widget33"
+							value="#{moduloBean.moduleComponentMap.abstractWidget}">
+							<f:selectItem noSelectionOption="true" itemValue="#{_item}"
+								itemLabel="#{_item.id}" />
+							<f:selectItems itemLabel="#{_item.compDef} #{_item.nome}" itemValue="#{_item}"
+								value="#{moduloBean.widgets}" var="_item" />
+						</p:selectOneMenu>
+
+
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+
+
+		<div class="row clearfix">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="form-group">
+					<span><i class="fa fa-sort-alpha-up-alt"></i><label
+						for="strings" class="control-label">#{' '} Strings</label> </span>
+					<div class="form-line">
+						<p:inputTextarea name="strings" cols="100" rows="5"
+							converter="jsonConverter" id="strings"
+							value="#{moduloBean.moduleComponentMap.strings}">
+						</p:inputTextarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		
+		<div class="row clearfix">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="form-group">
+					<span><i class="fa fa-sort-alpha-up-alt"></i><label
+						for="strings" class="control-label">#{' '} Componente</label> </span>
+					<div class="form-line">
+						<p:inputTextarea name="strings" cols="100" rows="5"
+							converter="jsonConverter" id="wid"
+							value="#{moduloBean.moduleComponentMap.comp}">
+						</p:inputTextarea>
+					</div>
+				</div>	
+			</div>
+		</div>
+
+		
+		
+		
+		
+		<hr />
+		<hr />
+		<hr />
+		<hr />
+		<hr />
+		
+		
+		
+		
+
+
+
+
+	</h:form>
+
+</ui:composition>

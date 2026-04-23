@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:p="http://primefaces.org/ui"> 
+
+
+
+		<h:form id="search">
+		<br/>
+		<p:dataTable  emptyMessage="Nenhum Projeto Encontrado!"  id="apps" 
+			styleClass="data-table" value="#{applicationEntityBean.pageItems33}" var="_item"
+			 paginatorPosition="bottom" paginator="true" rows="10">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Projetos"/>
+					</f:facet>
+					
+					<p:button rendered="#{_item.app.typeName == 'org.security.model.ProjectBasic'}" icon="fa fa-globe" title="OpenLayers WebGIS"
+						target="_self" outcome="/protected/gis/dashboardNA" >
+						<f:param name="id" value="#{_item.app.uuid}"/>
+					</p:button>
+					#{''}
+					<p:button rendered="#{_item.app.typeName == 'org.security.model.ProjectRural'}" icon="fa fa-globe" title="OpenLayers WebGIS"
+						target="_self" outcome="/protected/gis2/dashboardSM" >
+						<f:param name="id" value="#{_item.app.id}"/>
+					</p:button>
+					#{''}
+					<p:button rendered="#{_item.app.typeName == 'org.security.model.ProjectBasic'}" icon="fa fa-file-text" target="_self" title="Exibir Projeto"
+						outcome="/protected/project-gis/projectEditBasic" >
+						<f:param name="id" value="#{_item.app.id}"/>
+					</p:button> 
+					#{''}
+					<p:button rendered="#{_item.app.typeName == 'org.security.model.ProjectRural'}" icon="fa fa-file-text" target="_self" title="Exibir Projeto"
+						outcome="/protected/project-gis/projectEditRural" >
+						<f:param name="id" value="#{_item.app.id}"/>
+					</p:button>
+					#{''}
+					<p:button rendered="#{_item.app.typeName == 'org.security.model.ProjectRural'}" icon="fa fa-file-close" target="_self" title="Exibir Projeto"
+						outcome="/administrator/project_edit" >
+						<f:param name="id" value="#{_item.app.id}"/>
+					</p:button>
+					#{''}
+					
+					<p:button target="_blank" href="/public/#{_item.app.realm}/#{_item.app.id}/index.xhtml"
+						icon="fa fa-sitemap" title="Web-Site Público" />
+					#{''}
+					<h:outputText id="_itemName" value="#{_item.app.name} - #{_item.appRole}"/> #{''}
+					<p:outputLabel style="color: blue" rendered="#{_item.app.typeName == 'org.security.model.ProjectBasic'}" 
+						id="_itemTypeBasic" value=" (Urbano)"/>
+					<h:outputText style="color: red" rendered="#{_item.app.typeName == 'org.security.model.ProjectRural'}" 
+						id="_itemTypeRural" value=" (Rural)"/>
+				</p:column>
+			</p:dataTable>
+			
+			
+		</h:form>	
+
+</ui:composition>

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+    xmlns:c="jakarta.tags.core"
+    xmlns:pt="jakarta.faces.passthrough"   
+	xmlns:p="http://primefaces.org/ui" 
+
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"> 
+
+
+	<f:metadata> 
+		<f:viewParam name="id" value='#{userEntityBean.id}'/>
+		<f:event type="preRenderView" listener='#{userEntityBean.retrieve}'/>
+	</f:metadata>
+
+    <ui:define name="content">
+  	
+  	
+  	<style>
+	.inline-block {
+   		display: inline-block;
+	}
+	.inline-block2 {
+    	display: inline-block;
+    	vertical-align:top;
+	}
+	</style>
+
+   	<section class="content">
+    	<div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="card">
+                    	<div class="body">
+                    	
+                    	
+            			<h:form id="create">
+						<p:messages globalOnly="true" styleClass="error"/>
+						
+						
+						
+                            
+					
+						
+						<h4>Uma cópia do contrato foi enviada para seu email. Verifique seu email para maiores instruções! </h4>
+						<br/>
+						
+					
+			<div class="buttons" align="center"> 
+			
+			 <p:button 
+			 icon="fa fa-home" 
+			 outcome="/application/index" styleClass="btn btn-primary" 
+			
+			    class="btn bg-pink waves-effect" 
+                            value="HOME" />  
+			#{''}
+			 			<p:button 
+			 icon="fa fa-gear" 
+			 outcome="/application/index" styleClass="btn btn-secondary"  
+			
+			    class="btn bg-pink waves-effect" 
+                            value="ACESSAR GEOAZUL CLOUD" />  
+			
+				
+		
+			</div>
+		
+						
+						<br/>
+					
+						</h:form>
+						
+						
+						
+     					</div>         
+              		</div>
+       			</div>
+			</div>
+		</div>  
+   	</section>
+
+	</ui:define>
+</ui:composition>

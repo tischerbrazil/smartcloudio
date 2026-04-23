@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    
+    xmlns:p="http://primefaces.org/ui"> 
+ 
+      <div class="container-fluid">
+            <div class="row clearfix">
+                <!-- With Captions -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+              
+                        <div class="body">
+               
+                        <ui:repeat value="#{layerBean.getLayerById(id)}"  var="_layer">
+
+
+		<h1><strong>#{_layer.name}</strong></h1> 
+      	
+		<ui:repeat id="contentBeanPageItems2"  value="#{_layer.geometrias}" var="_item2"> 
+      	
+      		<h4>
+                 <strong>
+                 	<h:link value="#{_item2.nome}" 
+                    	outcome="/post" >
+                        	<f:param name="id" value="#{_item2.uuid}"/>
+                        	<f:param name="layer_id" value="#{_item2.layer.uuid}"/>
+                    </h:link>
+                 </strong>
+          </h4>
+      		</ui:repeat>
+		
+		
+
+                        	
+                        	</ui:repeat>
+                        	
+                        
+                        </div>
+                    </div>
+                </div>
+                <!-- #END# With Captions -->
+            </div>
+        </div>
+
+</ui:composition>

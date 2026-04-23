@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+
+		<ui:fragment rendered="#{_block.abstractWidget eq 'bs53_block_content_left'}">
+		<ui:include src="/includes/widgets/view/custom_bs53_block_content_left.xhtml">
+		<ui:param name="_block" value="#{_block}" />
+		</ui:include>
+		</ui:fragment>
+		
+		
+		<ui:fragment rendered="#{_block.abstractWidget eq 'bs53_block_content_right'}">
+		<ui:include src="/includes/widgets/view/custom_bs53_block_content_right.xhtml">
+		<ui:param name="_block" value="#{_block}" />
+		</ui:include>
+		</ui:fragment>
+		
+
+
+</ui:composition>

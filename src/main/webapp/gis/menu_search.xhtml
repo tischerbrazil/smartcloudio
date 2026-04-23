@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{urlMenuBean.retrieve}" />
+	</f:metadata>
+
+
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+						<h:form id="search">
+							<div align="right">
+								<p:button outcome="/gis/menu_edit" title="Novo Menu" icon="fa fa-plus"
+									 styleClass="btn btn-primary" />
+							</div>
+							<p:dataTable id="menus" reflow="true" styleClass="data-table"
+								value="#{urlMenuBean.all}" var="_item">
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Nome" />
+									</f:facet>
+									<p:outputLabel value="#{_item.name}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="APP" />
+									</f:facet>
+									<p:outputLabel value="#{_item.applicationEntity.name}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Ação" />
+									</f:facet>
+									<p:button icon="fa fa-th-list" title="Exibir" outcome="/gis/menu_view">
+										<f:param name="id" value="#{_item.uuid}" />
+									</p:button>
+					#{''} 
+					<p:button icon="fa fa-edit" title="Editar" outcome="/gis/menu_edit">
+										<f:param name="id" value="#{_item.uuid}" />
+									</p:button>
+								</p:column>
+							</p:dataTable>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	</ui:define>
+</ui:composition>

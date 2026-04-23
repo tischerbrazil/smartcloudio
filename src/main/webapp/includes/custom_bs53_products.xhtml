@@ -1,0 +1,692 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core" xmlns:o="http://omnifaces.org/ui"
+	xmlns:pt="jakarta.faces.passthrough" xmlns:h="jakarta.faces.html"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<f:viewAction action="#{productBean.retrieve}" />
+		<f:viewParam name="globalSearch" value='#{productBean.globalSearch}' />
+	</f:metadata>
+
+	<style>
+.ui-rating-star a, .ui-rating-cancel a {
+	width: 11px !important;
+	height: 10px !important;
+	font-size: 1em !important;
+}
+
+.product-badge {
+	border-radius: 2px;
+	padding: 0.25em 0.5rem;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 12px;
+	letter-spacing: 0.3px;
+}
+
+.product-badge.status-instock {
+	background: #C8E6C9;
+	color: #256029;
+}
+
+.product-badge.status-outofstock {
+	background: #FFCDD2;
+	color: #C63737;
+}
+
+.product-badge.status-lowstock {
+	background: #FEEDAF;
+	color: #8A5340;
+}
+
+.order-badge {
+	border-radius: 2px;
+	padding: 0.25em 0.5rem;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 12px;
+	letter-spacing: 0.3px;
+}
+
+.order-badge.order-delivered {
+	background: #C8E6C9;
+	color: #256029;
+}
+
+.order-badge.order-cancelled {
+	background: #FFCDD2;
+	color: #C63737;
+}
+
+.order-badge.order-pending {
+	background: #FEEDAF;
+	color: #8A5340;
+}
+
+.order-badge.order-returned {
+	background: #ECCFFF;
+	color: #694382;
+}
+
+.image-text {
+	vertical-align: middle;
+	margin-left: 0.5rem;
+}
+
+.p-multiselect-representative-option {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.p-multiselect-representative-option img {
+	vertical-align: middle;
+	width: 24px;
+}
+
+.p-multiselect-representative-option span {
+	margin-top: 0.125rem;
+}
+
+.p-column-filter {
+	width: 100%;
+}
+
+.country-item {
+	display: flex;
+	align-items: center;
+}
+
+.country-item img.flag {
+	width: 18px;
+	margin-right: 0.5rem;
+}
+
+.image-text {
+	vertical-align: middle;
+	margin-left: 0.5rem;
+}
+
+.p-multiselect-representative-option {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.p-multiselect-representative-option img {
+	vertical-align: middle;
+	width: 24px;
+}
+
+.p-multiselect-representative-option span {
+	margin-top: 0.125rem;
+}
+
+.p-column-filter {
+	width: 100%;
+}
+
+.country-item {
+	display: flex;
+	align-items: center;
+}
+
+.country-item img.flag {
+	width: 18px;
+	margin-right: 0.5rem;
+}
+
+.product .product-name {
+	font-size: 1rem;
+	font-weight: 700;
+}
+
+.product .product-description {
+	margin: 0 0 1rem 0;
+}
+
+.product .product-category-icon {
+	vertical-align: middle;
+	margin-right: 0.5rem;
+}
+
+.product .product-category {
+	font-weight: 600;
+	vertical-align: middle;
+}
+
+.product .product-list-item {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	padding: 1rem;
+}
+
+.product .product-list-item.border-1 {
+	border-bottom: 1px solid var(- -surface-d);
+}
+
+.product .product-list-item img {
+	width: 250px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	margin-right: 2rem;
+}
+
+.product .product-list-item .product-list-detail {
+	flex: 1 1 0;
+	-ms-flex: 1 1 0;
+}
+
+.product .product-list-item .ui-rating {
+	margin: 0 0 0.5rem 0;
+}
+
+.product .product-list-item .product-price {
+	font-size: 1.5rem;
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+	align-self: flex-end;
+}
+
+.product .product-list-item .product-list-action {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-direction: column;
+	flex-direction: column;
+}
+
+.product .product-list-item .ui-button {
+	margin-bottom: 0.5rem;
+}
+
+.product .product-grid-item.border-1 {
+	border: 1px solid var(- -surface-d);
+}
+
+.product .product-grid-item .product-grid-item-top, .product .product-grid-item .product-grid-item-bottom
+	{
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+}
+
+.product .product-grid-item img {
+	width: 100%;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	margin: 2rem 0;
+}
+
+.product .product-grid-item .ui-rating {
+	margin: 0 0 1rem 0;
+}
+
+.product .product-grid-item .product-grid-item-content {
+	text-align: center;
+}
+
+.product .product-grid-item .product-price {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+@media screen and (max-width: 576px) {
+	.product .product-list-item {
+		-ms-flex-direction: column;
+		flex-direction: column;
+		-ms-flex-align: center;
+		align-items: center;
+	}
+	.product .product-list-item img {
+		width: 100%;
+		margin: 2rem 0;
+	}
+	.product .product-list-item .product-list-detail {
+		text-align: center;
+	}
+	.product .product-list-item .product-price {
+		align-self: center;
+	}
+	.product .product-list-item .product-list-action {
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-direction: column;
+		flex-direction: column;
+	}
+	.product .product-list-item .product-list-action {
+		margin-top: 2rem;
+		-ms-flex-direction: row;
+		flex-direction: row;
+		-ms-flex-pack: justify;
+		justify-content: space-between;
+		-ms-flex-align: center;
+		align-items: center;
+		width: 100%;
+	}
+}
+
+.crud-demo .ui-datatable {
+	margin-top: 1rem;
+}
+
+.crud-demo .product-image {
+	width: 100px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.crud-demo .ui-dialog .product-image {
+	width: 250px;
+	margin: 0 auto 2rem auto;
+	display: block;
+}
+
+.crud-demo .ui-dialog-footer .ui-button {
+	min-width: 6rem;
+}
+
+.crud-demo .ui-datatable .ui-column-filter {
+	display: none;
+}
+
+.crud-demo .products-table-header {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+
+.crud-demo .edit-button.ui-button {
+	margin-right: 0.5rem;
+}
+
+.crud-demo .orders-subtable {
+	padding: 1rem;
+}
+
+.crud-demo .products-table>.ui-datatable-tablewrapper>table>thead>tr>th:nth-child(1)
+	{
+	width: 1rem;
+}
+
+.crud-demo .products-table .ui-rating {
+	display: inline-block;
+}
+
+@media ( max-width : 640px) {
+	.products-table>.ui-datatable-tablewrapper>table>thead>tr>th:nth-child(2) .ui-column-title,
+		.products-table>.ui-datatable-tablewrapper>table>tbody>tr>td:nth-child(2) .ui-column-title
+		{
+		display: none !important;
+	}
+	.products-buttonbar {
+		-ms-flex-direction: column;
+		flex-direction: column;
+	}
+	.products-buttonbar>div:last-child {
+		margin-top: 0.5rem;
+	}
+}
+
+.cascadeselect-item.country-item .flag {
+	width: 18px;
+	height: 12px;
+	margin-right: 0.5rem;
+}
+
+.manymenu-advanced.ui-selectmanymenu .ui-selectlistbox-listcontainer .ui-selectlistbox-list .ui-selectlistbox-item>td:nth-child(2)
+	{
+	width: 1rem;
+	padding: 0;
+}
+
+.product-card {
+	position: relative;
+	border: 1px solid var(- -surface-d);
+	margin: 0.3rem;
+	border-radius: 5px;
+}
+
+.card-banner img {
+	width: 90%;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.product-card .card-badge {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 3px 10px;
+	background-color: var(- -kelly-green);
+	border-radius: 5px;
+	font-weight: 400;
+}
+
+.product-card .card-badge-red {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 3px 10px;
+	background-color: var(- -red);
+	color: var(- -white);
+	border-radius: 5px;
+	font-weight: 400;
+}
+
+.product-card .card-badge-full {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 3px 10px;
+	background-color: var(- -sprint-yellow);
+	color: var(- -eerie-black);
+	border-radius: 5px;
+	font-weight: 400;
+}
+
+/* Fim de Produtos */
+
+@media ( min-width : 992px) {
+	.bd-layout {
+		display: grid;
+		grid-template-areas: "sidebar main";
+		grid-template-columns: 1fr 5fr;
+		gap: 1.5rem;
+	}
+}
+
+.bd-sidebar {
+	grid-area: sidebar;
+}
+
+.bd-main {
+	grid-area: main;
+}
+
+@media ( max-width : 991.98px) {
+	.bd-main {
+		margin-inline: auto;
+	}
+}
+
+.offcanvas-header {
+	background-color: green;
+    color: white;
+}
+
+.product-card .card-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px 10px;
+  background-color: var(--kelly-green);
+  border-radius: 5px;
+  font-weight: 400;
+}
+
+.product-card .card-badge-red {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px 10px;
+  background-color: var(--red);
+  color: var(--white);
+  border-radius: 5px;
+  font-weight: 400;
+}
+
+.product-card .card-badge-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px 10px;
+  background-color: var(--sprint-yellow);
+  color: var(--eerie-black);
+  border-radius: 5px;
+  font-weight: 400;
+}
+
+.title-text {
+  text-decoration: none;
+  color: var(--eerie-black);
+  font-size: 0.96rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+</style>
+
+<h1>-------------------</h1>
+
+	<script>
+            
+
+            function onMessage(index, viewid) {
+              var state_e = document.getElementById(viewid + ":form:dataPW:" + index + ":combut").classList.contains("ui-button-flat");
+             
+              if ( state_e == true){
+                    document.getElementById(viewid + ":form:dataPW:" + index + ":combut").classList.remove("ui-button-flat");
+                  }else{
+               	    document.getElementById(viewid + ":form:dataPW:" + index + ":combut").classList.add("ui-button-flat");
+              }
+            }
+       
+        
+       
+
+        </script>
+	
+
+	<div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
+		<aside class="bd-sidebar">
+			<div class="offcanvas-lg offcanvas-start" tabindex="-1"
+				id="bdSidebar" aria-labelledby="bdSidebarOffcanvasLabel">
+				<div class="offcanvas-header border-bottom">
+					<h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">Categorias</h5>
+					<button type="button" class="btn-close btn-close-white"
+						data-bs-dismiss="offcanvas" aria-label="Close"
+						data-bs-target="#bdSidebar"></button>
+				</div>
+				<div class="offcanvas-body">
+					<nav class="bd-links w-100" id="bd-docs-nav"
+						aria-label="Docs navigation">
+
+						<p:panelMenu style="width:100%"
+							model="#{productBean.modelMenuGroup}" />
+						<hr />
+						<p:panelMenu rendered="false" style="width:100%"
+							model="#{productBean.modelMenu}" />
+
+					</nav>
+				</div>
+			</div>
+		</aside>
+		<main class="bd-main">
+			<div class="card product">
+				<h:form id="form">
+					<p:dataView id="dataPW" var="product" value="#{productBean.model}"
+						rows="12" emptyMessage="Nenhum produto encontrado!"
+						rowIndexVar="index" paginator="true" touchable="false"
+						widgetVar="vtWidget" paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						layout="grid" gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+						currentPageReportTemplate="{startRecord} até {endRecord} de {totalRecords} produtos"
+						gridRowStyleClass="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-3 col-xl-2"
+						flex="false">
+						<f:facet name="header">
+						
+							<button
+								class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-button-raised ui-button-danger d-lg-none"
+								type="button" data-bs-toggle="offcanvas"
+								data-bs-target="#bdSidebar" aria-controls="bdSidebar"
+								style="float: left; margin-right: 20px">
+								<span class="ui-button-icon-left ui-icon ui-c fa fa-filter"></span>
+								<span class="ui-button-text ui-c">ui-button</span>
+							</button>
+							
+							<i class="fa fa-sort-amount-desc" aria-hidden="true"></i>
+							<p:selectOneMenu id="city" value="#{productBean.typeFilter}">
+								<p:ajax event="change" listener="#{productBean.processSearch()}"
+									update="#{viewid}:form" />
+								<f:selectItems value="#{productBean.typeFilters}" />
+							</p:selectOneMenu>
+						</f:facet>
+						<p:dataViewGridItem>
+							<div class="product-card border">
+								<div class="card-banner">
+									<div class="clearfix mb-1">
+										<span class="float-end"> 
+										<p:commandButton
+												style="height: 25px; width: 25px" 
+												id="combut"
+												styleClass="ui-button-danger heartcard endheart #{product.wishlist.stream().filter((i)->i.person.id == profileBacking.person.id).findFirst().isPresent() ? '' : 'ui-button-flat'}"
+												icon="pi pi-heart" widgetVar="saveButton"
+						                    	onclick="onMessage('#{index.toString()}', '#{viewid}')"
+												action="#{productBean.sendMessage(index.toString().concat(',').concat(product.id.toString()).concat(',').concat(viewid.toString()))}" />
+										</span>
+									</div>
+									<h:link outcome="/ecommerce/index">
+										<f:param name="uuid" value="#{product.uuid}" />
+										<f:param name="gcmid"
+											value="#{compjson.field.get('gcmid').asText()}" />
+										<p:graphicImage class="img-fluid"
+											rendered="#{product.images.stream().filter((i)->i.mimeType ne 'video/youtube').findFirst().isPresent()}"
+											value="#{product.images.stream().filter((i)->i.mimeType ne 'video/youtube').findFirst().get().getFilename()}" />
+									</h:link>
+									<ui:remove>
+										<div class="card-badge-red">5% Desconto</div>
+
+										<div class="card-badge-full">
+											Oferta
+											<ion-icon name="flash"></ion-icon>
+										</div>
+									</ui:remove>
+
+									<div class="card-badge badge badge-danger">#{i18n['ecommerce.'
+										+= product.statusInfo]}
+										
+										</div>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+
+
+										<div>
+											<strong>#{product.manufacturer.name}</strong>
+										</div>
+										<div>Dep. #{product.pro_productGroup.gru_name}</div>
+										<div>Cat. #{product.pro_productSubgroup.sub_name}</div>
+										<div class="star">
+											<p:rating id="rating33" readonly="true"
+												value="#{product.average_rating}" />
+										</div>
+										<div class="card-price">
+											<data value="">R$ <h:outputLabel
+												value="#{product.salePrice}"
+												style="font-weight: bold;font-size: extra-large">
+												<f:convertNumber currencyCode="BRL" minFractionDigits="2"
+													currencySymbol="R$" />
+											</h:outputLabel> </data>
+										</div>
+										
+										
+										<p:button styleClass="ui-button-raised ui-button-danger" outcome="index"  
+										value="Ver mais detalhes">
+										
+										<f:param name="uuid" value="#{product.uuid}" />
+											<f:param name="gcmid"
+												value="#{compjson.field.get('gcmid').asText()}" />
+										
+										</p:button>
+										
+										
+									</div>
+								</div>
+							</div>
+						</p:dataViewGridItem>
+						<p:dataViewListItem>
+							<div class="product-list-item">
+								<p:graphicImage
+									rendered="#{product.images.stream().filter((i)->i.mimeType ne 'video/youtube').findFirst().isPresent()}"
+									value="#{product.images.stream().filter((i)->i.mimeType ne 'video/youtube').findFirst().get().getFilename()}" />
+								<div class="product-list-detail">
+									<div class="product-name">#{product.name}</div>
+									<div class="product-description">#{product.introduction}</div>
+									<div class="product-description">
+										<h:outputText id="price2" value="#{product.salePrice}"
+											styleClass="product-price">
+											<f:convertNumber currencySymbol="R$" type="currency" />
+										</h:outputText>
+									</div>
+									<p:rating readonly="true" value="#{product.average_rating}" />
+
+									<i class="pi pi-tag product-category-icon" /><span
+										class="product-category">#{product.pro_productSubgroup.sub_name}</span>
+								</div>
+								<div class="product-list-action">
+									<p:commandButton type="button" value="Ver mais detalhes"/>
+									<p:commandButton type="button" value="Adicionar no Carrinho" style="margin-left: 4px"/>
+								</div>
+							</div>
+						</p:dataViewListItem>
+					</p:dataView>
+				</h:form>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</main>
+
+
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ui:composition>
+
+
+

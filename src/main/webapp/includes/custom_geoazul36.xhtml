@@ -1,0 +1,179 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	<link href="#{request.contextPath}/themes/theme/css/geoazul.css"
+		rel="stylesheet" />
+		
+		
+<style>
+    .modal-content iframe{
+        margin: 0 auto;
+        display: block;
+    }
+</style>
+<script>
+$(document).ready(function(){
+    var url = $("#smartVideo").attr('src');
+    $("#smartVideo").attr('src', '');
+    $("#myModal").on('shown.bs.modal', function(){
+        $("#smartVideo").attr('src', url);
+    });
+    $("#myModal").on('hide.bs.modal', function(){
+        $("#smartVideo").attr('src', '');
+    });
+});
+</script>
+
+	<section class="slice py-5 py-lg-7">
+		<div class="container">
+		
+		<div class="bs-example">
+
+    
+    <!-- Modal HTML -->
+    <div id="myModal" class="modal fade ">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Vídeo Institucional</h5>
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                </div>
+                <div class="modal-body">                    
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe id="smartVideo" class="embed-responsive-item" 
+                        width="1560" height="1315" src="https://www.youtube.com/embed/zodT9bCdIiI" title="YouTube Vídeo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+		
+		
+			<div class="row align-items-center">
+				<div class="col-12 col-md-6 col-lg-6 order-md-2 mb-5 mb-md-0">
+					<div class="card border-0 shadow-lg zindex-100 mb-0">
+						<figure>
+							<img alt="Image placeholder"
+								src="resources/images/new/index.png"
+								class="card-img"/>
+						</figure>
+						<div class="card-img-overlay d-flex justify-content-end">
+							<div class="text-center">
+							
+							<a
+							href="#myModal"   data-toggle="modal"
+							class="btn btn-white btn-icon-only rounded-circle shadow-sm hover-scale-110"
+									data-fancybox=""><span class="btn-inner--icon text-sm"><i
+										data-feather="play" class="text-primary"></i></span>
+										</a>
+							
+							
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="col-12 col-md-6 col-lg-6 order-md-1 pr-md-5">
+					
+					<h3 class="h1 mb-4">
+						Gerenciamento de Dados <strong>Geoespaciais</strong>,
+						<strong>Publicação</strong> e <strong>Análise</strong>.
+					</h3>
+					<p class="lead text-muted">Solução Web para o desenvolvimento1 de
+						projetos colaborativos com ênfase na administração e publicação de
+						dados georreferenciados!</p>
+					<div class="mt-5">
+			
+						 
+						<a
+							href="#"     
+							class="btn btn-lg btn-primary btn-icon d-lg-inline-block"
+							><span class="btn-inner--text"><i data-feather="link"></i> Conhecer</span> <span
+							class="btn-inner--icon"></span></a>
+						
+						
+						<a
+							href="#myModal"     data-toggle="modal"
+							class="btn btn-lg btn-secondary btn-icon d-lg-inline-block"
+							><span class="btn-inner--text"> Vídeo</span> <span
+							class="btn-inner--icon"><i data-feather="play"></i></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	
+	
+
+	
+
+
+
+	
+
+	<ui:fragment rendered="false">
+
+	<section class="slice pt-0 overflow-hidden-x">
+
+		<div class="container-fluid">
+			
+			<div class="row">
+				<div class="col-lg-3 col-sm-6">
+					<div
+						class="card card-overlay card-hover-overlay hover-shadow-lg hover-translate-y-n10">
+						<figure class="figure">
+							<img alt="Image placeholder" src="doc/images/new/index1.jpeg"
+								class="img-fluid"> </img>
+								<figcaption class="figure-caption">A caption for the above image.</figcaption>
+						</figure>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-6">
+					<div
+						class="card card-overlay card-hover-overlay hover-shadow-lg hover-translate-y-n10">
+						<figure class="figure">
+							<img alt="Image placeholder" src="doc/images/new/index2.jpeg"
+								class="img-fluid"> </img>
+						</figure>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-6">
+					<div
+						class="card card-overlay card-hover-overlay hover-shadow-lg hover-translate-y-n10">
+						<figure class="figure">
+							<img alt="Image placeholder" src="doc/images/new/index3.jpeg"
+								class="img-fluid"> </img>
+						</figure>
+					</div>
+				</div>
+
+
+				<div class="col-lg-3 col-sm-6">
+					<div
+						class="card card-overlay card-hover-overlay hover-shadow-lg hover-translate-y-n10">
+						<figure class="figure">
+							<img alt="Image placeholder" src="doc/images/new/index4.jpeg"
+								class="img-fluid"> </img>
+						</figure>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	</ui:fragment>
+
+
+	
+
+
+
+
+</ui:composition>

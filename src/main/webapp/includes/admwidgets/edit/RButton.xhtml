@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+
+
+
+<div class="row">
+		<div class="form-group">
+			<span><i class="fa fa-user-o" aria-hidden="true"> </i> <label
+				for="textvalue" class="control-label"> Rótulo</label> </span>
+			<div class="form-line">
+
+				<p:inputText value="#{moduloBean.selectedRComponent.value}"
+					class="form-control" id="buttonValue" type="text"
+					placeholder="Texto do Botão" />
+
+				<p:tooltip for="buttonValue" value="Texto do Botão"
+					position="left" />
+
+			</div>
+		</div>
+	</div>
+
+	
+							
+					
+	
+		
+										
+				
+
+
+
+</ui:composition>

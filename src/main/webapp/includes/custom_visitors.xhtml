@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="jakarta.faces.facelets" 
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" 
+	xmlns:c="jakarta.tags.core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener='#{applicationEntityBean.getAbstractIdentityEntity(compjson.image)}' />
+	</f:metadata>
+	
+	<!--  OpenLayers -->
+	
+	<h:outputStylesheet name="primeflex/4.0.0/primeflex.min.css"
+		library="webjars" />
+
+	<h:outputScript name="locales/locale-#{app.locale.language}.js"
+		library="primefaces" />
+
+	<script src="/gis/ol10/ol.js"></script>
+	<link rel="stylesheet" href="/gis/ol10/ol.css" />
+
+	<link rel="stylesheet"
+		href="#{request.contextPath}/application/ol-ext/ol-ext.css" />
+		
+	<script type="text/javascript"
+		src="#{request.contextPath}/application/ol-ext/ol-ext.js"></script>
+
+	<style>
+	
+      .map {
+        width: 100%;
+        height: 600px;
+        
+      }
+      
+    </style>
+
+
+<h:form>
+<p:remoteCommand name="objEdit" 
+				oncomplete="PF('editPointDialog').show();"
+				actionListener="#{applicationEntityBean.beanMethodVisitor}" />
+				</h:form>
+
+		<div id="map" class="map overflow-hidden" tabindex="0"></div>
+
+
+			
+
+
+			<p:dialog header="Arquivos" modal="false" widgetVar="reportDialog"
+				width="300" height="300" resizable="false" id="userDlgReport">
+				
+			</p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+		<script>
+			function disableScrolling() {
+				var x = window.scrollX;
+				var y = window.scrollY;
+				window.onscroll = function() {
+					window.scrollTo(x, y);
+				};
+			}
+
+			function enableScrolling() {
+				window.onscroll = function() {
+				};
+				PF('btnOpenx').close()
+			}
+		</script>
+
+		
+			
+			
+
+
+
+		<h:outputText value="&lt;script type='text/javascript'&gt;"
+			escape="false" />
+
+		<ui:include rendered="false"
+			src="/application/widgets/introduction.xhtml" />
+
+		<ui:include rendered="true" src="/application/widgets/label.xhtml" />
+
+		<ui:include rendered="false" src="/application/widgets/middle.xhtml" />
+
+		<ui:include rendered="false" src="/application/widgets/footer.xhtml" />
+
+		<h:outputText value="&lt;/script&gt;" escape="false" />
+
+
+
+
+</ui:composition>

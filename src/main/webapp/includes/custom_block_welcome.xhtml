@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	<link href="#{request.contextPath}/themes/theme/css/geoazul.css"
+		rel="stylesheet" />
+
+
+	<style>
+.modal-content iframe {
+	margin: 0 auto;
+	display: block;
+}
+</style>
+	<script>
+$(document).ready(function(){
+    var url = $("#smartVideo").attr('src');
+    $("#smartVideo").attr('src', '');
+    $("#myModal").on('shown.bs.modal', function(){
+        $("#smartVideo").attr('src', url);
+    });
+    $("#myModal").on('hide.bs.modal', function(){
+        $("#smartVideo").attr('src', '');
+    });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ui:composition>

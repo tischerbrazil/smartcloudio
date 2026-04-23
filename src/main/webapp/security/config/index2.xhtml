@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+	<f:metadata>
+		<f:viewParam name="id" value='#{realmEntityBean.id}' />
+		<f:event type="preRenderView" listener='#{realmEntityBean.retrieve}' />
+	</f:metadata>
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h:form id="idxForm">
+						<div class="header">
+							<div class="row clearfix">
+								<div class="col-md-12">
+									
+								</div>
+							</div>
+							<div class="col-md-9">
+								
+
+							</div>
+						</div>
+						<div class="body">
+							<p:growl showDetail="true" showSummary="true" id="message"
+								life="3000" />
+								
+							
+						
+							
+							<div class="button">
+								<p:commandButton value="Salvar" update="messages"
+									actionListener='#{realmEntityBean.update}'
+									styleClass="btn btn-primary" />
+								#{''}
+								<p:button value="Cancelar" outcome="/security/index"
+									styleClass="btn btn-primary" />
+							</div>
+						</div>
+						<p:remoteCommand name="fieldEdit" update=":campoForm:display"
+							oncomplete="PF('editCampoDialog').show();"
+							actionListener="#{realmEntityBean.beanMethodField}" />
+					</h:form>
+					<p:dialog header="Edição de Campo" dynamic="true" width="95%"
+						height="100%" modal="true" widgetVar="editCampoDialog"
+						resizable="false">
+						<ui:include src="/security/config/CampoEdit.xhtml" />
+					</p:dialog>
+					<p:dialog header="Search cars" widgetVar="searchDialog"
+						height="400" modal="true" width="500">
+					DIALOG TEST
+	       	 </p:dialog>
+				</div>
+			</div>
+		</div>
+		</section>
+
+	</ui:define>
+
+
+</ui:composition>

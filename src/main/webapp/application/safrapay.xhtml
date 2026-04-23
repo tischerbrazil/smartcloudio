@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+	
+	<ui:define name="content">
+ 
+	<script src="https://cdn-dev.aditum.com.br/adt-transparent-v1.0.0.js">
+</script>
+
+
+<script>
+
+AditumTransparent.setCredentials({merchantCredential: "05.662.861/0001-59", 
+		merchantToken: "mk_GsooGrEx30G2FZQheDCDSg"});
+AditumTransparent.getCardBrand({bin: "411111", success, error})
+</script>
+
+
+
+
+		<ui:fragment rendered="#{shoppingCartBean.shoppingCartIsEmpty()}">
+			<section class="slice">
+			<div class="container py-5">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="body">
+						<div class="row clearfix">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12  text-center">
+								<p:graphicImage width="120" library="images"
+									name="svg/shopping-cart-empty.svg" />
+							</div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12  text-center">
+								<h1>Seu carrinho de compras está vazio!</h1>
+								<hr />
+								<p:button value="VOLTAR AS COMPRAS" outcome="/index"
+								icon="pi pi-chevron-left" styleClass="ui-button-warning" >
+								
+							<f:param name="gcmid"
+								value="153" />
+								</p:button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</section>
+		</ui:fragment>
+		<ui:fragment rendered="#{shoppingCartBean.shoppingCartIsEmpty() != true}">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 order-md-2 mb-4 py-4">
+						
+						
+						
+						
+						
+						<ul class="list-group mb-3">
+								<ui:repeat value="#{shoppingCartBean.cartItems}" var="_item">
+									<li
+										class="list-group-item d-flex justify-content-between lh-condensed">
+										<div>
+											<h6 class="my-0">
+
+												<p:graphicImage style="width: 50px"
+													value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_item.item.images.stream().findFirst().get().getFilename()}" />
+
+											</h6>
+											<small class="text-muted"></small>
+										</div> <span class="text-muted"> #{_item.quantity} x
+											#{_item.item.name} </span> <span class="text-muted"><h:outputText
+												value="#{_item.subTotal}">
+												<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+											</h:outputText></span>
+									</li>
+								</ui:repeat>
+								
+
+
+								<li class="list-group-item d-flex justify-content-between"><span>Total
+										em Produtos </span> <strong> <h:outputText
+											value="#{shoppingCartBean.total}">
+											<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+										</h:outputText>
+								</strong></li>
+								<ui:fragment rendered="false">
+								<li class="list-group-item d-flex justify-content-between"><span>Desconto
+								</span> <strong> 0,00 </strong></li>
+								</ui:fragment>
+								
+								<li class="list-group-item d-flex justify-content-between"><span>Frete
+								</span> <strong> <h:outputText 
+											value="#{shoppingCartBean.shoppingCart.shippingValue}">
+											<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+										</h:outputText>
+								</strong></li>
+								
+								<ui:fragment rendered="#{shoppingCartBean.shoppingCart.shippingValue > 0}">
+									<li
+										class="list-group-item d-flex justify-content-between bg-light">
+										<div class="text-success">
+											<h6 class="my-0">C.E.P.</h6> 
+											
+											
+										</div> <span class="text-success">#{shoppingCartBean.shoppingCart.zipcode}</span>
+										
+									</li>
+									</ui:fragment>
+									<li
+										class="list-group-item d-flex justify-content-between bg-light">
+										<div class="text-success">
+										
+											<h6 class="my-0">Método de Envio</h6> 
+											
+										</div> <span class="text-success">#{shoppingCartBean.shoppingCart.shippingMethod.name}</span>
+										
+									</li>
+								
+
+								<li class="list-group-item d-flex justify-content-between"><span>Total
+										Geral da Nota </span> <strong> <h:outputText
+											value="#{shoppingCartBean.totalWithShipping}">
+											<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+										</h:outputText>
+								</strong></li>
+							</ul>
+
+							<ui:fragment rendered="false">
+
+								<div class="input-group">
+									<input type="text" class="form-control"
+										placeholder="Promo code" />
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-secondary">Redeem</button>
+									</div>
+								</div>
+
+							</ui:fragment>
+
+
+
+						
+					</div>
+					<div class="col-md-8 order-md-1">
+						<p:steps id="etapas" activeIndex="3">
+							<p:menuitem value="Usuário" />
+							<p:menuitem value="Conta" />
+							<p:menuitem value="Envio" />
+							<p:menuitem value="Pagamento" />
+						</p:steps>
+						<br />
+						<h:form id="checkout" class="needs-validation" prependid="false">
+						</h:form>
+						
+						
+<main> 
+			<input type="hidden" id="mercado-pago-public-key" value="#{shoppingCartBean.client.username}" /> <input
+							type="hidden" id="useremail"
+							value="#{shoppingCartBean.user.email}" /> <p:inputText rendered="false"
+							value="#{shoppingCartBean.user.typeNumber}"
+							id="form-checkout__identificationType" type="hidden"
+							pt:name="identificationType" /> <p:inputText
+							value="#{shoppingCartBean.user.number}"
+							id="form-checkout__identificationNumber" type="hidden"
+							pt:name="docNumber" /> <input type="hidden" id="amount"	value="#{shoppingCartBean.totalWithShipping}" /> <input type="hidden"
+							id="description" value="#{shoppingCartBean.my_cookie_uuid}" /> 
+
+									</main>
+									
+									<button type="button" 
+									>Pagar
+									</button>
+
+					</div>
+				</div>
+			</div>
+		</ui:fragment>
+
+
+
+
+
+
+	</ui:define>
+</ui:composition>

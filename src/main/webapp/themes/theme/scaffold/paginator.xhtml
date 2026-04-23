@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:ui="jakarta.faces.facelets">
+	
+	<h:panelGroup styleClass="paginator" rendered="#{paginatorBean.count gt paginatorBean.pageSize}">
+		<p:button title="&lt;&lt; Anterior" alt="&lt;&lt; Anterior" icon="fa fa-backward" styleClass="button btn-primary btn-lg waves-effect" rendered="#{paginatorBean.page gt 0}">
+			<f:param name="page" value="#{paginatorBean.page - 1}"/>
+		</p:button>#{''}
+		<h:outputText styleClass="paginator-content" value="#{paginatorBean.page * paginatorBean.pageSize + 1} de #{paginatorBean.page * paginatorBean.pageSize + fn:length(paginatorBean.pageItems)} (de #{paginatorBean.count})"/>#{''}
+		<p:button title="Próximo &gt;&gt;" alt="Próximo &gt;&gt;" icon="fa fa-forward" styleClass="button btn-primary btn-lg waves-effect" rendered="#{(paginatorBean.page + 1) * paginatorBean.pageSize lt paginatorBean.count}">
+			<f:param name="page" value="#{paginatorBean.page + 1}"/>
+		</p:button>
+	</h:panelGroup>
+
+</ui:composition>

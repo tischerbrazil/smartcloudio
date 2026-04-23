@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+	<f:metadata>
+	
+		<f:event type="preRenderView" listener='#{customerBean.paginate}' />
+	</f:metadata>		
+	 
+	
+	<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+	
+       
+      
+      <ui:repeat value="#{customerBean.pageItems}" 
+				var="_item4" varStatus="varStatus4" id="repeat4">
+				
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="card" style="background-color: #ddd7c6; margin-bottom: 15px">
+							<div class="header">
+							
+				#{_item4.name}
+			
+			<ui:repeat var="teste"
+								value="#{_item4.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).toList()}">
+								<p:graphicImage rendered="#{teste != null}"
+									class="img-fluid"
+									value="#{teste.value}" />
+							</ui:repeat>
+			
+				
+				</div></div></div>
+					
+				</ui:repeat>
+      
+      
+  
+     </div>
+     </div>
+     </section>
+     
+         
+
+	
+</ui:composition>

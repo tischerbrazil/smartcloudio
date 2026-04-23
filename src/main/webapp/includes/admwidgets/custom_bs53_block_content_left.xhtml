@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:c="jakarta.tags.core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<style>
+.dashed33 {
+	border-style: dashed;
+	border-color: coral;
+	border-width: 2px;
+}
+
+.dashed333 {
+	border-style: dashed;
+	border-color: gray;
+	border-width: 1px;
+}
+</style>
+
+
+
+
+	
+			<div class="dashed33 container px-lg-7 px-xxl-3   mt-2 mb-2 pt-2 pb-2">
+				<div class="position-relative z-index-2">
+					<div class="row mt-2 align-items-center justify-content-between text-center text-lg-start mb-6 mb-lg-0">
+						<c:forEach varStatus="loo" items="#{_block.divs}"	var="_div">
+							<div class="dashed333 float-start #{_div.div_class}" id="#{_div.div_id}">
+							
+								<c:forEach varStatus="xxx" items="#{_div.rComponents.stream().filter(t -> t.parentId == null).toList()}" var="city">
+									
+										<ui:include src="/includes/widgets/#{city.type}.xhtml">
+										
+											<ui:param name="city" value="#{city}" />
+											
+											<ui:param name="columnid" value="#{loo.index}" />
+											
+											<ui:param name="blockid" value="#{_block.id}" />
+											
+										</ui:include>
+								
+								</c:forEach>
+								
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+		
+		
+</ui:composition>

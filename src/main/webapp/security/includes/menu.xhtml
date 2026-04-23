@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="jakarta.tags.core"
+    xmlns:p="http://primefaces.org/ui"> 
+
+			 				
+				
+				<h:outputText value="#{urlMenuBean.getMenuItems3(true, id)}" escape="false" />
+					
+					
+					<ui:fragment rendered="#{userData2.userEntity == null}">
+                     <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle btn btn-lg  waves-effect" data-toggle="dropdown" role="button">
+                            <i class="material-icons">person</i>
+                           
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">DADOS DO USUÁRIO</li>
+                        	<li><a href="#{userData2.geoazulURL}/restricted/#{userData2.realmEntity}/index.html"><i class="material-icons">input</i> Entrar</a></li>
+                        </ul>
+						</li>
+                     </ui:fragment>
+                     
+                     <ui:fragment rendered="#{userData2.userEntity != null}">
+                                        <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle btn btn-lg  waves-effect" data-toggle="dropdown" role="button">
+                            <i class="material-icons">person</i>
+                           
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">DADOS DO USUÁRIO</li>
+                            <li><a href="#{request.contextPath}/application/profile.xhtml"><i class="material-icons">person</i>Editar Perfil</a></li>
+                            <li role="seperator" class="divider"></li>
+                            <li><a href="#{userData2.logoutLinkUrl()}"><i class="material-icons">input</i>Sair</a></li>
+                        </ul>
+					</li>
+                     </ui:fragment>
+                    
+                  
+             
+    		
+
+			
+            
+</ui:composition>

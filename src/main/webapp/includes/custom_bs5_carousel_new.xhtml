@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:p="http://primefaces.org/ui">
+	<main>
+		<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-indicators">
+				<ui:repeat varStatus="_seq"
+					value="#{articleBean.getLayerByUuid(compjson.image)}"
+					var="_fieldPost">
+					<button type="button" data-bs-target="#myCarousel"
+						data-bs-slide-to="#{_seq.index}"
+						class="#{_fieldPost.strings.at('/classe').asText()}"
+						aria-current="#{_fieldPost.strings.at('/aria-current').asText()}"
+						aria-label="Slide #{_seq.index}"></button>
+				</ui:repeat>
+			</div>
+			<div class="carousel-inner">
+				<ui:repeat varStatus="_seq"
+					value="#{articleBean.getLayerByUuid(compjson.image)}"
+					var="_fieldPost2">
+					<div class="carousel-item #{_fieldPost2.strings.at('/classe').asText()}">
+						<p:graphicImage class="bd-placeholder-img" width="100%"
+							height="100%"
+							rendered="#{_fieldPost2.getMedias().stream().findFirst().isPresent()}"
+							value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_fieldPost2.getMedias().stream().findFirst().get().getFilename()}" />
+						<div class="container">
+							<div class="carousel-caption text-start">
+								<h1>#{_fieldPost2.strings.at('/title').asText()}</h1>
+								<h2>#{_fieldPost2.strings.at('/introduction').asText()}</h2>
+							</div>
+						</div>
+					</div>
+				</ui:repeat>
+			</div>
+			<button class="carousel-control-prev" type="button"
+				data-bs-target="#myCarousel" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Anterior</span>
+			</button>
+			<button class="carousel-control-next" type="button"
+				data-bs-target="#myCarousel" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Próximo</span>
+			</button>
+		</div>
+	</main>
+</ui:composition>

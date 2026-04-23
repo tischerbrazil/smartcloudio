@@ -1,0 +1,413 @@
+package org.primefaces.refact;
+
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
+import org.geoazul.model.security.RealmEntity;
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.MatchMode;
+import org.primefaces.model.SortMeta;
+import org.primefaces.model.SortOrder;
+import org.primefaces.model.filter.FilterConstraint;
+import org.primefaces.util.BeanUtils;
+import org.primefaces.util.LangUtils;
+import org.primefaces.util.Lazy;
+import  atest.SerializableSupplier;
+import jakarta.el.ELException;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.ConverterException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.Order;
+import com.erp.modules.inventory.entities.ProductCategoryOne;
+
+public class ManufacturerJpaLazyDataModel<T> extends LazyDataModel<T> implements Serializable {
+
+	protected Class<T> entityClass;
+	protected SerializableSupplier<EntityManager> entityManager;
+	protected String rowKeyField;
+
+	private transient Lazy<Method> rowKeyGetter;
+
+	/**
+	 * For serialization only
+	 */
+	public ManufacturerJpaLazyDataModel() {
+
+	}
+	
+	
+
+	/**
+	 * Constructs a JpaLazyDataModel for usage without enabled selection.
+	 *
+	 * @param entityClass   The entity class
+	 * @param entityManager The {@link EntityManager}
+	 */
+	public ManufacturerJpaLazyDataModel(Class<T> entityClass, SerializableSupplier<EntityManager> entityManager) {
+		this.entityClass = entityClass;
+		this.entityManager = entityManager;
+	}
+	
+	public ManufacturerJpaLazyDataModel(Class<T> entityClass, SerializableSupplier<EntityManager> entityManager,
+			FilterMeta filt) {
+		
+		
+		
+		
+		
+		this(entityClass, entityManager);
+		this.entityClass = entityClass;
+		this.filt = filt;
+		
+	}
+
+	/**
+	 * Constructs a JpaLazyDataModel with selection support.
+	 *
+	 * @param entityClass   The entity class
+	 * @param entityManager The {@link EntityManager}
+	 * @param rowKeyField   The name of the rowKey property (e.g. "id")
+	 */
+	public ManufacturerJpaLazyDataModel(Class<T> entityClass, SerializableSupplier<EntityManager> entityManager,
+			String rowKeyField) {
+		this(entityClass, entityManager);
+		this.rowKeyField = rowKeyField;
+		this.entityClass = entityClass;
+	}
+
+	@Override
+	public int count(Map<String, FilterMeta> filterBy) {
+		EntityManager em = this.entityManager.get();
+
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		Root<T> root = cq.from(entityClass);
+		cq = cq.select(cb.count(root));
+
+		 applyFilters(cb, cq, root, filterBy);
+
+		return em.createQuery(cq).getSingleResult().intValue();
+	}
+
+	@Override
+	public List<T> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+		EntityManager em = this.entityManager.get();
+		
+		
+		
+	
+		
+		
+
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> cq = cb.createQuery(entityClass);
+		Root<T> root = cq.from(entityClass);
+		cq = cq.select(root);
+
+		applyFilters(cb, cq, root, filterBy);
+		applySort(cb, cq, root, sortBy);
+
+		TypedQuery<T> query = em.createQuery(cq);
+		query.setFirstResult(first);
+		query.setMaxResults(pageSize);
+
+		List<T> result = query.getResultList();
+
+		return result;
+	}
+	
+	private   FilterMeta filt;
+	
+
+	protected void applyGlobalFilters(Map<String, FilterMeta> filterBy, CriteriaBuilder cb, CriteriaQuery<?> cq,
+			Root<T> root, List<Predicate> predicates) {
+		
+
+		
+		ProductCategoryOne ggg = this.entityManager.get().find(ProductCategoryOne.class, 		50);
+		
+	
+	
+		try {
+		
+		if (filt.getFilterValue() != null && filt.getFilterValue() != null) {
+			
+			 Predicate finalPredicate
+			  = cb.like(cb.lower(root.<String>get("name")), '%' + filt.getFilterValue().toString().toLowerCase() + '%');
+			 
+			
+			 
+			
+			 
+			 predicates.add(finalPredicate);
+		};
+		
+		
+		}catch (Exception ex){
+			
+		}
+	
+
+	}
+
+	protected void applyFilters(CriteriaBuilder cb, CriteriaQuery<?> cq, Root<T> root,
+			Map<String, FilterMeta> filterBy) {
+		
+		
+		List<Predicate> predicates = new ArrayList<>();
+		
+		 Predicate predicateEnabled = cb.isTrue(root.get("enabled"));
+		 predicates.add(predicateEnabled);
+		
+		 
+
+		applyGlobalFilters(filterBy, cb, cq, root, predicates);
+		
+		
+		
+		
+		
+		
+
+		if (filterBy != null) {
+			for (FilterMeta filter : filterBy.values()) {
+				
+				
+				
+				if (filter.getField() == null || filter.getFilterValue() == null) {
+					continue;
+				}
+
+				
+				
+				
+				
+				if (filter.isGlobalFilter()) {
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 Predicate finalPredicate1
+					  = cb.like(cb.lower(root.<String>get("name")), '%' + filter.getFilterValue().toString().toLowerCase() + '%');
+				 
+					 
+				
+					 
+					 predicates.add(finalPredicate1);
+						
+				}else {
+				Field filterField = LangUtilsExt.getFieldRecursive(entityClass, filter.getField());
+				Object filterValue = filter.getFilterValue();
+				Object convertedFilterValue;
+
+				Class<?> filterValueClass = filterValue.getClass();
+				if (filterValueClass.isArray() || Collection.class.isAssignableFrom(filterValueClass)) {
+					convertedFilterValue = filterValue;
+				} else {
+					convertedFilterValue = convertToType(filterValue, filterField.getType());
+				}
+
+				Expression fieldExpression = resolveFieldExpression(cb, cq, root, filter.getField());
+
+				Predicate predicate = createPredicate(filter, filterField, root, cb, fieldExpression,
+						convertedFilterValue);
+				predicates.add(predicate);
+				
+				
+				
+				
+							}
+			}
+		}
+
+		if (!predicates.isEmpty()) {
+			cq.where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
+		}
+	}
+
+	protected Object convertToType(Object value, Class valueType) {
+		
+		// skip null
+		if (value == null) {
+			return null;
+		}
+
+		// its already the same type
+		if (valueType.isAssignableFrom(value.getClass())) {
+			return value;
+		}
+
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		// primivites dont need complex conversion, try the ELContext first
+		if (BeanUtils.isPrimitiveOrPrimitiveWrapper(valueType)) {
+			try {
+				return context.getELContext().convertToType(value, valueType);
+			} catch (ELException e) {
+				// LOG.log(Level.INFO, e, () -> "Could not convert '" + value + "' to " +
+				// valueType + " via ELContext!");
+			}
+		}
+
+		Converter targetConverter = context.getApplication().createConverter(valueType);
+		if (targetConverter == null) {
+			// LOG.log(Level.FINE, () -> "Skip conversion as no converter was found for " +
+			// valueType
+			// + "; Create a JSF Converter for it or overwrite Object convertToType(String
+			// value, Class<?> valueType)!");
+			return value;
+		}
+
+		Converter sourceConverter = context.getApplication().createConverter(value.getClass());
+		if (sourceConverter == null) {
+			// LOG.log(Level.FINE, () -> "Skip conversion as no converter was found for " +
+			// value.getClass()
+			// + "; Create a JSF Converter for it or overwrite Object convertToType(String
+			// value, Class<?> valueType)!");
+		}
+
+		// first convert the object to string
+		String stringValue = sourceConverter == null ? value.toString()
+				: sourceConverter.getAsString(context, UIComponent.getCurrentComponent(context), value);
+
+		// now convert the string to the required target
+		try {
+			return targetConverter.getAsObject(context, UIComponent.getCurrentComponent(context), stringValue);
+		} catch (ConverterException e) {
+			// LOG.log(Level.INFO, e, () -> "Could not convert '" + stringValue + "' to " +
+			// valueType + " via " + targetConverter.getClass().getName());
+			return value;
+		}
+	}
+
+	protected Expression resolveFieldExpression(CriteriaBuilder cb, CriteriaQuery<?> cq, Root<T> root,
+			String fieldName) {
+		Join<?, ?> join = null;
+
+		// join if required; e.g. company.name -> join to company and get "name" field
+		// from the joined table
+		while (fieldName.contains(".")) {
+			String currentName = fieldName.substring(0, fieldName.indexOf("."));
+			fieldName = fieldName.substring(currentName.length() + 1);
+
+			if (join == null) {
+				join = root.join(currentName, JoinType.INNER);
+			} else {
+				join = join.join(currentName, JoinType.INNER);
+			}
+		}
+
+		return join == null ? root.get(fieldName) : join.get(fieldName);
+	}
+
+	protected Predicate createPredicate(FilterMeta filter, Field filterField, Root<T> root, CriteriaBuilder cb,
+			Expression fieldExpression, Object filterValue) {
+
+		Lazy<Expression<String>> fieldExpressionAsString = new Lazy(() -> fieldExpression.as(String.class));
+		Lazy<Collection<Object>> filterValueAsCollection = new Lazy(
+				() -> filterValue.getClass().isArray() ? Arrays.asList((Object[]) filterValue)
+						: (Collection<Object>) filterValue);
+
+		switch (filter.getMatchMode()) {
+		case STARTS_WITH:
+			return cb.like(fieldExpressionAsString.get(), filterValue + "%");
+		case NOT_STARTS_WITH:
+			return cb.notLike(fieldExpressionAsString.get(), filterValue + "%");
+		case ENDS_WITH:
+			return cb.like(fieldExpressionAsString.get(), "%" + filterValue);
+		case NOT_ENDS_WITH:
+			return cb.notLike(fieldExpressionAsString.get(), "%" + filterValue);
+		case CONTAINS:
+			return cb.like(fieldExpressionAsString.get(), "%" + filterValue + "%");
+		case NOT_CONTAINS:
+			return cb.notLike(fieldExpressionAsString.get(), "%" + filterValue + "%");
+		case EXACT:
+		case EQUALS:
+			return cb.equal(fieldExpression, filterValue);
+		case NOT_EXACT:
+		case NOT_EQUALS:
+			return cb.notEqual(fieldExpression, filterValue);
+		case LESS_THAN:
+			return cb.lessThan(fieldExpression, (Comparable) filterValue);
+		case LESS_THAN_EQUALS:
+			return cb.lessThanOrEqualTo(fieldExpression, (Comparable) filterValue);
+		case GREATER_THAN:
+			return cb.greaterThan(fieldExpression, (Comparable) filterValue);
+		case GREATER_THAN_EQUALS:
+			return cb.greaterThanOrEqualTo(fieldExpression, (Comparable) filterValue);
+		case IN:
+			return filterValueAsCollection.get().size() == 1
+					? cb.equal(fieldExpression, filterValueAsCollection.get().iterator().next())
+					: fieldExpression.in(filterValueAsCollection.get());
+		case NOT_IN:
+			return filterValueAsCollection.get().size() == 1
+					? cb.notEqual(fieldExpression, filterValueAsCollection.get().iterator().next())
+					: fieldExpression.in(filterValueAsCollection.get()).not();
+		case BETWEEN:
+			Iterator<Object> iterBetween = filterValueAsCollection.get().iterator();
+			return cb.and(cb.greaterThanOrEqualTo(fieldExpression, (Comparable) iterBetween.next()),
+					cb.lessThanOrEqualTo(fieldExpression, (Comparable) iterBetween.next()));
+		case NOT_BETWEEN:
+			Iterator<Object> iterNotBetween = filterValueAsCollection.get().iterator();
+			return cb.and(cb.greaterThanOrEqualTo(fieldExpression, (Comparable) iterNotBetween.next()),
+					cb.lessThanOrEqualTo(fieldExpression, (Comparable) iterNotBetween.next())).not();
+		case GLOBAL:
+			throw new UnsupportedOperationException("MatchMode.GLOBAL currently not supported!");
+		}
+
+		return null;
+	}
+
+	protected void applySort(CriteriaBuilder cb, CriteriaQuery<T> cq, Root<T> root, Map<String, SortMeta> sortBy) {
+
+		if (sortBy != null) {
+			List<Order> orders = null;
+			for (SortMeta sort : sortBy.values().stream().sorted().collect(Collectors.toList())) {
+				if (sort.getField() == null || sort.getOrder() == SortOrder.UNSORTED) {
+					continue;
+				}
+
+				if (orders == null) {
+					orders = new ArrayList<>();
+				}
+
+				Expression<?> fieldExpression = resolveFieldExpression(cb, cq, root, sort.getField());
+				orders.add(sort.getOrder() == SortOrder.ASCENDING ? cb.asc(fieldExpression) : cb.desc(fieldExpression));
+			}
+
+			if (orders != null) {
+				cq.orderBy(orders);
+			}
+		}
+	}
+
+	public FilterMeta getFilt() {
+		return filt;
+	}
+
+	public void setFilt(FilterMeta filt) {
+		this.filt = filt;
+	}
+
+}

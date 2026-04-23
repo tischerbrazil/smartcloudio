@@ -1,0 +1,674 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:pt="jakarta.faces.passthrough" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.ui-input-invalid {
+	background-color: #e7e8ec !important;
+	border: 1px solid #eea872 !important;
+}
+</style>
+	
+	<h:form id="SelectedLayerForm">
+	
+	
+		<p:tabView id="tablayer">
+			<p:tab title="Propriedades" >
+			  
+				<hr />
+				#{applicationEntityBean.selectedLayer.dtype.toUpperCase()} - 
+				#{applicationEntityBean.selectedLayer.id} -
+					#{applicationEntityBean.selectedLayer.origin.id}
+				<div class="demo-masked-input">
+					<div class="row clearfix">
+						<div class="col-md-6">
+							<b>Nome</b>
+							<div class="input-group">
+								<span class="input-group-addon"> </span>
+								<div class="form-line">
+									<p:inputText required="true" locale="pt_BR"
+										requiredMessage="Nome Requerido!" label="Nome da Camada"
+										id="nome2" size="50" maxlength="50" class="form-control"
+										styleClass="#{not component.valid ? 'ui-input-invalid' : ''}"
+										value="#{applicationEntityBean.selectedLayer.name}">
+										<f:validateLength minimum="2" />
+									</p:inputText>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<b>Título</b>
+							<div class="input-group">
+								<span class="input-group-addon"> </span>
+								<div class="form-line">
+									<p:inputText locale="pt_BR" label="Título" id="title"
+										placeholder="Digite aqui o titulo da Camada" required="false"
+										requiredMessage="Título Requerido!" size="50" maxlength="50"
+										class="form-control"
+										styleClass="#{not component.valid ? 'ui-input-invalid' : ''}"
+										value="#{applicationEntityBean.selectedLayer.title}" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="demo-masked-input">
+					<div class="row clearfix">
+						<div class="col-md-6">
+							<b>Min. Res.</b>
+							<div class="input-group">
+								<span class="input-group-addon"> </span>
+								<div class="form-line">
+									<p:inputNumber id="minRes" label="Min. Res:"
+										value="#{applicationEntityBean.selectedLayer.minres}"
+										required="true" placeholder="0.00001" minValue="0.00001"
+										thousandSeparator="" decimalSeparator=","
+										maxValue="999999.99999" decimalPlaces="5"
+										styleClass="#{not component.valid ? 'ui-input-invalid' : ''}"
+										requiredMessage="Resolução Mínima Requerido!" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<b>Max. Res.</b>
+							<div class="input-group">
+								<span class="input-group-addon"> </span>
+								<div class="form-line">
+									<p:inputNumber id="maxRes" label="Max. Res:"
+										value="#{applicationEntityBean.selectedLayer.maxres}"
+										placeholder="10000" minValue="0" thousandSeparator=""
+										decimalSeparator="," maxValue="999999" decimalPlaces="0"
+										required="true"
+										styleClass="#{not component.valid ? 'ui-input-invalid' : ''}"
+										requiredMessage="Resolução Máxima Requerido!" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="demo-masked-input">
+					<div class="row clearfix">
+						<div class="col-md-6">
+							<b>EPSG</b>
+							<div class="input-group">
+								<span class="input-group-addon"> </span>
+								<div class="form-line">
+									<h:outputLabel id="srid"
+										value="#{applicationEntityBean.selectedLayer.epsg}" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<b>Camada Grupo</b>
+							<div class="input-group">
+								<span class="input-group-addon"> </span>
+								<div class="form-line">
+
+
+
+
+									<p:selectOneMenu
+										converter="omnifaces.SelectItemsIndexConverter" id="father"
+										value="#{applicationEntityBean.selectedLayer.father}">
+										<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+										<f:selectItems itemLabel="#{_item.name}" itemValue="#{_item}"
+											value="#{applicationEntityBean.allLayersGroups}" var="_item" />
+									</p:selectOneMenu>
+
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="demo-masked-input">
+					<div class="row clearfix">
+						<div class="col-md-6">
+							<b>Camada Pai #{applicationEntityBean.selectedLayer.layerCat}</b>
+							<div class="input-group">
+								<span class="input-group-addon"> </span>
+								<div class="form-line">
+									<p:selectOneMenu
+										converter="omnifaces.SelectItemsIndexConverter" id="camadapai"
+										value="#{applicationEntityBean.selectedLayer.layerCat}">
+										<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+										<f:selectItems itemLabel="#{_item.name}" itemValue="#{_item}"
+											value="#{applicationEntityBean.allLayers}" var="_item" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<b>Editar</b>
+							<div class="input-group">
+								<span class="input-group-addon"> </span>
+								<div class="form-line">
+									<p:selectBooleanCheckbox
+										disabled="#{applicationEntityBean.selectedLayer.dtype == 'LayerMultiPolygonRI'}"
+										required="true" locale="pt_BR" label="Editável" id="editableX"
+										value="#{applicationEntityBean.selectedLayer.editable}" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<h:panelGroup
+					rendered="#{applicationEntityBean.selectedLayer.dtype == 'Point'}">
+					<div class="demo-masked-input">
+						<div class="row clearfix">
+							<div class="col-md-12">
+								<b>Icon Category</b>
+								<div class="input-group">
+									<span class="input-group-addon"> </span>
+									<div class="form-line">
+										<p:selectOneMenu id="icon"
+											value="#{applicationEntityBean.selectedLayer.iconcategory}">
+											<f:selectItem itemValue="NONE" itemLabel="Não Exibir" />
+											<f:selectItem itemValue="ENTITY"
+												itemLabel="Definir na Geometria" />
+											<f:selectItem itemValue="CATEGORY"
+												itemLabel="Definir na Categoria" />
+											<f:selectItem itemValue="LAYERCATEGORY"
+												itemLabel="Definir na Classe Pai" />
+										</p:selectOneMenu>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+			</p:tab>
+			
+			<p:tab title="Categorias"
+			rendered="#{of:isInstance('org.geoazul.model.basic.LayerEntity', applicationEntityBean.selectedLayer)}">
+				<hr />
+				<div align="right">
+					<p:commandButton rendered="true" value="Nova Categoria" id="newcat"
+						onclick="catEdit([{name:'categoryid', value:'new'}]);" />
+				</div>
+				<p:dataTable emptyMessage="Nenhuma Categoria Encontrada!"
+					rendered="#{applicationEntityBean.selectedLayer.layerCategories != null}"
+					styleClass="table table-hover table-responsive"
+					rowIndexVar="rowIndex" var="_categ"
+					value="#{applicationEntityBean.selectedLayer.layerCategories}">
+					<p:column headerText="Categorias da Camada">
+						<p:commandButton icon="fa #{_categ.iconflag}" title="View"
+							onclick="catEdit([{name:'categoryid', value:'#{_categ.id}'}]);" />
+						<h:outputText value="#{_categ.categoryname}" />
+						<h:outputText value=" - (#{_categ.geometrias.size()})" />
+					</p:column>
+				</p:dataTable>
+			</p:tab>
+			
+			<p:tab title="Style"
+			rendered="#{of:isInstance('org.geoazul.model.basic.LayerStyled', applicationEntityBean.selectedLayer)}">
+				<hr />
+				<div class="row clearfix">
+					<div class="col-md-4">
+						<b>Fill Color</b>
+						<div class="input-group colorpicker">
+							<div class="form-line">
+
+							<p:colorPicker id="fillc" format="rgb"
+									value="#{applicationEntityBean.selectedLayer.geometryStyle.rgbafillcolor}"
+									rendered="#{applicationEntityBean.selectedLayer ne null}"
+									clearButton="true" closeButton="true" alpha="true">
+
+								</p:colorPicker>
+
+
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-4">
+						<b>Stroke Color</b>
+						<div class="input-group colorpicker">
+							<div class="form-line">
+
+								<p:colorPicker id="stroke"
+									rendered="#{applicationEntityBean.selectedLayer ne null}"
+									value="#{applicationEntityBean.selectedLayer.geometryStyle.rgbastrokecolor}" />
+
+
+
+
+							</div>
+
+						</div>
+					</div>
+					
+					
+					<div class="col-md-4">
+						<b>Stroke Width</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:spinner id="strokesize" size="2" class="form-control"
+									value="#{applicationEntityBean.selectedLayer.geometryStyle.strokewidth}"
+									min="0" max="32" />
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					<div class="col-md-4">
+						<b>Distância do Traço</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:spinner id="strokedashLenght" size="2" class="form-control"
+									value="#{applicationEntityBean.selectedLayer.geometryStyle.strokedashLenght}"
+									min="0" max="100" />
+							</div>
+						</div>
+					</div>
+					
+					
+					<div class="col-md-4">
+						<b>Espaço do Traço</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:spinner id="strokedashSpace" size="2" class="form-control"
+									value="#{applicationEntityBean.selectedLayer.geometryStyle.strokedashSpace}"
+									min="0" max="100" />
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					<div class="col-md-4">
+						<b>Circunfêrencia do Ponto</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:spinner id="radius" size="2" class="form-control"
+									value="#{applicationEntityBean.selectedLayer.geometryStyle.radius}"
+									min="0" max="100" />
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					
+				</div>
+			</p:tab>
+			<p:tab title="Rótulo"
+				rendered="#{of:isInstance('org.geoazul.model.basic.LayerStyled', applicationEntityBean.selectedLayer)}">
+				
+				<hr />
+				
+				<div class="row clearfix">
+				
+					<div class="col-md-2">
+						<b>Campo</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+									<p:selectOneMenu
+										converter="omnifaces.SelectItemsIndexConverter" id="field"
+										value="#{applicationEntityBean.selectedLayer.labelStyle.field}">
+										<f:selectItem itemLabel="Nenhum" noSelectionOption="true" />
+										<f:selectItems itemLabel="#{_item}" itemValue="#{_item}"
+											value="#{applicationEntityBean.allFields}" var="_item" />
+									</p:selectOneMenu>
+							</div>
+						</div>
+					</div>
+				
+					<div class="col-md-2">
+						<b>Formato</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:selectOneMenu id="text" class="form-control"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.text}">
+									<f:selectItem itemValue="hide" itemLabel="Ocultar" />
+									<f:selectItem itemValue="normal" itemLabel="Normal" />
+									<f:selectItem itemValue="shorten" itemLabel="Reduzido" />
+									<f:selectItem itemValue="wrap" itemLabel="Cortar" />
+								</p:selectOneMenu>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<b>Resolucao Máxima</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+
+								<p:inputNumber id="res" label="Resolucao Máxima"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.maxreso}"
+									required="true" placeholder="0.00001" minValue="0.00001"
+									thousandSeparator="" decimalSeparator=","
+									maxValue="999999.99999" decimalPlaces="5"
+									styleClass="#{not component.valid ? 'ui-input-invalid' : ''}"
+									requiredMessage="Resolucao Maxima requerida!" />
+
+
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b>Alinhamento</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:selectOneMenu id="align" class="form-control"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.align}">
+									<f:selectItem itemValue="center" itemLabel="Centro" />
+									<f:selectItem itemValue="start" itemLabel="Inicio" />
+									<f:selectItem itemValue="left" itemLabel="Esquerdo" />
+									<f:selectItem itemValue="right" itemLabel="Direito" />
+									<f:selectItem itemValue="end" itemLabel="Final" />
+								</p:selectOneMenu>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b>Linha de Base</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:selectOneMenu id="baseline" class="form-control"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.baseline}">
+									<f:selectItem itemValue="alphabetic" itemLabel="Alfabético" />
+									<f:selectItem itemValue="bottom" itemLabel="Inferior" />
+									<f:selectItem itemValue="hanging" itemLabel="Suspenso" />
+									<f:selectItem itemValue="ideographic" itemLabel="Ideográfico" />
+									<f:selectItem itemValue="middle" itemLabel="Centraliado" />
+									<f:selectItem itemValue="top" itemLabel="Superior" />
+								</p:selectOneMenu>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row clearfix">
+					<div class="col-md-3">
+						<b>Rotação</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div>
+								<p:knob width="50" height="50" step="5" max="360"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.rotation}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b>Fonte</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:selectOneMenu id="fonte" class="form-control"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.font}">
+									<f:selectItem itemValue="Arial" itemLabel="Arial" />
+									<f:selectItem itemValue="Verdana" itemLabel="Verdana" />
+									<f:selectItem itemValue="Courier New" itemLabel="Courier New" />
+									<f:selectItem itemValue="Quattrocento Sans"
+										itemLabel="Quattrocento Sans" />
+									<f:selectItem itemValue="Sans" itemLabel="Sans" />
+								</p:selectOneMenu>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b>Negrito</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div>
+								<p:selectBooleanCheckbox class="form-control"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.weight}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b>Direção do Rótulo</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:selectOneMenu id="placement" class="form-control"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.placement}">
+									<f:selectItem itemValue="point" itemLabel="Point" />
+									<f:selectItem itemValue="line" itemLabel="Linha" />
+								</p:selectOneMenu>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row clearfix">
+					<div class="col-md-3">
+						<b>Angulo Máximo</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:knob width="50" height="50" step="5" max="360"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.maxangle}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b>Overflow</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:selectBooleanCheckbox
+									value="#{applicationEntityBean.selectedLayer.labelStyle.overflow}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b>Tamanho Fonte</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:spinner id="fontsize"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.size}"
+									min="1" max="64" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b>Altura da Caixa de Texto</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:spinner id="height"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.height}"
+									min="0" max="100" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row clearfix">
+					<div class="col-md-2">
+						<b>Offset X</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:spinner id="offsetX"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.offsetX}"
+									min="0" max="100" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<b>Offset Y</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:spinner id="offsetY"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.offsetY}"
+									min="0" max="100" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<b>Cor Fonte</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div>
+								<p:colorPicker
+									rendered="#{applicationEntityBean.selectedLayer ne null}"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.color}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b>Cor Contorno</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:colorPicker id="ajax22"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.outline}"
+									rendered="#{applicationEntityBean.selectedLayer ne null}"
+									clearButton="true" closeButton="true" alpha="false">
+
+								</p:colorPicker>
+
+
+
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<b>Tamanho do Contorno</b>
+						<div class="input-group">
+							<span class="input-group-addon"> </span>
+							<div class="form-line">
+								<p:spinner id="offsetsize"
+									value="#{applicationEntityBean.selectedLayer.labelStyle.outlineWidth}"
+									min="0" max="10" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</p:tab>
+
+			<p:tab title="Campos"
+				rendered="#{of:isInstance('org.geoazul.model.basic.LayerStyled', applicationEntityBean.selectedLayer)}" >
+				<hr />
+				<h:panelGroup id="displayfields">
+					<div align="right">
+
+						<p:commandButton update="addFieldForm" icon="fa fa-plus"
+							actionListener="#{applicationEntityBean.newField}"
+							styleClass="ui-bigbutton" title="Adicionar Campo" id="addField"
+							oncomplete="PF('addFieldDialog').show();" />
+
+
+
+
+
+
+					</div>
+
+					<p:dataTable reflow="true" lazy="false"
+						emptyMessage="Nenhum Campo Encontrado!" id="fields" var="_field"
+						value="#{applicationEntityBean.selectedLayer.fields}"
+						widgetVar="fieldsTable">
+						<p:column headerText="Nome">
+							<h:outputText value="#{_field.name}" />
+						</p:column>
+						<p:column headerText="Tipo de Dados">
+							<h:outputText value="#{_field.typeData}" />
+						</p:column>
+
+						<p:column headerText="Componente IO">
+							<h:outputText value="#{_field.fieldControl.type}" />
+						</p:column>
+
+						<p:column headerText="">
+							<p:commandButton update=":campoForm" icon="fa fa-edit"
+								title="Editar"
+								onclick="fieldEdit([{name:'fieldid', value:'#{_field.id}'}]);" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</p:tab>
+
+
+			<p:tab title="Atributos"
+rendered="#{of:isInstance('org.geoazul.model.basic.LayerStyled', applicationEntityBean.selectedLayer)}" >
+
+				<p:dataTable reflow="true" lazy="false"
+					emptyMessage="Nenhum Atributo Encontrado!" id="atrribs"
+					var="_attrib"
+					value="#{applicationEntityBean.selectedLayer.attributes}"
+					widgetVar="attribTable">
+
+					<p:column headerText="Nome">
+						<h:outputText value="#{_attrib.name}" />
+					</p:column>
+
+					<p:column headerText="Valor">
+						<h:outputText value="#{_attrib.value}" />
+					</p:column>
+
+					<p:column headerText="Tipo">
+						<h:outputText value="#{_attrib.dtype}" />
+					</p:column>
+
+					<p:column headerText="">
+						<p:commandButton update=":campoForm" icon="fa fa-edit"
+							title="Editar"
+							onclick="fieldEdit([{name:'fieldid', value:'#{_field.id}'}]);" />
+					</p:column>
+
+				</p:dataTable>
+
+			</p:tab>
+
+		</p:tabView>
+		<hr />
+		<div align="right" class="buttons">
+			<p:commandButton value="Salvar" id="saveBtn"
+				oncomplete="handleLayerEditRequest(xhr, status, args)"
+				icon="pi pi-check" update="layersForm2 layersFormLG"
+				style="font-size: 15px;padding: 3px"
+				action='#{applicationEntityBean.updateLayer}' />
+			#{''}
+			<p:commandButton value="Cancelar"
+				oncomplete="PF('editlayerDialog').hide();" icon="fa fa-mail-reply"
+				title="Cancelar" style="font-size: 15px;padding: 3px" />
+			#{''}
+			
+			<p:commandButton icon="fa fa-trash-o" value="Excluir"
+				oncomplete="handleLayerDeleteRequest(xhr, status, args)"
+				style="font-size: 15px;padding: 3px"
+				action='#{applicationEntityBean.deleteLayer}'
+				 update="layersForm2 layersFormLG message">
+				<p:confirm type="popup" header="Confirmation"
+					message="Confirma exclusão da camada!" icon="ui-icon-alert" />
+			</p:commandButton>
+			
+			<p:confirmPopup global="true">
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirm-popup-no ui-button-flat" icon="pi pi-times" />
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirm-popup-yes" icon="pi pi-check" />
+			</p:confirmPopup>
+
+
+
+			#{''}
+			<p:commandButton rendered="false" value="Processar" update="message"
+				oncomplete="PF('editLayerDialog').hide();"
+				actionListener='#{applicationEntityBean.processObraAll}'
+				icon="fa fa-gear" style="font-size: 15px;padding: 3px" />
+
+
+
+		</div>
+	</h:form>
+</ui:composition>

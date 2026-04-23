@@ -1,0 +1,519 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:p="http://primefaces.org/ui"> 
+    
+			    
+
+    <!--  OpenLayers -->
+    <link rel="stylesheet" href="#{request.contextPath}/gisgoog/css/ol.css"/>
+    <script src="#{request.contextPath}/gisgoog/js/ol.js"></script>
+    
+    <link rel="stylesheet" href="#{request.contextPath}/gis/src/ol.ext/ol-ext.css"/>
+    <script type="text/javascript" src="#{request.contextPath}/gis/src/ol.ext/ol-ext.js"></script>
+	
+    
+    
+     <!--  OpenLayers Icon and Cluster-->
+    <link rel="stylesheet" href="#{request.contextPath}/gisgoog/css/fontmaki.css" />
+	<script type="text/javascript" src="#{request.contextPath}/gisgoog/style/fontsymbol.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/gisgoog/style/fontmaki.def.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/gisgoog/style/fontawesome.def.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/gisgoog/style/shadowstyle.js"></script>
+	
+	
+	
+
+
+
+	
+	
+	<!--  Button Position -->
+	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/gisgoog/css/ol-btn-material.css" />
+
+    <link href="#{request.contextPath}/themes/theme/font/inconsolata.css" rel="stylesheet" type="text/css"/>
+    <link href="#{request.contextPath}/themes/theme/font/materialicons.css" rel="stylesheet"/>
+ 
+ 			
+
+
+<style>
+		body, html {
+  		padding: 0px;
+  		margin: 0px;
+  		border: 0px none;
+  		height: 97%;
+  		width: 100%;
+	}
+	div.fill {
+      	width: 100%;
+       height: 97%;
+    }
+	</style>
+
+	
+	
+	
+
+  	<div >
+			
+		<h:panelGroup id="mapcontext">
+					<div id="map" class="fill"></div>
+				<div id="wrapper">
+				<div id="location"></div>
+				<div id="scale"></div>
+			</div>
+		</h:panelGroup>
+			
+	       	<h:form id="formtischer">
+
+
+	 <p:contextMenu for="mapcontext">
+        <p:menuitem onclick="editFeature()" value="Editar" icon="fa fa-edit" />
+        <p:menuitem rendered="false" onclick="deleteFeature()" value="Excluir" icon="fa fa-trash" />
+    </p:contextMenu>
+
+	<pe:remoteCommand id="applyDataCommand" name="applyData" oncomplete="PF('printDialog').hide();"
+    		actionListener="#{applicationEntityBean.printPDF}" >  
+    	<pe:assignableParam name="parambbox" assignTo="#{applicationEntityBean.bbox}"/>  
+    	<pe:assignableParam name="paramscale" assignTo="#{applicationEntityBean.scale}"/>  
+    	<pe:assignableParam name="parampaper" assignTo="#{applicationEntityBean.paper}"/>  
+    	<pe:assignableParam name="paramsistcord" assignTo="#{applicationEntityBean.sistcord}"/>  
+    	<pe:assignableParam name="parambackground" assignTo="#{applicationEntityBean.background}"/>  
+    	<pe:assignableParam name="paramcolorPopup" assignTo="#{applicationEntityBean.colorPopup}"/>  
+    	<pe:assignableParam name="parammodelo" assignTo="#{applicationEntityBean.modelo}"/>  
+	</pe:remoteCommand>  
+
+	<p:remoteCommand name="objEditPrint" oncomplete="PF('printDialog').show();"
+  	  	actionListener="#{applicationEntityBean.beanMethodPrint}" />
+
+
+
+    
+				<p:remoteCommand name="objEdit" update=":pointForm:display :uploadShpForm"
+  		oncomplete="PF('editPointDialog').show();"
+  	  	actionListener="#{applicationEntityBean.beanMethod}" />
+  	  	
+  	  			
+  	  		<p:dialog header="Arquivos"  modal="false"  widgetVar="reportDialog"  width="300" height="300" resizable="false" id="userDlgReport" > 
+    	<ui:include src="/gis/Report.xhtml" /> 
+    </p:dialog>  
+  				
+			</h:form>
+		</div>
+	
+	
+
+	
+
+	
+	
+	
+	<pe:fab id="btnZoomIn" icon="fa fa-minus" style="background: red;"/>
+	
+	<pe:fab id="btnZoomOut" icon="fa fa-plus" style="background: red;"/>	
+
+
+ 	
+ 	
+
+	
+    	
+	<!-- END MATERIAL SIDE BAR -->
+		
+	
+    
+ 
+
+    <p:dialog  header="Imprimir"  height="260" widgetVar="printDialog" resizable="false"> 
+ 		<ui:include src="/gisgoog/Print.xhtml" /> 
+ 		<p:ajax event="close"   onstart="deactivate()"/>  
+    </p:dialog> 
+    
+    
+    <p:sidebar position="left" blockScroll="true"
+			style="overflow-y: scroll; 
+			width:100% !important; height:100%px !important;"
+			widgetVar="editPointDialog">
+			<br />
+			<h:form id="pointForm">
+			<h:inputHidden id="hidden" 
+value="#{applicationEntityBean.getAbstractIdentityEntity(id).components}"/>
+			
+				<p:tabView scrollable="false" id="display">
+					<p:tab title="Geometria">
+						<pe:dynaFormat rendered="true" id="dynaFormat"
+							value="#{applicationEntityBean.model}" var="data">
+							<f:facet align="left" name="buttonBar">
+							</f:facet>
+
+							<pe:dynaFormatControl type="hidden">
+								<h:inputHidden id="hidden" value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="fileupload">
+
+								<p:fileUpload locale="pt_BR" cancelLabel="Cancelar"
+									uploadLabel="Enviar" label="Enviar" skinSimple="true"
+									mode="advanced" dragDropSupport="true" 
+									 allowTypes="/(\.|\/)(png|PNG|jpg|JPG|gif|GIF)$/" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="booleanchoice">
+								<p:selectBooleanCheckbox value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="input" for="txt">
+								<p:inputText id="txt" width="100" value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="texteditor" for="texto">
+
+								<p:inputText id="texto" width="100" value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="calendar" for="cal"
+								styleClass="calendar">
+								<p:calendar id="cal" value="#{data.value}"
+									required="#{data.required}" showOn="button" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="selectcat" for="selcat">
+								<p:selectOneMenu id="selcat" value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems value="#{applicationEntityBean.languagesCat}" />
+								</p:selectOneMenu>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="selectfather" for="selfat">
+								<p:selectOneMenu id="selfat" value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems
+										value="#{applicationEntityBean.getLanguagesFat(data.name)}" />
+								</p:selectOneMenu>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="selectlayer" for="sellay">
+								<p:selectOneMenu id="sellay" value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems
+										value="#{applicationEntityBean.getLanguagesLay(data.name)}" />
+								</p:selectOneMenu>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="selectOneMenu" for="selOneMenu">
+								<p:selectOneMenu id="selOneMenu" value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems
+										value="#{applicationEntityBean.getSelectOneMenuItens(data.name)}" />
+								</p:selectOneMenu>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="select" for="sel">
+								<p:selectOneMenu id="sel" value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems value="#{applicationEntityBean.languages}" />
+								</p:selectOneMenu>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="textarea" for="tarea">
+								<p:inputTextarea id="tarea" value="#{data.value}"
+									required="#{data.required}" autoResize="false" />
+							</pe:dynaFormatControl>
+							<pe:dynaFormatControl type="rating" for="rat">
+								<p:rating id="rat" value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="radiochoice">
+								<p:selectOneRadio value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems value="#{data.selectItems}" />
+								</p:selectOneRadio>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="img">
+								<p:graphicImage width="90" value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+						</pe:dynaFormat>
+
+					</p:tab>
+
+					<p:tab rendered="#{applicationEntityBean.obra != null}"
+						title="Vértices">
+
+						<div style="text-align: right">
+							<p:menuButton value="Opções">
+
+								<p:menuitem rendered="false" ajax="true" value="Z-INDEX"
+									icon="ui-icon-document" id="parcelaEdit2"
+									update=":obra2Form:display"
+									oncomplete="PF('editobra2Dialog').show();">
+									<f:setPropertyActionListener
+										target="#{applicationEntityBean.idObra}" value="#{parcela.id}" />
+								</p:menuitem>
+
+								<p:menuitem rendered="false" action="#{applicationEntityBean.processRural}"
+									ajax="true" value="Gerar Arquivos proces" icon="ui-icon-document"
+									id="parcelaProcessarRural" update="pointForm:display:vertices" />
+
+								<p:menuitem rendered="false" ajax="false"
+									value="Google Earth (KML)" icon="ui-icon-extlink">
+									<p:fileDownload value="#{applicationEntityBean.file}" />
+								</p:menuitem>
+
+								<p:menuitem rendered="false" ajax="false"
+									value="Google Earth (KML-Z)" icon="ui-icon-extlink">
+									<p:fileDownload value="#{applicationEntityBean.fileKML}" />
+								</p:menuitem>
+
+								<p:menuitem rendered="false" ajax="false" value="Shapefile(SHP)"
+									icon="ui-icon-extlink">
+									<p:fileDownload value="#{applicationEntityBean.fileshape}" />
+								</p:menuitem>
+
+								<p:menuitem rendered="false" value="Confrontar" icon="ui-icon-arrow"
+									update="pointForm" title="Confrontar">
+								</p:menuitem>
+
+							</p:menuButton>
+						</div>
+
+						<p:dataTable emptyMessage="Nenhum Vértice Encontrado!"
+							reflow="true" id="vertices" var="vertices"
+							value="#{applicationEntityBean.obra.verticeObrasList}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+
+							<p:column headerText="Id">
+								<h:outputText value="#{vertices.sequencia}" />
+							</p:column>
+
+							<p:column headerText="Marco">
+								<h:outputText value="#{vertices.marcoLabel}" />
+							</p:column>
+
+							<p:column headerText="Azimute">
+								<h:outputText value="#{vertices.azimuth}" />
+							</p:column>
+
+							<p:column headerText="Distância">
+								<h:outputText value="#{vertices.distancia}" />
+							</p:column>
+
+							<p:column headerText="Limite">
+								<h:outputText value="#{vertices.tipoLimite}" />
+							</p:column>
+
+							<p:column headerText="Descritivo">
+								<h:outputText value="#{vertices.descritivo}" />
+							</p:column>
+
+							<p:column>
+								<p:commandButton value="E" update=":userDetailFormVer"
+									oncomplete="PF('userDialogVer').show();" title="Editar Vértice"
+									icon="ui-icon-document">
+									<f:setPropertyActionListener
+										target="#{applicationEntityBean.verticeHashId}"
+										value="#{vertices.id.toString()}" />
+									<f:setPropertyActionListener
+										target="#{applicationEntityBean.edited}" value="true" />
+								</p:commandButton>
+
+								<p:commandButton value="N" update=":userDetailFormVer"
+									action="#{applicationEntityBean.newEditedObra}"
+									oncomplete="PF('userDialogVer').show();" title="Novo Vértice"
+									icon="ui-icon-document">
+									<f:setPropertyActionListener
+										target="#{applicationEntityBean.verticeHashId}"
+										value="#{vertices.id.toString()}" />
+									<f:setPropertyActionListener
+										target="#{applicationEntityBean.edited}" value="false" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+					</p:tab>
+
+
+
+
+
+					<p:tab title="Media">
+
+						<p:dataTable id="relatorios" var="_media" reflow="true"
+							selection="#{applicationEntityBean.selectedMedias}"
+							rowKey="#{_media.id}" style="margin-bottom:0"
+							paginatorPosition="bottom" paginator="true" rows="10"
+							value="#{applicationEntityBean.obra.medias}">
+
+							<p:column selectionMode="multiple"
+								style="width:10%;text-align:center" />
+							
+							<p:column headerText="Tipo">
+								<p:graphicImage height="65"
+									rendered="#{_media.mimeType == 'image/png' || _media.mimeType == 'image/gif' || _media.mimeType == 'image/jpg'
+									|| _media.mimeType == 'image/jpeg'}"
+									value="#{_media.filename}#{_media.title}" />
+								<p:graphicImage width="65"
+									rendered="#{_media.mimeType == 'application/pdf'}"
+									value="/resources/images/pdf.png" />
+									#{''}
+									<h:outputText value="#{_media.mimeType}" />
+							</p:column>
+
+							<p:column rendered="true" headerText="aDownload">
+								<p:commandButton value="#{_media.title}" ajax="false"
+									onclick="PrimeFaces.monitorDownload(start, stop);"
+									icon="pi pi-arrow-down">
+									<p:fileDownload
+										value="#{fileDownloadView.getFile(_media.uuid)}" />
+								</p:commandButton>
+							</p:column>
+
+							<f:facet name="footer">
+								<p:commandButton process="relatorios"
+									update=":pointForm:display:multiMedDetail" icon="pi pi-trash"
+									value="Excluir" oncomplete="PF('multiMedDialog').show()" />
+							</f:facet>
+						</p:dataTable>
+
+						<p:dialog
+							header="Confirmar Exclusão de #{applicationEntityBean.selectedMedias.size()} Media(s)"
+							id="multiMedDetail" widgetVar="multiMedDialog" modal="false"
+							showEffect="fade" hideEffect="fade">
+
+							<p:repeat var="_med"
+								value="#{applicationEntityBean.selectedMedias}">
+								{#{_med.title}},
+							</p:repeat>
+							<div>
+								<p:commandButton icon="pi pi-trash"
+									update=":pointForm:display:relatorios"
+									value="Confirmar Exclusão"
+									actionListener='#{applicationEntityBean.deleteMedias}'
+									oncomplete="PF('multiMedDialog').hide()" />
+								<p:commandButton icon="pi pi-done"
+									update=":pointForm:display:relatorios" value="Cancelar"
+									oncomplete="PF('multiMedDialog').hide()" />
+							</div>
+						</p:dialog>
+					</p:tab>
+
+
+
+
+				</p:tabView>
+			</h:form>
+
+			<p:dialog header="Envio de Imagem" width="600" height="400"
+				widgetVar="imagePointDialog" resizable="false">
+
+				<h:form id="uploadShpForm" prependId="false">
+
+					<h:panelGroup id="entrada">
+
+						<p:fileUpload listener="#{applicationEntityBean.importIMAGE}"
+							cancelLabel="Cancelar" label="Arquivo" uploadLabel="Enviar"
+							mode="advanced" dragDropSupport="false"
+							oncomplete="PF('imagePointDialog').hide(),PF('editPointDialog').hide()"
+							update="messages" 
+							allowTypes="/(\.|\/)(gif|tif|jpe?g|png)$/" />
+						<div style="clear: both" />
+					</h:panelGroup>
+				</h:form>
+			</p:dialog>
+
+
+			<p:dialog header="Coordenadas" width="600" height="400"
+				widgetVar="coordinatesDialog" resizable="false">
+
+				<h:form id="coordinatesForm" prependId="false">
+
+					<h:panelGroup id="coordinates">
+
+						<h:outputLabel id="nome3" for="nome33" value="WKT" />
+						<p:inputText required="true" locale="pt_BR"
+							requiredMessage="Nome Requerido!" label="Nome" id="nome33"
+							size="50" maxlength="50"
+							value="#{applicationEntityBean.abstractGeometry.geometrywkt}" />
+						<h:outputText />
+
+
+						<div align="right">
+
+							<p:commandButton value="Salvar"
+								action="#{applicationEntityBean.submitCoordinatesWKT}"
+								oncomplete="PF('coordinatesDialog').hide();" update="messages" />
+							#{''}
+							<p:commandButton value="Cancelar" update="messages"
+								oncomplete="PF('coordinatesDialog').hide();" />
+
+						</div>
+
+
+						<div style="clear: both" />
+					</h:panelGroup>
+				</h:form>
+			</p:dialog>
+
+
+			<p:dialog appendTo="@(body)" header="Vértice Limite"
+				widgetVar="userDialogVer" id="userDlg" modal="true">
+				<ui:include src="/gis/VOEditVer.xhtml" />
+			</p:dialog>
+
+
+
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false">
+				<p:graphicImage value="/resources/images/ajaxloadingbar.gif" />
+			</p:dialog>
+
+
+			<h:outputScript id="dynaFormScript2" target="body">
+	/* <![CDATA[ */
+    function handleComplete333(xhr, status, args) {
+        if(args && args.isValid) { 
+           
+        } else {
+      			PF('editPointDialog').hide();
+      		 	renameFeature(args.nomeobject);
+        }
+    }
+	/* ]]> */
+</h:outputScript>
+
+
+
+
+		</p:sidebar>
+    
+    
+		<h:outputText value="&lt;script type='text/javascript'&gt;"	escape="false" />
+
+		<ui:include rendered="false" src="/gis/widgets/introduction.xhtml" />
+
+		<ui:include rendered="true" src="/gis/widgets/label.xhtml" />
+
+		<ui:include rendered="false" src="/gis/widgets/middle.xhtml" />
+
+		<ui:include rendered="false" src="/gis/widgets/footer.xhtml" />
+
+		<h:outputText value="&lt;/script&gt;" escape="false" />
+			
+			
+			
+			
+		
+  	
+
+</ui:composition>

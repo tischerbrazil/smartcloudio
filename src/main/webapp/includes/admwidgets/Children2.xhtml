@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+
+	
+
+	<ui:fragment rendered="#{city.type eq 'RHeading'}">
+
+	<h:outputText value="#{city.getValueRendered()}" escape="false" />
+
+	</ui:fragment>
+
+	<p:button rendered="#{city.type eq 'RButton'}" value="#{city.value}"
+		title="#{city.title}" href="#{city.href}" target="#{city.target}"
+		styleClass="#{city.styleClass}" icon="#{city.icon}" />
+
+	<ui:fragment rendered="#{city.type eq 'RVideo'}">
+		
+	<video controls="" class="#{city.styleClass}" poster="#{city.poster}"
+			src="#{city.value}" width="#{city.width}" height="#{city.height}"></video>
+					
+	</ui:fragment>
+	
+
+
+
+
+</ui:composition>

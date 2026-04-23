@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"> 
+<h:head> 
+<ui:insert name="head" />
+<title>#{empty pageTitle ? 'Page Title' : pageTitle}</title> 
+<link rel="icon" href='#{resource["favicon.ico"]}' />  
+	</h:head>
+	<h:body >
+		<ui:insert name="body" />
+	</h:body>
+</html>

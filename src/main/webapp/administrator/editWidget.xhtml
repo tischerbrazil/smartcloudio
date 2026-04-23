@@ -1,0 +1,121 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+	<link href="/themes/bs5-ecommerce/dist/css/bootstrap.min.css"
+		rel="stylesheet" crossorigin="anonymous" />
+
+
+
+	<script src="/themes/bs5-ecommerce/dist/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+	<h:form id="viewWidgetForm">
+
+		<h4>
+			<p:commandButton value="Salvar" id="saveBtn2"
+				oncomplete="PF('changeOrder').hide()"
+				action="#{moduloBean.saveAction}"
+				update="msgs pageform:tablayer:modules"
+				style="font-size: 15px;padding: 3px" icon="pi pi-save" />
+			#{''}
+			<p:commandButton value="Fechar" id="closeBtn2"
+				oncomplete="PF('changeOrder').hide()"
+				style="font-size: 15px;padding: 3px" icon="pi pi-window-minimize" />
+		</h4>
+
+		<style>
+.dashed33 {
+	border-style: dashed;
+	border-color: coral;
+	border-width: 2px;
+}
+
+.dashed333 {
+	border-style: dashed;
+	border-color: gray;
+	border-width: 1px;
+}
+
+</style>
+
+
+		<section class="pt-15 pb-10 py-5 dashed33" id="feature">
+
+			<div class="container px-lg-7 px-xxl-3 ">
+				<div class="position-relative z-index-2">
+					<div
+						class="row mt-2 align-items-center justify-content-between text-center text-lg-start mb-6 mb-lg-0">
+
+						<ui:repeat rendered="#{moduloBean.rBlock != null}" var="_div" value="#{moduloBean.rBlock.divs}">
+							<div class="dashed333 float-start #{_div.div_class}" id="#{_div.div_id}">
+							
+								<p:commandButton style="height: 25px; width: 25px" 
+								styleClass="ui-button-danger heartcard endheart float-end"
+								icon="pi pi-heart" widgetVar="saveButton"/>
+												
+								<p:orderList style="width: 100%" reflow="true" value="#{_div.rComponents.stream().filter(t -> t.parentId == null).toList()}" 
+								flex="true" var="city" id="city" itemValue="#{city}" controlsLocation="none">
+	
+									<p:column rowspan="2" colspan="2">
+									
+								
+<ui:include src="/includes/widgets/Component.xhtml" >
+<ui:param name="city"	value="#{city}" />
+</ui:include>
+
+											
+
+									</p:column>
+
+								</p:orderList>
+								
+								
+								
+								<p:sidebar position="left" blockScroll="true"
+			style="overflow-y: scroll;width:90% !important; height:100% !important;"
+			modal="true" responsive="true" fitViewport="true"
+			widgetVar="editWidgetX" id="viewWidget">
+		
+				<ui:include src="/administrator/viewWidget.xhtml"/>
+
+						</p:sidebar>
+								
+							
+	<p:contextMenu for="city">
+            <p:menuitem value="View"  icon="pi pi-search"/>
+            <p:menuitem value="Delete" icon="pi pi-times"/>
+        </p:contextMenu>
+								
+							</div>
+						</ui:repeat>
+					</div>
+				</div>
+			</div>
+
+		</section>
+
+
+	</h:form>
+
+
+
+</ui:composition>

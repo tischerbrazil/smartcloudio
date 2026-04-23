@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets">
+<h:head> 
+	<ui:insert name="head" />
+	<meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+	
+	<link rel="icon" href='#{resource["favicon.ico"]}' />
+	<title>#{empty pageTitle ? 'Page Title' : pageTitle}</title>
+	
+	<link href="#{request.contextPath}/themes/theme/font/inconsolata.css" rel="stylesheet" type="text/css"/>
+    <link href="#{request.contextPath}/themes/theme/font/materialicons.css" rel="stylesheet"/>
+ 
+ 
+    <link href="/resources/themes/theme/material/plugins/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/resources/themes/theme/material/plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="/resources/themes/theme/material/plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="/resources/themes/theme/material/css/style.css" rel="stylesheet"/>
+    <link href="/resources/themes/theme/material/css/themes/all-themes.css" rel="stylesheet" />
+    
+    <style>
+	font-family: 'Inconsolata', monospace;
+	</style>
+	</h:head>
+
+	<h:body class="theme-green ls-closed overlay-close" >
+	
+	<!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Carregando...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+
+	<ui:insert name="main" />
+	
+	<ui:insert name="footer" />
+	
+	 <!-- Custom Js -->
+    <script src="/resources/themes/theme/material/js/admin.js"></script>
+	</h:body>
+	
+	
+	
+    <script src="/resources/themes/theme/material/plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="/resources/themes/theme/material/plugins/node-waves/waves.js"></script>
+    <script src="/resources/themes/theme/material/plugins/jquery-countto/jquery.countTo.js"></script>
+    <script src="/resources/themes/theme/material/js/pages/index.js"></script>
+    <script src="/resources/themes/theme/material/js/demo.js"></script>
+    <script src="#{request.contextPath}/material/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+</html>
+
+
+

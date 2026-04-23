@@ -1,0 +1,28 @@
+
+
+.nav li:hover, .nav li.active{
+  border-bottom: #C4E17F 3px solid;
+}
+
+
+
+/************team section css here*****/
+.team-wrap {
+  padding: 3px 3px 0px;
+  border: 1px solid #eee;
+  text-align: center; }
+
+.team-wrap h4 {
+  margin-bottom: 0px;
+  margin-top: 10px;
+  font-weight: 500;
+  font-size: 17px; }
+
+.team-wrap span {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #777;
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 700; }
+

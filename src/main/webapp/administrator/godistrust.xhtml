@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+
+	
+		xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	
+	
+	>
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+						<p:growl showDetail="true" escape="false" id="messages"
+							life="3000" />
+
+<style>
+    .ui-datatable .ui-datatable-header {
+        text-align: right !important;
+    }
+
+    .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+        display: none;
+    }
+</style>
+
+<h:form id="form">
+
+    <p:messages id="messages"/>
+
+    <div class="card">
+    
+    <p:dataTable lazy="true" value="#{userViewer.userModel}" var="user">
+    <p:column headerText="Name" filterBy="#{product.name}" sortBy="#{product.name}"
+                      filterMatchMode="contains">
+                <h:outputText value="#{user.name}"/>
+            </p:column>
+</p:dataTable>
+
+
+   
+        <p:dataTable id="tableStateDT" var="product" value="#{dtMultiViewStateView.products}"
+                     widgetVar="productsTable" multiViewState="true" rows="10" paginator="true"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,15" selectionMode="single"
+                     selection="#{dtMultiViewStateView.selectedProduct}" rowKey="#{product.id}"
+                     emptyMessage="No products found with given criteria"
+                     filteredValue="#{adtMultiViewStateView.filteredProducts}">
+
+            <f:facet name="header">
+                <p:outputPanel>
+                    <h:outputText value="Search all fields:"/>
+                    <p:inputText id="globalFilter" onkeyup="PF('productsTable').filter()" style="width:150px"
+                                 placeholder="Enter keyword"/>
+                </p:outputPanel>
+            </f:facet>
+
+            <p:ajax event="rowSelect"/>
+
+            <p:column headerText="Name" filterBy="#{product.name}" sortBy="#{product.name}"
+                      filterMatchMode="contains">
+                <h:outputText value="#{product.name}"/>
+            </p:column>
+
+            
+
+            <f:facet name="paginatorTopLeft">
+                <p:commandButton value="Clear table state" action="#{dtMultiViewStateView.clearMultiViewState}"
+                                 update="@form"/>
+            </f:facet>
+        </p:dataTable>
+    </div>
+
+    <br/>
+
+  
+
+   
+
+</h:form>
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	</ui:define>
+</ui:composition>

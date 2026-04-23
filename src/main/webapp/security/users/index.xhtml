@@ -1,0 +1,75 @@
+<ui:composition template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<ui:define name="content">
+	
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+		
+		
+		<p:growl globalsOnly="true" skipDetailIfEqualsSummary="true" id="messages2" showSummary="true"  
+		showDetail="true" >  <p:autoUpdate/>
+		</p:growl>	
+	
+
+		<k:form id="logoutForm" fieldset="false">
+			<h:commandLink id="logout" value="#{i18n['general.logout']}"
+				action="#{logoutBacking.logout}" />
+		</k:form>
+		
+		<h:form id="usersForm" fieldset="false">
+			
+			
+			<p:dataTable var="_item" value="#{usersBacking.model}"
+								paginator="true" rows="100"
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+								rowsPerPageTemplate="10, 50, 100" lazy="true"
+								widgetVar="modWidget" reflow="true" paginatorPosition="bottom"
+								id="_itemTable">
+
+<p:column field="id" type="number" />
+
+							<p:column field="email" />
+				
+
+				<p:column field="groups" type="list" sortable="false" />
+				<p:column field="created" type="instant" />
+			
+				<p:column headerText="#{i18n['general.actions']}"
+					styleClass="actions">
+					
+					<p:button icon="fa fa-edit" title="Editar" 
+										href="/security/users/edit/#{_item.id}">
+								
+									</p:button>
+									
+									
+				
+					<p:commandLink id="delete" rendered="#{_item.id gt 1}"
+						onclick="if(!confirm('Are you sure to delete user with ID #{_item.id}?'))return false"
+						action="#{usersBacking.delete(_item)}" update="@form">
+						<i class="pi pi-trash" />
+					</p:commandLink>
+				</p:column>
+</p:dataTable>
+			
+		</h:form>
+		
+		</div>
+		</div>
+		</div>
+		</div>
+		</section>
+		
+		
+	</ui:define>
+</ui:composition>

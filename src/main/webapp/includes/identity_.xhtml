@@ -1,0 +1,293 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<style>
+.navbar {
+	z-index: 100;
+}
+
+.ui-fab {
+	z-index: 50;
+}
+
+.ui-growl {
+	z-index: 1000 !important;
+}
+
+.ui-sidebar {
+	overflow-y: scroll !important; 
+	width:100% !important; 
+	height:100% !important;
+	margin-top: 56px !important;
+	z-index: 40 !important;
+}
+</style>
+
+	<!--  OpenLayers -->
+	<link rel="stylesheet" href="#{request.contextPath}/gisgoog/css/ol.css" />
+	<script src="#{request.contextPath}/gisgoog/js/ol.js"></script>
+
+	<link rel="stylesheet" href="#{request.contextPath}/gis/src/ol.ext/ol-ext.css" />
+	<script type="text/javascript" src="#{request.contextPath}/gis/src/ol.ext/ol-ext.js"></script>
+
+
+
+	<!--  OpenLayers Icon and Cluster-->
+	<link rel="stylesheet" href="#{request.contextPath}/gisgoog/css/fontmaki.css" />
+	<script type="text/javascript" src="#{request.contextPath}/gisgoog/style/fontsymbol.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/gisgoog/style/fontmaki.def.js"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/gisgoog/style/fontawesome.def.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/gisgoog/style/shadowstyle.js"></script>
+
+
+
+
+
+
+
+
+	
+		
+	<style>
+	.btn-floating {
+	background-color: #f44336;
+}
+
+#btnSelect {
+	position: absolute;
+	top: 70px;
+	right: 260px;
+}
+#btnEdit {
+	position: absolute;
+	top: 70px;
+	right: 80px;
+}
+#btnDrawPoint {
+	position: absolute;
+	top: 70px;
+	right: 140px;
+}
+#btnDrawLine {
+	position: absolute;
+	top: 70px;
+	right: 200px;
+}
+#btnDrawPoly {
+	position: absolute;
+	top: 70px;
+	right: 260px;
+}
+#btnDelete {
+	position: absolute;
+	top: 70px;
+	right: 320px;
+}
+#btnDrawBox {
+	position: absolute;
+	top: 70px;
+	right: 460px;
+}
+#btnDrawSquare {
+	position: absolute;
+	top: 70px;
+	right: 560px;
+}
+#btnDrawCircle {
+	position: absolute;
+	top: 70px;
+	right: 660px;
+}
+#btnZoomIn {
+	position: absolute;
+	top: 120px;
+	left: 20px;
+}
+#btnZoomOut {
+	position: absolute;
+	top: 180px;
+	left: 20px;
+}
+
+#thing_0\:form\:btnOpenMenu {
+	position: absolute !important;
+	top: 70px !important;
+	right: 20px !important;
+}
+
+	</style>	
+		
+		
+		
+
+	<link href="#{request.contextPath}/themes/theme/font/inconsolata.css" rel="stylesheet"
+		type="text/css" />
+	<link href="#{request.contextPath}/themes/theme/font/materialicons.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+	<o:form id="form">
+    	
+
+	<div style="background-color: #FFBFFF">
+
+		<h:panelGroup id="mapcontext">
+			<div id="map" class="fill">
+			
+			<pe:fab id="btnOpenMenu" widgetVar="btnOpenx" icon="fa fa-book-reader"
+		iconActive="fa fa-times" style="background: red;">
+		<pe:javascript event="open"
+			execute="PF('editPointDialog').show('btnOpenMenu');" />
+		<pe:javascript event="close" execute="PF('editPointDialog').hide();" />
+	</pe:fab>
+
+	<pe:badge content="5" for="btnOpenMenu" position="top-right" 
+	style="background: blue;"/>
+			</div>
+			
+			
+			<div id="wrapper">
+				<div id="location"></div>
+				<div id="scale"></div>
+			</div>
+		</h:panelGroup>
+
+		
+
+
+			<p:contextMenu for="#{viewid}:form:mapcontext">
+				<p:menuitem onclick="editFeature()" value="Editar" icon="fa fa-edit" />
+				<p:menuitem rendered="false" onclick="deleteFeature()"
+					value="Excluir" icon="fa fa-trash" />
+			</p:contextMenu>
+			
+			
+			#{applicationEntityBean.getAbstractIdentityEntity(id)}
+
+			
+
+
+			
+
+			<p:remoteCommand name="objEdit"
+				update="#{viewid}:form:display"
+				oncomplete="PF('editPointDialog').show();"
+				actionListener="#{applicationEntityBean.beanMethodVisitor}" />
+
+
+			<p:dialog header="Arquivos" modal="false" widgetVar="reportDialog"
+				width="300" height="300" resizable="false" id="userDlgReport">
+				<ui:include src="/gis/Report.xhtml" />
+			</p:dialog>
+
+
+
+
+
+
+
+		
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+	<div id="btnZoomIn">
+		<span class="ui-fab-main ui-button ui-fab-double"
+			style="background: green;"> <span
+			class="ui-icon ui-icon-0 fa fa-minus"></span></span>
+	</div>
+
+	<div id="btnZoomOut">
+		<span class="ui-fab-main ui-button ui-fab-double"
+			style="background: green;"> <span
+			class="ui-icon ui-icon-0 fa fa-plus"></span></span>
+	</div>
+
+	<!-- END MATERIAL SIDE BAR -->
+
+	
+
+
+
+	
+
+<script>
+    function disableScrolling(){
+        var x=window.scrollX;
+        var y=window.scrollY;
+        window.onscroll=function(){window.scrollTo(x, y);};
+    }
+
+    function enableScrolling(){
+        window.onscroll=function(){};
+        PF('btnOpenx').close()
+    }
+    
+  </script>
+
+	<p:sidebar baseZIndex="100" onShow="disableScrolling()"  
+	onHide="enableScrolling()"
+	position="left" blockScroll="true"
+		
+		widgetVar="editPointDialog">
+		
+
+		
+		<br />
+		
+		
+		
+		<p:panel id="display">	
+		Cidade2: #{applicationEntityBean.visitor.city}
+		</p:panel>
+	
+
+
+	</p:sidebar>
+
+
+	<h:outputText value="&lt;script type='text/javascript'&gt;"	escape="false" />
+
+	<ui:include rendered="false"
+		src="/application/widgets/introduction.xhtml" />
+
+	<ui:include rendered="true" src="/application/widgets/label.xhtml" />
+
+	<ui:include rendered="false" src="/application/widgets/middle.xhtml" />
+
+	<ui:include rendered="false" src="/application/widgets/footer.xhtml" />
+
+	<h:outputText value="&lt;/script&gt;" escape="false" />
+
+
+
+	</o:form>
+
+
+
+</ui:composition>

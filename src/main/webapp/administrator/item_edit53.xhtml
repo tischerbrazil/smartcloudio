@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:k="http://kickoff.example.org/ui"
+	template="/themes/bs53/pageTemplateSummer.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{urlPostItemBean.id}' />
+		<f:viewParam name="post_id" value='#{urlPostItemBean.post_id}' />
+		<f:event type="preRenderView" listener='#{urlPostItemBean.retrieve}' />
+	</f:metadata>
+
+	<ui:define name="head">
+	
+	 
+		<link rel="stylesheet" href="dist53/summernote-bs4.css" />
+		<script type="text/javascript" src="dist53/summernote-bs4.js" />
+		
+		
+		
+		<script type="text/javascript">
+    $(function() {
+    	
+      $('.summernote').summernote();
+    });
+  </script>
+	</ui:define>
+	<ui:define name="title">Dados do Formulário</ui:define>
+	<ui:define name="path">
+		<ol class="breadcrumb float-sm-right">
+			<ui:insert name="path" />
+			<li class="breadcrumb-item"><a href="#">Home</a></li>
+			<li class="breadcrumb-item active">Artigo</li>
+		</ol>
+	</ui:define>
+	<ui:define name="content">
+	
+	
+
+		<script type="text/javascript">
+
+    PrimeFaces.validator['Email'] = {
+        pattern: /\S+@\S+/,
+        MESSAGE_ID: 'org.primefaces.examples.validate.email.message',
+        validate: function(element, value) {
+            var vc = PrimeFaces.util.ValidationContext;
+            if(!this.pattern.test(value)) {
+                var msgStr = element.data('p-email-msg'),
+                msg = msgStr ? {summary:msgStr, detail: msgStr} : vc.getMessage(this.MESSAGE_ID);
+                throw msg;
+            }
+        }
+    };
+	</script>
+		<h:outputScript id="dynaFormScript" target="body">
+	/* <![CDATA[ */
+    function handleComplete333(xhr, status, args) {
+        if(args && args.isValid) {
+          
+        } else {
+          
+        }
+    }
+	/* ]]> */
+	</h:outputScript>
+
+		<section class="slice py-8">
+		<div class="container py-5">
+				<div class="row clearfix">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<p:panel header="Edição de Matéria">
+							<div class="body">
+
+							
+								<p:growl id="messages" showDetail="false" />
+								<h:form id="postForm">
+									<pe:dynaFormat rendered="true" id="dynaFormat"
+										value="#{urlPostItemBean.model}" var="data">
+										<f:facet align="left" name="buttonBar">
+											<p:commandButton icon="fa fa-save" value="Salvar"
+												action="#{urlPostItemBean.submitForm}" process="dynaFormat"
+												update="messages"
+												oncomplete="handleComplete333(xhr, status, args)" />
+											#{''}
+											<p:commandButton icon="fa fa-save" value="Excluir"
+												action="#{urlPostItemBean.delete}" process="dynaFormat"
+												update="messages"
+												 />
+											#{''}
+											<p:commandButton icon="fa fa-image" onclick="imageEdit()"
+												value="Enviar Imagem" />
+												
+											<p:button icon="fa fa-window-close" value="Cancelar"
+												outcome="/administrator/component_view" >
+												<f:param name="id" value="#{urlPostItemBean.post_id}" />
+												</p:button>
+												
+												
+										</f:facet>
+										
+										<pe:dynaFormatControl type="hidden">
+											<h:inputHidden id="hidden" value="#{data.value}"
+												required="#{data.required}" />
+										</pe:dynaFormatControl>
+										
+										<pe:dynaFormatControl type="fileupload">
+											<p:fileUpload locale="pt_BR" cancelLabel="Cancelar"
+												uploadLabel="Enviar" label="Enviar" skinSimple="true"
+												mode="advanced" dragDropSupport="true" 
+												allowTypes="/(\.|\/)(svg|SVG|png|PNG|jpg|JPG|gif|GIF)$/" />
+										</pe:dynaFormatControl>
+										
+										<pe:dynaFormatControl type="inputsecret" for="password">
+											<p:password id="password" class="form-control" maxlength="20"
+												placeholder="#{data.placeholder}" value="#{data.value}"
+												required="#{data.required}"
+												requiredMessage="Campo #{data.label} Requerido!" />
+										</pe:dynaFormatControl>
+										
+										<pe:dynaFormatControl type="booleanchoice">
+											<p:selectBooleanCheckbox value="#{data.value}"
+												required="#{data.required}" />
+										</pe:dynaFormatControl>
+										
+										<pe:dynaFormatControl type="inputText" for="inputText">
+											<p:inputText id="inputText" value="#{data.value}"
+											     placeholder="#{data.keys.placeHolder}"
+											    label="#{data.keys.placeHolder}" title="#{data.keys.placeHolder}"
+											    
+												required="#{data.required}" class="form-control" 
+												requiredMessage="Campo #{data.label} Requerido!" />
+										</pe:dynaFormatControl>
+										
+										<pe:dynaFormatControl type="input" for="txt">
+											<p:inputText id="txt" value="#{data.value}"
+											    placeholder="#{data.keys.placeHolder}"
+											    label="#{data.keys.placeHolder}" title="#{data.keys.placeHolder}"
+												required="#{data.required}" class="form-control" 
+												requiredMessage="Campo #{data.label} Requerido!" />
+										</pe:dynaFormatControl>
+										
+										<pe:dynaFormatControl type="texto" for="texto">
+											<p:inputText id="texto" value="#{data.value}"
+												required="#{data.required}" class="form-control" />
+										</pe:dynaFormatControl>
+										
+										<pe:dynaFormatControl type="inputNumber" for="number">
+											<p:inputNumber id="number" value="#{data.value}"
+												required="#{data.required}" 
+												
+												  placeholder="#{data.strings.at('/outputText/size').asText()}"
+												class="form-control" />
+										</pe:dynaFormatControl>
+										
+										
+										<pe:dynaFormatControl type="texteditor" for="contents">
+											<p:inputTextarea name="text" class="summernote" id="contents"
+												value="#{data.value}" />
+
+										</pe:dynaFormatControl>
+										<pe:dynaFormatControl type="calendar" for="cal"
+											styleClass="calendar">
+											<p:calendar id="cal" value="#{data.value}"
+												required="#{data.required}" showOn="button" />
+										</pe:dynaFormatControl>
+										<pe:dynaFormatControl type="selectcat" for="selcat">
+											<p:selectOneMenu id="selcat" value="#{data.value}"
+												required="#{data.required}">
+												<f:selectItems value="#{urlPostItemBean.languagesCat}" />
+											</p:selectOneMenu>
+										</pe:dynaFormatControl>
+										<pe:dynaFormatControl type="selectfather" for="selfat">
+											<p:selectOneMenu id="selfat" value="#{data.value}"
+												required="#{data.required}">
+												<f:selectItems
+													value="#{urlPostItemBean.getLanguagesFat(data.name)}" />
+											</p:selectOneMenu>
+										</pe:dynaFormatControl>
+										<pe:dynaFormatControl type="selectlayer" for="sellay">
+											<p:selectOneMenu id="sellay" value="#{data.value}"
+												required="#{data.required}">
+												<f:selectItems
+													value="#{urlPostItemBean.getLanguagesLay(data.name)}" />
+											</p:selectOneMenu>
+										</pe:dynaFormatControl>
+										
+										<pe:dynaFormatControl type="selectOneMenu" for="selOneMenu">
+											<p:selectOneMenu id="selOneMenu" value="#{data.value}"
+												required="#{data.required}">
+												<f:selectItems
+													value="#{data.selectItems}" 
+													
+												
+                 var="n"
+                 itemValue="#{n}"
+                 itemLabel="#{n.label}"
+                 itemDescription="#{n.description}"
+                 itemDisabled="#{n.disabled}"
+                 itemLabelEscaped="true"
+                 noSelectionValue="#{data.selectItems[0]}"/>	
+													
+													
+											</p:selectOneMenu>
+										</pe:dynaFormatControl>
+										
+										<pe:dynaFormatControl type="select" for="sel">
+											<p:selectOneMenu id="sel" value="#{data.value}"
+												required="#{data.required}">
+												<f:selectItems value="#{urlPostItemBean.languages}" />
+											</p:selectOneMenu>
+										</pe:dynaFormatControl>
+										<pe:dynaFormatControl type="textarea" for="tarea">
+											<p:inputTextarea id="tarea" value="#{data.value}"
+												required="#{data.required}" autoResize="false" />
+										</pe:dynaFormatControl>
+										<pe:dynaFormatControl type="rating" for="rat">
+											<p:rating id="rat" value="#{data.value}"
+												required="#{data.required}" />
+										</pe:dynaFormatControl>
+										<pe:dynaFormatControl type="radiochoice">
+											<p:selectOneRadio value="#{data.value}"
+												required="#{data.required}">
+												<f:selectItems value="#{data.selectItems}" />
+											</p:selectOneRadio>
+										</pe:dynaFormatControl>
+										<pe:dynaFormatControl type="img">
+											<p:graphicImage value="#{data.value}"
+												required="#{data.required}" />
+										</pe:dynaFormatControl>
+									</pe:dynaFormat>
+								</h:form>
+								<h:form id="postForm1">
+									<p:dataTable id="relatorios" var="_media" reflow="true"
+										selection="#{urlPostItemBean.selectedMedias}"
+										rowIndexVar="index"
+										rowKey="#{_media.id}" style="margin-bottom:0"
+										paginatorPosition="bottom" paginator="true" rows="10"
+										value="#{urlPostItemBean.urlPostItem.medias}">
+										<p:column selectionMode="multiple"
+											style="width:10%;text-align:center" />
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Imagems" />
+											</f:facet>
+											<p:graphicImage rendered="#{_media.mimeType.startsWith('image')}" style="width: 200px"
+												value="#{_media.filename}" />
+											<h:outputText id="myInput" rendered="#{_media.mimeType.startsWith('video')}" 
+												value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_media.filename}" />
+											<h:outputText rendered="#{_media.mimeType.startsWith('application')}" 
+												value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_media.filename}"/>
+											<p:commandButton 
+												icon="pi pi-copy" 
+												oncomplete="myFunction(#{index})" />
+										</p:column>
+										
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="URI" />
+											</f:facet>
+											<h:outputText value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_media.filename}"/>
+										</p:column>
+										
+										<f:facet name="footer">
+											<p:commandButton process="relatorios" update="excludeForm"
+												icon="pi pi-trash" value="Excluir Medias"
+												oncomplete="PF('multiMedDialog').show()" />
+										</f:facet>
+									</p:dataTable>
+  <script type="text/javascript">
+  function myFunction(rowKey) {
+  /* Get the text field */
+  
+  var copyText = document.getElementById("postForm1:relatorios:" + rowKey + ":myInput");
+
+  
+  var textArea = document.createElement("textarea");
+  textArea.value = copyText.textContent;
+  document.body.appendChild(textArea);
+  textArea.select();
+  document.execCommand("Copy");
+  
+  textArea.remove();
+}
+	</script>
+								</h:form>
+								<p:dialog header="Confirmar Exclusão" id="multiMedDetail"
+									widgetVar="multiMedDialog" modal="false" showEffect="fade"
+									hideEffect="fade">
+									<h:form id="excludeForm" prependId="false">
+										<p:repeat var="_med" value="#{urlPostItemBean.selectedMedias}">
+								{#{_med.title}},
+								</p:repeat>
+										<div>
+											<p:commandButton icon="pi pi-trash"
+												update="messages :postForm1:relatorios"
+												value="Confirmar Exclusão"
+												actionListener='#{urlPostItemBean.deleteMedias}'
+												oncomplete="PF('multiMedDialog').hide()" />
+											<p:commandButton icon="pi pi-done"
+												update="messages :postForm1:relatorios" value="Cancelar"
+												oncomplete="PF('multiMedDialog').hide()" />
+										</div>
+									</h:form>
+								</p:dialog>
+								<p:dialog header="Envio de Imagem" width="600" height="400"
+									widgetVar="imagePointDialog" resizable="false">
+									<h:form id="uploadShpForm" prependId="false">
+										<p:remoteCommand name="imageEdit"
+											oncomplete="PF('imagePointDialog').show();" />
+										<h:panelGroup id="entrada">
+											<p:fileUpload listener="#{urlPostItemBean.importIMAGE}"
+												cancelLabel="Cancelar" label="Arquivo" uploadLabel="Enviar"
+												mode="advanced" dragDropSupport="false"
+												oncomplete="PF('imagePointDialog').hide()"
+												update="messages :postForm1:relatorios uploadShpForm"
+												allowTypes="/(\.|\/)(svg|SVG|gif|tif|jpe?g|gif|mp4|png)$/" />
+											<div style="clear: both" />
+										</h:panelGroup>
+									</h:form>
+								</p:dialog>
+							</div>
+						</p:panel>
+					</div>
+				</div>
+			</div>
+		</section>
+	</ui:define>
+</ui:composition>

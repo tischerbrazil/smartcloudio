@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+	
+	<ui:define name="content">
+
+		<script src="indexsix.js" defer="defer"></script>
+
+		<link rel="stylesheet" type="text/css" href="/resources/mp/css/card.css" />
+		<script src="https://sdk.mercadopago.com/js/v2"></script>
+
+
+
+		<style type="text/css">
+.label {
+	width: 20%;
+	padding: 4px;
+}
+
+.value {
+	width: 80%;
+	padding: 4px;
+}
+
+.grid {
+	width: 100%;
+}
+
+.error {
+	color: red;
+}
+
+.outputLabel {
+	font-weight: bold;
+}
+
+.grid {
+	width: 33%;
+	padding: 4px;
+}
+
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number {
+	background: #e64949;
+	color: #fff;
+	border-color: #2014a7;
+}
+
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-title {
+	font-weight: 700;
+}
+
+.someCssClassName {
+	background-image: url("/resources/images/paypal.png") !important;
+	background-color: #4CAF50; /* Green */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+</style>
+
+
+		<ui:fragment rendered="#{shoppingCartBean.shoppingCartIsEmpty()}">
+			<section class="slice">
+			<div class="container py-5">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="body">
+						<div class="row clearfix">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12  text-center">
+								<p:graphicImage width="120" library="images"
+									name="svg/shopping-cart-empty.svg" />
+							</div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12  text-center">
+								<h1>Seu carrinho de compras está vazio!</h1>
+								<hr />
+								<p:button value="VOLTAR AS COMPRAS" outcome="/ecommerce/index"
+								icon="pi pi-chevron-left" styleClass="ui-button-warning" >
+								
+							<f:param name="gcmid"
+								value="153" />
+								</p:button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</section>
+		</ui:fragment>
+		<ui:fragment rendered="#{shoppingCartBean.shoppingCartIsEmpty() != true}">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 order-md-2 mb-4 py-4">
+						
+						
+						
+						
+						
+						<ul class="list-group mb-3">
+								<ui:repeat value="#{shoppingCartBean.cartItems}" var="_item">
+									<li
+										class="list-group-item d-flex justify-content-between lh-condensed">
+										<div>
+											<h6 class="my-0">
+
+												<p:graphicImage style="width: 50px"
+													value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_item.item.images.stream().findFirst().get().getFilename()}" />
+
+											</h6>
+											<small class="text-muted"></small>
+										</div> <span class="text-muted"> #{_item.quantity} x
+											#{_item.item.name} </span> <span class="text-muted"><h:outputText
+												value="#{_item.subTotal}">
+												<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+											</h:outputText></span>
+									</li>
+								</ui:repeat>
+								
+
+
+								<li class="list-group-item d-flex justify-content-between"><span>Total
+										em Produtos </span> <strong> <h:outputText
+											value="#{shoppingCartBean.total}">
+											<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+										</h:outputText>
+								</strong></li>
+								<ui:fragment rendered="true">
+								<li class="list-group-item d-flex justify-content-between"><span>Desconto
+								</span> <strong> 0,00 </strong></li>
+								</ui:fragment>
+								
+								
+								
+								<li class="list-group-item d-flex justify-content-between"><span>Frete
+								</span> <strong> <h:outputText 
+											value="#{shoppingCartBean.shoppingCart.shippingValue}">
+											<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+										</h:outputText>
+								</strong></li>
+								
+								<ui:fragment rendered="#{shoppingCartBean.shoppingCart.shippingValue > 0}">
+									<li
+										class="list-group-item d-flex justify-content-between bg-light">
+										<div class="text-success">
+											<h6 class="my-0">C.E.P.</h6> 
+											
+											
+										</div> <span class="text-success">#{shoppingCartBean.shoppingCart.zipcode}</span>
+										
+									</li>
+									</ui:fragment>
+									<li
+										class="list-group-item d-flex justify-content-between bg-light">
+										<div class="text-success">
+										
+											<h6 class="my-0">Método de Envio</h6> 
+											
+										</div> <span class="text-success">#{shoppingCartBean.shoppingCart.shippingMethod.name}</span>
+										
+									</li>
+								
+
+								<li class="list-group-item d-flex justify-content-between"><span>Total
+										Geral da Nota </span> <strong> <h:outputText
+											value="#{shoppingCartBean.totalWithShipping}">
+											<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+										</h:outputText>
+								</strong></li>
+							</ul>
+
+							<ui:fragment rendered="false">
+
+								<div class="input-group">
+									<input type="text" class="form-control"
+										placeholder="Promo code" />
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-secondary">Redeem</button>
+									</div>
+								</div>
+
+							</ui:fragment>
+
+
+
+						
+					</div>
+					<div class="col-md-8 order-md-1">
+						<p:steps id="etapas" activeIndex="2">
+							<p:menuitem value="Cliente" />
+							<p:menuitem value="Entrega" />
+							<p:menuitem value="Pagamento" />
+						</p:steps>
+						<br />
+						<div class="alert alert-primary" role="alert">
+						<h4>Escolha a forma de pagamento</h4>
+						</div>
+					
+						
+						<main> 
+<input type="hidden" id="mercado-pago-public-key" value="#{shoppingCartBean.client.username}" /> 
+						
+<input type="hidden" id="useremail" value="#{shoppingCartBean.user.email}" /> 
+						
+<p:inputText  rendered="false" type="hidden" value="#{shoppingCartBean.user.typeNumber}" id="form-checkout__identificationType" pt:name="identificationType" /> 
+							
+<p:inputText value="#{shoppingCartBean.user.number}"
+id="form-checkout__identificationNumber" type="hidden"
+							pt:name="docNumber" /> 
+							
+<input type="hidden" id="amount" value="#{shoppingCartBean.totalWithShipping}" /> <input type="hidden"
+id="description" value="#{shoppingCartBean.my_cookie_uuid}" /> 
+						
+						
+						<section class="shopping-cart dark">
+						<div class="container container__cart">
+							<div class="block-heading">
+							</div>
+							<div class="content">
+								<div class="row">
+
+
+									<div class="col-md-12 col-lg-12">
+										<div class="summary">
+											<p:commandButton 
+											
+											styleClass="btn btn-warning waves-effect"
+											  value="Pagar com Cartão de Crédito" id="checkout-btn"></p:commandButton>
+											#{''}
+											<p:commandButton 
+											
+											styleClass="btn btn-warning waves-effect"
+											  value="Pagar com PIX QR-Code" id="pix-btn"></p:commandButton>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						</section> <!-- Payment --> <section class="payment-form dark">
+						<div class="container__payment">
+							<div class="block-heading">
+								<h3>Cartão de Crédito em até 12X</h3>	
+								<p>Insira primeiro os dados do cartão para escolha do número de parcelas e valor final</p>
+								
+							</div>
+							<div class="form-payment">
+
+								<div class="payment-details">
+									<form id="form-checkout">
+
+										<div class="row">
+											<div class="form-group col-sm-8">
+
+												<input id="form-checkout__cardholderName"
+													name="cardholderName" type="text" class="form-control" />
+
+
+
+
+
+
+											</div>
+											<div class="form-group col-sm-4">
+												<div class="input-group expiration-date">
+													<div id="form-checkout__expirationDate"
+														class="form-control h-40"></div>
+												</div>
+											</div>
+											<div class="form-group col-sm-8">
+												<div id="form-checkout__cardNumber"
+													class="form-control h-40"></div>
+											</div>
+											<div class="form-group col-sm-4">
+												<div id="form-checkout__securityCode"
+													class="form-control h-40"></div>
+											</div>
+											<div id="issuerInput" class="form-group col-sm-12 hidden">
+												<select id="form-checkout__issuer" name="issuer"
+													class="form-control"></select>
+											</div>
+											<div class="form-group col-sm-12">
+												<select id="form-checkout__installments" name="installments"
+													type="text" class="form-control"></select>
+											</div>
+											<div class="form-group col-sm-12">
+
+
+
+												<div id="validation-error-messages"></div>
+												<br />
+												<button id="form-checkout__submit" 
+												style="padding: 10px 10px 10px 10px;font-size: 1.2em"
+												type="submit"
+													class="btn btn-primary btn-block"> 
+													<i class="fa fa-send"></i>
+													Confirmar Pagamento </button>
+												<br />
+												<p id="loading-message">Carregando, aguarde...</p>
+												<br /> <a id="go-back"> Cancelar e Voltar </a>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						</section> <!-- Result --> <section class="shopping-cart dark">
+						<div class="container container__result">
+
+							<div class="content">
+
+								<div class="row">
+									<div class="col-md-12 col-lg-12">
+
+
+
+										<div class="items product info product-details">
+											<div class="row justify-content-md-center">
+												<div class="col-md-4 product-detail">
+													<div class="product-info">
+														<div id="fail-response">
+															<br /> <img src="/resources/mp/img/fail.png"
+																width="250px" />
+															<p class="text-center font-weight-bold">Envio não
+																efetivado!</p>
+															<p class="text-center font-weight-bold">Tente
+																novamente!</p>
+															<p id="error-message" class="text-center"></p>
+															<br />
+														</div>
+
+														<div id="success-response">
+														
+															
+															
+															<br />
+															<p>
+																<b>ID: </b><span id="payment-id"></span>
+															</p>
+															<p>
+																<b>Status: </b><span id="payment-status"></span>
+															</p>
+															<p>
+																<b>Detalhes: </b><span id="payment-detail"></span>
+															</p>
+															<br />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div id="pix-code-section" class="container text-center m-12">
+
+								<img src="" id="qr-code-image" width="250px" />
+
+								<p id="pix-code" style="font-size: 14px;"></p>
+							</div>
+
+						</div>
+						
+						
+							
+						
+						</section> </main>
+
+
+					</div>
+				</div>
+			</div>
+		</ui:fragment>
+
+
+
+
+
+
+	</ui:define>
+</ui:composition>

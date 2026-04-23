@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+
+
+	<ui:param name="pageTitle" value="Biblioteca JICRED" />
+
+	<ui:define name="header">
+
+	</ui:define>
+
+	<ui:define name="footer">
+
+	</ui:define>
+
+	<ui:define name="main">
+
+		<style>
+.inline-block {
+	display: inline-block;
+}
+
+.inline-block2 {
+	display: inline-block;
+	vertical-align: top;
+}
+</style>
+
+<script>
+var x = document.getElementById("demo");
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  //x.innerHTML = "Latitude: " + position.coords.latitude +
+  //"<br/>Longitude: " + position.coords.longitude;
+
+  	console.info("Latitude" + position.coords.latitude );
+  	console.info("Longitude" + position.coords.longitude );
+	  
+}
+</script>
+
+		<section class="slice py-8">
+        <div class="container py-5">
+			<div class="row clearfix">
+			#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml
+			<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="demo"></p>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					
+					 <div class="header">
+                         <div class="row clearfix">
+                         	<div class="col-md-4">
+                                 <h4>Catalogo de Livros Impressos</h4> 
+                            </div>
+                      	</div>
+                      </div>          
+
+						<o:form id="form">
+							<op:dataTable  searchPlaceholder="" searchButtonLabel="Buscar"
+							currentPageReportSuffix="Registros"	currentPageReportPrefix="Exibindo"
+							currentPageReportTemplate="{startRecord} até {endRecord} de {totalRecords}"
+							 rowsPerPage="50" rows="50" id="table"
+								value="#{contadorBean.lazyContadors}" searchable="true"
+								selectable="true">
+								<f:attribute name="reflow" value="#{true}" />
+								
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="id" />
+							</f:facet>
+						<h:outputText id="_id" value="#{item.id}"/>
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Data" />
+							</f:facet>
+						<h:outputText id="_data" value="#{item.datetime}">
+							<f:convertDateTime type="localDate" pattern="MM/dd/yyyy HH:mm:ss"/>
+						</h:outputText>
+						</p:column>
+ 
+					<op:column head="Realm" field="realm.id"/>
+					<op:column head="IP" field="ipNumber"/>
+					<op:column head="Date" typedata="datetime" field="datetime"/>
+					<op:column head="City" field="city"/>
+					<op:column head="Province" field="subdivision"/>
+					<op:column head="Country" field="countryISO"/>
+									<p:column rendered="false">
+									<f:facet name="header">
+										<h:outputText value="Exibir" />
+									</f:facet>
+									<p:button outcome="/security/search" icon="fa fa-edit"
+										styleClass="button btn-warning btn-lg waves-effect">
+										<f:param name="id" value="#{item.id}" />
+									</p:button>
+								</p:column>
+
+							</op:dataTable>
+
+
+
+
+						</o:form>
+
+
+						
+						
+
+
+					</div>
+				</div>
+			</div>
+		
+
+		</section>
+
+
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="jakarta.tags.core"
+    xmlns:p="http://primefaces.org/ui"> 
+  	
+  	<link href="#{request.contextPath}/themes/theme/css/geoazul.css" rel="stylesheet"/>
+  	<div id="demo" class="carousel slide" data-ride="carousel">
+
+  <!-- Indicators -->
+  <ul class="carousel-indicators">
+  
+  <ui:repeat varStatus="_seq" value="#{compjson.strings}" var="_fieldGeom">
+     <li data-target="#demo" data-slide-to="#{_seq.index}" class="#{_fieldGeom.at('/class').asText()}"></li>
+	</ui:repeat>
+  
+
+  </ul>
+
+  <!-- The slideshow -->
+  <div class="carousel-inner">
+     
+ 
+    <ui:repeat  value="#{compjson.strings}" var="_fieldGeom2">
+    <div class="carousel-item #{_fieldGeom2.at('/class').asText()}">
+        <img src="#{_fieldGeom2.at('/image-full').asText()}" />
+    </div>
+    						
+	</ui:repeat>
+
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+
+</div>
+  
+ 	
+</ui:composition>

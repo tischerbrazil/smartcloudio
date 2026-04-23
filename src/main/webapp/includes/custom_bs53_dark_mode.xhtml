@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core" xmlns:pt="jakarta.faces.passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:p="http://primefaces.org/ui">
+
+	<li class="nav-item dropdown">
+		<button
+			class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
+			id="bd-theme" type="button" aria-expanded="false"
+			data-bs-toggle="dropdown" data-bs-display="static"
+			aria-label="Toggle theme (auto)">
+			<svg class="bi my-1 theme-icon-active">
+				<use href="#circle-half"></use></svg>
+			<span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+		</button>
+
+		<ul class="dropdown-menu dropdown-menu-end"
+			aria-labelledby="bd-theme-text"
+			style="--bs-dropdown-min-width: 8rem;">
+			<li><p:commandLink
+					actionListener="#{app.changeTheme('saga-blue', false)}"
+					oncomplete="App.changeTheme('saga-blue', false);"
+					styleClass="no-underline dropdown-item d-flex align-items-center"
+					pt:aria-pressed="false" pt:data-bs-theme-value="light">
+					<svg class="bi me-2 opacity-50 theme-icon">
+						<use href="#sun-fill"></use></svg>
+                  Claro
+                  <svg class="bi ms-auto d-none">
+						<use href="#check2"></use></svg>
+				</p:commandLink></li>
+			<li><p:commandLink 
+					actionListener="#{app.changeTheme('arya-blue', true)}"
+					oncomplete="App.changeTheme('arya-blue', true)"
+					styleClass="no-underline dropdown-item d-flex align-items-center"
+					pt:aria-pressed="false" pt:data-bs-theme-value="dark">
+					<svg class="bi me-2 opacity-50 theme-icon">
+						<use href="#moon-stars-fill"></use></svg>
+                  Escuro
+                  <svg class="bi ms-auto d-none">
+						<use href="#check2"></use></svg>
+				</p:commandLink></li>
+		</ul>
+	</li>
+
+</ui:composition>

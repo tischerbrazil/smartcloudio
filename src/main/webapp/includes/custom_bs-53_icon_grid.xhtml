@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+
+	<div class="b-example-divider"></div>
+
+	<div class="container px-4 py-5" id="icon-grid">
+		<h2 class="pb-2 border-bottom">#{compjson.title}</h2>
+		<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+			<ui:repeat id="teste" var="_itemData" value="#{fields}">
+				<div class="col d-flex align-items-start">
+					<i class="#{_itemData.at('/icon').asText()}"
+						style="font-size: 1.5rem; margin-right: 10px"></i>
+					<div>
+						<h3 class="fw-bold mb-0 fs-4 text-body-emphasis">
+							#{_itemData.at('/name').asText()}</h3>
+						<p>#{_itemData.at('/description').asText()}</p>
+					</div>
+				</div>
+			</ui:repeat>
+		</div>
+	</div>
+
+
+
+</ui:composition>

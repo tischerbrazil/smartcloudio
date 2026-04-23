@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+	<f:metadata>
+		<f:viewParam name="page" value='#{clientBean.page}' />
+		<f:event type="preRenderView" listener='#{clientBean.paginate}' />
+	</f:metadata>		
+	 
+	
+	<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+	
+      
+      
+      <ui:repeat value="#{clientBean.pageItems}" 
+				var="_item" varStatus="varStatus" id="repeat">
+				
+			
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="card" style="background-color: #ddd7c6; margin-bottom: 15px">
+							<div class="header">
+								
+
+
+<ui:repeat var="teste33" 
+
+value="#{_item.attributes.stream().filter(car->car.name.equals('picture') ).toList()}">
+
+<h2>#{_item.clientId}</h2> 
+
+<p:graphicImage style="width: 150px" rendered="#{teste33 != null}"
+									class="img-circle js-animating-object img-responsive"
+									value="#{teste33.value}" />
+								
+							</ui:repeat>
+
+									
+								
+								<h4>
+								<h:outputText escape="false" value="#{_item.description}" />
+								</h4>
+								<div align="center">
+									<p:button icon="fa fa-map" title="GIS" value="GIS"
+										outcome="/index">
+										
+									</p:button>
+									#{''}
+									<p:button icon="fa fa-edit" title="Editar" value="Editar"
+										outcome="/index">
+										
+									</p:button>
+									#{''}
+									
+			
+            	
+								</div>
+								<br/>
+							</div>
+						</div>
+					</div>
+				
+				
+					
+				</ui:repeat>
+      
+      
+  
+     </div>
+     </div>
+     </section>
+     
+         
+
+	
+</ui:composition>

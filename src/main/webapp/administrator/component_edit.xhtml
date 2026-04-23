@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<f:metadata>
+		<f:event type="preRenderView" listener='#{componentBean.retrieve}' />
+		<f:viewParam name="id" value='#{componentBean.id}' />
+		<f:viewParam name="identity_id" value='#{componentBean.identity_id}' />
+		<f:viewParam name="component_type"		value='#{componentBean.component_type}' />
+	</f:metadata>
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+						<p:panel header="Componente">
+							<h:form id="meuform" prependId="true">
+
+
+
+
+
+
+								<h:panelGrid columnClasses="label,component" columns="3">
+
+									<h:outputLabel for="enabled" value="Ativo" />
+									<p:selectBooleanCheckbox required="true" locale="pt_BR"
+										label="Tipo" id="enabled"
+										value="#{componentBean.component.enabled}" />
+									<h:outputText />
+
+									<h:outputLabel for="nome" value="Nome:" />
+									<h:panelGroup>
+										<p:inputText id="nome" label="Nome" required="true"
+											value="#{componentBean.component.name}" />
+									</h:panelGroup>
+									<h:outputText />
+
+
+
+									<h:outputLabel for="title" value="Título:" />
+									<h:panelGroup>
+										<p:inputText id="title"
+											value="#{componentBean.component.title}" />
+									</h:panelGroup>
+									<h:outputText />
+
+
+
+
+									<h:outputLabel for="desc" value="Descrição:" />
+									<h:panelGroup>
+										<p:inputText id="desc"
+											value="#{componentBean.component.description}" />
+									</h:panelGroup>
+									<h:outputText />
+
+									<h:outputLabel for="icon" value="Icon:" />
+									<h:panelGroup>
+										<p:inputText id="icon" value="#{componentBean.component.icon}" />
+									</h:panelGroup>
+									<h:outputText />
+
+								</h:panelGrid>
+
+								<div class="buttons">
+									<h:commandLink value="Salvar" action='#{componentBean.update}'
+										styleClass="btn btn-primary" />
+									#{''}
+									<c:choose>
+										<c:when test='#{!empty componentBean.id}'>
+											<h:link value="Cancelar" outcome="/administrator/application_view"
+												styleClass="btn btn-primary">
+												<f:param name="id"
+													value='#{componentBean.component.applicationEntity.uuid}' />
+											</h:link>
+						#{''}
+						<h:commandLink value="Excluir" action='#{componentBean.delete}'
+												styleClass="btn btn-primary" />
+										</c:when>
+										<c:otherwise>
+											<h:link value="Cancelar" outcome="/administrator/component_view"
+												styleClass="btn btn-primary">
+												<f:param name="id" value='#{componentBean.identity_id}' />
+											</h:link>
+										</c:otherwise>
+									</c:choose>
+								</div>
+
+							</h:form>
+
+						</p:panel>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+
+	</ui:define>
+
+
+</ui:composition>

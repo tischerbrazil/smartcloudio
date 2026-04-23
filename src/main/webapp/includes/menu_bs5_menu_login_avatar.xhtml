@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+		<ui:fragment rendered="#{userData2.userEntity == null}">
+			<li class="nav-item dropdown">
+				<button type="button"
+					class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle"
+					data-bs-toggle="dropdown" aria-expanded="false"
+					data-bs-display="static">
+					
+					 <i style="margin-top: -8px; margin-bottom: -5px" class="fa fa-user  fa-lg"></i>
+						
+					<span class="d-lg-none" aria-hidden="true">Login</span> <span
+						class="visually-hidden">LOGIN</span>
+					
+					<span class="visually-hidden">(visitor)</span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-end">
+					
+					<li><p:commandLink class="dropdown-item"
+							action="#{abstractIdentityBean.login}">
+							<i class="fa fa-sign-in"></i> Entrar (Login)
+				 </p:commandLink></li>
+				 
+				 <li><p:commandLink class="dropdown-item"
+							action="#{abstractIdentityBean.register}">
+							<i class="fa fa-user-plus"></i> Cadastrar Usuário
+				 </p:commandLink></li>
+					
+				</ul>
+			</li>
+		</ui:fragment>
+
+		<ui:fragment rendered="#{userData2.userEntity != null}">
+			<li class="nav-item dropdown">
+				<button type="button"
+					class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle"
+					data-bs-toggle="dropdown" aria-expanded="false"
+					data-bs-display="static">
+					<span class="d-lg-none" aria-hidden="true"></span> <span
+						class="visually-hidden"></span>
+						
+					<h:graphicImage id="proimg" 
+					style="border-radius: 50%;  margin-top: -18px;margin-bottom: -12px" 
+					width="36"
+						 
+						rendered="#{userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().isPresent()}"
+						value="#{userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().get().getValue()}" />
+
+					<span class="visually-hidden">(Loged)</span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-end">
+					<c:forEach 
+						items="#{urlMenuBean.getMenu(id)}" var="men">
+						<li><p:link outcome="#{men.link}"
+								class="dropdown-item">
+								<i class="#{men.icon}"></i> #{men.name}
+								
+								<c:choose>
+		<c:when test="#{men.path == null}" >
+		<f:param name="gcmid" value="#{men.id}" />
+		</c:when>
+		<c:otherwise>
+		<f:param name="gcmid" value="#{men.path}" />
+		</c:otherwise>
+	</c:choose> 
+								
+								
+							</p:link></li>
+					</c:forEach>
+					<li><hr class="dropdown-divider" /></li>
+					<li><p:commandLink action="#{abstractIdentityBean.logout()}"
+							class="dropdown-item">
+							<i class="fa fa-sign-out"></i> Sair</p:commandLink></li>
+				</ul>
+			</li>
+		</ui:fragment>
+	</h:form>
+</ui:composition>

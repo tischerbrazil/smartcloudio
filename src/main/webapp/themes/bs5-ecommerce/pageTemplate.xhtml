@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="jakarta.faces.core"
+	xmlns:pt="jakarta.faces.passthrough" xmlns:o="http://omnifaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core" xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ui="jakarta.faces.facelets" lang="#{p:language()}"
+	xml:lang="#{p:language()}">
+<c:set var="dev" value="#{faces.development}" scope="application" />
+<f:view locale="#{activeLocale.value}">
+	<h:head id="cab">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<title>#{abstractIdentityBean.abstractIdentityEntity.title}</title>
+		<meta name="robots" content="noindex" />
+		<meta name="googlebot" content="noindex" />
+		<meta name="generator" content="SmartCloudIO 7.0.2" />
+		<meta name="theme-color" content="#712cf9" />
+		<meta name="robots" content="noindex" />
+		<link href="/themes/bs53/docs/5.3/dist/css/bootstrap.min.css"
+			rel="stylesheet" crossorigin="anonymous" />
+		<link href="/themes/bs5-ecommerce/dist/css/bootstrap.min.css"
+			rel="stylesheet" crossorigin="anonymous" />
+		<style>
+.ui-button.rounded-button.ui-button-icon-only {
+	height: 3.5rem !important;
+	width: 3.5rem !important;
+	border: none !important;
+	color: #fff !important;
+}
+
+.icon-change {
+	font-size: 40px !important;
+	margin-left: -20px !important;
+	margin-top: -20px !important;
+}
+
+.icon-change-white {
+	font-size: 40px !important;
+	background-color: white;
+	color: white;
+}
+
+.flex-between-center {
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+
+.spinner-wrapper {
+	background: rgb(255, 255, 255);
+	opacity: 0.9;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: all 0.5s;
+}
+
+/*----------- START NAVBAR HEADER --------------*/
+.navbar {
+	background-color: rgb(56, 147, 32);
+	margin-bottom: 1px;
+}
+
+.navbar img {
+	margin-left: 1rem;
+	cursor: pointer;
+}
+</style>
+
+
+		<link rel="stylesheet"
+			href="/themes/bs5-ecommerce/slide/dist/css/splide.min.css" />
+		<link rel="stylesheet"
+			href="/themes/bs5-ecommerce/splide/dist/css/themes/splide-skyblue.min.css" />
+		<link rel="stylesheet" href="/themes/bs5-ecommerce/css/style2.css" />
+		
+		<link rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+			
+			
+			
+		<h:outputStylesheet library="webjars"
+			name="font-awesome/5.15.4/css/all.min-jsf.css" />
+		<h:outputStylesheet library="webjars"
+			name="font-awesome/5.15.4/css/v4-shims.min-jsf.css" />
+		<c:forEach varStatus="looph"
+			items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'head').toList()}"
+			var="moduloh">
+			<f:subview id="thing0_#{looph.index}">
+				<ui:include src="#{moduloh.complete}">
+				<c:if test="#{activeUser.can('VIEW_ADMIN_PAGES')}">
+					<p:linkButton target="_blank" icon="pi pi-file-edit" 	
+							outcome="/administrator/module_view" styleClass="rounded-button ui-button-warning" 
+							style="position: absolute;">
+							<f:param name="modcomp_uuid" value='#{moduloh.type}' />
+						</p:linkButton>
+				</c:if>
+					<ui:param name="id"
+						value="#{moduloh.components.at('/id').asText()}" />
+					<ui:param name="uuid" value="#{abstractIdentityBean.uuid}" />
+					<ui:param name="viewid" value="thing0_#{looph.index}" />
+					<ui:param name="cgmid" value="#{abstractIdentityBean.gcmid}" />
+					<ui:param name="compjson" value="#{moduloh.compJson}" />
+					<ui:param name="fields" value="#{moduloh.fields}" />
+				</ui:include>
+			</f:subview>
+		</c:forEach>
+		<h:outputScript name="locales/locale-#{p:language()}.js"
+			library="primefaces" />
+
+		<!-- Google tag (gtag.js) -->
+		<script async="async"
+			src="https://www.googletagmanager.com/gtag/js?id=G-LXRZZHRJGY"></script>
+		<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LXRZZHRJGY');
+</script>
+		<ui:insert name="head" />
+	</h:head>
+	<h:body>
+
+
+		<!-- START LOADING -->
+		<div class="spinner-wrapper">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Carregando...</span>
+			</div>
+		</div>
+		<!-- END LOADING -->
+
+
+		<style>
+@media screen and (max-width: 320px) {
+	header {
+	
+		backgound-color: #f8f9fa;
+	}
+}
+
+@media screen and (min-width: 321px) and (max-width: 375px) {
+	header {
+	
+		backgound-color: #f8f9fa;
+	}
+}
+
+@media screen and (min-width: 376px) and (max-width: 430px) {
+	header {
+	
+		backgound-color: #f8f9fa;
+	}
+}
+
+@media screen and (min-width: 431px) and (max-width: 600px) {
+	header {
+		
+		backgound-color: #f8f9fa;
+	}
+}
+
+@media screen and (min-width: 601px) and (max-width: 769px) {
+	header {
+		
+		backgound-color: #f8f9fa;
+	}
+}
+
+@media screen and (min-width: 770px) and (max-width: 890px) {
+	header {
+		
+		backgound-color: #f8f9fa;
+	}
+}
+
+@media screen and (min-width: 891px) and (max-width: 1114px) {
+	header {
+		
+		backgound-color: #f8f9fa;
+	}
+}
+
+@media screen and (min-width: 1115px) and (max-width: 1280px) {
+	header {
+		
+		backgound-color: #f8f9fa;
+	}
+}
+
+@media screen and (min-width: 1280px) {
+	header {
+	
+		backgound-color: #f8f9fa;
+	}
+}
+
+header {
+	backgound-color: #f8f9fa !important;
+}
+
+#navbarx.fixed2 {
+	padding-bottom: 100px;
+	margin-bottom: 100px;
+	backgound-color: #fff;
+}
+</style>
+		<header>
+
+			<!-- START ALERT TOP BAR -->
+			<ui:fragment rendered="true">
+
+				<div class="alert alert-primary" role="alert">
+					<img src="/themes/bs5-ecommerce/img/Icons/logo-pix-icone-256.png"
+						width="20" height="20" /> <span>Pague no PIX e ganhe um
+						desconto de 5%</span>
+				</div>
+				<!-- END ALERT TOP BAR -->
+			</ui:fragment>
+
+			<div class="ecommerce-topbar" id="navbarx">
+			
+				<nav class="navbar navbar-expand-lg navbar-light px-0" id="navbar1">
+					<div class="row gx-0 gy-2 w-100 flex-between-center">
+
+
+
+
+						<div class="col-auto">
+
+
+
+							<div class="d-flex align-items-left">
+
+
+								<button id="heart4" name="heart4"
+									class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only rounded-button ui-button-info ui-button-flat navbar-toggler d-lg-none"
+									type="button">
+									<a href="#" data-bs-toggle="modal"
+										data-bs-target="#exampleModal" class="text-decoration-none">
+										<span
+										class="ui-button-icon-left ui-icon ui-c pi pi-bars icon-change-white"></span>
+										<span class="ui-button-text ui-c"></span>
+									</a>
+
+								</button>
+
+
+								<a class="text-decoration-none" href="/index"> <img
+									src="/resources/images/logo.png" alt="" width="100" />
+								</a>
+							</div>
+
+						</div>
+
+
+
+
+						<div class="col-auto order-md-1">
+						<h:form id="navform">
+							<ul class="navbar-nav navbar-nav-icons flex-row me-n2">
+								<li class="nav-item"><p:button outcome="/application/index"
+										styleClass="rounded-button ui-button-info ui-button-flat"
+										icon="pi pi-heart icon-change" id="heart" type="button">
+										<f:param name="gcmid" value="200" />
+									</p:button></li>
+
+
+
+								<li class="nav-item dropdown">
+								
+								<p:commandButton id="person"
+										type="button" icon="pi pi-user  icon-change"
+										styleClass="rounded-button ui-button-info ui-button-flat" />
+								
+									<p:tieredMenu overlay="true" trigger="person" my="left top"
+										at="left bottom" style="width:200px">
+
+
+										<p:menuitem rendered="#{activeUser.isPresent()}"
+											value="Editar Perfil" outcome="index">
+
+											<p:graphicImage id="proimg2" style="border-radius: 50%"
+												width="40" height="40"
+												rendered="#{userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().isPresent()}"
+												value="#{userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().get().getValue()}" />
+
+											<p:graphicImage id="proimg" style="border-radius: 50%"
+												width="28" height="21"
+												rendered="#{!userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().isPresent()}"
+												value="/resources/images/avatar.webp" />
+												#{''}<p:outputLabel rendered="#{activeUser.isPresent()}"
+												value="#{userEntityBean.person.username}" />
+
+										</p:menuitem>
+										<p:divider />
+
+
+										<p:menuitem rendered="#{activeUser.isPresent()}"
+											value="Editar Perfil" icon="pi pi-user-edit"
+											outcome="/application/index">
+											<o:pathParam value="812019512814714240" />
+										</p:menuitem>
+
+										<p:menuitem rendered="#{activeUser.isPresent()}"
+											value="Alterar Avatar" icon="pi pi-image"
+											outcome="/application/index">
+											<o:pathParam value="812019512816145791" />
+										</p:menuitem>
+
+										<p:menuitem rendered="#{activeUser.isPresent()}"
+											value="Meus Endereços" icon="fas fa-address-card"
+											outcome="/application/index">
+											<o:pathParam value="812019512816998782" />
+										</p:menuitem>
+
+										<p:menuitem rendered="#{activeUser.isPresent()}"
+											value="Meus Pedidos" icon="pi pi-box"
+											outcome="/application/index">
+											<o:pathParam value="812019512816118141" />
+										</p:menuitem>
+
+										<p:menuitem rendered="false" value="Mensagens"
+											icon="far fa-comments" outcome="/application/index">
+											<o:pathParam value="812019512818660707" />
+										</p:menuitem>
+
+										<p:menuitem rendered="#{not activeUser.isPresent()}"
+											value="Criar uma Conta" icon="fa fa-sign-in"
+											outcome="/signup">
+										</p:menuitem>
+
+										<p:divider />
+										<p:menuitem rendered="#{activeUser.isPresent()}" value="Sair"
+											icon="fa fa-sign-out" action="#{logoutBacking.logout}">
+
+										</p:menuitem>
+
+										<p:menuitem rendered="#{not activeUser.isPresent()}"
+											value="Entrar" icon="fa fa-sign-in" outcome="/login">
+
+										</p:menuitem>
+
+									</p:tieredMenu></li>
+
+								<li class="nav-item dropdown"><ui:remove>
+										<p:overlayPanel for="cart-ext" style="width:350px">
+										</p:overlayPanel>
+									</ui:remove> <p:button outcome="/ecommerce/index"
+										styleClass="rounded-button ui-button-info ui-button-flat"
+										icon="pi pi-shopping-cart icon-change" id="cart-ext"
+										type="button">
+									
+												<o:pathParam value="812019512810456415" />
+										
+									</p:button></li>
+							</ul>
+</h:form>
+						</div>
+
+
+						<div class="col-12 col-md-6">
+							<div class="search-box ecommerce-search-box w-100">
+								<h:form class="form-inline position-relative"
+									data-bs-toggle="search" data-bs-display="static">
+									<ui:fragment
+										rendered="#{abstractIdentityBean.gcmid ne abstractIdentityBean.abstractIdentityEntity.strings.at('/gcmid-ecommerce').asText()}">
+										<div class="input-group mb-3">
+											<p:inputText type="search" id="globalSearch1s"
+												styleClass="form-control search-input search form-control-sm"
+												value="#{productBean.globalSearch}"
+												placeholder="O que você procura?">
+												<p:ajax event="search"
+													listener="#{productBean.processSearch()}" />
+											</p:inputText>
+
+											<p:commandButton ajax="false" id="globalFilter0"
+												value="Buscar" styleClass="ui-button-danger"
+												action="#{productBean.ecommerceRedirect()}">
+											</p:commandButton>
+										</div>
+									</ui:fragment>
+									<ui:fragment
+										rendered="#{abstractIdentityBean.gcmid eq abstractIdentityBean.abstractIdentityEntity.strings.at('/gcmid-ecommerce').asText()}">
+										<div class="input-group mb-3">
+											<p:inputText type="search" id="globalSearch1"
+												styleClass="form-control search-input search form-control-sm"
+												value="#{productBean.globalSearch}"
+												placeholder="O que você procura?">
+												<p:ajax event="search" update="thing_0:form"
+													listener="#{productBean.processSearch()}" />
+											</p:inputText>
+
+											<p:commandButton id="globalFilter1" value="Buscar"
+												styleClass="ui-button-danger" update="thing_0:form"
+												action="#{productBean.processSearch()}">
+											</p:commandButton>
+										</div>
+									</ui:fragment>
+								</h:form>
+							</div>
+						</div>
+
+
+
+					</div>
+				</nav>
+			</div>
+
+
+
+
+
+
+
+
+			<ui:insert name="header" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</header>
+
+
+
+
+
+		<main>
+
+			<ui:insert name="main" />
+		</main>
+
+		<ui:insert name="content" />
+
+		
+
+		<script src="/themes/bs5-ecommerce/popper/popper.min.js"></script>
+
+		<script src="/themes/bs5-ecommerce/dist/js/bootstrap.min.js"></script>
+
+		<script src="/themes/bs5-ecommerce/feather.min.js"></script>
+       <!-- 
+		<script
+			src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll">
+			</script>
+			 -->
+		<script>
+    feather.replace()
+  </script>
+
+		<!-- SPLIDE JS LINK-->
+		<script src="/themes/bs5-ecommerce/splide/dist/js/splide.min.js"></script>
+		<script
+			src="/themes/bs5-ecommerce/splide/splide-extension-auto-scroll.min.js"></script>
+		<!-- JS-COOKIES-->
+		<script src="/themes/bs5-ecommerce/cookie/js.cookie.min.js
+"></script>
+
+		<!-- ionicon link -->
+		<script type="module"
+			src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+		<script type="module"
+			src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+	
+		<script>
+		document.addEventListener("DOMContentLoaded", function()
+		{
+		  document.querySelector(".spinner-wrapper").style.opacity= "0";
+		  setTimeout(function(){
+		    document.querySelector(".spinner-wrapper").style.display = "none";
+		  }, 2000); 
+		});
+
+
+
+		setTimeout(function () {
+		$("#modal2").modal("show");
+		}, 3500);
+
+		function closeItem() {
+		 // $("#modal2").modal("hide");
+		}
+
+		
+		</script>
+
+	</h:body>
+</f:view>
+</html>

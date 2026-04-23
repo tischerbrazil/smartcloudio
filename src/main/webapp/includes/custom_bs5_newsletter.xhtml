@@ -1,0 +1,121 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	
+<style>
+.newsletter {
+    padding: 50px 0;
+    background: #090bb7;
+}
+
+
+.newsletter .contentLarge {
+
+max-width: 650px;
+margin: 0 auto;
+text-align: center;
+position: relative;
+z-index: 2;
+
+ }
+
+ .content-tuned{
+
+    margin-bottom: 34px !important;
+    color: #fff;
+ }
+
+
+ h2 {
+    color: #fff;
+    margin-bottom: 6px;
+ }
+  h3 {
+    color: #fff;
+ }
+ 
+.form-control {
+    height: 50px;
+    border-color: #ffffff;
+    border-radius: 2px 0px 0px 2px;
+}
+
+
+.form-control:focus {
+box-shadow: none !important;
+border: 2px solid #243c4f;
+border-color: none;
+
+}
+
+
+.btn {
+min-height: 50px; 
+border-radius:0;
+background: #243c4f;
+color: #fff;
+font-weight:300;
+}
+
+.btn:hover {
+
+background: red;
+color: #fff
+
+}
+
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0rem rgba(0,123,255,.25) !important;
+}
+
+.unsubscribe-link{
+	text-decoration: none !important;
+	
+	font-size: 13px;
+	color: #fff; 
+}
+
+.unsubscribe-link:hover{
+	text-decoration: none !important;
+
+	color: #fff;
+	
+}
+</style>
+	
+<div class="newsletter">
+<div class="container">
+<div class="row">
+<div class="col-sm-12">
+    <div class="contentLarge">
+        <h2>Receba nossas promoções e ofertas</h2>
+        
+        <h5 class="content-tuned">Ao se increver você recebera um cupom com direito a 10% na sua primeira compra
+        </h5>
+    	<div class="input-group">
+         <input type="email" class="form-control" placeholder="Entre com seu email ou telefone"/>
+         <span class="input-group-btn"/>
+         <button class="btn" type="submit">Quero receber</button>
+
+         
+          </div>
+       
+           
+    </div>
+
+</div>
+</div>
+</div>
+</div>
+         
+
+	
+</ui:composition>

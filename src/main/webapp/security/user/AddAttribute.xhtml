@@ -1,0 +1,180 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="addAttribForm" prependId="true">
+
+		<p:messages id="messages" closable="true" redisplay="false"
+		showSummary="true" showDetail="true">
+			<p:autoUpdate />
+		</p:messages>
+
+		<p:wizard id="wiza" flowListener="#{userEntityBean.onFlowProcess}"
+			widgetVar="wiz" showNavBar="false">
+
+			<p:tab id="personal" title="Nome do Atributo">
+			
+			
+			
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="row clearfix">
+						<div class="col-md-6">
+							<b>Tipo de Attributo</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">layers</i>
+								</span>
+								<div class="form-line">
+									<p:selectOneMenu id="layerchoose" class="form-control"
+										required="true" requiredMessage="Tipo Requerido!"
+										value="#{userEntityBean.attributeTypeChose}">
+										<f:selectItem itemValue="text" itemLabel="TEXTO" />
+										<f:selectItem itemValue="image" itemLabel="IMAGEM" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<b>Nome</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">label_outline</i>
+								</span>
+								<div class="form-line">
+									<p:inputText requiredMessage="Nome Requerido!" required="true"
+										styleclass="form-control" value="#{userEntityBean.attribName}" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				
+
+				<p:commandButton value="Próximo"
+					update="addAttribForm:wiza,addAttribForm:messages"
+					oncomplete="handleAddAttrib(xhr, status, args)"
+					actionListener="#{userEntityBean.validateName}" />
+					
+					
+					
+			</p:tab>
+
+			<p:tab id="upload" rendered="#{userEntityBean.skip}" 
+			title="Upload do Arquivo">
+				<p:fileUpload listener="#{userEntityBean.importImgAttrib}"
+					cancelLabel="Cancelar" label="Arquivo" uploadLabel="Enviar"
+					mode="advanced" dragDropSupport="false"
+					oncomplete="PF('imagePointDialog2').hide();PF('wiz').next();"
+					update=":userForm,:userForm:message"  allowTypes="/(\.|\/)(gif|svg|tif|jpe?g|png)$/" />
+			</p:tab>
+
+			<p:tab id="confirm" title="Valor do Atributo">
+
+				
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="row clearfix">
+						
+						<h:panelGroup rendered="#{userEntityBean.attributeTypeChose == 'text'}" id="textv">
+						<div class="col-md-12">
+							<b>Valor</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">label_outline</i>
+								</span>
+								<div class="form-line">
+									<p:inputText requiredMessage="Nome Requerido!" required="true"
+										styleclass="form-control" value="#{userEntityBean.attribValue}" />
+								</div>
+							</div>
+						</div>
+						<p:commandButton value="CONFIRMAR"
+					update=":userForm :addAttribForm"  
+					oncomplete="handleAddAttribConf(xhr, status, args, PF('wiz'))"
+					actionListener="#{userEntityBean.saveAttrib}" />
+				 #{''}
+              <p:commandButton value="Cancelar"
+					oncomplete="resetWizard(args, PF('wiz'));" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{userEntityBean.attributeTypeChose == 'image'}" id="imgv">
+						<div class="col-md-12">
+							<b>Value</b>
+							<div class="input-group">
+								<p:graphicImage style="width: 150px; height: 150px;"
+								class="js-animating-object img-responsive" 
+								value="#{userEntityBean.attribValue}" />
+								
+								
+				
+							</div>
+						</div>
+						<p:commandButton value="CONFIRMAR IMAGEM"
+					update=":userForm :addAttribForm"  
+					oncomplete="handleAddAttribConf(xhr, status, args, PF('wiz'))"
+					actionListener="#{userEntityBean.confirmAttrib}" />
+					 #{''}
+              <p:commandButton value="Cancelar"
+					oncomplete="resetWizard(args, PF('wiz'));" />
+						</h:panelGroup>
+						
+					</div>
+				</div>
+
+				
+				
+				
+				
+				
+             
+            
+
+			</p:tab>
+		</p:wizard>
+
+	</h:form>
+	<p:dialog header="Envio de Imagem" width="600" height="400"
+		widgetVar="imagePointDialog2" resizable="false">
+	</p:dialog>
+
+	<h:outputScript id="addAttib" target="body">
+	/* <![CDATA[ */
+    function handleAddAttrib(xhr, status, args) {
+     	if(!args.validationFailed) { 
+      		PF('wiz').next();
+        }
+    }
+    function handleAddAttribConf(xhr, status, args, wizard) {
+     	if (!args.validationFailed)
+    	{
+    		console.log("--------AA-------------");
+        	var firstStep = wizard.cfg.steps[0];
+        	console.log("--------" + firstStep);
+        	if (wizard.currentStep != firstStep)
+        	console.log("--------FF----------");
+            	wizard.loadStep(firstStep, true);
+            	PF('addAttribDialog').hide();
+    	}
+    }
+    function resetWizard(args, wizard)
+	{
+    	if (!args.validationFailed)
+    	{
+        	var firstStep = wizard.cfg.steps[0];
+        	if (wizard.currentStep != firstStep)
+            	wizard.loadStep(firstStep, true);
+            	PF('addAttribDialog').hide();
+    	}
+	}
+	/* ]]> */
+</h:outputScript>
+</ui:composition>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="sementes.svg"
+   width="16"
+   height="16"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1294"
+     inkscape:window-height="704"
+     id="namedview6"
+     showgrid="false"
+     inkscape:zoom="22.627417"
+     inkscape:cx="7.0844653"
+     inkscape:cy="7.4338834"
+     inkscape:window-x="72"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <path
+     d="m 3.3713372,-4.3947e-4 c 2.2655352,0 4.2312446,1.21435767 5.2191526,2.99466837 C 9.5817671,1.6670012 11.212278,0.80006 13.056712,0.80006 h 2.947719 v 2.0012486 c 0,2.8737928 -2.450818,5.2032464 -5.474339,5.2032464 H 9.2667816 V 8.8050545 H 13.477813 V 14.40855 c 0,0.884552 -0.753776,1.600999 -1.684412,1.600999 H 5.0557502 c -0.9306383,0 -1.684413,-0.716447 -1.684413,-1.600999 V 8.8050545 H 7.5823687 V 7.2040555 H 5.8979563 c -3.2559698,0 -5.89544425,-2.5087652 -5.89544425,-5.603496 V -4.3947e-4 Z M 11.793401,10.406055 H 5.0557502 v 4.002495 h 6.7376508 z m 2.526617,-8.004996 h -1.263306 c -2.092884,0 -3.7899304,1.6130063 -3.7899304,3.6022473 v 0.4002498 h 1.2633104 c 2.092883,0 3.789926,-1.6130064 3.789926,-3.6022475 z M 3.3713372,1.6005595 H 1.6869248 c 0,2.2101788 1.8856997,4.0024971 4.2110315,4.0024971 h 1.6844124 c 0,-2.2101787 -1.8856998,-4.0024971 -4.2110315,-4.0024971 z"
+     id="path2"
+     inkscape:connector-curvature="0"
+     style="fill:#ff0000;stroke-width:0.82108814" />
+</svg>

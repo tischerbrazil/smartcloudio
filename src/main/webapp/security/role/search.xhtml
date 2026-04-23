@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+
+
+	<ui:define name="content">
+	
+	<p:growl skipDetailIfEqualsSummary="true" id="messages" showSummary="true"  
+		showDetail="true" >  <p:autoUpdate/>
+		</p:growl>
+
+		<section class="content">
+		<div class="container-fluid">
+			
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="card">
+						<div class="body">
+							<h:form id="idx">
+								<p:growl showDetail="true"  
+									showSummary="true"
+										id="message"  life="3000" />
+								<p:tabView id="tablayer">
+
+									
+
+
+									<p:tab title="Regras do Reino">
+										<p:dataTable rendered="true" id="clients"
+											emptyMessage="Nenhuma Regra Encontrada!" var="_role"
+											value="#{roleEntityBean.allRealmRoles}"
+											rowIndexVar="rowIndex" reflow="true">
+											<f:facet name="header">Roles on Server Auth</f:facet>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="#" />
+												</f:facet>
+												<h:outputText value="#{rowIndex + 1}" />
+											</p:column>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Nome" />
+												</f:facet>
+												<h:outputText value="#{_role.name}" />
+											</p:column>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Descrição" />
+												</f:facet>
+												<h:outputText value="#{_role.description}" />
+											</p:column>
+										</p:dataTable>
+									</p:tab>
+
+									<p:tab title="Regras Padrão">
+									
+									</p:tab>
+								</p:tabView>
+
+								
+
+							</h:form>
+							<h:form rendered="false">
+								<p:commandButton value="Open" icon="fa fa-close"
+									oncomplete="PF('searchDialog').show()" />
+
+							</h:form>
+
+
+
+							<p:dialog header="Search cars" widgetVar="searchDialog"
+								height="400" modal="true" width="500">
+					DIALOG TEST
+	
+       	 </p:dialog>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+
+	</ui:define>
+
+
+</ui:composition>

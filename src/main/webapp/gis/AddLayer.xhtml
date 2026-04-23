@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="addLayerForm">
+	
+
+		
+		<p:wizard id="wiza"
+			flowListener="#{applicationEntityBean.onFlowProcess}" widgetVar="wiz"
+			showNavBar="false">
+
+			<p:tab id="personal" title="Básico">
+			
+
+
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="row clearfix">
+						<div class="col-md-6">
+							<b>Tipo de Camada</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">layers</i>
+								</span>
+								<div class="form-line">
+									<p:selectOneMenu id="layerchoose" class="form-control"
+										required="true" requiredMessage="Tipo Requerido!"
+										value="#{applicationEntityBean.layerWizard.layerTypeChose}">
+										<f:selectItem itemLabel="SELECIONE" noSelectionOption="false" />
+										<f:selectItem itemValue="POINT" itemLabel="POINT" />
+										<f:selectItem itemValue="POLYGON" itemLabel="POLYGON" />
+										<f:selectItem itemValue="LINESTRING" itemLabel="LINESTRING" />
+										<f:selectItem itemValue="MULTIPOLYGON" itemLabel="MULTIPOLYGON" />
+										<f:selectItem itemValue="GROUP" itemLabel="GRUPO" />
+										
+									</p:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<b>Nome da Camada</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">label_outline</i>
+								</span>
+								<div class="form-line">
+									<p:inputText requiredMessage="Nome Requerido!" required="true"
+										styleclass="form-control"
+										value="#{applicationEntityBean.layerWizard.layerName}">
+
+									</p:inputText>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<p:commandButton value="Próximo" update="message"
+					onclick="PF('wiz').next();" />
+ 				#{''}
+
+        </p:tab>
+
+			
+
+			<p:tab id="confirm" title="confirm">
+				
+				<p:commandButton value="Adicionar"
+					oncomplete="handleAddLayer(xhr, status, args)"
+					actionListener='#{applicationEntityBean.layerSelectListener}'
+					update="layersForm2 message" />
+
+			</p:tab>
+		</p:wizard>
+
+
+
+
+	</h:form>
+
+	<p:dialog header="Envio de Imagem" width="600" height="400"
+		widgetVar="imagePointDialog2" resizable="false">
+	</p:dialog>
+
+
+
+</ui:composition>

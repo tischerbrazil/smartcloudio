@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+    > 
+	
+	<f:metadata>
+		<f:event type="preRenderView" listener='#{abstractGeometryBean.retrieve}'/>
+		<f:viewParam name="objectId" value='#{abstractGeometryBean.id}'/> 
+	</f:metadata>
+	
+	<ui:define name="title">Mapa Cultural</ui:define>
+	
+	<ui:define name="h1"></ui:define>
+	
+	<ui:define name="navbar_top">
+    	  <ui:include src="#{abstractIdentityBean.abstractIdentityEntity.template}/menu_top.xhtml"/> 
+	</ui:define>
+	
+	<ui:define name="sidebar_left">
+    	 <ui:include src="#{abstractIdentityBean.abstractIdentityEntity.template}/menu_left.xhtml"/> 
+	</ui:define>
+	
+	<ui:define name="sidebar_right">
+    	  <ui:include src="#{abstractIdentityBean.abstractIdentityEntity.template}/menu_right.xhtml"/> 
+	</ui:define>
+	
+	
+	<ui:define name="content">
+    <section class="content">
+        <div class="container-fluid">
+			
+            <div class="row clearfix"> 
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                    <div class="card">
+                        <div class="body">
+                        <h:form>
+                         	<p:messages id="messages" showDetail="true" showSummary="true"/>
+							<ui:repeat id="contentBeanPageItems" var="_itemData"
+	       						value="#{abstractGeometryBean.tableDataShape}" >
+                        		<div>
+                        		<h1>#{_itemData['Nome'].value}<p:graphicImage  rendered="#{_itemData['Imagem'].value != null}" 
+	       						 value="#{_itemData['Imagem'].value}"  class="content_img js-animating-object img-responsive" /></h1>
+	       						 <h4><h:outputLabel escape="false" value="#{_itemData['Título'].value}"/></h4>
+                        		<hr/>
+                        
+								<h:outputText escape="false" value="#{_itemData['Texto'].value}" />
+								</div>
+                			</ui:repeat> 
+                			
+              				<p:button  class="btn btn-primary" 
+		 	 					outcome="/administrator/layer_view" style="margin-left: 10px"  value="Voltar"/>
+									
+		 	 				<p:button  class="btn btn-primary" 
+		 	 					outcome="/administrator/content_edit" style="margin-left: 10px"  value="Editar">
+		 	 					<f:param name="objectId" value="#{abstractGeometryBean.id}"/>
+		 	 					</p:button>
+
+							</h:form>
+	               		</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   
+	</ui:define>
+	
+	 
+</ui:composition>

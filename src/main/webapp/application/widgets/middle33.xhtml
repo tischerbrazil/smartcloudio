@@ -1,0 +1,558 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html">
+    
+	/**
+	* ----------------------- MIDDLE START ------------------------
+	*/
+
+<ui:repeat var="layer" value="#{applicationEntityBean.applicationEntity.layers}">
+<h:panelGroup rendered="#{layer.dtype == 'linestring'}" >
+var source<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.source.Vector({
+	loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/linestrings/#{layer.uuid}',{
+			type: 'GET',
+			data: {
+				typename: 'l<h:outputText value="#{layer.layerToString()}" escape="true" />',
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				source<h:outputText value="#{layer.layerToString()}" escape="true" />.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+	});
+	var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.layer.Vector({
+	<h:outputText value="minResolution: #{layer.minres}," escape="true" />
+	<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	source: source<h:outputText value="#{layer.layerToString()}" escape="true" />,
+	name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	title: '<h:outputText value="#{layer.title}" escape="true" />',
+	style: <h:outputText rendered="#{layer.scriptStyle != 'symbol'}" value="psf#{layer.layerToString()}" escape="true" />
+	});
+</h:panelGroup>
+<h:panelGroup rendered="#{layer.dtype == 'point'}" >
+
+var source<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.source.Vector({
+	loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/points/#{layer.uuid}',{
+			type: 'GET',
+			data: {
+				typename: 'l<h:outputText value="#{layer.layerToString()}" escape="true" />',
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				source<h:outputText value="#{layer.layerToString()}" escape="true" />.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+	});
+
+
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.layer.Vector({
+	<h:outputText value="minResolution: #{layer.minres}," escape="true" />
+	<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	source: source<h:outputText value="#{layer.layerToString()}" escape="true" />,
+	name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	title: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	style: <h:outputText rendered="#{layer.scriptStyle == 'imagem'}"  value="createVPointStyleFunction()" escape="true" />
+			<h:outputText rendered="#{layer.scriptStyle == 'x'}"  value="FAstyle()" escape="true" />
+			<h:outputText rendered="#{layer.scriptStyle == 'symbol'}"   value="getStyle#{layer.layerToString()}" escape="true" />
+			<h:outputText rendered="#{layer.scriptStyle != 'imagem' and layer.scriptStyle != 'x' and layer.scriptStyle != 'symbol'}" value="psf#{layer.layerToString()}" escape="true" />
+	});
+	function getFeatureStyle<h:outputText value="#{layer.layerToString()}" escape="true" /> (feature)
+		{	
+		var theGlyph = feature.get('iconflag');
+		var st= [];
+		// Shadow style
+		if (true) st.push ( new ol.style.Style(
+					{	image: new ol.style.Shadow(
+						{	radius: 15,
+							blur: 5,
+							offsetX: 0,
+							offsetY: 0,
+							fill: new ol.style.Fill(
+							{	color: "rgba(0,0,0,0.5)"
+							})
+						})
+					}));
+		// Font style
+		st.push ( new ol.style.Style(
+					{	image: new ol.style.FontSymbol(
+						{	
+							form: 'circle', 
+							gradient: true,
+							glyph: theGlyph, 
+							fontSize: 0.8,
+							radius: 30, 
+							//offsetX: -15,
+							rotation: 0,
+							rotateWithView: false,
+							offsetY: 0 ,
+							color: '#FFFF33',
+								fill: new ol.style.Fill(
+							{	color: '#0000FF'
+							}),
+							stroke: new ol.style.Stroke(
+							{	color: '#00FF00',
+								width: 3
+							})
+						}),
+							stroke: new ol.style.Stroke(
+						{	width: 2,
+							color: '#f80'
+						}),
+						fill: new ol.style.Fill(
+						{	color: [255, 136, 0, 0.6]
+						})
+					
+					}));
+			return st;
+	}
+	function getStyle<h:outputText value="#{layer.layerToString()}" escape="true" />(feature, resolution) 
+	{	var s = getFeatureStyle<h:outputText value="#{layer.layerToString()}" escape="true" />(feature);
+		return s;
+	};
+</h:panelGroup>
+
+<h:panelGroup rendered="#{layer.dtype == 'polygon'}" >
+var source<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.source.Vector({
+	loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/polygons/#{layer.uuid}',{
+			type: 'GET',
+			data: {
+				typename: 'l<h:outputText value="#{layer.layerToString()}" escape="true" />',
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				source<h:outputText value="#{layer.layerToString()}" escape="true" />.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+	});
+
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.layer.Vector({
+	<h:outputText value="minResolution: #{layer.minres}," escape="true" />
+	<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	source: source<h:outputText value="#{layer.layerToString()}" escape="true" />,
+	name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	title: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	style: <h:outputText rendered="#{layer.scriptStyle != 'symbol'}" value="psf#{layer.layerToString()}" escape="true" />
+	});
+</h:panelGroup>
+
+
+
+
+<h:panelGroup rendered="#{layer.dtype == 'multipolygon'}" >
+	var source<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.source.Vector({
+		url: restwork + '/api/oauth2/multipolygons/#{layer.uuid}',
+		projection: projectionCode,
+ 		crossOrigin: 'anonymous',
+		format: new ol.format.GeoJSON()
+	});
+
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.layer.Vector({
+	visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	source: source<h:outputText value="#{layer.layerToString()}" escape="true" />,
+	name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	title: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	style: <h:outputText rendered="#{layer.scriptStyle != 'symbol'}" value="psf#{layer.layerToString()}" escape="true" />
+	});
+</h:panelGroup>
+
+
+
+<h:panelGroup rendered="#{layer.dtype == 'tile'  and layer.strings.at('/type').asText() == 'HERE'     }" >
+var	apiKey = '#{layer.strings.at('/apiKey').asText()}';
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = 
+	new ol.layer.Tile({
+		  <h:outputText value="minResolution: #{layer.minres}," escape="true" />
+		  <h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	      visible: <h:outputText value="#{layer.selected}" escape="true" />,
+          name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+          <h:panelGroup rendered="#{layer.strings.at('/imagerySet').asText() == 'satellite.day'}" >
+          source: new ol.source.XYZ({
+                 url: 'https://{1-4}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/#{layer.strings.at('/imagerySet').asText()}/{z}/{x}/{y}/256/png8?apiKey=' + apiKey
+          </h:panelGroup>
+          
+          <h:panelGroup rendered="#{layer.strings.at('/imagerySet').asText() == 'normal.day'}" >
+          source: new ol.source.XYZ({
+                 url: 'https://{1-4}.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/#{layer.strings.at('/imagerySet').asText()}/{z}/{x}/{y}/256/png8?apiKey=' + apiKey
+          </h:panelGroup>
+		})
+      });	
+
+</h:panelGroup>	
+
+
+<h:panelGroup rendered="#{layer.dtype == 'tile'  and layer.strings.at('/type').asText() == 'BING'     }" >
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = 
+	new ol.layer.Tile({
+		  <h:outputText value="minResolution: #{layer.minres}," escape="true" />
+		  <h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	      visible: <h:outputText value="#{layer.selected}" escape="true" />,
+          name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+          preload: 'Infinity',
+          source: new ol.source.BingMaps	({
+            key: 'AvADKxRtJyL-w30Q3n4cWnCUlQbJiYi6TtvuX-RiRL2tuuqS8myB0zniVhr7_cx2',
+            imagerySet: 'Aerial'
+          })
+      });	
+</h:panelGroup>	
+
+ 
+<h:panelGroup rendered="#{layer.dtype == 'layervector'}" >
+<h:outputText value="#{layer.scriptStyle}" escape="false" />
+</h:panelGroup>	
+
+     
+  	<h:panelGroup rendered="#{layer.dtype == 'rastergeoserver'}" >
+
+
+
+
+
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = 
+new ol.layer.Tile({
+
+  		visible: <h:outputText value="#{layer.selected}" escape="true" />,
+  		name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+        source: new ol.source.TileWMS({
+          ratio: 1,
+          url: url + '/' + workspace + '/wms',
+          params: {'FORMAT': format,
+                   'VERSION': '1.1.1',  
+                "LAYERS": workspace + ':#{layer.layerString()}',
+                "exceptions": 'application/vnd.ogc.se_inimage',
+          }
+        })
+      });
+<h:outputText value="#{layer.scriptStyle}" escape="false" />
+</h:panelGroup>	
+</ui:repeat>
+  	
+  		
+  		
+      
+
+      var mousePositionControl = new ol.control.MousePosition({
+        className: 'custom-mouse-position',
+        target: document.getElementById('location'),
+        coordinateFormat: ol.coordinate.createStringXY(5),
+        undefinedHTML: ' '
+      });
+  	
+  	 var projection = new ol.proj.Projection({
+          code: projectionCode,
+          units: unitsCode,
+          axisOrientation: 'neu',
+          global: true
+      });
+      var viewNew = new ol.View({
+    	zoom: zoom,
+    	center: center,
+       	projection: projection,
+   
+    <h:outputText value="minResolution: #{applicationEntityBean.applicationEntity.minres}," escape="true" />
+	<h:outputText value="maxResolution: #{applicationEntityBean.applicationEntity.maxres}" escape="true" />
+  	});
+  	
+  	
+  	function changeLayerStyle (layname, stylejson,  geomstylejson) {
+
+	 svaa5f6a384d7854e65a068ae26eb279c9c = geomstylejson;
+
+	 sva5f6a384d7854e65a068ae26eb279c9c = stylejson;
+
+}
+
+var addWmsLayer = function (layname) {
+var layer33 = 
+new ol.layer.Tile({
+
+  		visible: true,
+  		name: layname,
+        source: new ol.source.TileWMS({
+          ratio: 1,
+           url: url + '/' + workspace + '/wms',
+          params: {'FORMAT': format,
+                   'VERSION': '1.1.1',  
+                "LAYERS": workspace + ':' + layname,
+                "exceptions": 'application/vnd.ogc.se_inimage',
+          }
+        })
+      });
+      
+      this.map.addLayer(layer33);
+
+};
+
+var addWmsLayer2 = function (layname) {
+
+
+    var params = {
+        url: url + '/' + workspace + '/wms',
+        params: {
+            layers: workspace + ':' + layname,
+            format: 'image/png'
+        }
+    };
+    var layer;
+    var tiled = true; 
+    if (tiled) {
+        layer = new ol.layer.Tile({
+            visible: true,
+            source: new ol.source.TileWMS(params),
+            name: layname
+        });
+    } else {
+        layer = new ol.layer.Tile({
+           visible: true,
+            source: new ol.source.TileWMS(params),
+            name: layname
+        });
+    }
+
+
+
+    this.map.addLayer(layer);
+
+};
+  	
+  	
+  	var googleLayerRoadNames=new ol.layer.Tile({
+    title: "Google Road Names",
+    	source: new ol.source.TileImage({ url: 'http://mt1.google.com/vt/lyrs=h<h:outputText
+		value="&amp;" escape="false" />x={x}<h:outputText
+		value="&amp;" escape="false" />y={y}<h:outputText
+		value="&amp;" escape="false" />z={z}' }),
+	});
+	
+	var google2 = new ol.layer.Tile({
+    title: "Google 2",
+    	source: new ol.source.TileImage({ url: 'http://mt1.google.com/vt/lyrs=h<h:outputText
+		value="&amp;" escape="false" />x={x}<h:outputText
+		value="&amp;" escape="false" />y={y}<h:outputText
+		value="&amp;" escape="false" />z={z}' }),
+	});
+	
+	var	apiKey = 'OSGY-jRX5dLdVbw3z9QS0fYXDN-YBCAdTxrI8vrEnAI';
+	
+	
+
+  	
+  	
+    var map = new ol.Map({
+        controls: ol.control.defaults({
+          attribution: false,
+          zoom: false
+        }).extend([mousePositionControl]),
+        target: 'map',
+        layers: [  <ui:repeat var="layer" value="#{applicationEntityBean.applicationEntity.layers}">
+	<h:panelGroup rendered="#{layer.dtype ne 'Point	'}">
+layer<h:outputText value="#{layer.layerToString()}" escape="true" />,
+</h:panelGroup></ui:repeat>
+          
+        ],
+        view: viewNew
+      });
+      
+      var METERS_PER_UNIT = {
+  		'm': 1,
+  		'degrees': 111194.87428468118
+	  };
+	  
+		var DOTS_PER_INCH = 72;
+		
+      	function roundToTwo(num) {    
+    		return +(Math.round(num + "e+2")  + "e-2");
+		}
+      
+      map.getView().on('change:resolution', function(evt) {
+        var resolution = evt.target.get('resolution');
+        var units = map.getView().getProjection().getUnits();
+        var dpi = 25.4 / 0.28;
+        var mpu = METERS_PER_UNIT[units];
+        var scale = (resolution * mpu * 39.37 * dpi) ;
+        var res = map.getView().getResolution();
+        var zom = map.getView().getZoom();
+        document.getElementById('scale').innerHTML = "Scale = 1 : " + roundToTwo(scale) + "  Res: " + res + " Zoom: " + zom;
+      });
+ 
+
+
+        /**
+       * BindInputs.
+       * @type {string}
+       */
+	function bindInputs(layerid, layer) {
+		//console.info("X LAYER--> " + layerid);
+		//console.info("Y LAYER--> " + layer);
+		//console.info("O LAYER--> " + layer.getOpacity());
+		//console.info("V LAYER--> " + layer.getVisible());
+		
+		var visibilityInput = $('#' +layerid + ' input.visible');
+  		visibilityInput.on('change', function() {
+			var checado = this.checked;
+    		layerSelected = layerid;
+
+    layer.setVisible(this.checked);
+  	});
+   		visibilityInput.prop('checked', layer.getVisible());
+  		//var opacityInput = $(layerid + ' input.opacity'); //FIXME
+  		var opacityInput = $('#' +layerid + ' input.opacity');
+  		opacityInput.on('input change', function() {
+    	layer.setOpacity(parseFloat(this.value));
+  			});
+  		opacityInput.val(String(layer.getOpacity()));
+	}
+
+	map.getLayers().forEach(function(layer, i) {
+		var lname = layer.get('name');
+		bindInputs( lname, layer);
+	});
+
+	var changeSRID = function () {
+	  	search('3857');
+	};
+		
+	var str33 = '{"nome":""}';
+	var fetchDataJson = function () {
+	  
+	$.ajax(restworkSufix,{
+		type: 'POST',
+		dataType: 'json',
+		processData: false,
+		contentType: 'application/json',
+		data: str33,
+		
+  success: function(data) {
+	},
+  error: function(jqXHR, textStatus, errorThrown) {
+     alert("Error in processing! "+ textStatus);
+  }
+        
+		}).done();
+
+	};
+	
+	
+	var fetchData33 = function () {
+	//console.info("INICIO-- " );
+	    map.getLayers().forEach(function(layer, i) {
+	   
+		var lname = layer.get('name');
+		//console.info("LAYER--> " + lname);
+		bindInputs( lname, layer);
+		
+	});
+	};
+	
+	
+		//$(document.getElementById('ribbonControl:btnDrawPoly')).addClass('ui-state-disabled');
+		//$(document.getElementById('ribbonControl:btnDrawLine')).addClass('ui-state-disabled');
+		//$(document.getElementById('ribbonControl:btnDrawVertex')).addClass('ui-state-disabled');
+
+
+
+
+	var fetchDataX = function (layerid) {
+	
+		extractValues = layerid.split("-");
+		var layertype = extractValues[1];
+		//$(document.getElementById('ribbonControl:btnDrawPoly')).addClass('ui-state-disabled');
+		//$(document.getElementById('ribbonControl:btnDrawLine')).addClass('ui-state-disabled');
+		//$(document.getElementById('ribbonControl:btnDrawVertex')).addClass('ui-state-disabled');
+
+		switch(layertype) {
+		case 'Point':
+			$(document.getElementById('ribbonControl:btnDrawVertex')).removeClass('ui-state-disabled');
+		break;
+		case 'MultiPolygon':
+			$(document.getElementById('ribbonControl:btnDrawPoly')).removeClass('ui-state-disabled');
+		break;
+		case 'Polygon':
+			$(document.getElementById('ribbonControl:btnDrawPoly')).removeClass('ui-state-disabled');
+		break;
+		case 'Linestring':
+			$(document.getElementById('ribbonControl:btnDrawLine')).removeClass('ui-state-disabled');
+		break;
+		}
+		var visibilityInput = $(layerid + ' input.visible');
+		layerSelected = layerid;
+	}
+
+
+	$('.btnMenu2').on('click', function(event) {
+		
+		var extractValues = new Array();
+		var layerid = $(this).attr('id');
+		extractValues = layerid.split("-");
+		var layertype = extractValues[1];
+		$(document.getElementById('ribbonControl:btnDrawPoly')).addClass('ui-state-disabled');
+		$(document.getElementById('ribbonControl:btnDrawLine')).addClass('ui-state-disabled');
+		$(document.getElementById('ribbonControl:btnDrawVertex')).addClass('ui-state-disabled');
+
+		switch(layertype) {
+		case 'Point':
+			$(document.getElementById('ribbonControl:btnDrawVertex')).removeClass('ui-state-disabled');
+		break;
+		case 'MultiPolygon':
+			$(document.getElementById('ribbonControl:btnDrawPoly')).removeClass('ui-state-disabled');
+		break;
+		case 'Polygon':
+			$(document.getElementById('ribbonControl:btnDrawPoly')).removeClass('ui-state-disabled');
+		break;
+		case 'Linestring':
+			$(document.getElementById('ribbonControl:btnDrawLine')).removeClass('ui-state-disabled');
+		break;
+		}
+		var visibilityInput = $(layerid + ' input.visible');
+		layerSelected = layerid;
+	});
+		
+	function afterLoad(xhr, status, args) {    
+   		objEdit([{name:'objectid', value: args.idobject}]);
+  	}
+  	
+  	
+  	
+  	
+	
+	
+	
+	
+	
+	
+	var fetchData555 = function () {
+	
+		 <ui:repeat var="refresh" value="#{applicationEntityBean.applicationEntity.layers}">
+<h:panelGroup rendered="#{refresh.dtype ne 'tile'}">
+<h:outputText value="source#{refresh.layerToString()}.clear()" escape="true" />;
+</h:panelGroup>
+</ui:repeat>
+		
+    jQuery.ajax(urlwfs,{
+    success: function (data, textStatus, jqXHR) {
+		$('.btnMenu').removeClass('blue');
+    	}});
+	};
+	
+	var showPF = function () {
+		PF('layerDialog').show();
+	}
+
+/**
+* ---------------------------- MIDDLE END ------------------------
+*/
+
+</ui:composition>

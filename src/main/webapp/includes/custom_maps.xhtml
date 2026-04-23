@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	<section class="content">
+		<script type="text/javascript"
+			src="https://maps.googleapis.com/maps/api/js?v=3&amp;key=AIzaSyBnfytiDmE5bQEf-aVAeGFV1e-U1j-kRYE"></script>
+		<div class="card">
+			<h:form prependId="false">
+				<p:gmap center="-10.8808,-61.9419" zoom="6" type="ROADMAP"
+					style="width:100%;height:460px" model="#{markersView.simpleModel}">
+
+					<p:ajax event="overlaySelect"
+						listener="#{markersView.onMarkerSelect}" />
+
+					<p:gmapInfoWindow id="infoWindow">
+						<p:outputPanel
+							style="text-align: center; display: block; margin: auto">
+
+
+							<br />
+							<h:outputText value="#{markersView.marker.title}" />
+
+							<h:outputText value="#{markersView.marker.data}" />
+
+
+
+						</p:outputPanel>
+					</p:gmapInfoWindow>
+				</p:gmap>
+			</h:form>
+		</div>
+	</section>
+
+
+</ui:composition>

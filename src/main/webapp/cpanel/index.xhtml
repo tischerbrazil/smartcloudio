@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html">
+<h:head>
+	<script type="text/javascript">
+	     var shema = '${request.scheme}'
+         var serverName = '${request.serverName}';
+         var prefix = 'vps';
+         var completa = shema + '://' + prefix + '.' + serverName + ":2083";
+         doSomethingInline(completa);
+         function doSomethingInline(variable) {
+        	window.location.href = variable;
+         }
+     </script>
+	<style>
+.content-source {
+	display: none
+}
+</style>
+</h:head>
+
+<h:body>
+
+</h:body>
+</html>

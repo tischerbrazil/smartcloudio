@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"> 
+	
+	<f:metadata>
+		<f:event type="preRenderView" listener='#{applicationMobileBean.retrieve}'/>
+		<f:viewParam name="id" value='#{applicationMobileBean.id}'/> 
+	</f:metadata>
+	
+	
+	
+	<ui:define name="content">
+	
+   <section class="slice py-8">
+        <div class="container py-5">
+			
+            <div class="row clearfix"> 
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+             
+                        <div class="body">
+
+		
+				<p:messages id="messages" showDetail="true" showSummary="true"/>
+                <h:form id="search">
+
+				<h:panelGrid columnClasses="label,component" columns="3">
+				
+				<h:outputLabel for="nome" value="Nome:"/>
+				<h:panelGroup>
+					<p:inputText id="nome" label="Nome" 
+					required="true" value="#{applicationMobileBean.applicationMobileEntity.name}"/>
+				</h:panelGroup>
+				<h:outputText/>
+				
+				<h:outputLabel for="title" value="Título:"/>
+				<h:panelGroup>
+					<p:inputText id="title" label="Título" 
+					required="false" value="#{applicationMobileBean.applicationMobileEntity.title}"/>
+				</h:panelGroup>
+				<h:outputText/>
+				
+				<h:outputLabel for="Locale" value="Local:"/>
+				<h:panelGroup>
+					<p:inputText id="locale" label="Locale" 
+					value="#{applicationMobileBean.applicationMobileEntity.locale}"/>
+				</h:panelGroup>
+				<h:outputText/>
+				
+								<h:outputLabel for="image" value="Image:"/>
+				<h:panelGroup>
+					<p:inputText id="image" label="Locale" 
+					value="#{applicationMobileBean.applicationMobileEntity.image}"/>
+				</h:panelGroup>
+				<h:outputText/>
+				
+				
+								<h:outputLabel for="template" value="Template:"/>
+				<h:panelGroup>
+					<p:inputText id="template" label="Template" 
+					value="#{applicationMobileBean.applicationMobileEntity.template}"/>
+				</h:panelGroup>
+				<h:outputText/>
+				
+				
+								<h:outputLabel for="desc" value="Descrição:"/>
+				<h:panelGroup>
+					<p:inputText id="desc" label="Descrição" 
+					value="#{applicationMobileBean.applicationMobileEntity.description}"/>
+				</h:panelGroup>
+				<h:outputText/>
+				
+				<h:outputLabel for="default" value="Padrão" />
+				<p:selectBooleanCheckbox  required="true" locale="pt_BR"
+					label="Default" id="default"
+					value="#{applicationMobileBean.applicationMobileEntity.default}" />
+				<h:outputText />
+				
+				<h:outputLabel for="enabled" value="Ativo" />
+				<p:selectBooleanCheckbox  required="true" locale="pt_BR"
+					label="Tipo" id="enabled"
+					value="#{applicationMobileBean.applicationMobileEntity.enabled}" />
+				<h:outputText />
+
+				<p:outputLabel value="Cliente"/>
+				<h:panelGroup>
+					<p:selectOneMenu  label="Cliente" 
+					converter="omnifaces.SelectItemsConverter" 
+					id="client" 
+					value="#{applicationMobileBean.applicationMobileEntity.clientEntity}">
+						
+						<f:selectItem 
+							itemLabel="#{applicationMobileBean.applicationMobileEntity.clientEntity.clientId}" 
+							itemValue="#{applicationMobileBean.applicationMobileEntity.clientEntity}"/>
+											
+						
+						
+						<f:selectItems itemLabel="#{_item.clientId}" itemValue="#{_item}" 
+							value="#{clientBean.all}" var="_item"/>
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:outputText/>
+				
+				<p:outputLabel value="Strings"/>
+				<h:panelGroup>
+					<p:inputTextarea name="strings"  converter="jsonConverter"
+					id="strings" value="#{applicationMobileBean.applicationMobileEntity.strings}" >
+					 
+					</p:inputTextarea>
+				</h:panelGroup>
+				<h:outputText/>
+
+				</h:panelGrid>
+				
+				<div class="buttons">
+				<h:commandLink value="Salvar" action='#{applicationMobileBean.update}' 
+					update="messages" styleClass="btn btn-primary"/>
+					#{''}
+				<c:choose>
+					<c:when test='#{!empty applicationMobileBean.id}'>
+						<h:link  value="Cancelar" outcome="/administrator/application_mobile_search" styleClass="btn btn-primary"/>
+						#{''}
+						<h:commandLink value="Excluir" action='#{applicationMobileBean.delete}' styleClass="btn btn-primary"/>
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancelar" outcome="/administrator/application_mobile_search" styleClass="btn btn-primary"/>
+					</c:otherwise>
+				</c:choose>
+				</div>
+			
+			
+				
+				</h:form>
+                        
+	               		
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   
+	</ui:define>
+	
+	 
+</ui:composition>

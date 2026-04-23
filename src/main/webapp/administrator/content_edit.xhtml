@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"> 
+	
+	<f:metadata>
+		<f:event type="preRenderView" listener='#{abstractGeometryBean.retrieve}'/>
+		<f:viewParam name="objectId" value='#{abstractGeometryBean.id}'/> 
+	</f:metadata>
+		
+	<ui:define name="content">
+    <section class="content">
+        <div class="container-fluid">
+			
+            <div class="row clearfix"> 
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                    <div class="card">
+                        <div class="body">
+                        	<p:messages id="messages" showDetail="true" showSummary="true"/>
+                       
+                       	<h:form id="pointForm">
+
+						<pe:dynaForm  style="width: 100%" id="dynaForm" value="#{abstractGeometryBean.model}"
+								var="data">
+								<f:facet name="buttonBar">
+								<div align="right">
+									<p:commandButton value="Enviar"
+										action="#{abstractGeometryBean.submitForm}" 
+										process="dynaForm"
+										styleClass="btn btn-primary"
+										update="messages"
+										 />
+        						#{''}
+        						<p:button
+									value="Login" outcome="/application/index.xhtml"
+									styleClass="btn btn-primary">
+								</p:button>
+								#{''}
+								<p:button
+									value="Cancelar" outcome="/index.xhtml"
+									styleClass="btn btn-primary">
+								</p:button>
+							</div>
+         					</f:facet>
+
+								<pe:dynaFormControl type="hidden">
+									<h:inputHidden id="hidden" value="#{data.value}"
+										required="#{data.required}" />
+								</pe:dynaFormControl>
+
+								<pe:dynaFormControl type="fileupload">
+									<p:fileUpload locale="pt_BR" cancelLabel="Cancelar"
+										uploadLabel="Enviar" label="Enviar" skinSimple="true"
+										mode="advanced" dragDropSupport="true" 
+										allowTypes="/(\.|\/)(png|PNG|jpg|JPG|gif|GIF)$/" />
+								</pe:dynaFormControl>
+
+								<pe:dynaFormControl type="booleanchoice">
+									<p:selectBooleanCheckbox class="form-control" value="#{data.value}"
+										required="#{data.required}" />
+								</pe:dynaFormControl>
+
+								<pe:dynaFormControl type="input" for="txt">
+									<p:inputText class="form-control" id="txt" width="10" value="#{data.value}"
+										required="#{data.required}" />
+								</pe:dynaFormControl>
+								
+								<pe:dynaFormControl type="inputsecret" for="password">
+									<p:password class="form-control" id="password" width="10" value="#{data.value}"
+										required="#{data.required}" />
+								</pe:dynaFormControl>
+
+								<pe:dynaFormControl type="texteditor" for="texto">
+									<p:textEditor id="texto" value="#{data.value}" height="90" />
+								</pe:dynaFormControl>
+
+								<pe:dynaFormControl type="calendar" for="cal"
+									styleClass="calendar">
+									<p:calendar id="cal" value="#{data.value}"
+										required="#{data.required}" showOn="button" />
+								</pe:dynaFormControl>
+
+								<pe:dynaFormControl type="selectOneMenu" for="selOneMenu">
+									<p:selectOneMenu id="selOneMenu" value="#{data.value}"
+										required="#{data.required}">
+										<f:selectItems
+											value="#{abstractGeometryBean.getSelectOneMenuItens(data.name)}" />
+									</p:selectOneMenu>
+								</pe:dynaFormControl>
+
+								<pe:dynaFormControl type="textarea" for="tarea">
+									<p:inputTextarea id="tarea" value="#{data.value}"
+										required="#{data.required}" autoResize="false" />
+								</pe:dynaFormControl>
+								
+								<pe:dynaFormControl type="rating" for="rat">
+									<p:rating id="rat" value="#{data.value}"
+										required="#{data.required}" />
+								</pe:dynaFormControl>
+
+								<pe:dynaFormControl type="radiochoice">
+									<p:selectOneRadio value="#{data.value}"
+										required="#{data.required}">
+										<f:selectItems value="#{data.selectItems}" />
+									</p:selectOneRadio>
+								</pe:dynaFormControl>
+
+								<pe:dynaFormControl type="img">
+									<p:graphicImage width="90" value="#{data.value}"
+										required="#{data.required}" />
+								</pe:dynaFormControl>
+
+							</pe:dynaForm>
+
+						</h:form>	 
+	 <h:outputScript id="dynaFormScript" target="body">
+	/* <![CDATA[ */
+    function handleComplete(xhr, status, args) {
+        if(args && args.isValid) {
+           
+        } else {
+          
+        }
+    }
+	/* ]]> */
+	</h:outputScript>  
+ 						
+							
+	               		</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   
+	</ui:define>
+	
+	 
+</ui:composition>

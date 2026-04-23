@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.geoazul</groupId>
+	<artifactId>app</artifactId>
+	<version>1.0.0.BETA</version>
+	<packaging>war</packaging>
+	<name>app</name>
+	<description>SmarCloudIO Project</description>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<properties>
+		<jsf.project.stage>Production</jsf.project.stage>
+
+		<!-- the Maven project should use the minimum Java SE version supported -->
+		<maven.compiler.release>21</maven.compiler.release>
+
+		<!-- the version for the Server -->
+		<version.server>39.0.1.Final</version.server>
+
+		<!-- the versions for BOMs, Packs and Plugins -->
+		<version.bom.ee>39.0.1.Final</version.bom.ee>
+
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+
+		<version.plugin.wildfly>5.1.5.Final</version.plugin.wildfly>
+
+		<!-- the versions for other Dependencies and Plugins -->
+		<version.org.junit.jupiter>5.9.3</version.org.junit.jupiter>
+
+		<version.hibernate>7.1.1.Final</version.hibernate>
+		<version.jakarta>11.0.0</version.jakarta>
+		<geotools.version>34.1</geotools.version>
+
+		<version.wildfly.datasources.galleon-pack>11.3.0.Final</version.wildfly.datasources.galleon-pack>
+		<plugin.fork.embedded>true</plugin.fork.embedded>
+		<version.wildfly>39.0.1.Final</version.wildfly>
+
+		<version.bootable.jar>12.0.0.Final</version.bootable.jar>
+		<jkube.version>1.18.2</jkube.version>
+		<version.failsafe.plugin>3.5.4</version.failsafe.plugin>
+
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- importing the ee-with-tools BOM adds specs and other useful
+			artifacts as managed dependencies -->
+			<dependency>
+				<groupId>org.wildfly.bom</groupId>
+				<artifactId>wildfly-ee-with-tools</artifactId>
+				<version>${version.bom.ee}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+	
+		<!-- Source: https://mvnrepository.com/artifact/com.twelvemonkeys.imageio/imageio-core -->
+		<dependency>
+   	 		<groupId>com.twelvemonkeys.imageio</groupId>
+    		<artifactId>imageio-core</artifactId>
+    		<version>3.13.1</version>
+		</dependency>
+	
+		<!-- Source: https://mvnrepository.com/artifact/jakarta.enterprise/jakarta.enterprise.cdi-api -->
+			<dependency>
+    		<groupId>jakarta.enterprise</groupId>
+    		<artifactId>jakarta.enterprise.cdi-api</artifactId>
+    		<scope>provided</scope>
+		</dependency>
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/org.hibernate.search/hibernate-search-mapper-orm -->
+		<dependency>
+			<groupId>org.hibernate.search</groupId>
+			<artifactId>hibernate-search-mapper-orm</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/de.grundid.opendatalab/geojson-jackson -->
+		<dependency>
+			<groupId>de.grundid.opendatalab</groupId>
+			<artifactId>geojson-jackson</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-api</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+		<!--
+		<dependency>
+			<groupId>org.opengis</groupId>
+			<artifactId>geoapi</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+		-->
+
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnisettings</artifactId>
+			<version>0.2</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.enterprise.concurrent</groupId>
+			<artifactId>jakarta.enterprise.concurrent-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.security.enterprise</groupId>
+			<artifactId>jakarta.security.enterprise-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.soteria</groupId>
+			<artifactId>jakarta.security.enterprise</artifactId>
+			<version>3.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.faces</groupId>
+			<artifactId>jakarta.faces-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.dov-vlaanderen</groupId>
+			<artifactId>geoserver-manager</artifactId>
+			<version>1.8.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/org.webjars.npm/primeflex -->
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>primeflex</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/org.primefaces/primefaces-themes -->
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces-themes</artifactId>
+			<version>15.0.12</version>
+		</dependency>
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/io.hypersistence/hypersistence-utils-hibernate-71 -->
+		<dependency>
+			<groupId>io.hypersistence</groupId>
+			<artifactId>hypersistence-utils-hibernate-71</artifactId>
+			<version>3.15.2</version>
+		</dependency>
+
+		<!-- Source: https://mvnrepository.com/artifact/uk.m0nom/javaapiforkml -->
+		<dependency>
+			<groupId>uk.m0nom</groupId>
+			<artifactId>javaapiforkml</artifactId>
+			<version>3.0.11</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-spatial -->
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-spatial</artifactId>
+			<version>${version.hibernate}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>antlr</groupId>
+					<artifactId>antlr</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.postgresql</groupId>
+					<artifactId>postgresql</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Target Jakarta EE 11 server. -->
+		<dependency>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+			<version>${version.jakarta}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.tika/tika-core -->
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-core</artifactId>
+			<version>3.2.3</version>
+		</dependency>
+
+		<!-- Runtime dependencies. -->
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omniutils</artifactId>
+			<version>0.16</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces.extensions</groupId>
+			<artifactId>primefaces-extensions</artifactId>
+			<version>15.0.13</version>
+			<classifier>jakarta</classifier>
+		</dependency>
+
+		<!-- Source: https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.42</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/org.jboss.shrinkwrap.resolver/shrinkwrap-resolver-api-maven-archive -->
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-api-maven-archive</artifactId>
+			<version>3.3.5</version>
+			<scope>provided</scope>
+
+		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>15.0.13</version>
+			<classifier>jakarta</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
+			<version>3.3.5</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.5.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.5.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mercadopago</groupId>
+			<artifactId>sdk-java</artifactId>
+			<version>2.8.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.velocity</groupId>
+					<artifactId>velocity-tools</artifactId>
+				</exclusion>
+
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>at.favre.lib</groupId>
+			<artifactId>bcrypt</artifactId>
+			<version>0.10.2</version>
+		</dependency>
+
+		<!-- <version>20191001.1</version> -->
+		<dependency>
+			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+			<artifactId>owasp-java-html-sanitizer</artifactId>
+			<version>20260102.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jcodec</groupId>
+			<artifactId>jcodec</artifactId>
+			<version>0.2.5</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.mp4parser/isoparser -->
+		<dependency>
+			<groupId>org.mp4parser</groupId>
+			<artifactId>isoparser</artifactId>
+			<version>1.9.56</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.14.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>${version.hibernate}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-geopkg</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+
+		<!-- Source: https://mvnrepository.com/artifact/org.geotools/gt-mbstyle -->
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-mbstyle</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/com.github.geotools.geotools/gt-xsd-sld -->
+		<dependency>
+			<groupId>com.github.geotools.geotools</groupId>
+			<artifactId>gt-xsd-sld</artifactId>
+			<version>33.3</version>
+		</dependency>
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/org.geotools.xsd/gt-xsd-kml -->
+		<dependency>
+			<groupId>org.geotools.xsd</groupId>
+			<artifactId>gt-xsd-kml</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-shapefile</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-geojson</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-epsg-hsql</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-geotiff</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-image</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.geotools/gt-main -->
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-main</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.geotools</groupId>
+			<artifactId>gt-wms</artifactId>
+			<version>${geotools.version}</version>
+		</dependency>
+
+		<!-- 6.14.0 6.21.5 7.0.3
+		https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>7.0.6</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.lowagie</groupId>
+					<artifactId>itext</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-asm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-expression</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.inject</groupId>
+					<artifactId>javax.inject</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<!--
+		https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>7.0.6</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.lowagie</groupId>
+					<artifactId>itext</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-pdf -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-pdf</artifactId>
+			<version>7.0.6</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.lowagie</groupId>
+					<artifactId>itext</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Source: https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.13.5</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!--
+		https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-bridge -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-bridge</artifactId>
+			<version>1.19</version>
+
+		</dependency>
+
+		<!--
+		https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svggen -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-svggen</artifactId>
+			<version>1.19</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!--
+		https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svg-dom -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-svg-dom</artifactId>
+			<version>1.19</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-dom -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-dom</artifactId>
+			<version>1.19</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!--
+		https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-anim -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-anim</artifactId>
+			<version>1.19</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!--
+		https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-transcoder -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-transcoder</artifactId>
+			<version>1.19</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/net.postgis/postgis-jdbc -->
+		<dependency>
+			<groupId>net.postgis</groupId>
+			<artifactId>postgis-jdbc</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.resteasy</groupId>
+					<artifactId>resteasy-jaxrs</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2 -->
+		<dependency>
+			<groupId>com.maxmind.geoip2</groupId>
+			<artifactId>geoip2</artifactId>
+			<version>5.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson2-provider</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Source: https://mvnrepository.com/artifact/org.webjars/font-awesome 
+		<dependency>
+    		<groupId>org.webjars</groupId>
+    		<artifactId>font-awesome</artifactId>
+    		<version>7.1.0</version>
+		</dependency>
+		-->
+
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>font-awesome</artifactId>
+			<version>5.15.4</version>
+		</dependency>
+
+		<!-- Source:
+		https://mvnrepository.com/artifact/io.hypersistence/hypersistence-tsid -->
+		<dependency>
+			<groupId>io.hypersistence</groupId>
+			<artifactId>hypersistence-tsid</artifactId>
+			<version>2.1.4</version>
+		</dependency>
+
+
+	</dependencies>
+
+
+	<build>
+		<!-- Set the name of the WAR, used as the context root when the app is 
+			deployed -->
+		<finalName>${project.artifactId}</finalName>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-jar-maven-plugin</artifactId>
+					<version>${version.bootable.jar}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.jkube</groupId>
+					<artifactId>openshift-maven-plugin</artifactId>
+					<version>1.5.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>3.3.2</version>
+					<configuration>
+						<warName>app</warName>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-jar-maven-plugin</artifactId>
+				<configuration>
+					<feature-packs>
+						<feature-pack>
+							<location>
+								wildfly-preview@maven(org.jboss.universe:community-universe)#${version.wildfly}</location>
+						</feature-pack>
+						<feature-pack>
+							<groupId>org.wildfly</groupId>
+							<artifactId>wildfly-datasources-galleon-pack</artifactId>
+							<version>${version.wildfly.datasources.galleon-pack}</version>
+						</feature-pack>
+					</feature-packs>
+					<layers>
+						<layer>observability</layer>
+						<layer>microprofile-openapi</layer>
+						<layer>h2-driver</layer>
+						<layer>cloud-profile</layer>
+						<layer>postgresql-datasource</layer>
+						<layer>jpa</layer>
+						<layer>jsf</layer>
+						<layer>jaxrs</layer>
+						<layer>ejb-lite</layer>
+						<layer>cdi</layer>
+						<layer>web-server</layer>
+						<layer>logging</layer>
+						<layer>mail</layer>
+						<layer>management</layer>
+						<layer>ee-security</layer>
+						<layer>batch-jberet</layer>
+						<layer>core-server</layer>
+						<layer>discovery</layer>
+						<layer>microprofile-health</layer>
+						<layer>microprofile-jwt</layer>
+						<layer>request-controller</layer>
+						<layer>jdr</layer>
+						<layer>jmx</layer>
+						<layer>pojo</layer>
+						<layer>remoting</layer>
+						<layer>sar</layer>
+					</layers>
+
+					<excluded-layers>
+						<layer>deployment-scanner</layer>
+					</excluded-layers>
+
+					<boot-logging-config>
+						${project.basedir}/config/logging.properties</boot-logging-config>
+					<plugin-options>
+						<jboss-fork-embedded>${plugin.fork.embedded}</jboss-fork-embedded>
+					</plugin-options>
+
+					<context-root>false</context-root>
+
+					<cli-sessions>
+						<cli-session>
+							<script-files>
+								<script>scripts/logging-json-handler.cli</script>
+								<script>scripts/security.cli</script>
+								<script>scripts/file_path.cli</script>
+							</script-files>
+							<properties-file>scripts/cli.properties</properties-file>
+							<resolve-expressions>false</resolve-expressions>
+						</cli-session>
+					</cli-sessions>
+
+					<cloud />
+
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>package</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.jkube</groupId>
+				<artifactId>kubernetes-maven-plugin</artifactId>
+				<version>${jkube.version}</version>
+			</plugin>
+
+
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<!-- An optional Arquillian testing profile that executes tests in
+			your Wildfly instance. This profile will start a new Wildfly instance, and 
+				execute the test, shutting it down when done. Run with: mvn clean verify 
+				-Parq-managed 
+				Test's are not implemente yet
+				-->
+			<id>arq-managed</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-managed</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${version.failsafe.plugin}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<!-- An optional Arquillian testing profile that executes tests in a
+			remote Wildfly instance instance. Run with: mvn clean verify -Parq-remote 
+			Test's are not implemente yet
+			-->
+			<id>arq-remote</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-remote</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${version.failsafe.plugin}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+		<repository>
+			<id>osgeo</id>
+			<name>OSGeo Release Repository</name>
+			<url>https://repo.osgeo.org/repository/release/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>osgeo-snapshot</id>
+			<name>OSGeo Snapshot Repository</name>
+			<url>https://repo.osgeo.org/repository/snapshot/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>sonatype-snapshots</id>
+			<name>Sonatype Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>jboss-public-maven-repository</id>
+			<name>JBoss Public Maven Repository</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>redhat-ga-maven-repository</id>
+			<name>Red Hat GA Maven Repository</name>
+			<url>https://maven.repository.redhat.com/ga/</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jboss-public-maven-repository</id>
+			<name>JBoss Public Maven Repository</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>redhat-ga-maven-repository</id>
+			<name>Red Hat GA Maven Repository</name>
+			<url>https://maven.repository.redhat.com/ga/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+</project>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<f:metadata>
+		<f:viewParam name="page" value='#{realmEntityBean.page}'/>
+		<f:event type="preRenderView" listener='#{realmEntityBean.paginate}'/>
+	</f:metadata>
+	
+	<ui:define name="title">Mapa Cultural</ui:define>
+	
+	<ui:define name="h1"></ui:define>
+	
+	<ui:define name="content">
+		
+		 <section class="content">
+        <div class="container-fluid">
+			
+            <div class="row clearfix"> 
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                    <div class="card">
+                        <div class="body" >
+                        
+   		<h:form id="search">
+	
+			<p:dataTable id="realmEntityBeanPageItems" styleClass="data-table" value="#{realmEntityBean.pageItems}" var="_item">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Id"/>
+					</f:facet>
+					<p:outputLabel  value="#{_item.name}"/>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Nome"/>
+					</f:facet>
+					<p:outputLabel value="#{_item.displayName}"/> 
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="HTML Name"/>
+					</f:facet>
+					<p:outputLabel value="#{_item.displayNameHtml}"/>
+				</p:column>
+				
+			</p:dataTable>
+
+		</h:form>
+		
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		</section>
+   
+	</ui:define>
+	
+	 
+</ui:composition>

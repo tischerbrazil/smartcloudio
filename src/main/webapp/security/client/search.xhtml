@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="card">
+						<h:form id="createForm">
+
+							<p:growl showDetail="true" showSummary="true" id="messages"
+								life="3000" />
+
+							<f:validateBean disabled="true">
+								<div class="header">
+									<div class="row clearfix">
+										<div class="col-md-6">
+											<h4>Clientes</h4>
+										</div>
+										<div align="right" class="col-md-6">
+											<p:menuButton value="Novo">
+												<p:menuitem ajax="false" value="OAUTH" icon="pi pi-sitemap"
+													id="oauth" url="create/oauth">
+												</p:menuitem>
+												<p:menuitem ajax="true" value="SERVICE" icon="pi pi-globe"
+													id="service" url="create/service">
+												</p:menuitem>
+												<p:menuitem ajax="false" value="IDENTITY"
+													icon="pi pi-server" id="identity" url="create/identity">
+												</p:menuitem>
+												<p:menuitem ajax="false" value="MOBILE" icon="pi pi-box"
+													id="mobile" url="create/mobile">
+												</p:menuitem>
+											</p:menuButton>
+										</div>
+									</div>
+								</div>
+							</f:validateBean>
+						</h:form>
+						<div class="body">
+							<h:form id="search">
+
+
+
+
+
+								<p:dataTable var="_item" value="#{clientBean.model}"
+									paginator="true" rows="20"
+									paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+									lazy="true" widgetVar="modWidget" reflow="true"
+									paginatorPosition="bottom"
+									globalFilterFunction="#{clientBean.globalFilterFunction}"
+									filteredValue="#{clientBean.model}" id="_itemTable">
+
+
+
+									<f:facet name="header">
+										<div class="flex align-items-center justify-content-between">
+											<span>List of Customers</span>
+											<div>
+												<p:inputText id="globalFilter"
+													onkeyup="PrimeFaces.debounce(() => PF('modWidget').filter())"
+													style="width:10rem" placeholder="Enter keyword" />
+
+
+												<p:commandButton value="Global Filter Only" update="@form"
+													styleClass="ml-2"
+													action="#{clientBean.toggleGlobalFilter()}" />
+
+											</div>
+										</div>
+									</f:facet>
+
+
+
+
+
+
+									<p:column headerText="Nome" sortBy="#{_item.clientId}"
+										filterBy="#{_item.clientId}">
+
+										<p:outputLabel value="#{_item.clientId}" />
+
+									</p:column>
+
+
+									<p:column headerText="Ativo" sortBy="#{_item.enabled}">
+										<p:graphicImage rendered="#{_item.enabled}" class="img-circle"
+											value="/resources/true.png" />
+										<p:graphicImage rendered="#{!_item.enabled}"
+											class="img-circle" value="/resources/false.png" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nome" />
+										</f:facet>
+										<p:outputLabel value="#{_item.clientId}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Client Type" />
+										</f:facet>
+										<p:outputLabel value="#{_item.dtype}" />
+									</p:column>
+
+									<p:column>
+										<p:button icon="fa fa-edit" value="Editar"
+											href="/security/client/create/#{_item.id}" />
+									</p:column>
+								</p:dataTable>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	</ui:define>
+</ui:composition>

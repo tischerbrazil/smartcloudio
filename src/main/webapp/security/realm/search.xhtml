@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<ui:define name="content">
+
+		<section class="slice py-8">
+		<div class="container py-5">
+
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="card">
+						<div class="body">
+							<div class="tex-align: right">
+								<p:growl showDetail="true" showSummary="true" id="messages"
+									life="3000" />
+								<p:button icon="pi pi-plus" value="Novo"
+									outcome="/security/realm/create" />
+							</div>
+							<h:form id="search">
+
+								<p:dataTable var="_item" value="#{realmEntityBean.model}"
+									paginator="true" rows="20"
+									paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+									lazy="true" widgetVar="modWidget" reflow="true"
+									paginatorPosition="bottom"
+									globalFilterFunction="#{realmEntityBean.globalFilterFunction}"
+									filteredValue="#{realmEntityBean.model}" id="_itemTable">
+
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Id" />
+										</f:facet>
+										<p:outputLabel value="#{_item.id}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nome" />
+										</f:facet>
+										<p:outputLabel value="#{_item.name}" />
+									</p:column>
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Título" />
+										</f:facet>
+										<p:outputLabel value="#{_item.displayName}" />
+									</p:column>
+									<p:column>
+										<p:button icon="fa fa-edit" value="Editar"
+											href="/security/realm/create/#{_item.id}" />
+									</p:column>
+
+
+								</p:dataTable>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+
+	</ui:define>
+
+
+</ui:composition>

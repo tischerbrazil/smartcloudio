@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui">
+	<style>
+.bg-img {
+	/*background-image: url("../images2/tcont5.jpg");*/
+	background-color: #460c0c;
+	min-height: 400px;
+	/* Center and scale the image nicely */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+}
+.bg-img2 {
+	margin: auto;
+	width: 360px;
+}
+.h2-f {
+	margin: auto;
+	text-align: center;
+	color: #FFF;
+}
+.header-container {
+	padding: 20px;
+	text-align: center;
+}
+
+.header-container>h1 {
+	color: #FFF;
+}
+.header-container>p {
+	margin: 10px;
+	font-size: 18px;
+	color: #DDD
+}
+.check-date-form-container {
+	padding: 10px 10px 10px 10px;
+	margin: 10px 10px 10px 10px;
+}
+.check-lbl {
+	font-size: 18px;
+	color: #FFF;
+	font-weight: bold;
+	padding: 0 10px 0 0;
+}
+</style>
+	<div class="bg-img">
+		<div class="header-container">
+			<img align="middle"
+				src="https://transcontinental.smartcloudio.com.br/files/transcontinental.smartcloudio.com.br/images/logo.png" />
+			<h3 class="h2-f">Hotel Transcontinental</h3>
+			<p>Realize aqui suas reservas de forma on-line:</p>
+		</div>
+		<div class="bg-img2">
+			<h:form class="form-inline check-date-form-container">
+				<div class="form-group mx-sm-3 mb-2">
+					<label class="check-lbl">Data da Entrada - Check-in</label>
+					<h:inputText a:type="date" class="form-control" requiredMessage="Data da Entrada Requerido! (check-in)"
+						value="#{productBean.checkin}" required="true" name="checkInDate" >
+						<f:convertDateTime pattern="yyyy-MM-dd"/>
+						</h:inputText>
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+					<label class="check-lbl">Data da Saída - Check-out</label>
+					<h:inputText a:type="date" class="form-control"
+						value="#{productBean.checkout}" required="true"
+						name="checkOutDate" requiredMessage="Data da Saída Requerido! (check-out)" >
+						<f:convertDateTime pattern="yyyy-MM-dd"/>
+						</h:inputText>
+				</div>
+					<br/><br/>
+				<div class="buttons">
+					<p:commandButton ajax="false" value="Verificar Disponibilidade" styleClass="ui-button-help"
+						action="#{productBean.update()}" />
+					
+					
+				</div>
+			</h:form>
+		</div>
+	</div>
+</ui:composition>

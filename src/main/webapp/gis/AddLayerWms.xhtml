@@ -1,0 +1,173 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<script type="text/javascript">
+		function hwms(xhr, status, args) {
+			if (args.validationFailed) {
+				console.info("-1111-sTART--- ");	
+			} else {
+				PF('addLayerDialogWms').hide();
+
+				console.info(" OKsTART-RASTER-- ");
+				
+
+				console.info("-NAME LAYER----- " + args.namelayer);
+				console.info("-TYPE LAYER----- " + args.typelayer);
+				console.info("-STRINGS LAYER-- " + args.stringslayer);
+				
+				console.info("-zindex LAYER-- " + args.zindex);
+				//PrimeFaces.current().ajax().addCallbackParam("zindex", this.selectedLayer.getOrderlayer());
+				addWmsLayer(args.namelayer,  args.typelayer, args.stringslayer, args.zindex);
+	
+			    	console.info("111-END -sTART--- " );	
+					
+
+					console.info(" OKsTART--44- ");
+			}
+		}
+	</script>
+
+	<p:wizard flowListener="#{applicationEntityBean.onFlowProcessWms}"
+		id="wizwmsidj" widgetVar="wizardwms" showNavBar="false">
+		<p:tab id="basic" title="Básico">
+			<p:focus context="@next" />	
+			<div class="formgrid grid">
+				<div class="field col-6 md:col-4">
+					<p:outputLabel value="Nome da Camada" for="@next" />
+					<p:inputText value="#{applicationEntityBean.layerWizard.layerName}"
+						required="true" requiredMessage="Nome Requerido!"
+						label="Layer Name" />
+				</div>
+				<div class="field col-6 md:col-4">
+					<p:outputLabel value="Tipo da Camada" for="@next" />
+					<p:selectOneMenu id="layerchooseWms" effect="fade" required="true"
+						requiredMessage="Tipo Requerido!"
+						value="#{applicationEntityBean.layerWizard.layerTypeChose}">
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="false" />
+						<f:selectItem itemValue="WMSGEOSERVER" itemLabel="TILE-WMS GEOSERVER" />
+						<f:selectItem itemValue="RASTERGEOSERVER" itemLabel="RASTER-WMS GEOSERVER" />
+					</p:selectOneMenu>
+				</div>
+			</div>
+
+			<p:commandButton icon="pi pi-angle-right" value="Próximo"
+				update="message" oncomplete="PF('wizardwms').next();" />
+
+		</p:tab>
+
+		<p:tab id="serverwmsUpload" title="Servidor WMS">
+			<p:focus context="@next" />
+			<h:panelGrid columns="2" columnClasses="label, value">
+
+				<p:fileUpload rendered="#{applicationEntityBean.layerWizard.layerTypeChose == 'WMSGEOSERVER'}" 
+				    listener="#{applicationEntityBean.importSHP}"
+					cancelLabel="Cancelar" label="Arquivo" uploadLabel="Enviar Zip Shp"
+					mode="advanced" dragDropSupport="false"
+					oncomplete="PF('wizardwms').next();" update="message" />
+					
+					<p:fileUpload rendered="#{applicationEntityBean.layerWizard.layerTypeChose == 'RASTERGEOSERVER'}" 
+					listener="#{applicationEntityBean.importGeoTiff}"
+					cancelLabel="Cancelar" label="Arquivo" uploadLabel="Enviar GeoTiff"
+					mode="advanced" dragDropSupport="false"
+					oncomplete="PF('wizardwms').next();" update="message" 
+					allowTypes="/(\.|\/)(gif|tif|jpe?g|png)$/" />
+
+			</h:panelGrid>
+
+			<p:commandButton icon="pi pi-angle-left" value="Voltar"
+				oncomplete="PF('wizardwms').back();" />
+
+
+		</p:tab>
+
+		<p:tab id="wmsurl" title="WMS URL">
+			<p:focus context="@next" />
+			<h:panelGrid columns="2" columnClasses="label, value">
+
+				<h:outputText rendered="#{applicationEntityBean.layerWizard.layerTypeChose == 'WMSGEOSERVER'}"  value="Camada DataSet: " />
+				<p:selectOneMenu rendered="#{applicationEntityBean.layerWizard.layerTypeChose == 'WMSGEOSERVER'}"  required="true" id="dataset"
+					requiredMessage="Camada DataSet Requerido!"
+					value="#{applicationEntityBean.layerWizard.dataSet}"
+					converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione a Camada" />
+					<f:selectItems itemLabel="#{_item}" itemValue="#{_item}"
+						value="#{applicationEntityBean.layerWizard.dataSets}" var="_item" />
+				</p:selectOneMenu>
+ 
+
+				<h:outputText value="Servidor Geoserver: " />
+				<p:selectOneMenu required="true" id="client"
+					requiredMessage="Servidor WMS Requerido!"
+					value="#{applicationEntityBean.layerWizard.clientLayer}"
+					converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione o servidor" />
+					<f:selectItems itemLabel="#{_item.clientId}"
+						itemValue="#{_item.id}" value="#{clientBean.allComps}" var="_item" />
+				</p:selectOneMenu>
+
+
+			</h:panelGrid>
+
+			<p:commandButton icon="pi pi-angle-left" value="Voltar"
+				oncomplete="PF('wizardwms').back();" />
+		
+		#{''}
+			<p:commandButton icon="pi pi-angle-right" value="Próximo"
+				update="message" oncomplete="PF('wizardwms').next();" />
+
+		</p:tab>
+
+		<p:tab id="confirm" title="Confirmação">
+			<p:focus context="@next" />
+			<h:panelGrid columns="2" columnClasses="label, value">
+
+				<h:outputText value="Layer Type: " />
+				<h:outputText
+					value="#{applicationEntityBean.layerWizard.layerTypeChose}"
+					styleClass="outputLabel" />
+
+				<h:outputText value="Layer Name: " />
+				<h:outputText value="#{applicationEntityBean.layerWizard.layerName}"
+					styleClass="outputLabel" />
+
+				<h:outputText redered="false" value="URL Layer: " />
+				<h:outputText redered="false" value="#{applicationEntityBean.layerWizard.urlLayer}"
+					styleClass="outputLabel" />
+
+				<h:outputText value="Imagem: " />
+				<h:outputText value="#{applicationEntityBean.layerWizard.imageName}"
+					styleClass="outputLabel" />
+
+				<h:outputText value="DataSet: " />
+				<h:outputText value="#{applicationEntityBean.layerWizard.dataSet}"
+					styleClass="outputLabel" />
+
+			</h:panelGrid>
+
+			<p:commandButton icon="pi pi-angle-left" value="Voltar"
+				oncomplete="PF('wizardwms').back();" />
+		
+			#{''}
+
+			<p:commandButton value="Adicionar"
+				oncomplete="hwms(xhr, status, args)"
+				actionListener='#{applicationEntityBean.layerSelectListenerWMS}'
+				update="layersForm2 message" />
+				 
+
+		</p:tab>
+
+	</p:wizard>
+
+	<p:dialog header="Envio de Imagem" width="600" height="400"
+		widgetVar="imagePointDialog3" resizable="false">
+	</p:dialog>
+
+</ui:composition>

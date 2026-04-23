@@ -1,0 +1,223 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:c="jakarta.tags.core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<section class="pt-15 pb-10 py-5" id="feature">
+		<div class="container px-lg-7 px-xxl-3">
+			<div class="position-relative z-index-2">
+				<div
+					class="row mt-2 align-items-center justify-content-between text-center text-lg-start mb-6 mb-lg-0">
+
+					<ui:repeat var="_div" value="#{rBlock.divs}">
+						<div class="#{_div.div_class}" id="#{_div.div_id}">
+
+							<ui:repeat var="_comp" value="#{_div.rComponents}">
+
+								<ui:fragment rendered="#{_comp.type eq 'RHeading'}">
+									<h:outputText value="#{_comp.getValueRendered()}"
+										escape="false" />
+								</ui:fragment>
+
+								<p:button rendered="#{_comp.type eq 'RButton'}"
+									value="#{_comp.value}" title="#{_comp.title}"
+									href="#{_comp.href}" target="#{_comp.target}"
+									styleClass="#{_comp.styleClass}" icon="#{_comp.icon}" />
+
+								<ui:fragment rendered="#{_comp.type eq 'RVideo'}">
+									<video controls="" class="#{_comp.styleClass}"
+										poster="#{_comp.poster}" src="#{_comp.value}"
+										width="#{_comp.width}" height="#{_comp.height}"></video>
+								</ui:fragment>
+								
+								<ui:fragment rendered="#{_comp.type eq 'RFlexDiv'}">
+									
+									<div class="d-flex justify-content-#{_comp.justifyContent}">
+									
+									<ui:repeat value="#{_comp.children}" var="_compb">
+									 <div class="p-2 bd-highlight">
+									 
+									 <p:button rendered="#{_compb.type eq 'RButton'}"
+									value="#{_compb.value}" title="#{_compb.title}"
+									href="#{_compb.href}" target="#{_compb.target}"
+									styleClass="#{_compb.styleClass}" icon="#{_compb.icon}" />
+
+									</div>
+									</ui:repeat>
+									
+   
+   
+  </div>
+									
+								</ui:fragment>
+
+							</ui:repeat>
+						</div>
+					</ui:repeat>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+	<ui:remove>
+		<link href="/themes/bs5-ecommerce/img/temp/theme.min.css"
+			rel="stylesheet" crossorigin="anonymous" />
+
+		<style>
+.bg-holder {
+	position: absolute;
+	width: 100%;
+	min-height: 100%;
+	top: 0;
+	left: 0;
+	background-size: cover;
+	background-position: center;
+	overflow: hidden;
+	will-change: transform, opacity, filter;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	background-repeat: no-repeat;
+	z-index: 0
+}
+
+.bg-holder.bg-right {
+	left: auto;
+	right: 0
+}
+
+.bg-holder.overlay:before {
+	position: absolute;
+	content: "";
+	background: rgba(0, 0, 0, .25);
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0
+}
+
+.bg-holder.overlay-0:before {
+	background: rgba(0, 0, 0, .7)
+}
+
+.bg-holder.overlay-1:before {
+	background: rgba(0, 0, 0, .55)
+}
+
+.bg-holder.overlay-2:before {
+	background: rgba(0, 0, 0, .4)
+}
+
+position-relative {
+	position: relative !important
+}
+
+.d-md-block {
+	display: block !important
+}
+
+.bg-holder .bg-youtube {
+	position: absolute !important;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%
+}
+
+@media ( min-width :768px) {
+	.alternate-landing-team {
+		padding-top: 10rem
+	}
+}
+
+@media ( min-width :1200px) {
+	.alternate-landing-team {
+		padding-top: 20rem
+	}
+}
+</style>
+
+
+		<div class="position-relative">
+			<div class="bg-holder world-map-bg"
+				style="background-image: url(/themes/bs5-ecommerce/img/temp/bg-13.png);"></div>
+			<!--/.bg-holder-->
+			<div class="bg-holder z-index-2 opacity-25"
+				style="background-image: url(/themes/bs5-ecommerce/img/temp/bg-right-21.png); background-size: auto; background-position: right;"></div>
+			<!--/.bg-holder-->
+			<div class="bg-holder z-index-2 mt-9 opacity-25"
+				style="background-image: url(/themes/bs5-ecommerce/img/temp/bg-left-21.png); background-size: auto; background-position: left;"></div>
+			<!--/.bg-holder-->
+			<svg class="w-100 text-white position-relative"
+				preserveAspectRatio="none" viewBox="0 0 1920 368" fill="none"
+				xmlns="http://www.w3.org/2000/svg">
+          <path d="M1920 0.44L0 367.74V0H1920V0.44Z" fill="currentColor"></path>
+        </svg>
+			<section class="overflow-hidden z-index-2">
+				<div class="container light px-lg-7 px-xxl-3">
+					<div class="position-relative">
+						<div class="row mb-6">
+							<div class="col-xl-6 text-center text-md-start">
+								<h2 class="text-white mb-2">Being used by millions of users</h2>
+								<h1
+									class="fs-md-5 fs-xl-6 fw-black text-gradient-info text-uppercase mb-4 mb-md-0">WORLDWIDE</h1>
+							</div>
+							<div class="col-xl-6 text-center text-md-start">
+								<p class="text-white">You can get all the reports, data
+									analysis, and growth maps you need with the help of Phoenix's
+									power, and you may review and modify them whenever you want.
+									These features make this dashboard outstanding.</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-8 text-center text-md-start mb-6 mb-xl-0">
+								<div class="d-md-flex justify-content-md-between">
+									<div class="mb-6 mb-md-0 me-4">
+										<h1 class="display-1 text-white fw-bolder"
+											data-countup='{"endValue":125,"duration":10,"suffix":"+"}'>
+											0 <span>+</span>
+										</h1>
+										<p class="text-white">
+											Every month, there are more<br class="d-md-none d-lg-block" />than
+											125+ sales.
+										</p>
+									</div>
+									<div class="mb-6 mb-md-0 me-4">
+										<h1 class="display-1 text-white fw-bolder"
+											data-countup='{"endValue":308,"duration":10,"suffix":"k"}'>0</h1>
+										<p class="text-white">
+											We have 308+ active paid.<br class="d-md-none d-lg-block" />subscribers.
+										</p>
+									</div>
+									<div class="mb-6 mb-md-0 me-4">
+										<h1 class="display-1 text-white fw-bolder"
+											data-countup='{"endValue":12,"duration":0.5}'>0</h1>
+										<p class="text-white">
+											We have won 12 awards so<br class="d-md-none d-lg-block" />far
+											with great success.
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-4 text-center text-md-start">
+								<img class="img-fluid"
+									src="/themes/bs5-ecommerce/img/temp/capterra.png" alt="" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<svg class="text-white w-100 position-relative"
+				viewBox="0 0 1920 368" fill="none"
+				xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 368L1920 0.730011L1920 368L0 368Z"
+					fill="currentColor"></path>
+        </svg>
+		</div>
+
+	</ui:remove>
+
+</ui:composition>

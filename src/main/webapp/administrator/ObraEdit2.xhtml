@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui"> 
+
+			<h:form id="obra2Form">
+
+    	    <p:panelGrid id="display" columns="3" cellpadding="4" style="border: 0px;margin:0 auto;">   
+    	    
+	
+			
+			<h:outputText value="Id"/>
+			<h:outputText value="#{applicationEntityBean.obra.id}" />     
+			<h:outputText/>	
+			
+			<h:outputText value="Z-Index"/>
+			<p:inputText size="50" maxlength="50"  value="#{applicationEntityBean.obra.parte}" />     
+			<h:outputText/>	
+    		
+    		<h:outputText value="STATE"  />
+    		<p:selectOneMenu id="stateOptions"  required="true"  value="#{applicationEntityBean.obra.situacao}">
+				<f:selectItem itemValue="0" itemLabel="OCULTAR" />
+				<f:selectItem itemValue="1" itemLabel="ABERTO" />
+				<f:selectItem itemValue="2" itemLabel="FINALIZADO" />
+            </p:selectOneMenu>   
+    		<h:outputText/>          
+
+    	
+    	<p:commandButton value="Salvar" id="tester" onclick="jQuery(this).addClass('ui-state-disabled')" icon="fa fa-floppy-o" action="#{applicationEntityBean.updateObra}" 
+    		oncomplete="PF('editobra2Dialog').hide();"  title="Alterar"/>
+         
+        <p:commandButton rendered="false" value="Processar" id="process" 
+			icon="fa fa-floppy-o" action="#{applicationEntityBean.processObra}" 
+    		oncomplete="PF('editobra2Dialog').hide();"  title="Alterar"/>
+		
+    	<p:commandButton  oncomplete="fetchData();PF('editobraDialog').hide();"  icon="fa fa-trash-o"  value="Excluir" actionListener="#{applicationEntityBean.deleteOB}" >
+        	<p:confirm header="Confirmation" message="Confirma Exclusao?" icon="ui-icon-alert" />
+    	</p:commandButton>
+    
+    	<p:confirmDialog global="true" >
+        	<p:commandButton value="Yes" oncomplete="fetchData();PF('editObraDialog').hide()"  action="#{applicationEntityBean.deleteOB}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        	<p:commandButton value="No"  type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+
+        </p:panelGrid>
+	</h:form>	   
+</ui:composition>

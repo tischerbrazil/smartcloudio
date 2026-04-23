@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core" xmlns:ui="jakarta.faces.facelets"
+	xmlns:p="primefaces">
+
+<h:head>
+	<title>Projetos</title>
+	<style>
+html {
+	font-size: 14px;
+}
+</style>
+</h:head>
+
+<h:body>
+	<h:form id="projForm">
+	
+		<p:dataTable id="projClone" var="_projclone"
+			value="#{personEntityBean.activePerson.projects}"
+			selection="#{personEntityBean.selectedProjects}"
+			rowKey="#{_projclone.app.id}" style="margin-bottom:0"
+			paginator="false" selectionPageOnly="true" selectionRowMode="none"
+			cellNavigation="true">
+
+
+			<p:column selectionBox="true" style="width:16px;text-align:center" />
+
+
+			<p:column headerText="Nome do Projeto">
+				<h:outputText value="#{_projclone.app.name}" />
+			</p:column>
+
+			<f:facet name="footer">
+				<p:commandButton process="projClone" update=":projForm"
+					icon="pi pi-trash" value="Clonar"
+					oncomplete="PF('multiMedDialog').show()" />
+			</f:facet>
+
+		</p:dataTable>
+
+
+
+		<p:dialog
+			header="Confirmar Clonar #{personEntityBean.selectedProjects.size()} Projeto(s)"
+			id="multiMedDetail" widgetVar="multiMedDialog" modal="false"
+			showEffect="fade" hideEffect="fade">
+
+			<ui:repeat var="_med" value="#{personEntityBean.selectedProjects}">
+								{#{_med.app.name}},
+							</ui:repeat>
+			<div>
+				<p:commandButton icon="pi pi-check" update=":projForm messages"
+					value="Confirmar Clonagem"
+					actionListener='#{personEntityBean.cloneApps}'
+					oncomplete="PF('multiMedDialog').hide()" />
+				#{''}
+				<p:commandButton icon="pi pi-done" value="Cancelar"
+					oncomplete="PF('multiMedDialog').hide()" />
+			</div>
+		</p:dialog>
+
+	</h:form>
+
+</h:body>
+
+</html>

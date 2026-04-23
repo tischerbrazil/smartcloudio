@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    
+    xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+    xmlns:p="http://primefaces.org/ui"> 
+
+	<h:form id="obratempForm">
+
+		<h:panelGrid id="display" columnClasses="label,component,required" columns="1">
+		
+		
+		<h:panelGroup id="basic"> 
+		
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+		<h:outputLabel value="fff"  />
+		<h:inputText value="#{projectRuralEntityBean.examplePoint.id}"/>
+		<h:outputText/>
+		
+		
+			<h:outputLabel id="nome" for="NomeX" value="Nome"  />
+			<p:inputText  required="true" locale="pt_BR" 
+			requiredMessage="Nome Requerido!" label="Nome" id="NomeX"  size="50" maxlength="50"  value="#{projectRuralEntityBean.exampleObratemp.nome}" /> 
+			<h:outputText/>
+			 
+		   <h:outputLabel rendered="#{projectRuralEntityBean.exampleObratemp.typeGeometry  eq 'LINESTRING'}" value="Buffer/Offset (m)"    />
+			<p:inputText  rendered="#{projectRuralEntityBean.exampleObratemp.typeGeometry  eq 'LINESTRING'}" size="50" maxlength="50" value="#{projectRuralEntityBean.exampleObratemp.valoroffset}" />     
+   			<h:outputText rendered="#{projectRuralEntityBean.exampleObratemp.typeGeometry  eq 'LINESTRING'}"/>
+	
+			<h:outputLabel rendered="#{projectRuralEntityBean.exampleObratemp.typeGeometry  eq 'POLYGON'}" value="Situação"    />
+   			<p:selectOneMenu rendered="#{projectRuralEntityBean.exampleObratemp.typeGeometry  eq 'POLYGON'}" id="situacao"   value="#{projectRuralEntityBean.exampleObratemp.situacao}">
+		           		<f:selectItem itemValue="1" itemLabel="Imóvel Registrado" />
+                 		<f:selectItem itemValue="2" itemLabel="Área Titulada não Registrada" />
+                 		<f:selectItem itemValue="3" itemLabel="Área não Titulada" />
+	      	</p:selectOneMenu>
+    		<h:outputText rendered="#{projectRuralEntityBean.exampleObratemp.typeGeometry  eq 'POLYGON'}"/>
+    		
+		</h:panelGrid>
+			
+		</h:panelGroup>
+											
+		
+			
+			  
+			  	<p:commandButton value="Salvar" 
+			  	icon="fa fa-floppy-o" action="#{projectRuralEntityBean.updateOT}"  
+			   	update="message"  
+			    oncomplete="handleLoginRequest(xhr, status, args)"
+			  	title="Alterar"/>
+			  
+			  
+             	<p:commandButton value="Excluir" oncomplete="PF('editobratempDialog').hide();fetchData()"
+			  	 icon="ui-icon-check"   action="#{projectRuralEntityBean.betatestdeleteObratemp()}"  
+			   	update="message" 	title="Excluir"/>
+          
+
+    	
+       
+    	<p:commandButton  rendered="false" oncomplete="PF('editobratempDialog').hide();"  icon="fa fa-trash-o"  value="Excluir" >
+        	<p:confirm header="Confirmation" message="Confirma Exclusao?" icon="ui-icon-alert" />
+      	</p:commandButton>
+    
+    	<p:confirmDialog id="obratempDialogSpecial" global="true" showEffect="fade" hideEffect="explode">
+        	<p:commandButton value="Yes" oncomplete="PF('editobratempDialog').hide();"  action="#{projectRuralEntityBean.betatestdeleteObratemp}"  
+			  	actionListener="fetchData()"   type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			  	<p:commandButton value="SIM2"   type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+			    action="#{projectRuralEntityBean.betatestdeleteObratemp}"  
+			  	actionListener="deleteFeature()"  
+			  	update="message"  
+			    oncomplete="PF('editobratempDialog').hide();"
+			  	title="Alterar"/>
+        	<p:commandButton value="No"  type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+
+       </h:panelGrid>
+	</h:form>	   
+</ui:composition>

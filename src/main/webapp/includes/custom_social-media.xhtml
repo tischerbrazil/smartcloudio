@@ -1,0 +1,194 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+      xmlns:of="http://omnifaces.org/functions"
+       xmlns:fn="jakarta.tags.functions"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:p="http://primefaces.org/ui"> 
+    
+    <script src="#{request.contextPath}/includes/pullfresh/mk-pullfresh.min.js" type="text/javascript">
+    </script>
+	<link  href="#{request.contextPath}/includes/pullfresh/mk-pullfresh.min.css" rel="stylesheet"> 
+	</link>
+
+  	<style>
+  	
+  	video {
+  max-width: 100%;
+  height: auto;
+}
+
+  	.mkpf-material{
+	position: relative;
+	user-select: none;
+}
+.mkpf-material .mk-pullfresh-bubble{
+	position: absolute;
+	width: 100%;
+}
+
+.mkpf-material .mkpf-indicator-wrapper{
+	background-color: #fff;
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	padding:3px;
+	border-radius: 50%;
+	border: 1px solid #ddd;
+	box-shadow: 2px 0px 10px rgba(0,0,0,.4);
+}
+  	</style>
+
+			<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+
+
+ 	<h:form id="mainForm" prependId="false"    >
+ 	
+ 	
+	<h:panelGroup >
+
+    <h:panelGroup id="container" layout="block">
+    
+    <div class="pull-scroller">
+				
+		<div id='textEl' class='puller mkpf-material'>
+			<ui:repeat id="mediaitem1"  value="#{urlPostBean.getGeometries(id,0)}" var="_mediaitem"> 
+      	<h4>#{_mediaitem.nome}</h4>
+      	
+      	
+      				
+      	<ui:repeat id="mediaitem"  value="#{_mediaitem.medias}" 
+      				var="_mediaitem"> 
+      	<ui:fragment rendered="#{_mediaitem.mimeType.startsWith('video')}">				
+      				
+      				
+      				<video controls="" src="#{request.contextPath}/#{_mediaitem.filename}" width="640" height="360" class="note-video-clip"></video>
+      				
+      				</ui:fragment>
+      	<p:graphicImage 
+    		style="display: block;text-align: left " 
+ 			rendered="#{_mediaitem.mimeType.startsWith('image')}" 
+ 			class="js-animating-object img-responsive" 
+			value="#{_mediaitem.filename}" />
+		    
+		</ui:repeat>
+		<br/>
+		<h:outputText escape="false" value="#{_mediaitem.strings.at('/introduction').asText()}" />
+		<hr/>
+      	</ui:repeat>
+		</div>
+		</div>
+    
+    
+    
+        
+    </h:panelGroup>
+    
+    <h:panelGroup id="remoteContent" style="display:none;">
+        <ui:include src="media.xhtml">
+        	<ui:param name="id" value="#{id}" />
+        	<ui:param name="page" value="#{urlPostBean.page}" />
+        	
+        </ui:include>
+    </h:panelGroup>        
+    
+    <p:remoteCommand id="rcom" name="loadRemoteContent" process="@this" 
+    update="#{viewid}:remoteContent"
+             actionListener="#{urlPostBean.toggleSrc}"
+                     oncomplete="handleLoadStop(xhr,status,args)"/>
+    
+    <p:dialog position="bottom" style="margin-bottom: 70px" widgetVar="loadingDlg" resizable="false" showHeader="false">
+             <p:graphicImage value="/resources/images/ajaxloadingbar.gif"  
+                      />  
+
+    </p:dialog>
+
+    <h:panelGroup id="footer" layout="block">
+        <pe:waypoint id="waypoint" widgetVar="waypointWidget"
+                     offset="function(){return $.waypoints('viewportHeight') - $(this).outerHeight()}">
+            <pe:javascript event="reached" execute="handleLoadStart(ext);"/>
+        </pe:waypoint>
+    </h:panelGroup>
+    
+    
+  
+    
+    <h:outputScript id="waypointScript"  target="body">
+/* <![CDATA[ */
+	window.onbeforeunload = function () {
+  		window.scrollTo(0, 0); 
+	}
+	
+    function handleLoadStart(ext) {
+        if (ext.direction == "down") {
+            PF('waypointWidget').disable();
+            PF('loadingDlg').show();
+            loadRemoteContent();
+        }
+    }
+    
+      function handleLoadStop(xhr,status,args)  {
+        $('##{viewid}\\:container').append($('##{viewid}\\:remoteContent > div.article')); 
+        PF('loadingDlg').hide();
+        PF('waypointWidget').enable();
+    }
+/* ]]> */
+</h:outputScript>
+    
+    
+</h:panelGroup>
+</h:form>
+
+
+ <h:outputScript id="script1" target="body">
+	/* <![CDATA[ */
+
+
+$(textEl).mkPullFresh(function(end){
+        var self = this;
+		//end()
+		setTimeout(function(){
+			//self.$puller.find('.log').html( '<p>Refreshed at '+(new Date())+'</p>' );
+			end();
+		},1000);
+    });
+
+//var elog = createLogger( eventsEl );
+$('#eventsEl .puller').mkPullFresh({ emitEvents: true })
+	.on('mkPullFreshStart',  function(e,y,pf)  {elog('start.');})
+	.on('mkPullFreshPull',   function(e,y,pf)  {elog('start. pull('+y+'). '); })
+	.on('mkPullFreshPending',function(e,end,pf){elog('pending. ',true);setTimeout(end,1000)})
+	.on('mkPullFreshEnd',    function(e,y,pf)  {elog('end.',true);});
+
+$('#custom1El .puller').mkPullFresh({
+	indicatorHtml: '<div class="mkpf-envelop"><div class="active">pull down</div><div class="ready">drop to refresh</div><div class="pending">pending ...</div></div>',
+	pendingShift: 35
+});
+$('#custom2El .puller').mkPullFresh();
+
+
+function createLogger(element){
+	return function(message,append){
+		if(append){
+			$(element).find('.log').append(message);
+		}else{
+			$(element).find('.log').html(message);
+		}
+	};
+};
+
+	/* ]]> */
+</h:outputScript>  
+</div>
+</div>
+</div>
+
+</div></section>
+
+</ui:composition>

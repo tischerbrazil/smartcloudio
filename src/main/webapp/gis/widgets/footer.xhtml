@@ -1,0 +1,1511 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html">
+
+
+/**
+* ---------------------------- FOOTER START ------------------------
+*/
+
+/**
+ * Add interaction to the map
+ */	
+
+
+var interaction;
+
+//$('.btnDraw').addClass('ui-state-disabled');
+document.getElementById("ribbonControl:btnModify").classList.add("ui-state-disabled");
+	
+var select = new ol.interaction.Select({
+	style: new ol.style.Style({
+		stroke: new ol.style.Stroke({
+			color: '#6f84ec', width: 4
+		})
+	})
+	});
+
+var dirty = {};
+var formatWFS = new ol.format.WFS();
+var formatGML;
+
+/**
+ * Draw Points
+ */
+var processDrawVertex = function() { 
+	map.removeInteraction(interaction);
+	var layerInsert = findBy(layerSelected);
+	select.getFeatures().clear();
+	map.removeInteraction(select);
+	interaction = new ol.interaction.Draw({
+		    type: 'Point',
+		    source: layerInsert.getSource()
+		});
+		map.addInteraction(interaction);
+		interaction.on('drawend', function(e) {
+			transactWFS('insert',e.feature);
+			map.removeInteraction(interaction);
+			pDV = false;
+	    });
+};
+
+/**
+ * Draw Linestrings
+ */
+var processDrawLine = function() {
+	map.removeInteraction(interaction);
+	var layerInsert = findBy(layerSelected);
+	select.getFeatures().clear();
+	map.removeInteraction(select);
+	interaction = new ol.interaction.Draw({
+		    type: 'LineString',
+		    source: layerInsert.getSource()
+		});
+		map.addInteraction(interaction);
+		interaction.on('drawend', function(e) {
+			transactWFS('insert',e.feature);
+	    });
+};
+
+/**
+ * Draw Polygons
+ */
+var processLayerPoly = function() {
+	map.removeInteraction(interaction);
+	var layerInsert = findBy(layerSelected);
+	select.getFeatures().clear();
+	map.removeInteraction(select);
+		interaction = new ol.interaction.Draw({
+		    type: 'Polygon',
+		    source: layerInsert.getSource()
+		});
+		map.addInteraction(interaction);
+		interaction.on('drawend', function(e) {
+			transactWFS('insert',e.feature);
+	    });
+	};
+
+/**
+ * Add class highlight to select buttom from a riboon edition group
+ */
+var pDP;
+var pDL;
+var pDV;
+
+	$('#btnZoomIn').on('click', function() {
+		var view = map.getView();
+		var newResolution = view.constrainResolution(view.getResolution(), -1);
+		view.setResolution(newResolution);
+	});
+
+	$('#btnZoomOut').on('click', function() {
+		var view = map.getView();
+		var newResolution = view.constrainResolution(view.getResolution(), 1);
+		view.setResolution(newResolution);
+	});
+	
+	$('#btnDelete').on('click', function() {
+		var view = map.getView();
+		view.setCenter(center);
+		view.setZoom(zoom );
+	});
+	
+	$('#returnDash').on('click', function() {
+		window.location.href = "index.xhtml";
+	});
+	
+	$('.btnMenu').on('click', function(event) {
+
+	switch($(this).attr('id')) {
+	
+	
+	
+	case 'ribbonControl:btnSelect':
+		processSelect();
+	break;
+	
+	case 'ribbonControl:btnModify':
+		processModify();
+	break;
+
+	case 'ribbonControl:btnNav':
+	
+		var element = document.getElementById("ribbonControl:btnSelect");
+		element.classList.remove("ui-split-red"); 
+		
+		var element2 = document.getElementById("ribbonControl:btnModify");
+		element2.classList.remove("ui-split-red"); 
+
+	    map.removeInteraction(interaction);
+		map.removeInteraction(select);
+		select.getFeatures().clear();
+		
+	break;
+	
+	case 'ribbonControl:btnEdit':
+	break;
+	case 'ribbonControl:btnDrawVertex':
+if (layerSelected == null){
+		alert("Selecione Primeiro uma Camada!");
+		$(this).removeClass('blue');	
+}else{
+
+
+//if (layerSelected === 'Wexac11c-erty-12c8-srtc-Auya23d970we' || layerSelected === 'lxQxac11c121100c8ssacAA7a23d970cd' || layerSelected === 'l38bf1ad5bf004c60a3a09b85772cfdec' || layerSelected === 'l70fb230899f740969c8ed7143ec1563b')   {
+
+       $('.btnMenu').removeClass('blue');
+		$(this).addClass('blue');
+		map.removeInteraction(interaction);
+		select.getFeatures().clear();
+		map.removeInteraction(select);
+	if (pDV !== true) {
+		pDV = true;
+		pDV = false;
+		processDrawVertex();
+	}else{
+		pDV = false;
+ 		$(this).removeClass('blue');
+	};
+
+ 
+//}else{
+//alert("Camada não editavel!");
+//		$(this).removeClass('blue');	
+//}
+
+
+		
+};
+	break;
+	case 'ribbonControl:btnDrawLine':
+if (layerSelected == null){
+		alert("Selecione Primeiro uma Camada!");
+		$(this).removeClass('blue');	
+}else{
+		$('.btnMenu').removeClass('blue');
+		$(this).addClass('blue');
+		map.removeInteraction(interaction);
+		select.getFeatures().clear();
+		map.removeInteraction(select);
+	if (pDL !== true) {
+		pDL = true;
+		pDP = false;
+		processDrawLine();
+	}else{
+		pDL = false;
+ 		$(this).removeClass('blue');
+	};
+}
+	break;
+	case 'ribbonControl:btnDrawBox':
+	break;
+	case 'ribbonControl:btnDrawSquare':
+	break;
+	case 'ribbonControl:btnDrawCircle':
+	break;
+	
+	//----
+	case 'ribbonControl:btnDrawPoly':
+
+editFeatureInsert();
+
+if (layerSelected == null){
+		objMessage([{name:'message', value: 'Selecione primeiro uma camada!'}]);
+		$(this).removeClass('blue');	
+	}else{
+		$('.btnMenu').removeClass('blue');
+		$(this).addClass('blue');
+		map.removeInteraction(interaction);
+		select.getFeatures().clear();
+		map.removeInteraction(select);
+	if (pDP !== true) {
+		pDP = true;
+		pDL = false;
+		processLayerPoly();
+	}else{
+		pDP = false;
+ 		$(this).removeClass('blue');
+	};
+};		
+	break;
+	case 'btnDelete2':
+		deleteFeature('not implement yet');
+	break;
+	default:
+	break;
+
+	};
+});
+
+
+/**
+ * This is a workaround.
+ * Returns the associated layer.
+ * @param {ol.Map} map.
+ * @return {ol.layer.Vector} Layer.
+ */
+ol.Feature.prototype.getLayer = function(map) {
+    var this_ = this, layer_, layersToLookFor = [];
+    /**
+     * Populates array layersToLookFor with only
+     * layers that have features
+     */
+    var check = function(layer){
+        var source = layer.getSource();
+        if(source instanceof ol.source.Vector){
+            var features = source.getFeatures();
+            if(features.length 
+            <h:outputText value="&gt;" escape="false" /> 
+            0){
+            	layersToLookFor.push({
+                	layer: layer,
+                    features: features
+                });
+            }
+        }
+    };
+    map.getLayers().forEach(function(layer){
+        if (layer instanceof ol.layer.Group) {
+            layer.getLayers().forEach(check);
+        } else {
+			check(layer);
+        }
+    });
+    layersToLookFor.forEach(function(obj){
+        var found = obj.features.some(function(feature){
+            return this_ === feature;
+        });
+        if(found){
+            layer_ = obj.layer;
+        }
+    });
+    return layer_;
+};
+
+/**
+ * Select a feature 
+ */
+ var selectActive;
+ var processSelect =  function(event) {
+	if (selectActive == true){
+		selectActive = false;
+		
+		$('.btnDraw').addClass('ui-state-disabled');
+		
+	
+		
+		document.getElementById("ribbonControl:btnModify").classList.add("ui-state-disabled");
+		
+		document.getElementById("ribbonControl:btnSelect").classList.remove("ui-split-red");
+	    document.getElementById("ribbonControl:btnModify").classList.remove("ui-split-red"); 
+	    map.removeInteraction(interaction);
+	    map.removeInteraction(select);   
+	}else{
+	   selectActive = true;
+	   document.getElementById("ribbonControl:btnSelect").classList.add("ui-split-red"); 
+	   document.getElementById("ribbonControl:btnModify").classList.remove("ui-state-disabled");
+	   map.removeInteraction(interaction);
+	   select.getFeatures().clear();
+	   map.addInteraction(select);
+	
+	   interaction = new ol.interaction.Modify({
+			features: select.getFeatures(),
+ 
+		deleteCondition: evt =<h:outputText value="&gt;" escape="false" /> { 
+		return ol.events.condition.shiftKeyOnly(evt) 
+		<h:outputText value="&amp;&amp;" escape="false" />
+ 		ol.events.condition.singleClick(evt) 
+ 		}
+		});
+		
+		dirty = {};
+		select.getFeatures().on('add', function(e) {
+			e.element.on('change', function(e) {
+				dirty[e.target.getId()] = true;
+				});
+			});
+		select.getFeatures().on('remove', function(e) {
+			f = e.element;
+			if (dirty[f.getId()] <h:outputText value=" &amp;&amp;" escape="false" /> modifyActive == true ){
+				delete dirty[f.getId()];
+				featureProperties = f.getProperties();
+			    delete featureProperties.boundedBy;
+			    var clone = new ol.Feature(featureProperties);
+			    clone.setId(f.getId());
+ 			    clone.setGeometry(f.getGeometry());
+			    transactWFS('update',clone);
+			    alert('wfs');
+				}
+			});
+		}
+	};
+	
+
+ var snapActive;
+ var processSnap =  function(event) {
+	if (snapActive == true){
+		snapActive = false;
+		var element = document.getElementById("ribbonControl:btnSnap");
+	    element.classList.remove("ui-split-red"); 
+        map.removeInteraction(snap);	
+	}else{
+	    snapActive = true;
+	    var element = document.getElementById("ribbonControl:btnSnap");
+	    element.classList.add("ui-split-red"); 
+		var snap = new ol.interaction.Snap({
+			//source: layerve7dd1afaa8da0sserc90333e44aedr5.getSource()
+		});
+	    map.addInteraction(snap);	
+	 }	
+	};
+	
+ var modifyActive;
+ var processModify =  function(event) {
+
+  
+	if (modifyActive == true){
+		modifyActive = false;
+		var element = document.getElementById("ribbonControl:btnModify");
+	    element.classList.remove("ui-split-red"); 
+	    map.removeInteraction(interaction);
+	    
+	    var element2 = document.getElementById("ribbonControl:btnPrintScreen");
+	    element2.classList.add("ui-split-red"); 		
+					
+	}else{
+	   console.info('----------------OPA---3----- ' + modifyActive);
+	   modifyActive = true;
+	   var element = document.getElementById("ribbonControl:btnModify");
+	    element.classList.add("ui-split-red"); 
+	     map.addInteraction(interaction);
+	       console.info('----------------OPA---4----- ' + modifyActive);
+	}
+	};
+	   
+	   
+
+function removeSelectedFeature() {
+   var features = this.select.getFeatures();
+
+     if (features != null 
+     <h:outputText value=" &amp;&amp;" escape="false" /> 
+     features.length <h:outputText value="&gt;" escape="false" /> 0) {
+         for (x in features) {
+            var properties = features[x].getProperties();
+            var id = properties.id;
+            if (id == selectedFeatureID) {
+              layerpa7781afaa8da023erc90338004ae544.removeFeature(features[x]);
+               break;
+            }
+          }
+        }
+      }
+	
+
+/**
+ * Draw edit feature
+ */
+var deleteFeature2 = function() {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+	var keyFid = feature.getId();
+	select.getLayer(feature).getSource().removeFeature(feature);
+	select.getFeatures().clear();
+  }
+};
+
+ var newStyle33 = new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 5,
+                fill: new ol.style.Fill({color: 'red'}),
+                stroke: new ol.style.Stroke({color: 'yellow', width: 1})
+            })
+        });
+       
+
+
+function geometryStyle33(feature){
+  var
+    style = [],
+    geometry_type = feature.getGeometry().getType(),
+    white = [255, 255, 255, 1],
+    blue = [0, 153, 255, 1],
+    width = 6
+  ;
+
+  style['LineString'] = [
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: white, width: width + 2
+      })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: blue, width: width
+      })
+    })
+  ],
+  style['Polygon'] = [
+    new ol.style.Style({
+      fill: new ol.style.Fill({ color: [255, 255, 255, 0.5] })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: white, width: 3.5
+      })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: blue, width: 2.5
+      })
+    })
+  ],
+  style['MultiPolygon'] = [
+    new ol.style.Style({
+      fill: new ol.style.Fill({ color: [255, 255, 255, 0.0] })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: white, width: 3.5
+      })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: blue, width: 2.5
+      })
+    })
+  ],
+  style['Point'] = [
+    new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: width * 2,
+        fill: new ol.style.Fill({color: blue}),
+        stroke: new ol.style.Stroke({
+          color: white, width: width / 2
+        })
+      })
+    })
+  ];
+
+  return style[geometry_type];
+}
+
+var outro ;
+var deleteFeature = function(outro) {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+	this.select.getLayer(feature).getSource().removeFeature(feature);
+  }
+};
+
+/**
+ * Rename geometry name at runtime
+ */
+var newname ;
+var renameFeature2 = function(newname, featureId) {
+  var features = this.select.getFeatures();
+   	if (features.getLength() === 1) {
+   	
+   		
+    	var feature = features.item(0);
+    	
+    	var idDef = feature.getId();
+    	
+    	console.info('FEATURE ID: ' + idDef);
+    	
+    	
+    	feature.set('nome', newname);
+    	this.select.getFeatures().clear();
+  }
+};
+
+var renameFeature = function(layerName, featureId, newName) {
+ 	var layerBase = findBy(layerName);
+ 	var feature;
+	if (layerBase != null){
+		 feature = layerBase.getSource().getFeatureById(featureId);
+		 console.log('Feature found:', feature.getId());
+		 feature.set('nome', newName);
+		 feature.changed(); 
+	     map.removeInteraction(select);
+	} 
+};
+
+//let geometry = feature.getGeometry();
+    // For Polygon geometry, return the interior point
+   // if (geometry.getType() === 'Polygon') {
+   //   return geometry.getInteriorPoint();
+   // }
+    
+/**
+ * Print functions start 
+ */
+var refreshComp = function() {
+      updatePrintRectanglePixels(scaleOptions.value);
+      this.map.render();
+    };
+
+/**
+ * Print activate/deactivate functions
+ */
+var activatePrint = false;
+var processPrint = function(map) {
+	if (activatePrint !== true) {
+		activatePrint = true;
+		PF('printDialog').show();
+	}else{
+ 		activatePrint = false;
+		PF('printDialog').hide();
+	};
+	this.map.render();
+};
+
+var deregister;
+
+var activate = function() {
+      deregister = [
+	    layer000000000000000000.on('postrender', handlePreCompose),
+        layer000000000000000000.on('postrender', handlePostCompose),
+        this.map.getView().on('propertychange', function(event) {
+          updatePrintRectanglePixels(scaleOptions.value);
+        })
+      ];
+      refreshComp();
+    };
+
+var deactivate = function() {
+      if (deregister) {
+        for (var i = 0; i    <h:outputText value="&lt;" escape="false" />    deregister.length; i++) {
+          ol.Observable.unByKey(deregister[i]);
+        }
+      }
+      activatePrint = false;
+      refreshComp();
+    };
+
+var handlePreCompose = function(evt) {
+      var ctx = evt.context;
+      ctx.save();
+    };
+
+var handlePostCompose = function(evt) {
+      var ctx = evt.context;
+      var size = map.getSize();
+      var height = size[1] * ol.has.DEVICE_PIXEL_RATIO;
+      var width = size[0] * ol.has.DEVICE_PIXEL_RATIO;
+      var minx, miny, maxx, maxy;
+      minx = printRectangle[0], miny = printRectangle[1],
+      maxx = printRectangle[2], maxy = printRectangle[3];
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(width, 0);
+      ctx.lineTo(width, height);
+      ctx.lineTo(0, height);
+      ctx.lineTo(0, 0);
+      ctx.closePath();
+      ctx.moveTo(minx, miny);
+      ctx.lineTo(minx, maxy);
+      ctx.lineTo(maxx, maxy);
+      ctx.lineTo(maxx, miny);
+      ctx.lineTo(minx, miny);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(0, 5, 5, 0.55)';
+      ctx.fill();
+      ctx.restore();
+    };
+
+/**
+ * Define print variables
+ */
+var printRectangle;
+var POINTS_PER_INCH = 72;
+var MM_PER_INCHES = 25.4;
+var UNITS_RATIO = 39.37; 
+
+map.on('change:size', function(event) {
+	 updatePrintRectanglePixels(scaleOptions.value);
+    });
+
+map.on('scale', function(event) {
+	//alert("Mudou tamanho da scala");     
+	// updatePrintRectanglePixels($codigo.scale);    // AQUI BUG 732c0f6e-edf8-4cea-9812-1efb090a183b - Scale not defined yet
+ 	// need code producer.
+    });
+var printRectangle;
+var scale = 10000;
+
+/**
+ * 
+ */
+var encodeLayer = function() {
+	var displayCoords = printRectangle.map(function(c) {
+        return c / ol.has.DEVICE_PIXEL_RATIO
+      });
+	var minXY = map.getCoordinateFromPixel([displayCoords[0],  displayCoords[3]]);
+	var maxXY = map.getCoordinateFromPixel([displayCoords[2],  displayCoords[1]]);
+  	var ext4326 = minXY.concat(maxXY);
+  	//var minXY4326 = ol.proj.transform(minXY, 'EPSG:3857', 'EPSG:4326');
+	//var maxXY4326 = ol.proj.transform(maxXY, 'EPSG:3857', 'EPSG:4326');
+	//var ext4326 = extminXY4326.concat(maxXY4326);
+};
+
+
+
+/**
+ * Function print window
+ */
+var editFeaturePrint = function() {
+
+  var features = this.select.getFeatures();
+  if (features.getLength() === 1) {
+    var feature = features.item(0);
+    
+    var layer = feature.getLayer(map);
+      
+    var geometry = feature.getGeometry();
+    var keyFid = feature.getId();
+ 
+    var npos = keyFid.indexOf(".");
+    var lenkeyFid = keyFid.length;
+    var layerName = keyFid.substr(0, npos);
+    var layerType = keyFid.substr(0, npos );  // BUG
+    var idDef = feature.get('id');
+    var lnameX = layer.get('name');
+	if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+		idNumero = feature.get('id');
+	}else{
+		var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+	}
+
+
+$.ajax({
+ 	success: function(data) {
+
+	if (activatePrint !== true) {
+		activatePrint = true;
+		activate();
+		objEditPrint([{name:'objectid', value: idNumero},
+							{name:'layerid', value: lnameX}]);
+		}else{
+ 			activatePrint = false;
+			deactivate();
+			PF('printDialog').hide();
+		};
+		}
+      	});
+      	
+	}else{
+		if (activatePrint !== true){
+			alert("Selecione Primeiro uma Parcela ou Imovel!");
+		}else{
+			activatePrint = false;
+			deactivate();
+			PF('printDialog').hide();
+		}
+	}
+	};
+//-------------------------------------------
+
+
+
+
+
+
+
+
+/**
+ * Function print window
+ */
+ 
+ var activatePrintScreen = false;
+  let layerPrint;
+ let objPrint;
+var editFeaturePrintScreen = function() {
+	console.info(' editFeaturePrintScreen ' );
+  var features = this.select.getFeatures();
+  
+  
+  if (features.getLength() === 1) {
+  
+  
+    var feature = features.item(0);
+    
+    var layer = feature.getLayer(map);
+      
+    var geometry = feature.getGeometry();
+    var keyFid = feature.getId();
+ 
+    var npos = keyFid.indexOf(".");
+    var lenkeyFid = keyFid.length;
+    var layerName = keyFid.substr(0, npos);
+    var layerType = keyFid.substr(0, npos );  // BUG
+    var idDef = feature.get('id');
+    var lnameX = layer.get('name');
+	if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+		idNumero = feature.get('id');
+	}else{
+		var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+	}
+
+	if (activatePrintScreen !== true) {
+			activatePrintScreen = true;
+			layerPrint = lnameX;
+        	objPrint = idNumero;
+        	addInteraction33();
+        	PF('sidebar1').hide();
+        	PF('printDialogScreen').show();
+		}else{
+ 			activatePrintScreen = false;
+			layerPrint = null;
+            objPrint = null;
+			removeInteraction33();
+			PF('printDialogScreen').hide();
+			PF('sidebar1').show();
+		};	
+	}else{
+		if (activatePrintScreen !== true){
+			alert("Selecione Primeiro uma Parcela ou Imovel!");
+		}else{
+			activatePrintScreen = false;
+			removeInteraction33();
+			PF('printDialogScreen').hide();
+		    PF('sidebar1').show();
+		}
+	}
+	};
+//-------------------------------------------
+
+
+
+
+
+
+
+
+
+/**
+ * Function to print any feature
+ */
+
+var editFeatureInsert = function() {
+  var features = this.select.getFeatures();
+
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+    	var geometry = feature.getGeometry();
+    	var keyFid = feature.getId();
+    	var npos = keyFid.indexOf(".");
+
+    	var lenkeyFid = keyFid.length;
+    	var layerName = keyFid.substr(0, npos);
+    	var numeros = 0;
+
+  		numeros = layerName.length - 4;
+		var layerType = keyFid.substr(0, npos - numeros);  
+    
+
+ 	var idDef = feature.get('id');
+	if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+		idNumero = feature.get('id');
+	}else{
+		var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+	}
+ 	geometrySelected = idNumero;
+  }
+};
+
+var editLayer = function() {
+	if (layerSelected == null){ 
+		alert("Selecione Primeiro uma Camada!");
+		PF('sidebar1').show() ;
+	}else{
+		layerEdit([{name:'layerid', value: layerSelected}]);
+	}
+};
+
+var editLayerGeo = function() {
+	if (layerSelected == null){ 
+		alert("Selecione Primeiro uma Camada!");
+		PF('sidebar1').show() ;
+	}else{
+		layerGeoEdit([{name:'layerid', value: layerSelected}]);
+	}
+};
+
+
+/**
+ * Draw edit feature
+ */
+var editFeature = function() {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+    	var geometry = feature.getGeometry();
+    	var keyFid = feature.getId();
+    	var npos = keyFid.indexOf(".");
+
+    	var lenkeyFid = keyFid.length;
+    	var layerName = keyFid.substr(0, npos);
+    	var numeros = 0;
+
+
+    	fidX1  = 'obratemp' + projeto;
+    	fidV1  = 'vertice4326_view_' + projeto;
+    	fidP1  = 'limiteoffset4326_view_' + projeto;
+	fidPL1 = 'limite4326_view_' + projeto;
+
+	if (layerName === fidX1) {
+     		numeros = layerName.length - 8;
+		var layerType = keyFid.substr(0, npos - numeros); 
+ 	}else if (layerName === fidV1) {
+ 		numeros = layerName.length - 7;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else if (layerName === fidP1 || layerName === fidPL1) {
+  		numeros = layerName.length - 6;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else {
+  		numeros = layerName.length - 4;
+		var layerType = keyFid.substr(0, npos - numeros);  
+    	}
+
+ 	var idDef = feature.get('id');
+	if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+		idNumero = feature.get('id');
+	}else{
+		var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+	}
+
+	objEdit([{name:'objectid', value: idNumero}, {name:'layerid', value: layerName}]);
+
+  }
+};
+
+
+/**
+ * Draw edit feature
+ */
+var editFeatureVer = function() {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+    	var geometry = feature.getGeometry();
+    	var keyFid = feature.getId();
+    	var npos = keyFid.indexOf(".");
+
+    	var lenkeyFid = keyFid.length;
+    	var layerName = keyFid.substr(0, npos);
+    	var numeros = 0;
+
+    	fidX1  = 'obratemp' + projeto;
+    	fidV1  = 'vertice4326_view_' + projeto;
+    	fidP1  = 'limiteoffset4326_view_' + projeto;
+    	fidPL1 = 'limite4326_view_' + projeto;
+
+
+	if (layerName === fidX1) {
+     		numeros = layerName.length - 8;
+		var layerType = keyFid.substr(0, npos - numeros); 
+ 	}else if (layerName === fidV1) {
+ 		numeros = layerName.length - 7;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else if (layerName === fidP1 || layerName === fidPL1) {
+  		numeros = layerName.length - 6;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else {
+  		numeros = layerName.length - 4;
+		var layerType = keyFid.substr(0, npos - numeros);  
+    	}
+
+ 	var idDef = feature.get('id');
+	if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+		idNumero = feature.get('id');
+	}else{
+		var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+	}
+
+	objEditVer([{name:'objectid', value: idNumero}, {name:'layerid', value: layerName}]);
+ 	
+  }
+};
+
+
+var editFeatureRI = function() {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+    	var geometry = feature.getGeometry();
+    	var keyFid = feature.getId();
+    	var npos = keyFid.indexOf(".");
+
+    	var lenkeyFid = keyFid.length;
+    	var layerName = keyFid.substr(0, npos);
+    	var numeros = 0;
+
+    	fidX1  = 'obratemp' + projeto;
+    	fidV1  = 'vertice4326_view_' + projeto;
+    	fidP1  = 'limiteoffset4326_view_' + projeto;
+	fidPL1 = 'limite4326_view_' + projeto;
+
+	if (layerName === fidX1) {
+     		numeros = layerName.length - 8;
+		var layerType = keyFid.substr(0, npos - numeros); 
+ 	}else if (layerName === fidV1) {
+ 		numeros = layerName.length - 7;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else if (layerName === fidP1 || layerName === fidPL1) {
+  		numeros = layerName.length - 6;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else {
+  		numeros = layerName.length - 4;
+		var layerType = keyFid.substr(0, npos - numeros);  
+    	}
+
+ 	var idDef = feature.get('id');
+	if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+		idNumero = feature.get('id');
+	}else{
+		var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+	}
+
+	objEditRI([{name:'objectid', value: idNumero}, {name:'layerid', value: layerName}]);
+
+  }
+};
+
+
+var parcelFeatureRI = function() {
+	  var features = this.select.getFeatures();
+	  	if (features.getLength() === 1) {
+	    	var feature = features.item(0);
+	    	var geometry = feature.getGeometry();
+	    	var keyFid = feature.getId();
+	    	var npos = keyFid.indexOf(".");
+
+	    	var lenkeyFid = keyFid.length;
+	    	var layerName = keyFid.substr(0, npos);
+	    	var numeros = 0;
+
+	    	fidX1  = 'obratemp' + projeto;
+	    	fidV1  = 'vertice4326_view_' + projeto;
+	    	fidP1  = 'limiteoffset4326_view_' + projeto;
+		fidPL1 = 'limite4326_view_' + projeto;
+
+
+		if (layerName === fidX1) {
+	     		numeros = layerName.length - 8;
+			var layerType = keyFid.substr(0, npos - numeros); 
+	 	}else if (layerName === fidV1) {
+	 		numeros = layerName.length - 7;
+			var layerType = keyFid.substr(0, npos - numeros);  
+		}else if (layerName === fidP1 || layerName === fidPL1) {
+	  		numeros = layerName.length - 6;
+			var layerType = keyFid.substr(0, npos - numeros);  
+		}else {
+	  		numeros = layerName.length - 4;
+			var layerType = keyFid.substr(0, npos - numeros);  
+	    	}
+
+	 	var idDef = feature.get('id');
+		if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+			idNumero = feature.get('id');
+		}else{
+			var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+		}
+
+		objParceltRI([{name:'objectid', value: idNumero}, {name:'layerid', value: layerName}]);
+
+	  }
+	};
+
+var printPDF = function() {
+
+	var displayCoords = printRectangle.map(function(c) {
+	        return c / ol.has.DEVICE_PIXEL_RATIO
+	      });
+	      
+	var minXY = map.getCoordinateFromPixel([displayCoords[0],  displayCoords[3]]);
+ 	var maxXY = map.getCoordinateFromPixel([displayCoords[2],  displayCoords[1]]);
+  	var ext = minXY.concat(maxXY);
+
+	applyData(ext,
+			scaleOptions.value, paperOptions.value, sistemaOptions.value, backgroundOptions.value,'3',modeloOptions.value);
+};
+
+
+/**
+ * Update rectangle when scale event change 
+ */
+var updatePrintRectanglePixels = function(scale) {
+      if (activatePrint) {   
+        printRectangle = calculatePageBoundsPixels(scaleOptions.value); //Active Print Waiting V-5f9df8c5-aeea-4dc8-a079-fa7c919b8287
+       	this.map.render();
+     	 }
+	};
+
+/**
+ * Calculate the page bounds in pixels 
+ */
+var calculatePageBoundsPixels = function(scale) {
+      var DEVICE_PIXEL_RATIO = ol.has.DEVICE_PIXEL_RATIO; 
+      var sizewidth = 600;
+      var sizeheight = 400;
+      var s = parseFloat(scaleOptions.value);
+      var view = this.map.getView();
+      var resolution = view.getResolution();
+      var w = sizewidth / POINTS_PER_INCH * MM_PER_INCHES / 1000.0 *
+      s / resolution * DEVICE_PIXEL_RATIO;
+      var h = sizeheight / POINTS_PER_INCH * MM_PER_INCHES / 1000.0 *
+          s / resolution * DEVICE_PIXEL_RATIO;
+      var mapSize = map.getSize();
+      var center = [mapSize[0] * DEVICE_PIXEL_RATIO / 2 ,
+          mapSize[1] * DEVICE_PIXEL_RATIO / 2];
+
+      var minx, miny, maxx, maxy;
+      minx = center[0] - (w / 2);
+      miny = center[1] - (h / 2);
+      maxx = center[0] + (w / 2);
+      maxy = center[1] + (h / 2);
+  
+      return [minx, miny, maxx, maxy];
+    };
+	
+
+/**
+ * Variables from print client interface 
+ */
+var scaleOptions = document.getElementById('printForm:scaleOptions_input');
+var sistemaOptions = document.getElementById('printForm:sistemaOptions_input');
+var backgroundOptions = document.getElementById('printForm:backgroundOptions_input');
+var paperOptions = document.getElementById('printForm:paperOptions_input');
+var modeloOptions = document.getElementById('printForm:modeloOptions_input');
+
+var paperOptionsScreen = document.getElementById('printFormScreen:paperOptionsScreen_input');
+var sistemaOptionsScreen = document.getElementById('printFormScreen:sistemaOptionsScreen_input');
+
+
+/**
+ *  Change print events
+ */
+scaleOptions.onchange = function(e) {
+	updatePrintRectanglePixels(scaleOptions.value);
+	};
+
+sistemaOptions.onchange = function(e) {
+	//NOT INPLEMENT YET. Waiting V-"4a620ub5-b0b2-49t3-845c-7rc9c3894874"
+	};
+
+backgroundOptions.onchange = function(e) {
+	//NOT INPLEMENT YET. Waiting V-ed8b43a8-862b-4b24-af3f-b8bebde784bb
+	};
+
+paperOptions.onchange = function(e) {
+  	var paper = paperOptions.value;
+	};
+
+modeloOptions.onchange = function(e) {
+  	var modelo = modeloOptions.value;
+	};
+
+/**
+ * Refresh map 
+ */
+
+var fetchData = function () {
+ 	map.removeInteraction(select);
+	map.removeInteraction(draw);
+	map.removeInteraction(interaction);
+
+    jQuery.ajax(urlwfs,{
+       success: function (data, textStatus, jqXHR) {
+
+
+    	//   source607bec088d2d48e7a046fe4e8183bf1c.clear();
+    	//   source783e57ddb6084bd9b6900b6556648a0c.clear();
+
+
+$('.btnMenu').removeClass('blue');
+     //  obra4326source.addFeatures(geojsonFormat.readFeatures(data));
+    }});
+};
+
+
+var fetchData55 = function () {
+	   source607bec088d2d48e7a046fe4e8183bf1c.clear();
+	   source783e57ddb6084bd9b6900b6556648a0c.clear();
+};
+
+var fetchData5 = function (minLat, maxLng, minLng, maxLat, idx) {
+	var pt1 = ol.proj.transform([minLat,maxLat], 'EPSG:4326', 'EPSG:3857');
+	var pt2 = ol.proj.transform([minLng,maxLng], 'EPSG:4326', 'EPSG:3857');
+	var boxarray = [pt1[0], pt2[1], pt2[0], pt1[1]];
+	this.map.getView().fit(boxarray, this.map.getSize());
+	};
+
+ var fetchDataLAYERID_ = function (layersOrder) {
+
+	var temp = new Array();
+	// this will return an array with strings "1", "2", etc.
+	temp = layersOrder.split(",");
+
+  		var layers = map.getLayers();
+                var length = layers.getLength();
+ 		var layerChange;	 		 
+                for (var i = 0; i <h:outputText value="&lt;"
+		escape="false" /> length; i++) {
+
+ 			 layerChange = findBy(temp[i]);
+				if (i <h:outputText value="&lt;" escape="false" /> (length - 1)){
+					 layerChange.setZIndex(i);
+				}
+                	
+                }
+	     }; 
+	     
+	     
+	     
+	      var fetchDataLAYERIDGROUP = function (layerGroup, layersOrder) {  
+	      
+	          var rrrrrr = layersOrder[0];
+	          console.info('--------START0 -------' + rrrrrr);
+	          
+console.info('------------------START1 ----------------' + layerGroup);
+
+var layerGroupChange = findBy(layerGroup);
+
+
+console.info('------------------START2 ----------------' + layerGroupChange	);
+
+
+  		var layersInGroup = layerGroupChange.getLayers();
+  		
+  		
+        var length = layersInGroup.getLength();
+        
+        console.info('------------------START3 ----------------' + length	);
+        
+ 		var layerChange;	
+ 		 		
+                for (var i = 0; i <h:outputText value="&lt;"
+		escape="false" /> length; i++) {
+                	layerChange = findByGroup(layerGroup, layersOrder[i]);
+                	
+                	var named = layerChange.get('name');
+                	
+        
+                	
+            
+                	
+                		 console.info('--CCCCCC---' + i  + ' ' + named);
+                
+				 layerChange.setZIndex(i);
+				
+			
+				
+                	
+				
+             }
+           
+         
+	     }; 
+	     
+	     
+	     /**
+             * Find a layer name from the map layers.
+             * @param {type} layers, layername
+             * @returns {ol.layer}
+             */
+ 	     function findByGroup(layerGroup, layername) {
+ 	     var layerGroupChange = findBy(layerGroup);
+ 	     
+		    var layers = layerGroupChange.getLayers();
+            var lenLayers = layers.getLength();
+         for (var i = 0; i <h:outputText value="&lt;" escape="false" /> lenLayers; i++) {
+			var layerFind = layers.item(i);
+			var name = layerFind.get('name')
+                       if (name == layername) {
+                       		  console.info('ESTA');
+                              return layerFind;
+                        }
+                    }
+                    console.info('NULL');
+         	return null; 
+            };
+	     
+
+ 	     /**
+             * Change layers orders base on layersOrder list array
+             * @param {list array} layersOrder
+             * @returns {undef}
+             */
+	    var fetchDataLAYERID = function (layersOrder) { 
+
+    
+
+  		var layers = map.getLayers();
+        var length = layersOrder.length;
+ 		var layerChange;	 		
+                for (var i = 0; i <h:outputText value="&lt;"
+		escape="false" /> length; i++) {
+                	layerChange = findBy(layersOrder[i]);
+                	
+                		var named = layerChange.get('name');
+         
+				
+					 layerChange.setZIndex(i + 1);
+			console.info(layerChange.getZIndex() + ' M ' + i  + ' ' +  named);
+             }
+	     }; 
+
+ 	     /**
+             * Find a layer name from the map layers.
+             * @param {type} layers, layername
+             * @returns {ol.layer}
+             */
+ 	     function findBy(layername) {
+		    var layers = map.getLayers();
+            var lenLayers = layers.getLength();
+         for (var i = 0; i <h:outputText value="&lt;" escape="false" /> lenLayers; i++) {
+			var layerFind = layers.item(i);
+			var name = layerFind.get('name')
+                       if (name == layername) {
+                              return layerFind;
+                        }
+                    }
+         	return null; 
+            };
+
+ 
+ 
+ 	       function fetchData333(layerName) {
+		    var layers = map.getLayers();
+            var lenLayers = layers.getLength();
+         	for (var i = 0; i <h:outputText value="&lt;" escape="false" /> lenLayers; i++) {
+			var layerFind = layers.item(i);
+			var name = layerFind.get('name')
+			let type = name.substring(name.indexOf('-') + 1);
+			if (layerName == name) {
+			  layerFind.getSource().refresh();
+			}
+                      
+                    }
+         	return null; 
+            };
+ 
+ 
+  			function fetchData555() {
+		    var layers = map.getLayers();
+            var lenLayers = layers.getLength();
+         	for (var i = 0; i <h:outputText value="&lt;" escape="false" /> lenLayers; i++) {
+			var layerFind = layers.item(i);
+			var name = layerFind.get('name')
+			var zzIndex = layerFind.get('zIndex')
+			let type = name.substring(name.indexOf('-') + 1);
+			
+			console.info('p -: ' + name + ' ZI ' + zzIndex);
+			
+			if (type != 'group')  {
+			  layerFind.getSource().refresh();
+			}
+                      
+            }
+         	return null; 
+            };
+ 
+
+/**
+* Add Layer default unctions
+*/
+
+      var psf467db146181c4b6f92e004647e5e060c = function() {
+    	  var image = new ol.style.Circle({
+    	    radius: 5,
+    	    fill: null,
+    	    stroke: new ol.style.Stroke({color: 'orange', width: 2})
+    	  });
+    	  return [
+    	      new ol.style.Style({
+    	          image: image,
+    	          geometry: function(feature) {
+    	              var coordinates = feature.getGeometry().getCoordinates()[0];
+    	              return new ol.geom.MultiPoint(coordinates);
+    	          }
+    	      }),
+    	      new ol.style.Style({
+    	        stroke: new ol.style.Stroke({
+    	          color: 'blue',
+    	          width: 3
+    	        }),
+    	        fill: new ol.style.Fill({
+    	          color: 'rgba(0, 0, 255, 0.1)'
+    	        })
+    	      })
+    	  ];
+    	};      
+      
+      function psfbcf9728812584d99a26ee970e692857a(feature, resolution) {
+    	return new ol.style.Style({
+    	
+    		fill: new ol.style.Fill({
+	          color: 'rgba(245, 235, 255, 0.1)'
+	        }),
+
+	        stroke: new ol.style.Stroke({
+	          color: '#ffcc33',
+	          width: 1
+	        }),
+	        
+          image: new ol.style.Circle({
+            radius: 5,
+            fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
+            stroke: new ol.style.Stroke({color: 'red', width: 1})
+          }),
+           text: tsbcf9728812584d99a26ee970e692857a(feature, resolution, svbcf9728812584d99a26ee970e692857a)
+        });
+	}
+
+
+var changeStyleLayerbcf9728812584d99a26ee970e692857a = function (layerStyle) {
+	function psfbcf9728812584d99a26ee970e692857a(feature, resolution) {
+    	return new ol.style.Style({
+          image: new ol.style.Circle({
+            radius: 5,
+            fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
+            stroke: new ol.style.Stroke({color: 'red', width: 1})
+          }),
+           text: tsbcf9728812584d99a26ee970e692857a(feature, resolution, layerStyle)
+        });
+	}
+	layerbcf9728812584d99a26ee970e692857a.setStyle(psfbcf9728812584d99a26ee970e692857a);
+	}; 
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
+var addWfsLayer = function (str) {
+    var layer333 = new ol.layer.Vector({
+        source: sourcebcf9728812584d99a26ee970e692857a,
+        name: str
+    });
+    this.map.addLayer(layer333);
+    PF('addLayerDialog').hide();
+};
+
+/**
+* ---------------------------- CLUSTER START ------------------------
+*/
+
+	
+// Addfeatures to the cluster
+		function addFeatures(nb)
+		{	var ext = map.getView().calculateExtent(map.getSize());
+			var features=[];
+			for (var i=0; i <h:outputText value="&lt;" escape="false" /> nb; ++i)
+			{	features[i]=new ol.Feature(new ol.geom.Point([ext[0]+(ext[2]-ext[0])*Math.random(), ext[1]+(ext[3]-ext[1])*Math.random()]));
+				features[i].set('id',i);
+			}
+			clusterSource.getSource().clear();
+			clusterSource.getSource().addFeatures(features);
+		}
+
+		// Style for the clusters
+		var styleCache = {};
+		function getStyle (feature, resolution)
+		{	
+			  var originalFeature = feature.get('features')[0];
+		//console.info("ID:" + originalFeature.get('nome') );
+
+
+			var size = feature.get('features').length;
+			var style = styleCache[size];
+			//if (!style)
+			//{	
+				var nome = originalFeature.get('nome');
+				var color = size<h:outputText value="&gt;" escape="false" />25 ? "192,0,0" : size<h:outputText
+		value="&gt;" escape="false" />8 ? "255,128,0" : "0,128,0";
+				//var radius = Math.max(8, Math.min(size*0.75, 20));
+				var radius = 20;
+				var dash = 2*Math.PI*radius/6;
+				var dash = [ 0, dash, dash, dash, dash, dash, dash ];
+
+		//	console.info("ID:" + originalFeature.getId() + " - " +"ICON:" + originalFeature.get('iconflag') 
+		//		 + " - " +  "Color:" + color  + " - " + "Dash:" + dash  + " - " +  "Radius:" + radius
+		//	);
+				if (size <h:outputText value="&gt;" escape="false" /> 1){
+				style = styleCache[size] = new ol.style.Style(
+					{	image: new ol.style.Circle(
+						{	radius: radius,
+							stroke: new ol.style.Stroke(
+							{	color: "rgba("+color+",0.5)", 
+								width: 20 ,
+							}),
+							fill: new ol.style.Fill(
+							{	color:"rgba("+color+",1)"
+							})
+						}),
+						text: new ol.style.Text(
+						{	text: size.toString(),
+ 							font: (radius * 2 - 5) + 'px sans-serif',
+							fill: new ol.style.Fill(
+							{	color: '#fff'
+							})
+						})
+					});
+
+				}else{
+
+  						 var iconFontText2 = '\uf135'; // Rocket icon
+						var theGlyph  = originalFeature.get('iconflag') 
+				style = styleCache[size] = new ol.style.Style(
+					{	
+					
+						image: new ol.style.FontSymbol(
+						{	
+							form: 'circle', 
+							gradient: true,
+							glyph: theGlyph, 
+							fontSize: 0.8,
+							radius: 30, 
+							//offsetX: -15,
+							rotation: 0,
+							rotateWithView: false,
+							offsetY: 0 ,
+							color: '#FFFF33',
+								fill: new ol.style.Fill(
+							{	color: '#0000FF'
+							}),
+							stroke: new ol.style.Stroke(
+							{	color: '#00FF00',
+								width: 3
+							})
+						})
+
+
+							//text: new ol.style.Text({
+            						//font: 'Normal ' + iconSize + 'px ' + iconFont,
+            						//text: iconFontText2,
+            						//	fill: new ol.style.Fill({ color: col })
+       							// })	
+						
+					});
+			}//else end
+
+
+
+			//}
+			return [style];
+		}
+
+
+
+
+
+</ui:composition>

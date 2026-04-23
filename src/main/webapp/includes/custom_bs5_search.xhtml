@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:c="jakarta.tags.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:p="http://primefaces.org/ui"> 
+    
+  
+     <style>
+
+
+
+
+#navbar {
+  z-index: 1000;
+  overflow: hidden;
+  background-color: #20b014;
+}
+
+
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+</style>
+ 
+
+<nav id="navbar" class="bd-subnavbar py-2" aria-label="Secondary navigation">
+  <div class="container-xxl d-flex align-items-md-center">
+    <h:form class="position-relative me-auto">
+    
+     <div class="ui-inputgroup">
+                  <span class="ui-input-icon-left">
+        <i class="pi pi-search" />
+                    <p:inputText type="search" id="globalSearch" 
+                    
+                    value="#{itemITLazyBean.globalSearch}"
+                    placeholder="Buscar Produto">
+                    <p:ajax event="search" update="thing_1:thing4_0:form55" 
+                    listener="#{itemITLazyBean.processSearch()}" />
+                    </p:inputText>
+                    
+                    </span>
+                    
+                    <p:commandButton id="globalFilter" value="Buscar"
+							
+							 update="thing_1:thing4_0:form55"
+							 action="#{itemITLazyBean.processSearch()}" >
+							 
+							</p:commandButton>
+                    
+                      
+                </div>
+    
+				
+     
+    </h:form>
+
+    <div class="dropdown ms-3">
+  
+ 
+</div>
+
+
+
+  </div>
+</nav>
+
+
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar = document.getElementById("navbar");
+var sticky = navbar.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
+</script>
+	
+	 
+</ui:composition>

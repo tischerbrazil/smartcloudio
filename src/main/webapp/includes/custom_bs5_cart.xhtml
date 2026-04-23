@@ -1,0 +1,297 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+	
+	
+	
+	
+						<style type="text/css">
+.ui-g1y {
+	background-color: #ededed !important;
+}
+
+ui-g1x {
+	background-color: #ededed !important;
+	text-align: left !important;;
+	border-bottom: 1px solid #007bff !important;
+}
+
+.ui-g1y {
+	background-color: #ededed !important;
+	text-align: left !important;
+	border-bottom: 1px solid #007bff !important;
+}
+
+.ui-g div {
+	background-color: #ededed !important;
+}
+
+.ui-galleria-close {
+	top: 60px !important;
+}
+.product-item .product-item-content {
+        border: 1px solid var(--surface-d);
+        border-radius: 3px;
+        margin: .3rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .product-item .product-image {
+        width: 100%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    }
+    
+    
+    .product-badge {
+  margin-bottom: 3px"
+  border-radius: 2px;
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px; 
+  }
+  
+  .product-badge.status-instock {
+    background: #C8E6C9;
+    color: #256029; }
+    
+  .product-badge.status-outofstock {
+    background: #FFCDD2;
+    color: #C63737; }
+    
+  .product-badge.status-lowstock {
+    background: #FEEDAF;
+    color: #8A5340; }
+    
+</style>
+
+		
+			<link rel="stylesheet" type="text/css"
+		href="includes/application/css/layout.css" />
+
+
+    <section>
+	  <div class="container">
+    <div class="py-3 text-center">
+     
+     
+
+
+<ui:fragment rendered="#{shoppingCartBean.shoppingCartIsEmpty()}">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="body">
+							<div class="row clearfix">
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12  text-center">
+									<p:graphicImage width="120" library="images"
+										name="svg/shopping-cart-empty.svg" />
+								</div>
+								<div class="col-sm-9 mt-2">
+									<p:staticMessage severity="warn"
+										summary="Seu carrinho de compras está vazio!!!" detail=""
+										style="width: 100%" />
+										
+										<p:button
+										style="margin-top: 15px"
+										 value="Ir para a Loja" 
+								outcome="/index"
+								icon="pi pi-chevron-left" styleClass="ui-button-warning" >
+								
+							<f:param name="gcmid"
+								value="#{compjson.field.get('gcmid_redirect').asText()}" />
+								</p:button>
+										
+								</div>
+								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12  text-center">
+								
+								
+								
+								</div>
+							</div>
+						</div>
+					</div>
+					<br />
+				</ui:fragment>
+				
+				 
+
+
+<ui:fragment rendered="#{shoppingCartBean.shoppingCartIsEmpty() != true}">
+
+ <h4>Carrinho de Compras1</h4>
+ 
+ </ui:fragment>
+      </div>
+      
+       <div class="row g-5">
+      <div class="col-md-5 col-lg-4 order-md-last">
+     
+     	<!-- /Cart Items -->
+            <div class="col-12 col-lg-6 col-xl-5">
+                <div class="bg-dark p-4 p-md-5 text-white">
+                    <h3 class="fs-3 fw-bold m-0 text-center">Order Summary</h3>
+                    <div class="py-3 border-bottom-white-opacity">
+                        <div class="d-flex justify-content-between align-items-center mb-2 flex-column flex-sm-row">
+                            <p class="m-0 fw-bolder fs-6">Subtotal</p>
+                            <p class="m-0 fs-6 fw-bolder">$422.99</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center flex-column flex-sm-row mt-3 m-sm-0">
+                            <p class="m-0 fw-bolder fs-6">Shipping</p>
+                            <span class="text-white opacity-75 small">Will be set at checkout</span>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    
+     
+     
+      </div>
+      
+        <div class="col-md-1 col-lg-8">
+        
+        
+        
+        
+        
+        <ui:fragment rendered="#{shoppingCartBean.shoppingCartIsEmpty() != true}">
+        
+        
+        
+        
+        
+        
+        
+      
+       
+         <div class="py-4">
+		
+			<h:form id="cart">
+				
+				
+				<div class="card">
+					<p:dataTable value="#{shoppingCartBean.cartItems}" var="_item"
+						id="cart-table"
+						rendered="#{shoppingCartBean.shoppingCartIsEmpty() != true}"
+						class="table-striped" reflow="true" showGridlines="false"
+						rowIndexVar="rowIndex" style="width: 100%"
+						emptyMessage="Nenhum Plano Selecionado ainda!">
+						<p:column>
+						
+						<p:graphicImage id="prodimgcart"	 
+								
+								rendered="#{_item.item.images.stream().findFirst().isPresent()}"
+					value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_item.item.images.stream().findFirst().get().getFilename()}" 
+					width="100%"
+					/>
+											
+						
+							
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Produto" />
+							</f:facet>
+							<h:outputText value="#{_item.item.name}" />
+							
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Quantidade" />
+							</f:facet>
+							<p:spinner  stepFactor="1" min="1" max="10" value="#{_item.quantity}" id="quant" size="1">
+								<p:ajax rendered="false" event="change"
+									listener="#{shoppingCartBean.refreshCantidad(_item)}"
+									update="#{viewid}:cart:cart-table:totals #{viewid}:cart:total_geral" />
+									 
+							</p:spinner>
+							<p:tooltip rendered="false" for="quant" value="Ítens" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Valor Total" />
+							</f:facet>
+							<h:outputText id="totals" value="#{_item.subTotal}" >
+							<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+							</f:facet>
+							<p:commandButton ajax="true" id="exclude"
+								update="#{viewid}:cart #{viewid}:cart:cart-table"
+								actionListener="#{shoppingCartBean.removeItemFromCart}"
+								styleClass="ui-button-danger" title="Excluir Item"
+								icon="pi pi-trash">
+								<f:param name="itemId" value="#{_item.id}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+
+
+
+
+
+					<div class="ui-g">
+						<div class="ui-g-6 ui-md-6 ui-lg-3"></div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3"></div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3 ui-g1y">
+							<h:outputText value="Total Geral:" style="font-weight: bold" />
+						</div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3 ui-g1y">
+							<h:outputText id="total_geral"
+								value="#{shoppingCartBean.total}" style="font-weight: bold;" >
+								<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+								</h:outputText>
+						</div>
+					</div>
+
+					<div class="ui-g">
+						<div class="ui-g-6 ui-md-6 ui-lg-3"></div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3"></div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3 ui-g1y">
+
+							<p:button value="Comprar mais" outcome="/ecommerce/index"
+								icon="pi pi-chevron-left" styleClass="ui-button-warning" >
+								
+							<f:param name="gcmid"
+								value="#{compjson.field.get('gcmid_redirect').asText()}" />
+								</p:button>
+								
+						</div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3 ui-g1y">
+							<p:button value="Finalizar compra" icon="pi pi-check"
+								rendered="#{shoppingCartBean.shoppingCartIsEmpty() != true}"
+								outcome="/application/checkout" styleClass="ui-button-success"/>
+								
+						</div>
+					</div>
+
+
+
+
+
+
+				</div>
+
+			</h:form>
+		</div>
+	  
+        </ui:fragment>
+        
+        
+        </div>
+      
+      </div>
+      
+      </div></section>
+
+         
+
+	
+</ui:composition>

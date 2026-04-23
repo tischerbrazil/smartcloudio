@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" 
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core" 
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:fragment rendered="#{userEntityBean.person != null}">
+		
+		<li class="nav-item dropdown">
+			<button type="button"
+				class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle"
+				data-bs-toggle="dropdown" aria-expanded="false"
+				data-bs-display="static">
+				<span class="d-lg-none" aria-hidden="true"></span> <span
+					class="visually-hidden">LOGIN</span>
+				<p:graphicImage id="proimg" style="border-radius: 50%" width="28"
+					height="21"
+					rendered="#{userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().isPresent()}"
+					value="#{userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().get().getValue()}" />
+				<p:graphicImage
+					rendered="#{not userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().isPresent()}"
+					style="border-radius: 50%" width="28" height="21"
+					value="/resources/images/avatar.webp" />
+				<span class="visually-hidden">(visitor)</span>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-end">
+	
+					<li><p:link outcome="/application/index" class="no-underline dropdown-item">
+							<i class="pi pi-user-edit"></i> Editar Perfil
+								<o:pathParam value="812019512814714240" />
+						</p:link></li>
+						
+							<li><p:link outcome="/application/index" class="no-underline dropdown-item">
+							<i class="pi pi-image"></i> Alterar Avatar
+								<o:pathParam value="812019512816145791" />
+						</p:link></li>
+						
+						<li><p:link outcome="/user/change_password" class="no-underline dropdown-item">
+							<i class="pi pi-image"></i> Alterar Senha
+							 
+						</p:link></li>
+						
+							
+						<li><hr class="dropdown-divider" /></li>
+						<li><p:commandLink class="no-underline dropdown-item"
+						action="#{logoutBacking.logout}">
+						<i class="fa fa-sign-out"></i> #{i18n['general.logout']}
+			</p:commandLink></li>
+		
+			</ul>
+		</li>
+	</ui:fragment>
+
+
+
+
+
+	<ui:fragment rendered="#{userEntityBean.person == null}">
+		<li class="nav-item dropdown">
+			<button type="button"
+				class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle"
+				data-bs-toggle="dropdown" aria-expanded="false"
+				data-bs-display="static">
+				<span class="d-lg-none" aria-hidden="true">smart</span> <span
+					class="visually-hidden">LOGIN</span>
+				<p:graphicImage style="border-radius: 50%" width="28" height="21"
+					value="/resources/images/avatar.webp" />
+				<span class="visually-hidden">(visitor)</span>
+			</button>
+			<ul class="dropdown-menu dropdown-menu-end">
+
+			<li><hr class="dropdown-divider" /></li>
+				<li><p:link outcome="/application/index" class="no-underline dropdown-item">
+						<i class="fa fa-sign-in"></i> Login (Entrar)
+								
+					</p:link></li>
+
+					<li><p:link outcome="/signup" class="no-underline dropdown-item">
+						<i class="pi pi-user-edit"></i> Cadastrar
+								
+					</p:link></li>
+		
+					
+
+
+
+			</ul>
+		</li>
+	</ui:fragment>
+
+
+
+
+
+
+
+
+
+
+</ui:composition>

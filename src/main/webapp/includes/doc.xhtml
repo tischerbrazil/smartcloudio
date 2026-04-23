@@ -1,0 +1,220 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:p="http://primefaces.org/ui"> 
+    
+
+  	  
+  	  
+  	  <div class="docs-wrapper">
+	   
+	 	
+	   
+	   <div id="docs-sidebar" class="docs-sidebar">
+		    <div class="top-search-box d-lg-none p-3">
+               
+            </div>
+            
+            
+		    <nav id="docs-nav" class="docs-nav navbar">
+		    
+		    
+		    
+		    
+		    
+		     <ui:repeat value="#{urlDocBean.getUrlDoc(id)}"  var="_doc">
+
+							
+							
+			<ul class="section-items list-unstyled nav flex-column pb-3">				 
+      	
+		<ui:repeat id="docitem"  value="#{_doc.docItens2}" 
+		var="_docitem"> 
+      	
+
+      	
+      	
+      	 
+      	<li class="nav-item section-title">
+      		<a class="nav-link scrollto active" href="#section-#{_docitem.id}">
+      		<span class="theme-icon-holder mr-2">
+      		<i class="#{_docitem.icon}"></i>
+      		</span>#{_docitem.title}</a>
+      	</li>
+      	
+      	
+      	  	  
+      						
+      						
+      						
+      						<ui:repeat id="doc_child"  value="#{_docitem.childrens}" var="_docitemchild"> 
+      						
+      						 <li class="nav-item">
+      						 	<a class="nav-link scrollto" href="#item-#{_docitemchild.id}">
+      						 	#{_docitemchild.title}
+      						 </a></li>
+      						
+      				
+      						</ui:repeat>
+      						
+      						
+      						
+      						
+      						
+      					</ui:repeat>
+		
+		
+
+                        	
+                        	</ul>
+                        	</ui:repeat>
+		    
+	
+		    </nav>
+	    </div>
+	   
+	 
+	   
+	    <div class="docs-content">
+		    <div class="container">
+			    		
+			
+				
+				
+				<ui:repeat value="#{urlDocBean.getUrlDoc(id)}"  var="_doc">
+
+							
+							
+							 
+      	
+					<ui:repeat id="docitem"  value="#{_doc.docItens2}" var="_docitem"> 
+      	
+      	<article class="docs-article" id="section-#{_docitem.id}">
+      	
+      	
+      	<header class="docs-header">
+							
+					<h4 class="docs-heading">#{_docitem.title}</h4>
+				   	<span id="author" class="author">GeoAzul Team</span>
+					<span id="email" class="email"><a href="mailto:geoazul-dev@geoazul.com.br">geoazul-dev@geoazul.com.br</a></span>
+					<span id="revnumber">version 3.0.1,</span>
+					<span id="revdate">29-01-2019</span>
+					<span id="revremark">GeoAzul Alpha 3.0.RC1</span>
+					<hr/>
+					    
+					    <section class="docs-intro">
+					    	<h:outputText escape="false" 
+					    	value="#{_docitem.text}" />
+						</section>
+						
+						
+						
+						
+				    </header>
+      	
+      	
+      	
+      	  	  
+      						
+      						
+      						
+      						<ui:repeat id="doc_child"  value="#{_docitem.childrens}" var="_docitemchild"> 
+      						
+      						<section class="docs-section" id="item-#{_docitemchild.id}">
+						<h2 class="section-heading">#{_docitemchild.title}</h2>
+						
+		
+    
+          			<h:outputText escape="false" value="#{_docitemchild.text}" />
+      						</section>
+      						
+      						</ui:repeat>
+      						
+      						
+      						
+      						</article>
+      						
+      						</ui:repeat>
+		
+		
+
+                        	
+                        	</ui:repeat>
+				
+				
+	
+	
+	
+	
+	
+	
+	
+			    <ui:fragment rendered="true">
+				<p:dataTable id="modules" styleClass="data-table" 
+				value="#{abstractIdentityBean.moduleFiltersAll}"  var="_item">
+			
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="TYPE"/>
+					</f:facet>	
+					<p:outputLabel  value="#{_item.type}"/> 
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="ORDERING"/>
+					</f:facet>
+					<p:outputLabel  value="#{_item.ordering}"/>
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="FOLDER"/>
+					</f:facet>
+					<p:outputLabel  value="#{_item.folder}"/>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="PATH"/>
+					</f:facet>
+					<p:outputLabel  value="#{_item.path}"/>
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="INCLUDE"/>
+					</f:facet>
+					<p:outputLabel  value="#{_item.htmltag}"/>
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="MENU_ITEM"/>
+					</f:facet>
+					<p:outputLabel  value="#{_item.urlMenuItem}"/>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="COMPONENT"/>
+					</f:facet>	
+					<p:outputLabel  value="#{_item.components}"/> 
+				</p:column>
+			</p:dataTable>
+		</ui:fragment>
+
+			    <footer class="footer">
+				    <div class="container text-center py-5">
+				        <small class="copyright">Copyright  <a href="http://geoazul.com.br" target="_blank">GeoAzul Cloud</a></small>
+				    </div>
+			    </footer>
+		    </div> 
+	    </div>
+    </div>
+    
+       
+                        
+</ui:composition>

@@ -1,0 +1,4 @@
+/subsystem=undertow/configuration=handler/file=files:add(path="/var/geoserver/files", directory-listing="false")
+/subsystem=undertow/server=default-server/host=default-host/location="/files":add(handler="files")
+/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name="max-post-size", value="1001048576000")
+

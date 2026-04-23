@@ -1,0 +1,187 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:p="http://primefaces.org/ui">
+
+	<script type="text/javascript">
+
+    PrimeFaces.validator['Email'] = {
+         
+        pattern: /\S+@\S+/,
+                 
+        MESSAGE_ID: 'org.primefaces.examples.validate.email.message',
+         
+        validate: function(element, value) {
+            var vc = PrimeFaces.util.ValidationContext;
+     
+            if(!this.pattern.test(value)) {
+                var msgStr = element.data('p-email-msg'),
+                msg = msgStr ? {summary:msgStr, detail: msgStr} : vc.getMessage(this.MESSAGE_ID);
+         
+                throw msg;
+            }
+        }
+    };
+   
+	</script>
+
+	
+	<section class="slice py-8">
+		<div class="container py-5">
+
+	<p:messages id="messages" closable="true" />
+
+	<h:inputHidden id="hiddenCompId" value="#{urlRegisterBean.getComp(id)}" />
+	<o:form id="form">
+	<p:messages id="messages" closable="true" />
+	<p:panel header="Cadastro de Usuario">
+
+				<pe:dynaFormat rendered="true" id="dynaFormat"
+					value="#{urlRegisterBean.model}" var="data">
+
+					<f:facet align="left" name="buttonBar">
+					<p:commandButton icon="fa fa-save" value="Cadastrar"
+							action="#{urlRegisterBean.submitForm}" process="dynaFormat"
+							update="#{viewid}:form:messages #{viewid}:form"
+							oncomplete="handleComplete333(xhr, status, args)" />
+					#{''}
+				 	<p:linkButton 
+				 	 outcome="/application/index" value="Login" />
+					#{''}
+					<p:button icon="fa fa-close" value="Cancelar" outcome="/index" 
+					 	 />
+					</f:facet>
+
+					<pe:dynaFormatControl type="hidden">
+						<h:inputHidden id="hidden" value="#{data.value}"
+							required="#{data.required}" />
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="fileupload">
+
+						<p:fileUpload locale="pt_BR" cancelLabel="Cancelar"
+							uploadLabel="Enviar" label="Enviar" skinSimple="true"
+							mode="advanced" dragDropSupport="true" 
+							 allowTypes="/(\.|\/)(png|PNG|jpg|JPG|gif|GIF)$/" />
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="inputsecret" for="password">
+						<p:password id="password"
+						
+						class="form-control" maxlength="20"
+							placeholder="#{data.placeholder}" value="#{data.value}"
+							required="#{data.required}"
+							requiredMessage="Campo #{data.label} Requerido!" />
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="booleanchoice">
+						<p:selectBooleanCheckbox value="#{data.value}"
+							required="#{data.required}" />
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="input" for="txt">
+						<p:inputText id="txt" maxlength="50" value="#{data.value}"
+							
+							required="#{data.required}"
+							requiredMessage="Campo #{data.label} Requerido!"
+							 class="form-control" />
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="texteditor" for="texto">
+												
+						<p:inputText id="texto" maxlength="50" value="#{data.value}"
+							
+							required="#{data.required}"
+							requiredMessage="Campo #{data.label} Requerido!"
+							 class="form-control" />
+						
+						
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="calendar" for="cal"
+						styleClass="calendar">
+						<p:calendar id="cal" value="#{data.value}"
+							required="#{data.required}" showOn="button" />
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="selectcat" for="selcat">
+						<p:selectOneMenu id="selcat" value="#{data.value}"
+							required="#{data.required}">
+							<f:selectItems value="#{urlRegisterBean.languagesCat}" />
+						</p:selectOneMenu>
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="selectfather" for="selfat">
+						<p:selectOneMenu id="selfat" value="#{data.value}"
+							required="#{data.required}">
+							<f:selectItems
+								value="#{urlRegisterBean.getLanguagesFat(data.name)}" />
+						</p:selectOneMenu>
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="selectlayer" for="sellay">
+						<p:selectOneMenu id="sellay" value="#{data.value}"
+							required="#{data.required}">
+							<f:selectItems
+								value="#{urlRegisterBean.getLanguagesLay(data.name)}" />
+						</p:selectOneMenu>
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="selectOneMenu" for="selOneMenu">
+						<p:selectOneMenu id="selOneMenu" value="#{data.value}"
+							required="#{data.required}">
+							<f:selectItems
+								value="#{urlRegisterBean.getSelectOneMenuItens(data.name)}" />
+						</p:selectOneMenu>
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="select" for="sel">
+						<p:selectOneMenu id="sel" value="#{data.value}"
+							required="#{data.required}">
+							<f:selectItems value="#{urlRegisterBean.languages}" />
+						</p:selectOneMenu>
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="textarea" for="tarea">
+						<p:inputTextarea id="tarea" value="#{data.value}"
+							required="#{data.required}" autoResize="false" />
+					</pe:dynaFormatControl>
+					<pe:dynaFormatControl type="rating" for="rat">
+						<p:rating id="rat" value="#{data.value}"
+							required="#{data.required}" />
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="radiochoice">
+						<p:selectOneRadio value="#{data.value}"
+							required="#{data.required}">
+							<f:selectItems value="#{data.selectItems}" />
+						</p:selectOneRadio>
+					</pe:dynaFormatControl>
+
+					<pe:dynaFormatControl type="img">
+						<p:graphicImage value="#{data.value}" required="#{data.required}" />
+					</pe:dynaFormatControl>
+
+				</pe:dynaFormat>
+
+			</p:panel>
+		</o:form>
+		<h:outputScript id="dynaFormScript" target="body">
+/* <![CDATA[ */
+    function handleComplete333(xhr, status, args) {
+        if(args && args.isValid) {
+          
+        } else {
+          
+        }
+    }
+/* ]]> */
+</h:outputScript>
+	</div>
+	</section>
+</ui:composition>

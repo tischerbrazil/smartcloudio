@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    
+    xmlns:p="http://primefaces.org/ui"> 
+    
+    <section>
+		
+			<div class="row justify-content-md-center">
+			
+ 
+     
+            
+            <ui:fragment align="center" rendered="#{uuid == null}">
+							
+			
+							<p:galleria autoPlay="true" value="#{compjson.strings}" var="photo2" 
+			   circular="true" 
+			 varStatus="status" 
+			 responsiveOptions="#{productBean.responsiveOptions1}"
+                showThumbnails="false" showIndicators="true" 
+                changeItemOnIndicatorHover="false" 
+                
+                   showItemNavigators="true"  showItemNavigatorsOnHover="false"
+                showIndicatorsOnItem="true" 
+                indicatorsPosition="bottom"
+                styleClass="custom-indicator-galleria" >
+      
+       
+        <p:graphicImage
+						rendered="#{!photo2.at('/linkid').asText().isEmpty()}"
+						url="#{photo2.at('/image-full').asText()}"
+						onclick="rc([{name: 'objectid', value: '#{photo2.at('/linkid').asText()}'},{name: 'gcmid', value: '#{compjson.field.get('gcmid').asText()}'}])"
+						style="cursor: pointer;width: 100%; display: block;" />
+					<p:graphicImage
+						rendered="#{photo2.at('/linkid').asText().isEmpty()}"
+						url="#{photo2.at('/image-full').asText()}"
+						style="width: 100%; display: block;" />
+				</p:galleria>
+				<p:remoteCommand name="rc" action="#{catalogBean.execute}" />
+							
+							
+				
+					
+									
+				</ui:fragment>
+            
+                
+        </div>
+</section>
+</ui:composition>

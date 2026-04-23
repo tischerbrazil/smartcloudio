@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<ui:define name="content">
+		<f:view locale="#{activeLocale.value}">
+			<section class="slice py-8">
+			<div class="container py-5">
+				<div class="row clearfix">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="body">
+							<h4>Usuários</h4>
+							<h:form>
+
+								<p:dataTable paginatorPosition="bottom" var="item"
+									value="#{personEntityBean.model}" paginator="true" rows="30"
+									reflow="true"
+									paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+									rowsPerPageTemplate="5,10,15,30" lazy="true"
+									widgetVar="vtWidget" id="customerTable">
+
+
+
+									<p:column sortBy="#{item.fullName}" filterBy="#{item.fullName}"  headerText="Nome">
+										<ui:repeat var="teste"
+											value="#{item.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).toList()}">
+											<p:graphicImage style="width: 50px"
+												class="img-circle js-animating-object img-responsive"
+												value="#{teste.value}" />
+										</ui:repeat>
+										#{''}
+										<h:outputLabel value="#{item.fullName}" />
+									</p:column>
+
+									<p:column sortBy="#{item.city.name}" filterBy="#{item.city.name}"  headerText="Cidade">
+									#{''}
+										<h:outputLabel value="#{item.city.name}-#{item.state.iso2}" />
+									</p:column>
+									
+									<p:column sortBy="#{item.emailVerified}" filterBy="#{item.emailVerified}"  headerText="Email Verificado">
+		
+										<p:graphicImage rendered="#{item.emailVerified}" class="img-circle"
+											value="/resources/true.png" />
+										<p:graphicImage rendered="#{!item.emailVerified}"
+											class="img-circle" value="/resources/false.png" />
+									</p:column>
+
+									<p:column>
+										<f:facet name="header">
+
+										</f:facet>
+										<p:button outcome="/security/user/complete" icon="fa fa-edit"
+											styleClass="button btn-warning btn-lg waves-effect">
+
+
+
+											<o:pathParam value="0" />
+											<o:pathParam value="#{item.id}" />
+
+										</p:button>
+									</p:column>
+
+								</p:dataTable>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+			</section>
+		</f:view>
+	</ui:define>
+</ui:composition>
+
+

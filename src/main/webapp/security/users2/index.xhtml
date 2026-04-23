@@ -1,0 +1,58 @@
+<ui:composition template="/themes/bs5-ecommerce/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" 
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" 
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" 
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<ui:define name="content">
+	
+	<section>
+        <div class="container py-3">
+        <h4>Usuários do Sistema</h4>
+	 	
+	
+	
+
+		<k:form id="logoutForm" class="py-3" fieldset="false">
+			<h:commandLink id="logout" value="#{i18n['general.logout']}"
+				action="#{logoutBacking.logout}" />
+		</k:form>
+		
+		<k:form id="usersForm" fieldset="false">
+			
+			<k:table id="usersTable" value="#{usersBacking.model}">
+			
+				<k:column field="id" type="number" />
+				<k:column field="email" />
+				<k:column field="emailVerified" type="boolean" visible="false" />
+				<k:column field="firstName" visible="false" />
+				<k:column field="lastName" visible="false" />
+
+				<k:column field="groups" type="list" sortable="false" />
+				<k:column field="created" type="instant" />
+				<k:column field="lastModified" type="instant" visible="false" />
+
+				<p:column headerText="#{i18n['general.actions']}"
+					styleClass="actions">
+					<k:link path="security/users/edit" value="">
+						<i class="pi pi-pencil" />
+						<f:param name="id" value="#{item.id}" />
+					</k:link>
+					<p:commandLink id="delete" rendered="#{item.id gt 1}"
+						onclick="if(!confirm('Are you sure to delete user with ID #{item.id}?'))return false"
+						action="#{usersBacking.delete(item)}" update="@form">
+						<i class="pi pi-trash" />
+					</p:commandLink>
+				</p:column>
+			</k:table>
+		</k:form>
+		</div></section>
+	</ui:define>
+</ui:composition>

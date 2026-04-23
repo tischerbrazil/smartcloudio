@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+
+<div class="container-fluid container-sm">
+
+			<div class="clearfix">
+				<img src="http://10.0.0.105/themes/bs5-ecommerce/img/a1.png"
+					class="col-md-4 float-md-end mb-3 ms-md-3" alt="..." />
+
+
+
+				<p>A paragraph of placeholder text. We're using it here to show
+					the use of the clearfix class. We're adding quite a few meaningless
+					phrases here to demonstrate how the columns interact here with the
+					floated image.</p>
+
+				<p>As you can see the paragraphs gracefully wrap around the
+					floated image. Now imagine how this would look with some actual
+					content in here, rather than just this boring placeholder text that
+					goes on and on, but actually conveys no tangible information at. It
+					simply takes up space and should not really be read.</p>
+
+				<p>And yet, here you are, still persevering in reading this
+					placeholder text, hoping for some more insights, or some hidden
+					easter egg of content. A joke, perhaps. Unfortunately, there's none
+					of that here.</p>
+
+				<img src="http://10.0.0.105/themes/bs5-ecommerce/img/a2.png"
+					class="col-md-4 float-md-start mb-3 ms-md-3" alt="..." />
+
+				<p>A paragraph of placeholder text. We're using it here to show
+					the use of the clearfix class. We're adding quite a few meaningless
+					phrases here to demonstrate how the columns interact here with the
+					floated image.</p>
+
+				<p>As you can see the paragraphs gracefully wrap around the
+					floated image. Now imagine how this would look with some actual
+					content in here, rather than just this boring placeholder text that
+					goes on and on, but actually conveys no tangible information at. It
+					simply takes up space and should not really be read.</p>
+
+				<p>And yet, here you are, still persevering in reading this
+					placeholder text, hoping for some more insights, or some hidden
+					easter egg of content. A joke, perhaps. Unfortunately, there's none
+					of that here.</p>
+			</div>
+			<img src="http://10.0.0.105/themes/bs5-ecommerce/img/a1.png" class="img-thumbnail float-start" alt="..." />
+				
+				<img src="http://10.0.0.105/themes/bs5-ecommerce/img/a2.png" class="img-fluid float-end" alt="..."/>
+				
+				<img src="http://10.0.0.105/themes/bs5-ecommerce/img/a3.png" class="rounded mx-auto d-block" alt="..."/>
+				
+				
+<picture>
+  <source media="(min-width:970px)" srcset="/resources/atest/img_pink_flowers.jpg"/>
+  <source media="(min-width:650px)" srcset="/resources/atest/img_white_flower.jpg"/>
+  <img src="/resources/atest/img_orange_flowers.jpg" alt="Flowers" style="width:auto;"/>
+</picture>
+<br/>
+
+<figure class="figure img-fluid rounded" style="  text-indent: 0;border: thin silver solid ;margin: 0.5em;padding: 0.5em;">
+  <img src="/resources/atest/img_pink_flowers.jpg" class="figure-img img-fluid rounded" 
+  alt="A generic square placeholder image with rounded corners in a figure."/>
+  <figcaption class="figure-caption">A caption for the above image.</figcaption>
+</figure>
+
+<!-- JSF code commented out -->
+<ui:remove>
+   <h:commandButton value = "Ok" />  
+   /* <![CDATA[ */
+$thumbnail-padding:                 .25rem;
+$thumbnail-bg:                      var(--#{$prefix}body-bg);
+$thumbnail-border-width:            var(--#{$prefix}border-width);
+$thumbnail-border-color:            var(--#{$prefix}border-color);
+$thumbnail-border-radius:           var(--#{$prefix}border-radius);
+$thumbnail-box-shadow:              var(--#{$prefix}box-shadow-sm);
+/* ]]> */
+</ui:remove>
+		</div>
+		
+		</ui:composition>

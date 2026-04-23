@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="/themes/bs5-ecommerce/pageTemplate.xhtml" 
+
+	
+		xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+	
+	
+	<ui:define name="content">
+	
+
+
+
+
+
+<div class="product card">
+
+
+ <h:form class="position-relative me-auto">
+    
+     <div class="ui-inputgroup">
+                  <span class="ui-input-icon-left">
+        <i class="pi pi-search" />
+                    <p:inputText type="search" id="globalSearch" 
+                    
+                    value="#{mediaBean.globalSearch}"
+                    placeholder="Buscar Produto">
+                    <p:ajax event="search" 
+                    listener="#{mediaBean.processSearch()}" />
+                    </p:inputText>
+                    
+                    </span>
+                    
+                    <p:commandButton id="globalFilter2" value="Buscar"
+							update="meuform"
+							
+							 action="#{mediaBean.processSearch()}" >
+							 
+							</p:commandButton>
+                    
+                      
+                </div>
+    
+				
+     
+    </h:form>	
+
+
+
+
+
+
+
+
+    <h:form id="meuform">
+        <p:dataView var="product" value="#{mediaBean.model}" rows="4" paginator="true"
+                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                    gridIcon="pi pi-th-large" listIcon="pi pi-bars" paginatorPosition="bottom"    
+                    layout="grid" gridRowStyleClass="p-lg-6 p-xl-4"  flex="false">	
+
+            <p:dataViewGridItem>
+                <div class="product-grid-item card border-1">
+                    <div class="product-grid-item-top">
+                        <div>
+                            <i class="pi pi-tag product-category-icon"/>
+                            <span class="product-category">ddd</span>
+                        </div>
+                        <span class="product-badge status-d}">dd</span>
+                    </div>
+                    <div class="product-grid-item-content">
+                     	<img src="http://10.0.0.106/jakarta.faces.resource/images/bs.png.xhtml" />
+                        <div class="product-name">#{product.title}</div>
+                        <div class="product-description">#{product.id}</div>
+                        <p:rating readonly="true" value="3"/>
+                    </div>
+                    <div class="product-grid-item-bottom">
+                       44
+                        <p:commandButton type="button"
+                                            value="Add"
+                                            icon="pi pi-shopping-cart"
+                                           >
+                        </p:commandButton>
+                    </div>
+                </div>
+            </p:dataViewGridItem>
+
+            <p:dataViewListItem>
+                <div class="product-list-item">
+                  <img src="/jakarta.faces.resource/images/bs.png.xhtml" alt="" height="5" ismap="false" />
+                    <div class="product-list-detail">
+                        <div class="product-name">asdf</div>
+                        <div class="product-description">asdf</div>
+                        <p:rating readonly="true" value="4"/>
+                        <i class="pi pi-tag product-category-icon"/><span
+                            class="product-category">sdfg</span>
+                    </div>
+                    <div class="product-list-action">
+                       46
+                        <p:commandButton type="button"
+                                            value="Add"
+                                            icon="pi pi-shopping-cart"
+                                            >
+                        </p:commandButton>
+                        <span class="product-badge status-df}">sdfg</span>
+                    </div>
+                </div>
+            </p:dataViewListItem>
+        </p:dataView>
+
+    </h:form>
+</div>
+
+
+	</ui:define>
+</ui:composition>

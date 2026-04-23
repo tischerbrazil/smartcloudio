@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui"> 
+
+			<h:form id="obra2Form">
+			<div class="formgrid grid">
+            <div class="field col-12 md:col-12">
+                <p:outputLabel value="Identificador" for="@next"/>
+                <p:staticMessage 
+    		severity="info" summary="#{applicationEntityBean.obra.id}" style="width: 100%" class="w-full"/>
+            </div>
+            </div>
+ 			<div class="formgrid grid">
+            <div class="field col-12 md:col-12">
+              <p:outputLabel value="Estado da Parcela" for="@next"/>
+            <p:staticMessage rendered="#{applicationEntityBean.obra.situacao == 0}" 
+    		severity="warn" summary="OCULTA" detail="Invisível" style="width: 100%" class="w-full"/>
+    		<p:staticMessage rendered="#{applicationEntityBean.obra.situacao == 1}" 
+    		severity="info" summary="ABERTA" detail="Visível" style="width: 100%" class="w-full"/>
+    		<p:staticMessage rendered="#{applicationEntityBean.obra.situacao == 2}" 
+    		severity="success" summary="ENVIADA" detail="Fechada" style="width: 100%" class="w-full"/>
+            </div>
+           </div>
+ 			<div class="formgrid grid">
+            <div class="field col-12 md:col-12">
+               <p:outputLabel value="Mudar Estado da Parcela" for="@next"/>
+             	<p:selectOneMenu id="stateOptions"  required="true"  
+             	class="w-full" value="#{applicationEntityBean.obra.situacao}">
+             	
+             	<f:selectItem itemLabel="Escolha uma Opção" noSelectionOption="true" />
+             	 
+    			<c:if test="#{applicationEntityBean.obra.situacao != 0}">
+					<f:selectItem   itemValue="0" itemLabel="OCULTAR PARCELA" />
+				</c:if>
+				<c:if test="#{applicationEntityBean.obra.situacao != 1}">
+					<f:selectItem itemValue="1" itemLabel="EXIBIR PARCELA" />
+				</c:if>
+				<c:if test="#{applicationEntityBean.obra.situacao != 2}">
+					<f:selectItem itemValue="2" itemLabel="ENVIAR PARCELA" />
+				</c:if>
+            	</p:selectOneMenu>   
+             	</div>
+			</div>
+    		<p:commandButton value="Alterar" id="saveB"  
+    		icon="pi pi-save" action="#{applicationEntityBean.updateObra}" 
+    			oncomplete="handleGeomStatusRequest(xhr, status, args)"
+    		  title="Alterar">
+    		<p:confirm header="Confirmation" message="Confirma Alteração do Estado da Parcela?" icon="ui-icon-alert" />
+    		</p:commandButton>
+    		
+    		
+    
+    	<p:confirmDialog global="true" >
+        	<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        	<p:commandButton value="Não"  type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+    		
+    		
+    		#{''}
+    		<p:commandButton value="Fechar" id="closeDiag"
+    	    icon="pi pi-times"
+    		onclick="PF('editobra2Dialog').hide();"  title="Fechar"/>
+	</h:form>	   
+</ui:composition>

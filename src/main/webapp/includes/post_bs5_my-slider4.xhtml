@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	<script>
+	//SplideJs
+document.addEventListener('DOMContentLoaded', function () {
+const splide = new Splide(".splide", {
+  type: "loop",
+  padding: { y: 10 },
+  gap: "1rem",
+  rewind: true,
+  speed: 2000,
+  width: "100vw",
+  perPage: 4,
+  start: 1,
+  perMove: 1,
+  autoplay: false,
+  interval: 4000,
+  arrows: false,
+  pagination: false,
+  pauseOnHover: true,
+  wheel: true,
+});
+splide.mount();
+});
+
+//SplideJsmobile
+document.addEventListener('DOMContentLoaded', function () {
+const splidemobile = new Splide("#image-carousel", {
+  type: "loop",
+  padding: { y: 10 },
+  gap: "1rem",
+  rewind: true,
+  speed: 2000,
+  width: "100vw",
+  perPage: 1,
+  start: 1,
+  perMove: 1,
+  autoplay: true,
+  interval: 4000,
+  arrows: false,
+  pagination: false,
+  pauseOnHover: true,
+  wheel: true,
+}).mount();
+});
+	</script>
+	
+	 <!--START NAV-ITENS-->
+      <div class="container mt-4 mb-4" id="contdiv">
+        <div class="splide">
+          <div class="splide__slider">
+            <div class="splide__track">
+              <ul class="splide__list">
+                
+                <li class="splide__slide">
+                  <div class="category-item">
+                    <div class="category-item-icon">
+                      <i class="bi bi-shield-fill-check"></i>
+                    </div>
+                      <div class="category-item-title">
+                        <strong>Compra Segura</strong>
+                        <span>
+                          Seus dados protegidos
+                        </span>
+                      </div>
+                  </div>
+                </li>
+                <li class="splide__slide">
+                  <div class="category-item">
+                    <div class="category-item-icon">
+                      <i class="bi bi-cash-coin"></i>
+                    </div>          
+                      <div class="category-item-title">
+                        <strong>
+                          Pague no Pix ou
+                        </strong>
+                        <span >
+                          cartão em até 3x
+                        </span>
+                      </div>
+                  </div>
+                </li>
+                <li class="splide__slide">
+                  <div class="category-item">
+                    <div class="category-item-icon">
+                      <i class="bi bi-cart-check"></i>
+                    </div>
+                      <div class="category-item-title">
+                        <strong>
+                          Entregamos em
+                        </strong>
+                        <span>
+                          RO e AC
+                        </span>
+                      </div>
+                  </div>
+                </li>
+                
+                <li class="splide__slide">
+                  <div class="category-item">
+                    <div class="category-item-icon">
+                      <i class="bi bi-coin"></i>
+                    </div>
+                      <div class="category-item-title">
+                        <strong>
+                          Ofertas Especiais
+                        </strong>
+                        <span>
+                          de Lançamento
+                        </span>
+                      </div>
+                  </div>
+                </li>
+                
+                
+              </ul>
+            </div>
+          </div>  
+        </div> 
+      </div>     
+      <!--END NAV-ITENS-->
+      
+      
+</ui:composition>

@@ -1,0 +1,284 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html">
+     
+/**
+* ---------------------------- INTRO START ------------------------
+*/
+
+
+if(!window.app)window.app={}; 
+var app=window.app;
+var xgeoa;
+var typeSelect=document.getElementById('type');
+var restwork = '#{applicationEntityBean.restwork}#{request.contextPath}/en';
+var url = '#{applicationEntityBean.restwork}' + '/geoserver';
+var workspace = 'geoazul_#{userData2.realm}'
+var featurePrefix = 'geoazul';
+var urlwfs=url + '/' + featurePrefix + '/wfs?';
+var urlwms=url + '/' + featurePrefix + '/wms?';      
+var projeto='#{applicationEntityBean.applicationEntity.applicationToString()}';
+var featureNS = 'http://' + featurePrefix;
+var srsCode = '#{applicationEntityBean.applicationEntity.epsg}';
+var projectionCode =  'EPSG:' + srsCode;
+<h:outputText rendered="#{applicationEntityBean.applicationEntity.epsg != '4326'}" 
+value="var unitsCode = 'm'" escape="true" />
+<h:outputText rendered="#{applicationEntityBean.applicationEntity.epsg == '4326'}" 
+value="var unitsCode = 'degrees'" escape="true" />
+var geometryName = 'the_geom';
+var geometryType = 'Polygon';
+var fields = ['detentor', 'cpf'];
+var layerTitle = 'Projecao';
+var center = [#{applicationEntityBean.applicationEntity.centroidwkt}];
+var zoom = <h:outputText value="#{applicationEntityBean.applicationEntity.zoom}" escape="false" />;
+var styleCache =   {};
+var layerSelected;
+var geometrySelected;
+var weight;
+var format = 'image/png';
+	 
+/**
+ * Transact WFS insert, update, delete use geoserver
+ */
+var transactWFS = function(p,f) {
+	switch(p) {
+	case 'insert':
+	var features2 = this.select.getFeatures();
+ 	var feature = features2.item(0);
+	var geometry = f.getGeometry();
+	var coord = geometry.getCoordinates();
+	var typeGeom = geometry.getType()
+	restworkSufix = restwork  + "/api/oauth2/" + typeGeom + "s/#{applicationEntityBean.applicationEntity.realm}";  
+	restworkSufix = restworkSufix.toLowerCase();
+	var format = new ol.format.WKT(),
+    wkt = format.writeGeometry(geometry);
+		var parte1 = layerSelected.substr(1, 8);
+		var parte2 = layerSelected.substr(9, 4);
+		var parte3 = layerSelected.substr(13, 4);
+		var parte4 = layerSelected.substr(17, 4);
+		var parte5 = layerSelected.substr(21, 12);
+		var parteTotal = parte1 + "-" + parte2 + "-" + parte3 + "-" + parte4 + "-" + parte5;
+		var str33 = '{"nome":"","geometrySelected":"' + geometrySelected + '", "geometrywkt":"' + wkt + '", "srs":"' + srsCode + '", "layerid":"' + parteTotal + '"}';
+		
+		$.ajax(restworkSufix,{
+		type: 'POST',
+		dataType: 'json',
+		processData: false,
+		contentType: 'application/json',
+		data: str33,
+  			success: function(data) { 
+    		f.setId(data.id);
+    			objEdit([{name:'objectid', value: data.id}]);
+				},
+  		error: function(jqXHR, textStatus, errorThrown) {
+     	alert(" Error in processing! " + textStatus);
+  		}   
+			}).done();
+		break;
+		case 'update':
+		var keyFid = f.getId();
+    	var npos = keyFid.indexOf(".");
+    	var lenkeyFid = keyFid.length;
+    	var layerName = keyFid.substr(0, npos);
+    	var idValue = keyFid.substr(npos + 1,  lenkeyFid);
+		var geometry = f.getGeometry();
+		
+	var coord = geometry.getCoordinates();
+	var format = new ol.format.WKT(),
+    wkt = format.writeGeometry(geometry);
+	var tipog =  geometry.getType();
+	var geometry = f.getGeometry();
+    updateObj([{name:'objectid', value:idValue}, {name:'coordinate', value: wkt}]);
+	break;
+
+	case 'delete':
+		node = formatWFS.writeTransaction(null,null,[f],formatGML);
+		break;
+	}
+
+	};
+
+
+var xgeoa1;
+
+<ui:repeat var="layertile" value="#{applicationEntityBean.applicationEntity.layers}">
+<h:panelGroup rendered="#{layer2.dtype == 'tile'}">
+var vector = new ol.layer.Vector({
+name: '<h:outputText value="#{layer2.layerString()}" escape="true" />',
+title: '<h:outputText value="#{layer2.layerString()}" escape="true" />',
+visible: true,
+        source: source,
+        style: new ol.style.Style({
+          fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 255, 0.2)'
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#ffcc33',
+            width: 2
+          }),
+          image: new ol.style.Circle({
+            radius: 7,
+            fill: new ol.style.Fill({
+              color: '#ffcc33'
+            })
+          })
+        })
+      });
+</h:panelGroup>
+</ui:repeat>
+
+
+
+
+
+<ui:repeat var="layer" value="#{applicationEntityBean.applicationEntity.layers}">
+<h:panelGroup rendered="#{layer.dtype ne 'LayerPost'}">
+var sv<h:outputText value="#{layer.layerToString()}" escape="true" /> = <h:outputText value="#{layer.labelStyle.toString()}" escape="true" />;
+
+var sva<h:outputText value="#{layer.layerToString()}" escape="true" /> = <h:outputText value="#{layer.geometryStyle.toString()}" escape="true" />;
+
+/**
+* StyleLayer from list array
+* @param {list array} layersStyle
+* @returns {undefined}
+*/	
+
+var ts<h:outputText value="#{layer.layerToString()}" escape="true" /> = function(feature, resolution, dom) {
+
+	if (dom.weight == 'true' || dom.weight == true){
+ 		 weight = 'bold';
+	}else{
+ 		 weight = 'normal';
+	}
+	
+	return new ol.style.Text({
+    textAlign: dom.align,
+    textBaseline: dom.baseline,
+    font: weight + ' ' + dom.size + 'px ' + dom.font, 
+    text: getText(feature, resolution, dom),
+    fill: new ol.style.Fill({color: '#' + dom.color}),
+    stroke: new ol.style.Stroke({color: '#' + dom.outline, width: parseInt(dom.outlineWidth, 20)}),
+    offsetX: parseInt(dom.offsetX, 10),
+    offsetY: parseInt(dom.offsetY, 10),
+    rotation: parseFloat(dom.rotation)
+  	});
+};
+
+	var tsa<h:outputText value="#{layer.layerToString()}" escape="true" /> = function(feature, resolution, dom2) {
+		return new ol.style.Fill({
+	          color: dom2.rgbafillcolor
+	    })
+	};
+	
+	var tsx<h:outputText value="#{layer.layerToString()}" escape="true" /> = function(feature, resolution, dom2) {
+	    return new ol.style.Stroke({
+	          color: dom2.rgbastrokecolor,
+	          width: dom2.strokewidth
+	    })
+	};
+
+
+
+function psf<h:outputText value="#{layer.layerToString()}" escape="true" />(feature, resolution) {
+    return new ol.style.Style({
+    fill: tsa<h:outputText value="#{layer.layerToString()}" escape="true" />(feature, resolution, sva<h:outputText value="#{layer.layerToString()}" escape="true" />)
+    ,
+	stroke: tsx<h:outputText value="#{layer.layerToString()}" escape="true" />(feature, resolution, sva<h:outputText value="#{layer.layerToString()}" escape="true" />)
+	,
+	image: new ol.style.Circle({
+            radius: 5,
+            fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
+            stroke: new ol.style.Stroke({color: 'red', width: 1})
+          }),
+           text: ts<h:outputText value="#{layer.layerToString()}" escape="true" />(feature, resolution, sv<h:outputText value="#{layer.layerToString()}" escape="true" />)
+        });
+	}
+
+function psfpolygon<h:outputText value="#{layer.layerToString()}" escape="true" />(feature, resolution) {
+    	
+    	
+    	 var image = new ol.style.Circle({
+    radius: 5,
+    fill: null,
+     text: 'ts',
+    stroke: new ol.style.Stroke({color: 'orange', width: 2})
+  });
+
+
+
+    	
+    	return [ new ol.style.Style({
+    	
+    		fill: new ol.style.Fill({
+	          color: 'rgba(245, 235, 255, 0.1)'
+	        }),
+
+	        stroke: new ol.style.Stroke({
+	          color: '#ffcc33',
+	          width: 1
+	        }),
+	        
+          image: new ol.style.Circle({
+            radius: 5,
+            fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
+            stroke: new ol.style.Stroke({color: 'red', width: 1})
+          }),
+           text: ts<h:outputText value="#{layer.layerToString()}" escape="true" />(feature, resolution, sv<h:outputText value="#{layer.layerToString()}" escape="true" />)
+        }
+        
+        )
+        
+        
+        ,
+        
+         new ol.style.Style({
+          image: image,
+          geometry: function(feature) {
+              var coordinates = feature.getGeometry().getCoordinates()[0];
+              return new ol.geom.MultiPoint(coordinates);
+          }
+      }),
+      new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'blue',
+          width: 3
+        }),
+        fill: new ol.style.Fill({
+          color: 'rgba(0, 0, 255, 0.1)'
+        })
+      })
+        
+        
+        
+        ];
+	}
+/**
+* Change style from remote list array
+* @param {list array} layersStyle
+* @returns {undefined}
+*/
+var changeStyleLayer<h:outputText value="#{layer.layerToString()}" escape="true" /> = function (layerStyle) {
+	function psf<h:outputText value="#{layer.layerToString()}" escape="true" />(feature, resolution) {
+    	return new ol.style.Style({
+          image: new ol.style.Circle({
+            radius: 5,
+            fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
+            stroke: new ol.style.Stroke({color: 'red', width: 1})
+          }),
+           text: ts<h:outputText value="#{layer.layerToString()}" escape="true" />(feature, resolution, layerStyle)
+        });
+	}
+	layer<h:outputText value="#{layer.layerToString()}" escape="true" />.setStyle(psf<h:outputText value="#{layer.layerToString()}" escape="true" />);
+	}; 
+
+
+</h:panelGroup>
+</ui:repeat>
+
+/**
+* ---------------------------- INTRO END ------------------------
+*/
+
+</ui:composition>

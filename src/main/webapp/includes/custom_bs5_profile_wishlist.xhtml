@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core" xmlns:o="http://omnifaces.org/ui"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+
+	<section>
+		<div class="container py-3">
+			<h4>Lista de Produtos Salvos</h4>
+			<h:form id="wishlist">
+			<p:dataTable value="#{userEntityBean.person.wishlist}" var="_item"
+				id="cart-table" class="table-striped" reflow="true"
+				showGridlines="false" rowIndexVar="rowIndex" style="width: 100%"
+				emptyMessage="Nenhum Produto na Lista de Desejos">
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Imagem" />
+					</f:facet>
+					<p:graphicImage id="wish_image"
+						rendered="#{_item.app.images.stream().findFirst().isPresent()}"
+						value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_item.app.images.stream().findFirst().get().getFilename()}"
+						width="100px" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Produto" />
+					</f:facet>
+					<h:outputText value="#{_item.app.name}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Fabricante" />
+					</f:facet>
+					<h:outputText value="#{_item.app.manufacturer.name}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Departamento" />
+					</f:facet>
+					<h:outputText value="#{_item.app.pro_productGroup.gru_name}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Categoria" />
+					</f:facet>
+					<h:outputText value="#{_item.app.pro_productSubgroup.sub_name}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Valor" />
+					</f:facet>
+					<h:outputText id="valor" value="#{_item.app.salePrice}">
+						<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+					</h:outputText>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+					</f:facet>
+					<p:commandButton id="exclude"
+						update=":thing_0:wishlist:cart-table :thing_0:wishlist"
+						action="#{userEntityBean.removeWishListItem(_item)}"
+						styleClass="ui-button-danger" title="Excluir Item"
+						icon="pi pi-trash">
+					
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			</h:form>
+		</div>
+	</section>
+</ui:composition>

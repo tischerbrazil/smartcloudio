@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+
+	<ui:define name="content">
+		<f:view locale="#{activeLocale.value}">
+			<section class="slice py-8">
+			<div class="container py-5">
+				<div class="row clearfix">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="body">
+
+							<h:form class="position-relative me-auto">
+
+								<div class="ui-inputgroup">
+									<span class="ui-input-icon-left"> <i
+										class="pi pi-search" /> <p:inputText type="search"
+											id="globalSearch" value="#{mediaBean.globalSearch}"
+											placeholder="Buscar Produto">
+											<p:ajax event="search"
+												listener="#{mediaBean.processSearch()}" />
+										</p:inputText>
+
+									</span>
+
+									<p:commandButton id="globalFilter2" value="Buscar"
+										update="meuform" action="#{mediaBean.processSearch()}">
+
+									</p:commandButton>
+
+
+								</div>
+
+
+
+							</h:form>
+
+
+							<h:form id="meuform">
+
+
+
+
+							
+
+
+
+
+
+								<p:commandButton value="Limpar Filtro"
+									onclick="PF('vtWidget').clearFilters()" />
+
+								<p:dataTable var="customer" value="#{mediaBean.model}"
+									paginator="true" rows="30"
+									paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+									rowsPerPageTemplate="5,10,15,30" lazy="true"
+									widgetVar="vtWidget" reflow="true" paginatorPosition="bottom"
+									id="customerTable">
+
+									<f:facet name="header">
+										<p:outputPanel>
+											<h:outputText value="Search all fields:" />
+											<p:inputText id="globalFilter"
+												onkeyup="PF('vtWidget').filter()" style="width:150px"
+												placeholder="Enter keyword" />
+										</p:outputPanel>
+									</f:facet>
+
+
+									<p:column headerText="Title" filterBy="#{customer.title}"
+										sortBy="#{customer.title}">
+										<h:outputText value="#{customer.title}" />
+									</p:column>
+
+									<p:column headerText="filename" filterBy="#{customer.filename}"
+										sortBy="#{customer.filename}">
+										<h:outputText value="#{customer.filename}" />
+									</p:column>
+
+
+
+
+								</p:dataTable>
+							</h:form>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			</section>
+		</f:view>
+	</ui:define>
+
+
+</ui:composition>
+

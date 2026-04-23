@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:p="http://primefaces.org/ui"> 
+
+		<h:form id="search">
+		<br/>
+		<p:dataTable  emptyMessage="Nenhum Projeto Encontrado!"  id="apps" 
+			styleClass="data-table" value="#{applicationEntityBean.pageItems33}" var="_item"
+			 paginatorPosition="bottom" paginator="true" rows="10">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Nome"/>
+					</f:facet>
+					<p:outputLabel  value="#{_item.app.name}"/>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Tipo2"/>
+					</f:facet>
+					<p:outputLabel escape="false" value=" #{_item.app.description}"/>
+				</p:column> 
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Editar"/>
+					</f:facet>
+					<p:button icon="fa fa-edit" value="Editar" outcome="/application/project_edit"> 
+						<f:param name="id" value="#{_item.app.id}"/>
+					</p:button>
+					<p:button 
+						 icon="fa fa-edit" value="Dashboard" outcome="/gis/dashboardNA.xhtml"> 
+							<f:param name="id" value="#{_item.app.uuid}"/>
+					</p:button>
+				</p:column>
+			</p:dataTable>
+			
+			
+		</h:form>	
+
+</ui:composition>

@@ -1,0 +1,156 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:p="http://primefaces.org/ui">  
+	
+	<h:form id="pointForm">
+                
+    <h:panelGrid id="display" columns="2" columnClasses="label, value">
+
+    <pe:dynaFormat rendered="true" id="dynaFormat"
+							value="#{applicationEntityBean.model}" var="data">
+							<f:facet align="left" name="buttonBar">
+								
+							</f:facet>
+
+							<pe:dynaFormatControl type="hidden">
+								<h:inputHidden id="hidden" value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="fileupload">
+
+								<p:fileUpload locale="pt_BR" cancelLabel="Cancelar"
+									uploadLabel="Enviar" label="Enviar" skinSimple="true"
+									mode="advanced" dragDropSupport="true" 
+									 allowTypes="/(\.|\/)(png|PNG|jpg|JPG|gif|GIF)$/" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="booleanchoice">
+								<p:selectBooleanCheckbox value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="input" for="txt">
+								<p:inputText id="txt" width="100" value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="texteditor" for="texto">
+
+								<p:inputText id="texto" width="100" value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="calendar" for="cal"
+								styleClass="calendar">
+								<p:calendar id="cal" value="#{data.value}"
+									required="#{data.required}" showOn="button" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="selectcat" for="selcat">
+								<p:selectOneMenu id="selcat" value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems value="#{applicationEntityBean.languagesCat}" />
+								</p:selectOneMenu>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="selectfather" for="selfat">
+								<p:selectOneMenu id="selfat" value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems
+										value="#{applicationEntityBean.getLanguagesFat(data.name)}" />
+								</p:selectOneMenu>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="selectlayer" for="sellay">
+								<p:selectOneMenu id="sellay" value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems
+										value="#{applicationEntityBean.getLanguagesLay(data.name)}" />
+								</p:selectOneMenu>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="selectOneMenu" for="selOneMenu">
+								<p:selectOneMenu id="selOneMenu" value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems
+										value="#{applicationEntityBean.getSelectOneMenuItens(data.name)}" />
+								</p:selectOneMenu>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="select" for="sel">
+								<p:selectOneMenu id="sel" value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems value="#{applicationEntityBean.languages}" />
+								</p:selectOneMenu>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="textarea" for="tarea">
+								<p:inputTextarea id="tarea" value="#{data.value}"
+									required="#{data.required}" autoResize="false" />
+							</pe:dynaFormatControl>
+							<pe:dynaFormatControl type="rating" for="rat">
+								<p:rating id="rat" value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="radiochoice">
+								<p:selectOneRadio value="#{data.value}"
+									required="#{data.required}">
+									<f:selectItems value="#{data.selectItems}" />
+								</p:selectOneRadio>
+							</pe:dynaFormatControl>
+
+							<pe:dynaFormatControl type="img">
+								<p:graphicImage width="90" value="#{data.value}"
+									required="#{data.required}" />
+							</pe:dynaFormatControl>
+
+						</pe:dynaFormat>
+        
+
+    </h:panelGrid>
+
+
+	
+
+	</h:form>
+	
+	 <p:dialog  header="Envio de Imagem" 
+	 width="600" height="400"  widgetVar="imagePointDialog" resizable="false"  > 
+	 
+ 		 <h:form id="uploadShpForm" prependId="false">
+	
+	<h:panelGroup   id="entrada">
+
+    <p:fileUpload   
+    
+    cancelLabel="Cancelar" label="Arquivo" uploadLabel="Enviar" update="#{viewid}:pointForm" oncomplete="PF('imagePointDialog').hide(),PF('editPointDialog').hide()"  
+    listener="#{applicationEntityBean.importIMAGE}" mode="advanced" dragDropSupport="false"
+        allowTypes="/(\.|\/)(jpg|JPG|png|PNG|zip|ZIP|gif|GIF)$/" />
+
+	<div style="clear:both"/>
+</h:panelGroup>
+</h:form>	
+    </p:dialog>    
+
+	 <h:outputScript id="dynaFormScript" target="body">
+	/* <![CDATA[ */
+    function handleComplete(xhr, status, args) {
+        if(args && args.isValid) {
+            PF('editPointDialog').hide();
+            	//deleteFeature(args.nomeobject);
+        } else {
+            PF('editPointDialog').show();
+        }
+    }
+	/* ]]> */
+</h:outputScript>  
+</ui:composition>

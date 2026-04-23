@@ -1,0 +1,200 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="jakarta.tags.core"
+    xmlns:p="http://primefaces.org/ui"> 
+
+<style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="#{request.contextPath}/themes/bootstrap-m-ize/offcanvas.css" rel="stylesheet"/>
+    
+    
+    
+	<nav class="navbar navbar-expand-lg fixed-top navbar-red bg-red">
+  
+  
+   <a class="navbar-brand mr-auto mr-lg-0" href="#{request.contextPath}/index.xhtml">
+           	<p:graphicImage  style="float:left;margin-top: -7px; padding-right: 5px" width="38"
+					value="/files/#{userData2.realmEntity}/image/logo.png" />#{abstractIdentityBean.abstractIdentityEntity.title}</a>    
+  
+  <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+    
+   
+    
+    
+    
+     
+    </ul>
+    
+      <ul class="nav navbar-nav navbar-right form-inline my-2 my-lg-0">
+   <ui:fragment  rendered="false">
+             <!-- Notifications -->
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <i class="material-icons">notifications</i>
+                            <span class="label-count">7</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">NOTIFICAÇÕES</li>
+                            <li class="body">
+                                <ul class="menu">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-light-green">
+                                                <i class="material-icons">person_add</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>12 new members joined</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 14 mins ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-cyan">
+                                                <i class="material-icons">add_shopping_cart</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>4 sales made</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 22 mins ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-red">
+                                                <i class="material-icons">delete_forever</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>Nancy Doe</b> deleted account</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 3 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-orange">
+                                                <i class="material-icons">mode_edit</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>Nancy</b> changed name</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 2 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-blue-grey">
+                                                <i class="material-icons">comment</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>John</b> commented your post</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 4 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-light-green">
+                                                <i class="material-icons">cached</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4><b>John</b> updated status</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> 3 hours ago
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="icon-circle bg-purple">
+                                                <i class="material-icons">settings</i>
+                                            </div>
+                                            <div class="menu-info">
+                                                <h4>Settings updated</h4>
+                                                <p>
+                                                    <i class="material-icons">access_time</i> Yesterday
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="javascript:void(0);">Exibir todas as Notificações</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- #END# Notifications -->
+            </ui:fragment>
+            
+			<c:forEach items="#{abstractIdentityBean.getModuleFilters('top_navbar')}" var="_module">
+				<ui:include src="#{_module.path}#{_module.type}.xhtml">
+				 	<ui:param name="id" value="#{_module.components}" />
+				</ui:include> 
+			</c:forEach>
+
+ 	<ui:fragment  rendered="true">
+			<li class="dropdown">
+			<a href="#{activeLocale.canonicalURL}" 
+			class="dropdown-toggle btn btn-lg  waves-effect" data-toggle="dropdown" role="button" 
+			onclick="return false">
+			<i class="material-icons">language</i>
+				<h:graphicImage style="vertical-align: top !important;padding-top: 5px"
+				name="flags/#{activeLocale.languageTag}.svg" width="28" height="21" />
+			</a>
+			<ul class="dropdown-menu" role="menu"> 
+			<li class="header">LINGUAGEM</li>
+				<c:forEach items="#{activeLocale.others}" var="otherLocale">
+					<li>
+						<a class="text-uppercase" title="#{otherLocale.name}"
+							href="#{activeLocale.canonicalURL(otherLocale)}">
+							<h:graphicImage styleClass="flag" 
+							name="flags/#{otherLocale.languageTag}.svg" 
+							width="24" height="18" /><i class="material-icons"></i>
+							 	#{otherLocale.name}
+						</a>
+					</li>
+				</c:forEach>
+			</ul>
+		</li>
+		</ui:fragment>
+    </ul>
+  </div>
+</nav>
+
+
+
+</ui:composition>

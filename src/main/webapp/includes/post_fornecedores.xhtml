@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<section >
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+						<ui:repeat id="mediaitem1"
+												value="#{urlPostBean.getGeometries(id,0)}" var="_mediaitem">
+												<h4>#{_mediaitem.nome}</h4>
+												
+												
+												</ui:repeat>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+</ui:composition>

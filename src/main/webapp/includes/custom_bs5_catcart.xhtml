@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	<div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
+		<aside class="bd-sidebar">
+			<div class="offcanvas-lg offcanvas-start" tabindex="-1"
+				id="bdSidebar" aria-labelledby="bdSidebarOffcanvasLabel">
+				<div class="offcanvas-header border-bottom">
+					<h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">#{compjson.field.get('header_text').asText()}</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+						aria-label="Close" data-bs-target="#bdSidebar"></button>
+				</div>
+				<div class="offcanvas-body">
+					<nav class="bd-links w-100" id="bd-docs-nav"
+						aria-label="Docs navigation">
+						<c:forEach varStatus="loop30"
+							items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'left_sidebar').toList()}"
+							var="modulox">
+							<f:subview id="thing30_#{loop30.index}">
+								<ui:include src="#{modulox.complete}">
+									<ui:param name="id"
+										value="#{modulox.components.at('/id').asText()}" />
+									<ui:param name="uuid" value="#{abstractIdentityBean.uuid}" />
+									<ui:param name="viewid"
+										value="#{viewid}:thing30_#{loop30.index}" />
+									<ui:param name="cgmid" value="#{abstractIdentityBean.gcmid}" />
+									<ui:param name="compjson" value="#{modulox.compJson}" />
+									<ui:param name="fields" value="#{modulox.fields}" />
+								</ui:include>
+							</f:subview>
+						</c:forEach>
+					</nav>
+				</div>
+			</div>
+		</aside>
+
+		<script>
+ var element = document.getElementById("left_icon");
+  element.classList.remove("d-none");
+</script>
+
+		<main class="bd-main">
+			<c:forEach varStatus="loop4"
+				items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'main').toList()}"
+				var="modulox">
+				<f:subview id="thing4_#{loop4.index}">
+					<ui:include src="#{modulox.complete}">
+						<ui:param name="id"
+							value="#{modulox.components.at('/id').asText()}" />
+						<ui:param name="uuid" value="#{abstractIdentityBean.uuid}" />
+						<ui:param name="viewid" value="#{viewid}:thing4_#{loop4.index}" />
+						<ui:param name="cgmid" value="#{abstractIdentityBean.gcmid}" />
+						<ui:param name="compjson" value="#{modulox.compJson}" />
+						<ui:param name="fields" value="#{modulox.fields}" />
+					</ui:include>
+				</f:subview>
+			</c:forEach>
+		</main>
+	</div>
+</ui:composition>

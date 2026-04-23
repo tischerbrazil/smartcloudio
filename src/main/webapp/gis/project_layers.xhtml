@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+    > 
+	
+	<f:metadata>
+		<f:viewParam name="id" value="#{applicationEntityBean.id}"/>
+		<f:event type="preRenderView" listener="#{applicationEntityBean.retrieve}"/>
+	</f:metadata>
+	
+	<ui:define name="title">JICRED</ui:define>
+	
+	<ui:define name="h1"></ui:define>
+	
+	<ui:define name="navbar_top">
+    	  <ui:include src="#{abstractIdentityBean.abstractIdentityEntity.template}/menu_top.xhtml"/> 
+	</ui:define>
+	
+	<ui:define name="sidebar_left">
+    	 <ui:include src="#{abstractIdentityBean.abstractIdentityEntity.template}/menu_left.xhtml"/> 
+	</ui:define>
+	
+	<ui:define name="sidebar_right">
+    	  <ui:include src="#{abstractIdentityBean.abstractIdentityEntity.template}/menu_right.xhtml"/> 
+	</ui:define>
+	
+	
+	<ui:define name="content">
+    <section class="content">
+        <div class="container-fluid">
+			
+            <div class="row clearfix"> 
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                    <div class="card">
+                        <div class="body">
+                        
+
+  <h:form id="layersForm">
+
+  <p:growl id="message" showDetail="false" showSummnary="true" />
+ 
+ 	<style>
+ 	.ui-orderlist-list{
+		width:100% !important;
+			height:100% !important; 
+	}
+	.ui-orderlist{
+		width:100% !important;
+			height:100% !important;
+	}
+	
+	.ui-grid {
+	width:100% !important;
+		height:100% !important;
+	}
+
+ 	</style>
+ 	
+ 	<p:panelGrid style="width: 100%">  
+    	<f:facet name="header" style="width: 100%">
+        <p:row >  
+        	<p:column style="text-align: left;width: 8%">#</p:column>  
+        	<p:column style="text-align: left;width: 8%">Registros</p:column>  
+            <p:column style="text-align: left;width: 76%">Nome</p:column>  
+           	<p:column style="text-align: left;width: 8%">Editar</p:column>  
+        </p:row>
+        
+        </f:facet>
+        </p:panelGrid>
+  	<p:orderList controlsLocation="none" 
+    	responsive="true" id="layers"  value="#{applicationEntityBean.applicationEntity.layers}"  
+    	var="layer" itemValue="#{layer}" converter="#{layerConverterBean.converter}"
+ 		selectionMode="single" rowKey="#{layer.toString()}" > 
+ 		 
+    <p:ajax  event="reorder" listener="#{applicationEntityBean.onReorder}" update="layersForm,message"/> 
+
+	<p:column style="text-align: left;width: 8%">  
+		<h:outputText value="#{layer.orderlayer}"/>  
+ 	</p:column>
+ 	
+ 	<p:column style="text-align: left;width: 8%"> 
+      	<h:outputText value="#{layer.geometrias.size()}"/>
+ 	</p:column>
+ 
+ 	<p:column style="text-align: left;width: 76%">  
+      	<h:outputText  alt="#{layer.dtype}" title="#{layer.dtype}" value="#{layer.name}"/>  
+ 	</p:column>
+ 	
+ 	<p:column style="text-align: left;width: 8%">  
+    	 
+                        	
+         <h:link outcome="/gis/layer_view" alt="#{layer.dtype}" title="#{layer.dtype}" class="dropdown-toggle btn btn-lg  waves-effect">
+         <span><i class="material-icons">home</i></span>
+         	<f:param name="application_id" value="#{applicationEntityBean.id}"/>
+			<f:param name="layer_id" value="#{layer.uuid}"/>
+         </h:link>
+                        	
+ 	</p:column>
+
+	</p:orderList>	  	 	
+
+    </h:form>
+    	
+   	
+							
+	               		</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   
+	</ui:define>
+	
+	 
+</ui:composition>

@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	<h:form>			
+				 <p:commandLink actionListener="#{app.changeTheme('saga', false)}" oncomplete="App.changeTheme('saga', false)"><h:graphicImage name="showcase/images/themes/saga.png"  width="30" alt="Light"/></p:commandLink>
+                      
+                  #{''}
+                 <p:commandLink actionListener="#{app.changeTheme('arya', true)}" oncomplete="App.changeTheme('arya', true)" ><h:graphicImage name="showcase/images/themes/vela.png" alt="Dark" width="30"/></p:commandLink>			
+			</h:form>	
+		
+
+
+	
+
+	
+	
+
+</ui:composition>

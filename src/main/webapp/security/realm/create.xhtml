@@ -1,0 +1,456 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<ui:define name="content">
+		<ui:fragment rendered="false">
+			<h:outputStylesheet name="primeflex/4.0.0/primeflex.min.css"
+				library="webjars" />
+			<div class="container py-5 ui-fluid ">
+				<h:form>
+					<div class="formgrid grid">
+						<div class="field col-6 md:col-4">
+							<p:outputLabel value="Simple" for="@next" />
+							<p:inputText id="acSimple" placeholder="Enter name" />
+						</div>
+						<div class="field col-6 md:col-4">
+							<p:outputLabel value="Username" for="@next" />
+							<div class="ui-inputgroup">
+								<div class="ui-inputgroup-addon">
+									<i class="pi pi-user"></i>
+								</div>
+								<p:inputText />
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</div>
+		</ui:fragment>
+
+
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h:form id="idxForm">
+						<div class="header">
+							<div class="row clearfix">
+								<div class="pb-4 col-md-12">
+									<p:staticMessage severity="warn" summary="Cuidado"
+										style="width: 100%"
+										detail="Cuidado. Algumas
+										alterações globais são irreversíveis! Consulte a documentação
+										para maiors informações!"
+										closable="true">
+									</p:staticMessage>
+								</div>
+							</div>
+							<div class="col-md-9">
+								<h4>Configuração e Login</h4>
+							</div>
+						</div>
+						<div class="body">
+							<p:growl showDetail="true" showSummary="true" id="messages"
+								life="3000" />
+		
+							<p:tabView id="tablayer">
+								<p:tab title="Realm General">
+									<div class="demo-masked-input">
+										<ui:fragment rendered="#{empty realmEntityBean.id}">
+											<div class="row clearfix">
+												<div class="col-md-6">
+													<b>URL</b>
+													<div class="input-group">
+														<span class="input-group-addon"> <i
+															class="material-icons">library_books</i>
+														</span>
+														<div class="form-line">
+															<h:inputText tabindex="1" type="text" autocomplete="off"
+																class="form-control" id="reamid" maxLength="200"
+																value="#{realmEntityBean.realmEntity.id}" />
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<b>Name</b>
+													<div class="input-group">
+														<span class="input-group-addon"> <i
+															class="material-icons">library_books</i>
+														</span>
+														<div class="form-line">
+															<h:inputText tabindex="1" type="text" autocomplete="off"
+																class="form-control" id="name" maxLength="200"
+																value="#{realmEntityBean.realmEntity.name}" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</ui:fragment>
+
+
+										<div class="row clearfix">
+											<div class="col-md-6">
+												<b>Display Name</b>
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="material-icons">library_books</i>
+													</span>
+													<div class="form-line">
+														<h:inputText tabindex="1" type="text" autocomplete="off"
+															class="form-control" id="displayname" maxLength="200"
+															value="#{realmEntityBean.realmEntity.displayName}" />
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<b>Display Name Html</b>
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="material-icons">playlist_add_check</i>
+													</span>
+													<div class="form-line">
+														<h:inputText tabindex="1" type="text" autocomplete="off"
+															class="form-control" id="displaynamehtml" maxLength="200"
+															value="#{realmEntityBean.realmEntity.displayNameHtml}" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row clearfix"></div>
+								</p:tab>
+
+
+
+
+
+
+
+								<p:tab title="Login" rendered="#{!empty realmEntityBean.id}">
+									<div class="row clearfix"></div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span><i class="material-icons">playlist_add_check</i>
+												<label for="reg_username" class="control-label">Registro
+													de Usuário</label> </span>
+											<div class="form-line">
+												<div class="switch">
+													NÃO <label> <h:selectBooleanCheckbox
+															id="reg_username"
+															value="#{realmEntityBean.realmEntity.registrationAllowed}" />
+														<span class="lever switch-col-indigo"></span>SIM
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span><i class="material-icons">playlist_add_check</i>
+												<label for="reg_mail_username" class="control-label">Email
+													para Usuário</label> </span>
+											<div class="form-line">
+												<div class="switch">
+													NÃO <label> <h:selectBooleanCheckbox
+															id="reg_mail_username"
+															value="#{realmEntityBean.realmEntity.registrationEmailAsUsername}" />
+														<span class="lever switch-col-indigo"></span>SIM
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span><i class="material-icons">playlist_add_check</i>
+												<label for="edit_username" class="control-label">Edição
+													do Usuário</label> </span>
+											<div class="form-line">
+												<div class="switch">
+													NÃO <label> <h:selectBooleanCheckbox
+															id="edit_username"
+															value="#{realmEntityBean.realmEntity.editUsernameAllowed}" />
+														<span class="lever switch-col-indigo"></span>SIM
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span><i class="material-icons">playlist_add_check</i>
+												<label for="reset_pass" class="control-label">Esqueceu
+													Senha</label> </span>
+											<div class="form-line">
+												<div class="switch">
+													NÃO <label> <h:selectBooleanCheckbox
+															id="reset_pass"
+															value="#{realmEntityBean.realmEntity.resetPasswordAllowed}" />
+														<span class="lever switch-col-indigo"></span>SIM
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span><i class="material-icons">playlist_add_check</i>
+												<label for="rememberme" class="control-label">Lembrar-me
+											</label> </span>
+											<div class="form-line">
+												<div class="switch">
+													NÃO <label> <h:selectBooleanCheckbox
+															id="rememberme"
+															value="#{realmEntityBean.realmEntity.rememberMe}" /> <span
+														class="lever switch-col-indigo"></span>SIM
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span><i class="material-icons">playlist_add_check</i>
+												<label for="verifyemail" class="control-label">Verificar
+													EMail</label> </span>
+											<div class="form-line">
+												<div class="switch">
+													NÃO <label> <h:selectBooleanCheckbox
+															disabled="true" id="verifyemail"
+															value="#{realmEntityBean.realmEntity.verifyEmail}" /> <span
+														class="lever switch-col-indigo"></span>SIM
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<span><i class="material-icons">playlist_add_check</i>
+												<label for="loginwithemail" class="control-label">Login
+													por EMail</label> </span>
+											<div class="form-line">
+												<div class="switch">
+													NÃO <label> <h:selectBooleanCheckbox
+															id="loginwithemail"
+															value="#{realmEntityBean.realmEntity.loginWithEmailAllowed}" />
+														<span class="lever switch-col-indigo"></span>SIM
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row clearfix"></div>
+								</p:tab>
+
+
+
+
+								<p:tab title="DNS Management"
+									rendered="#{!empty realmEntityBean.id}">
+									<div class="demo-masked-input">
+
+
+
+										<p:dataTable rendered="true" id="attrib1"
+											emptyMessage="Nenhum attributo encontrado!" var="_attr"
+											value="#{realmEntityBean.realmEntity.attributes}">
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Name" />
+												</f:facet>
+												<h:outputText value="#{_attr.name}" />
+											</p:column>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="TTL" />
+												</f:facet>
+												<h:outputText value="#{_attr.ttl}" />
+											</p:column>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Type" />
+												</f:facet>
+												<h:outputText value="#{_attr.type}" />
+											</p:column>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Priority" />
+												</f:facet>
+												<h:outputText value="#{_attr.priority}" />
+											</p:column>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Data" />
+												</f:facet>
+												<h:outputText value="#{_attr.data}" />
+											</p:column>
+											<p:column>
+
+												<p:commandButton title="Excluir" icon="fa fa-trash"
+													update=":idxForm:tablayer:attrib1"
+													actionListener="#{realmEntityBean.deleteAttrib}">
+													<p:confirm header="Confirmation"
+														message="Desacoplar o Componente?" icon="ui-icon-alert" />
+													<f:attribute name="attribid" value="#{_attr}" />
+												</p:commandButton>
+
+												<p:commandButton icon="fa fa-sort"
+													onclick="PF('sidebar').show();" title="Edit"
+													update="changeOrderForm"
+													action="#{realmEntityBean.editAction(_attr)}" />
+
+											</p:column>
+										</p:dataTable>
+									</div>
+								</p:tab>
+
+
+
+
+							</p:tabView>
+							<div class="button">
+								<p:commandButton value="Salvar" update="messages"
+									icon="fa fa-save" action='#{realmEntityBean.update}' />
+								#{''}
+								<p:commandButton value="Excluir" icon="fa fa-trash"
+									oncomplete="PF('confirmDialog').show()"
+									styleClass="ui-button-danger" />
+								<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+									header="Confirma Exclusão?" widgetVar="confirmDialog"
+									id="confirmDlg">
+									<div class="alert alert-info" role="alert">Obs. Todas as
+										referencias deste Realm serão excluidos!</div>
+									<p:commandButton ajax="false" icon="fa fa-check"
+										action='#{realmEntityBean.delete}'
+										styleClass="button btn-danger btn-lg waves-effect" />#{''}
+									<p:commandButton icon="fa fa-undo"
+										oncomplete="PF('confirmDialog').hide()"
+										styleClass="button btn-primary btn-lg waves-effect" />
+								</p:dialog>
+								#{''}
+								<p:button value="Cancelar" outcome="/security/realm/search"
+									icon="pi pi-undo" />
+							</div>
+						</div>
+					</h:form>
+					<p:sidebar position="left" blockScroll="true"
+						style="overflow-y: scroll; 
+						width:90% !important; height:100%px !important;"
+						widgetVar="sidebar">
+						<h:form id="changeOrderForm">
+							<br />
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="row clearfix">
+									<div class="col-md-4">
+										<b>Name</b>
+										<div class="input-group">
+											<span class="input-group-addon"> <i
+												class="material-icons">layers</i>
+											</span>
+											<div class="form-line">
+												<p:inputText requiredMessage="Name Requerid!"
+													required="true" styleclass="form-control"
+													value="#{realmEntityBean.realmAttributeEntity.name}">
+												</p:inputText>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<b>TTL</b>
+										<div class="input-group">
+											<span class="input-group-addon"> <i
+												class="material-icons">layers</i>
+											</span>
+											<div class="form-line">
+												<p:inputText requiredMessage="TTL Requerid!" required="true"
+													styleclass="form-control"
+													value="#{realmEntityBean.realmAttributeEntity.ttl}">
+												</p:inputText>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<b>Priority</b>
+										<div class="input-group">
+											<span class="input-group-addon"> <i
+												class="material-icons">layers</i>
+											</span>
+											<div class="form-line">
+												<p:inputText requiredMessage="Priority Requerid!"
+													required="true" styleclass="form-control"
+													value="#{realmEntityBean.realmAttributeEntity.priority}">
+												</p:inputText>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row clearfix">
+									<div class="col-md-4">
+										<b>Type</b>
+										<div class="input-group">
+											<span class="input-group-addon"> <i
+												class="material-icons">label_outline</i>
+											</span>
+											<div class="form-line">
+												<p:selectOneMenu id="tipoLimite1" update="rootTree"
+													value="{realmEntityBean.realmAttributeEntity.type}">
+													<f:selectItem itemValue="0" itemLabel="A" />
+													<f:selectItem itemValue="1" itemLabel="AAAA" />
+													<f:selectItem itemValue="2" itemLabel="MX" />
+													<f:selectItem itemValue="3" itemLabel="CDR" />
+													<f:selectItem itemValue="4" itemLabel="TXT" />
+												</p:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<b>Data</b>
+										<div class="input-group">
+											<span class="input-group-addon"> <i
+												class="material-icons">layers</i>
+											</span>
+											<div class="form-line">
+												<p:inputText requiredMessage="TTL Requerid!" required="true"
+													styleclass="form-control"
+													value="#{realmEntityBean.realmAttributeEntity.data}">
+												</p:inputText>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<p:confirmDialog global="true">
+								<p:commandButton value="Sim" update="pageform" ajax="false"
+									type="button" styleClass="ui-confirmdialog-yes"
+									icon="ui-icon-check" />
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+
+
+						</h:form>
+					</p:sidebar>
+					<p:dialog header="Edição de Campo" dynamic="true" width="95%"
+						height="100%" modal="true" widgetVar="editCampoDialog"
+						resizable="false">
+						<ui:include src="/security/config/CampoEdit.xhtml" />
+					</p:dialog>
+					<p:dialog header="Search cars" widgetVar="searchDialog"
+						height="400" modal="true" width="500">
+							DIALOG TEST
+	       	 </p:dialog>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>

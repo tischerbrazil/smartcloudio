@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+	<ui:define name="content">
+		<section class="slice py-8">
+			<div class="container py-5">
+				<div class="row clearfix">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="body">
+							<p:growl showDetail="true" escape="false" id="messages"
+								life="3000" />
+							<h:form id="idxForm">
+							
+							<h5><i class="#{componentBean.component.icon}"/>
+							
+							#{componentBean.component.name}</h5	>
+							
+								<p:tabView id="tablayer">
+									<p:tab title="Registros">
+										<div align="right">
+											<p:button title="Novo Registro" icon="fa fa-plus"
+												outcome="/administrator/item_edit">
+												<f:param name="post_id" value="#{componentBean.id}" />
+											</p:button>
+										</div>
+										<p:dataTable emptyMessage="Nenhum item encontrado!"
+											reflow="true" id="apps2"
+											value="#{componentBean.component.geometrias}" var="_compItem"
+											selectionMode="single" rowKey="#{_compItem.id}">
+											<p:column headerText="Order">
+												<h:outputText value="#{_compItem.parte}" />
+											</p:column>
+											<p:column headerText="Nome">
+												<h:outputText value="#{_compItem.nome}" />
+											</p:column>
+											<p:column rendered="false" headerText="Name">
+												<h:outputText value="#{_compItem.strings.findValue('name')}" />
+											</p:column>
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Ativo" />
+												</f:facet>
+												<p:graphicImage rendered="#{_compItem.enabled}"
+													class="img-circle" value="/resources/true.png" />
+												<p:graphicImage rendered="#{!_compItem.enabled}"
+													class="img-circle" value="/resources/false.png" />
+											</p:column>
+											<p:column headerText="Ativo" responsivePriority="4">
+												<p:button icon="fa fa-edit" title="Editar"
+													outcome="/administrator/item_edit">
+													
+													  <o:pathParam value="0" />
+										           <o:pathParam value="#{_comp.id}" />
+													
+													
+												</p:button>
+											</p:column>
+										</p:dataTable>
+									</p:tab>
+									<p:tab title="Campos">
+										<h:panelGroup id="displayfields">
+											<div align="right">
+												<p:commandButton title="Novo Campo" id="addField"
+													actionListener="#{componentBean.newField}"
+													onclick="PF('addFieldDialog').show();"
+													update=":addFieldForm" icon="fa fa-plus"
+													styleClass="ui-bigbutton" />
+											</div>
+											<p:dataTable emptyMessage="Nenhum Campo Encontrado!"
+												id="fields" var="_field"
+												value="#{componentBean.component.fields}"
+												widgetVar="fieldsTable">
+												<p:column headerText="Ident.">
+													<h:outputText value="#{_field.name}" />
+												</p:column>
+												<p:column headerText="Rotulo">
+													<h:outputText value="#{_field.label}" />
+												</p:column>
+												<p:column headerText="Tipo">
+													<h:outputText value="#{_field.typeData}" />
+												</p:column>
+												<p:column headerText="Editar">
+													<p:commandButton icon="fa fa-edit" title="Editar"
+														update="campoForm:display"
+														onclick="fieldEdit([{name:'fieldid', value:'#{_field.id}'}]);" />
+												</p:column>
+											</p:dataTable>
+										</h:panelGroup>
+									</p:tab>
+									
+									
+									<p:tab  title="Editar">
+									
+									<h:panelGrid columnClasses="label,component" columns="3">
+
+									<h:outputLabel for="enabled" value="Ativo" />
+									<p:selectBooleanCheckbox required="true" locale="pt_BR"
+										label="Tipo" id="enabled"
+										value="#{componentBean.component.enabled}" />
+									<h:outputText />
+
+									<h:outputLabel for="nome" value="Nome:" />
+									<h:panelGroup>
+										<p:inputText id="nome" label="Nome" required="true"
+											value="#{componentBean.component.name}" />
+									</h:panelGroup>
+									<h:outputText />
+
+
+
+									<h:outputLabel for="title" value="Título:" />
+									<h:panelGroup>
+										<p:inputText id="title"
+											value="#{componentBean.component.title}" />
+									</h:panelGroup>
+									<h:outputText />
+
+
+
+
+									<h:outputLabel for="desc" value="Descrição:" />
+									<h:panelGroup>
+										<p:inputText id="desc"
+											value="#{componentBean.component.description}" />
+									</h:panelGroup>
+									<h:outputText />
+
+									<h:outputLabel for="icon" value="Icon:" />
+									<h:panelGroup>
+										<p:inputText id="icon" value="#{componentBean.component.icon}" />
+									</h:panelGroup>
+									<h:outputText />
+
+								</h:panelGrid>
+
+								<div class="buttons">
+									<h:commandLink value="Salvar" action='#{componentBean.update}'
+										styleClass="btn btn-primary" />
+									#{''}
+									<c:choose>
+										<c:when test='#{!empty componentBean.id}'>
+											<h:link value="Cancelar" outcome="/administrator/application_view"
+												styleClass="btn btn-primary">
+												   <o:pathParam value="0" />
+										           <o:pathParam value="#{componentBean.component.applicationEntity.id}" />
+											</h:link>
+									#{''}
+									<h:commandLink value="Excluir" action='#{componentBean.delete}'
+												styleClass="btn btn-primary" />
+										</c:when>
+										<c:otherwise>
+											<h:link value="Cancelar" outcome="/administrator/component_view"
+												styleClass="btn btn-primary">
+												<f:param name="id" value='#{componentBean.identity_id}' />
+											</h:link>
+										</c:otherwise>
+									</c:choose>
+								</div>
+									
+									</p:tab>
+									
+								</p:tabView>
+								<p:remoteCommand name="fieldEdit"
+									oncomplete="PF('editCampoDialog').show();"
+									actionListener="#{componentBean.beanMethodField}" />
+
+								<div align="right" class="buttons">
+									<p:commandButton ajax="false" title="Salvar" id="saveBtn"
+										oncomplete="handleLayerEditRequest(xhr, status, args)"
+										icon="fa fa-save" style="font-size: 15px;padding: 3px"
+										action='#{componentBean.update}' />
+									#{''}
+									<p:commandButton ajax="false"
+										oncomplete="PF('editlayerDialog').hide();" icon="fa fa-undo"
+										title="Cancelar" style="font-size: 15px;padding: 3px" />
+									#{''}
+									<p:commandButton ajax="false" title="Excluir" update="message"
+										oncomplete="PF('editLayerDialog').hide();fetchData();"
+										action='#{componentBean.delete}' icon="fa fa-trash"
+										style="font-size: 15px;padding: 3px" />
+								</div>
+							</h:form>
+							<p:dialog header="Edição de Campo" dynamic="true" width="95%"
+								height="100%" modal="true" widgetVar="editCampoDialog"
+								resizable="false">
+								<ui:include src="CampoEdit.xhtml" />
+							</p:dialog>
+							<p:dialog header="Adicionar Campo" dynamic="true" width="95%"
+								height="100%" modal="true" widgetVar="addFieldDialog"
+								resizable="false">
+								<p:ajax event="close" oncomplete="PF('wiz').loadStep('personal', false);"  />
+								<ui:include src="CampoAdd.xhtml" />
+							</p:dialog>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</ui:define>
+</ui:composition>

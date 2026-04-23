@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core" xmlns:ui="jakarta.faces.facelets"
+	lang="#{p:language()}" xml:lang="#{p:language()}">
+
+<f:view locale="#{activeLocale.value}">
+
+	<h:head>
+		<ui:insert name="head" />
+		<h:outputStylesheet library="webjars"
+			name="font-awesome/5.15.4/css/all.min-jsf.css" />
+		<h:outputStylesheet library="webjars"
+			name="font-awesome/5.15.4/css/v4-shims.min-jsf.css" />
+
+		<style>
+.ui-bigbutton {
+	padding: 0px 25px 10px 25px !important;
+}
+
+.ui-splitbutton-menubutton {
+	padding: 0px 25px 10px 25px !important;
+}
+
+.ui-split-red {
+	background-color: red !important;
+}
+
+#
+.ui-state-default { #
+	padding: 0px 25px 10px 25px !important;
+	#
+}
+</style>
+	</h:head>
+
+	<h:body>
+
+
+		<h:form style="display: inline; margin: 0;" prependId="false">
+			<p:tabView multiViewState="true" id="ribbonControl"
+				scrollable="false">
+
+				<p:tab id="export" title="#{i18n['gis.file']}" icon="pi pi-file">
+
+					<div style="padding: 4px" id="step1">
+
+
+
+
+						<p:button outcome="/application/index" alt="Dashboard"
+							title="Dashboard" icon="pi pi-home" styleClass="ui-bigbutton"
+							type="button" />
+						#{''}
+
+						<p:commandButton rendered="false" onclick="editFeatureExportShp()"
+							value="Shape" icon="ui-ribbonicon-shpout"
+							styleClass="ui-bigbutton" type="button" title="Formato ShapeFile" />
+
+						#{''}
+
+
+
+
+						<p:commandButton title="Arquivos" icon="pi pi-file"
+							onclick="PF('reportDialog').show(); return false;"
+							update=":reportForm5:features777" styleClass="ui-bigbutton"
+							type="button" />
+						#{''}
+						<p:commandButton rendered="true"
+							onclick="PF('importVertexDialog').show();" alt="Enviar Dados"
+							title="Enviar Planilha de Coordenadas" icon="pi pi-upload"
+							styleClass="ui-bigbutton" type="button" />
+						#{''}
+						<p:commandButton rendered="false" onclick="startIntro();"
+							alt="Introdução" title="Introdução" icon="pi pi-external-link"
+							styleClass="ui-bigbutton" type="button" />
+						#{''}
+
+						<p:commandButton id="btnZoomIn"
+							onclick="map.getView().setZoom(map.getView().getZoom() + 1);"
+							title="#{i18n['gis.zoomin']}" icon="pi pi-search-plus"
+							styleClass="ui-bigbutton" type="button" />
+						#{''}
+						<p:commandButton
+							onclick="map.getView().setZoom(map.getView().getZoom() - 1);"
+							title="#{i18n['gis.zoomout']}" icon="pi pi-search-minus"
+							styleClass="ui-bigbutton" type="button" />
+						#{''}
+
+
+
+
+
+						<p:graphicImage rendered="false" width="140px"
+							class="js-animating-object img-responsive"
+							value="#{applicationEntityBean.getApplicationImg('logoImageMap')}" />
+
+					</div>
+				</p:tab>
+
+				<p:tab id="tools" title="#{i18n['gis.edit']}">
+					<div style="padding: 4px">
+						<p:commandButton rendered="false" value="Gerar"
+							icon="ui-ribbonicon-project" styleClass="ui-bigbutton"
+							action="#{projectRuralEntityBean.processProjectRural}"
+							title="Processar Projeto" />
+						<p:commandButton value="VERT" icon="ui-ribbonicon-project"
+							rendered="false" styleClass="ui-bigbutton"
+							action="#{projectRuralEntityBean.testVertices}"
+							title="Processar Projeto" />
+						<p:commandButton onclick="PF('uploadVerticesDialog').show();"
+							rendered="false" value="Vértices" icon="ui-ribbonicon-imp"
+							styleClass="ui-bigbutton" type="button" />
+						<p:commandButton onclick="PF('uploadShpDialog').show();"
+							rendered="false" value="Shape" icon="ui-ribbonicon-shpin"
+							styleClass="ui-bigbutton" type="button" />
+						<p:commandButton onclick="PF('uploadCsvDialog').show();"
+							rendered="false" value="CSV" icon="ui-ribbonicon-br"
+							styleClass="ui-bigbutton" type="button" />
+						<p:commandButton onclick="PF('uploadGnssFilesDialog').show();"
+							rendered="false" update=":uploadGnssFilesForm:display"
+							value="GNSS" icon="ui-ribbonicon-snap" styleClass="ui-bigbutton"
+							type="button" />
+
+						<p:commandButton rendered="false"
+							onclick="map.getView().fit(map.getView().calculateExtent());"
+							title="Extend" icon="ui-ribbonicon-extend"
+							styleClass="ui-bigbutton" type="button" />
+						#{''}
+						<p:commandButton id="btnNav" title="#{i18n['gis.pan']}"
+							icon="fa fa-arrows" styleClass="ui-bigbutton btnMenu"
+							type="button" />
+						#{''}
+						<p:commandButton id="btnSelect" title="#{i18n['gis.select']}"
+							icon="fa fa-mouse-pointer" styleClass="ui-bigbutton btnMenu"
+							type="button" />
+						#{''}
+						<p:commandButton id="btnModify" title="Alterar" icon="fas fa-save"
+							styleClass="ui-bigbutton btnMenu" type="button" />
+						#{''}
+						<p:commandButton onclick="editFeature(); return false;"
+							title="#{i18n['gis.edit']}" icon="fa fa-edit"
+							styleClass="ui-bigbutton" type="button" />
+						#{''}
+						<p:commandButton onclick="editFeaturePrint()" title="Imprimir"
+							rendered="#{of:isInstance('org.geoazul.model.app.ProjectUrbanEntity', applicationEntityBean.applicationEntity)}"
+							icon="pi pi-print" styleClass="ui-bigbutton" type="button" />
+						#{''}
+						<p:commandButton id="btnPrintScreen"
+							onclick="editFeaturePrintScreen()" title="Imprimir"
+							rendered="#{of:isInstance('org.geoazul.model.app.ProjectBasicEntity', applicationEntityBean.applicationEntity)}"
+							icon="pi pi-print" styleClass="ui-bigbutton" type="button" />
+					</div>
+				</p:tab>
+
+				<p:tab id="layer" title="#{i18n['gis.layer']}">
+					<div style="padding: 4px">
+						<p:commandButton title="#{i18n['gis.layers']}"
+							onclick="PF('sidebar1').show()" icon="fa fa-layer-group"
+							styleClass="ui-bigbutton" type="button" />
+						#{''}
+
+
+
+						<p:menuButton buttonStyleClass="ui-bigbutton"
+							icon="fa fa-plus-circle">
+							<p:menuitem value="Camada Interna"
+								actionListener="#{applicationEntityBean.newLayer}"
+								oncomplete="PF('addLayerDialog').show();" icon="pi pi-share-alt" />
+							<p:menuitem value="Camada Mapa"
+								actionListener="#{applicationEntityBean.newLayer}"
+								oncomplete="PF('addLayerDialogRaster').show();"
+								icon="pi pi-image" />
+							<p:menuitem value="Camada WMS"
+								actionListener="#{applicationEntityBean.newLayer}"
+								oncomplete="PF('addLayerDialogWms').show();" icon="pi pi-map" />
+						</p:menuButton>
+						#{''}
+						<p:splitButton id="medicoes" icon="fa fa-ruler-combined"
+							title="#{i18n['gis.measure']}" onclick="initMeasure()">
+							<p:overlayPanel style="width:260px">
+								<label for="type">Tipo da Medição: </label>
+								<select id="type">
+									<option value="LineString">Distância:</option>
+									<option value="Polygon">Área</option>
+								</select>
+								<label for="segments">Exibir Segmentos:</label>
+								<input type="checkbox" id="segments" />
+								<label for="clear">Limpar: </label>
+								<input type="checkbox" id="clear" />
+							</p:overlayPanel>
+						</p:splitButton>
+
+					</div>
+				</p:tab>
+
+				<p:tab id="file" rendered="true" title="#{i18n['gis.draw']}">
+
+					<div style="padding: 4px">
+						<p:commandButton rendered="false" update="features8111:"
+							onclick="editLayer()" value="Projetad"
+							icon="ui-ribbonicon-polyicon" styleClass="ui-bigbutton"
+							type="button" />
+						#{''}
+						<p:commandButton onclick="PF('imoveisDialog').show()"
+							rendered="false" value="Imoveis" icon="ui-ribbonicon-imoveis"
+							styleClass="ui-bigbutton" type="button" />
+						#{''}
+						<p:commandButton rendered="false"
+							onclick="PF('processosDialog').show()" value="Processos"
+							icon="ui-ribbonicon-processos" styleClass="ui-bigbutton"
+							type="button" />
+						#{''}
+						<p:commandButton onclick="PF('verticesDialog').show()"
+							rendered="false" value="Vértices" icon="ui-ribbonicon-pin"
+							styleClass="ui-bigbutton" type="button" />
+						#{''}
+
+						<p:commandButton title="#{i18n['gis.refresh']}"
+							onclick="fetchData555()" icon="fas fa-redo"
+							styleClass="ui-bigbutton" type="button" />
+						#{''}
+
+						<p:commandButton id="btnDrawVertex" title="#{i18n['gis.point']}"
+							icon="fas fa-map-marker-alt"
+							styleClass="ui-bigbutton btnMenu btnDraw" type="button" />
+						#{''}
+
+						<p:commandButton id="btnDrawPoly" title="#{i18n['gis.polygon']}"
+							icon="fas fa-vector-square"
+							styleClass="ui-bigbutton btnMenu btnDraw" />
+						#{''}
+
+						<p:commandButton id="btnDrawLine" title="#{i18n['gis.line']}"
+							icon="fas fa-project-diagram"
+							styleClass="ui-bigbutton btnMenu btnDraw" type="button" />
+						#{''}
+						<p:commandButton id="btnTest" onclick="testPrint()"
+							icon="pi pi-home" styleClass="ui-bigbutton btnMenu" type="button" />
+
+
+
+
+
+
+
+
+
+					</div>
+
+					<script>
+					const button = document.getElementById("ribbonControl:medicoes_button");
+					button.classList.add("ui-bigbutton");
+					</script>
+
+				</p:tab>
+
+
+			</p:tabView>
+		</h:form>
+		<ui:insert name="body" />
+
+
+
+		<p:ajaxStatus styleClass="status-indicator">
+			<f:facet name="start">
+				<i class="pi pi-spin pi-spinner"></i>
+			</f:facet>
+
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+	</h:body>
+</f:view>
+</html>

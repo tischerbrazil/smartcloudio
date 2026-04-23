@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+	<ui:define name="content">
+		<p:growl id="messages" showSummary="true" showDetail="true">
+			<p:autoUpdate />
+		</p:growl>
+		<style type="text/css">
+.label {
+	width: 20%;
+	padding: 4px;
+}
+.value {
+	width: 80%;
+	padding: 4px;
+}
+.grid {
+	width: 100%;
+}
+.error {
+	color: red;
+}
+.outputLabel {
+	font-weight: bold;
+}
+.grid {
+	width: 33%;
+	padding: 4px;
+}
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number {
+	background: #e64949;
+	color: #fff;
+	border-color: #2014a7;
+}
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-title {
+	font-weight: 700;
+}
+</style>
+			<section class="slice">
+			<div class="container py-5">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="body">
+						<div class="row clearfix">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12  text-center">
+								<p:graphicImage width="120" library="images"
+									name="svg/shopping-cart-empty.svg" />
+							</div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12  text-center">
+								<h1>Seu carrinho de compras está vazio!</h1>
+								<hr />
+								<p:button value="VOLTAR AS COMPRAS" outcome="/ecommerce/index"
+									icon="pi pi-chevron-left" styleClass="ui-button-warning">
+									<f:param name="gcmid" value="153" />
+								</p:button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</section>
+	</ui:define>
+</ui:composition>

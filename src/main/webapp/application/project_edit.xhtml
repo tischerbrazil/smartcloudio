@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+						<p:messages id="messages" showDetail="true" showSummary="false	" />
+						<h:form id="idx">
+							<p:tabView id="tablayer">
+								<p:tab title="Dados">
+									<h:panelGrid columnClasses="label,component" columns="3">
+										<c:choose>
+											<c:when test='true'>
+											</c:when>
+											<c:otherwise>
+												<h:outputLabel for="stat" value="Tipo:" />
+												<h:panelGroup>
+													<p:selectOneMenu id="stat"
+														value="#{applicationEntityBean.applicationEntity.dtype}">
+														<f:selectItem itemValue="application"
+															itemLabel="Geo Basic" />
+														<f:selectItem itemValue="ProjectUrbanoEntity"
+															itemLabel="Geo Urbano" />
+														<f:selectItem itemValue="ProjectRuralEntity"
+															itemLabel="Geo Rural" />
+													</p:selectOneMenu>
+												</h:panelGroup>
+												<h:outputText />
+											</c:otherwise>
+										</c:choose>
+										<h:outputLabel for="applicationEntityBeanGlebaNome"
+											value="Nome do Projeto:" />
+										<h:panelGroup>
+											<p:inputText id="applicationEntityBeanGlebaNome"
+												label="Nome do Projeto" required="true"
+												requiredMessage="O Nome do Projeto é Requerido!"
+												value="#{applicationEntityBean.applicationEntity.name}" />
+										</h:panelGroup>
+										<h:outputText />
+										<h:outputLabel for="applicationEntityBeanTitle"
+											value="Título:" />
+										<h:panelGroup>
+											<p:inputText id="applicationEntityBeanTitle" label="Título:"
+												required="true" requiredMessage="O Título é Requerido!"
+												value="#{applicationEntityBean.applicationEntity.title}" />
+										</h:panelGroup>
+										<h:outputText />
+										<h:outputLabel for="applicationEntityBeanDescription"
+											value="Descrição:" />
+										<h:panelGroup>
+											<p:textEditor id="applicationEntityBeanDescription"
+												value="#{applicationEntityBean.applicationEntity.description}"
+												height="200">
+												<f:facet name="toolbar">
+													<span class="ql-formats">
+														<button class="ql-bold"></button>
+														<button class="ql-italic"></button>
+														<button class="ql-underline"></button>
+														<button class="ql-strike"></button>
+													</span>
+													<span class="ql-formats"> <select class="ql-font"></select>
+														<select class="ql-size"></select>
+													</span>
+												</f:facet>
+											</p:textEditor>
+										</h:panelGroup>
+										<h:outputText />
+										<h:outputLabel for="applicationEntityBeanZoom" value="Zoom:" />
+										<h:panelGroup>
+											<p:inputText id="applicationEntityBeanZoom" label="Zoom:"
+												required="true" requiredMessage="Zoom Requerido!"
+												placeholder="15"
+												value="#{applicationEntityBean.applicationEntity.zoom}" />
+										</h:panelGroup>
+										<h:outputText />
+										<h:outputLabel for="minRes" value="Min. Res:" />
+										<h:panelGroup>
+											<p:inputNumber id="minRes" label="Min. Res:"
+												placeholder="0.00001"
+												value="#{applicationEntityBean.applicationEntity.minres}"
+												required="true" minValue="0.00001" thousandSeparator=""
+												decimalSeparator="," maxValue="999999.99999"
+												decimalPlaces="5"
+												requiredMessage="Resolução Mínima Requerido!" />
+										</h:panelGroup>
+										<h:outputText />
+										<h:outputLabel for="maxRes" value="Max. Res:" />
+										<h:panelGroup>
+											<p:inputNumber id="maxRes" label="Max. Res:"
+												placeholder="10000" minValue="0" thousandSeparator=""
+												decimalSeparator="," maxValue="999999" decimalPlaces="0"
+												value="#{applicationEntityBean.applicationEntity.maxres}"
+												required="true"
+												requiredMessage="Resolução Máxima Requerido!" />
+										</h:panelGroup>
+										<h:outputText />
+										<h:outputLabel for="applicationEntityBeancentroidwkt"
+											value="Centro (wkt)" />
+										<h:panelGroup>
+											<p:inputText id="applicationEntityBeancentroidwkt"
+												label="Centro (wkt)" placeholder="-6692302.1,-1427526.7"
+												required="true" requiredMessage="Centro WKT Requerido!"
+												value="#{applicationEntityBean.applicationEntity.centroidwkt}" />
+										</h:panelGroup>
+										<h:outputText />
+										<h:outputLabel for="applicationEntityBeanGlebaMC"
+											value="EPSG:" />
+										<h:panelGroup>
+											<p:inputText id="epsg" label="epsg" placeholder="EPSG"
+												required="true" requiredMessage="EPSG Requerido!"
+												value="#{applicationEntityBean.applicationEntity.epsg}" />
+										</h:panelGroup>
+										<h:outputText />
+										
+										<h:outputLabel for="imagem"
+											value="Imagem:" />
+										<h:panelGroup>
+											<p:inputText id="imagem" label="Imagem" placeholder="Imagem"
+												value="#{applicationEntityBean.applicationEntity.image}" />
+										</h:panelGroup>
+										<h:outputText />
+									</h:panelGrid>
+									<div style="text-align: right">
+										<p:commandButton rendered="false" ajax="true"
+											value="Processar"
+											action='#{applicationEntityBean.processProjectBasic}'
+											icon="ui-icon-home" />
+										#{''}
+										<p:commandButton ajax="false" value="Salvar" update="messages"
+											action='#{applicationEntityBean.update33}'
+											icon="ui-icon-home" />
+										#{''}
+										<p:commandButton icon="fa fa-trash-o" value="Excluir"
+											rendered="#{applicationEntityBean.isOwner()}"
+											action="#{applicationEntityBean.delete}"
+											update="messages">
+											<p:confirm type="popup" header="Confirmation"
+												message="Confirma Exclusão Completa do Projeto e Dados!"
+												icon="ui-icon-alert" />
+										</p:commandButton>
+										<p:confirmPopup global="true">
+											<p:commandButton value="Não" type="button"
+												styleClass="ui-confirm-popup-no ui-button-flat"
+												icon="pi pi-times" />
+											<p:commandButton value="Sim" type="button"
+												styleClass="ui-confirm-popup-yes" icon="pi pi-check" />
+										</p:confirmPopup>
+										#{''}
+										<p:button value="Cancelar" outcome="/index"
+											icon="ui-icon-home" />
+									</div>
+								</p:tab>
+								
+								
+								<p:tab title="Attributos" rendered="#{applicationEntityBean.applicationEntity.id != null}" >
+									<p:dataTable id="attrib" scrollable="false" scrollHeight="360"
+										reflow="true" emptyMessage="Nenhum attributo encontrado!"
+										var="_attribute"
+										value="#{applicationEntityBean.applicationEntity.attributes}"
+										rowIndexVar="rowIndex">
+										<f:facet name="header"></f:facet>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Nome" />
+											</f:facet>
+											<h:outputText value="#{_attribute.name}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Valor" />
+											</f:facet>
+											<h:outputText rendered="#{_attribute.dtype == 'Label'}"
+												value="#{_attribute.value}" />
+											<p:graphicImage rendered="#{_attribute.dtype == 'Image'}"
+												width="100px" value="/files/127.0.0.1#{_attribute.value}" />
+										</p:column>
+									</p:dataTable>
+								</p:tab>
+								
+								
+								
+								<p:tab title="Camadas" rendered="#{applicationEntityBean.applicationEntity.id != null}">
+									<p:dataTable id="layer" scrollable="false" scrollHeight="360"
+										reflow="true" emptyMessage="Nenhuma Camada encontrada!"
+										var="_layer"
+										value="#{applicationEntityBean.applicationEntity.layers}">
+										<f:facet name="header"></f:facet>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Id" />
+											</f:facet>
+
+											<h:outputLabel value="#{_layer.id}" />
+
+
+
+
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Nome" />
+											</f:facet>
+											<h:outputText value="#{_layer.name}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Tipo" />
+											</f:facet>
+											<h:outputText value="#{_layer.dtype}" />
+										</p:column>
+									</p:dataTable>
+								</p:tab>
+								<p:tab title="Compartilhamentos" rendered="#{applicationEntityBean.applicationEntity.id != null}">
+									<p:dataTable id="shared" reflow="true"
+										emptyMessage="Nenhum compartilhamento encontrado!"
+										var="_shared"
+										value="#{applicationEntityBean.applicationEntity.shareds}">
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Nome" />
+											</f:facet>
+											<ui:repeat var="image"
+												value="#{_shared.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).toList()}">
+												<p:graphicImage style="width: 50px"
+													rendered="#{image != null}"
+													class="img-circle js-animating-object img-responsive"
+													value="#{image.value}" />
+											</ui:repeat>
+
+										</p:column>
+
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Nome" />
+											</f:facet>
+											<h:outputText value="#{_shared.person.username}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Permissão" />
+											</f:facet>
+											<h:outputText value="#{_shared.appRole}" />
+										</p:column>
+									</p:dataTable>
+								</p:tab>
+							</p:tabView>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+		
+		<p:dialog header="Envio de Imagem" multiple="false"
+		widgetVar="imageCarouselDialog" resizable="false">
+		<h:form id="uploadShpForm" prependId="false">
+			<p:fileUpload cancelLabel="Cancelar" label="Arquivo"
+				uploadLabel="Enviar" update="#{viewid}:userForm @this"
+				oncomplete="PF('imageCarouselDialog').hide()"
+				listener="#{userEntityBean.importIMAGE}" mode="advanced"
+				dragDropSupport="false" 
+				allowTypes="/(\.|\/)(jpg|JPG|jpeg|jpg|png|PNG|gif|GIF)$/" />
+			<div style="clear: both" />
+		</h:form>
+	</p:dialog>
+
+	</ui:define>
+
+
+</ui:composition>

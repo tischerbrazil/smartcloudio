@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    
+    xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:p="http://primefaces.org/ui">  
+
+	<h:form id="uploadVerticesForm" prependId="false">
+
+	
+    <p:messages id="messages" showSummary="true"/>
+
+	
+	
+	
+    <h:panelGroup rendered="true"  id="display">
+    
+
+    
+    <p:fileUpload  update="display"  rendered="true" 
+     oncomplete="PF('uploadVerticesDialog').hide();"  listener="#{applicationEntityBean.uploadLinhaBase}" mode="advanced" dragDropSupport="false"
+                      allowTypes="/(\.|\/)(ods|ODS)$/" />
+	<div style="clear:both"/>
+</h:panelGroup>
+</h:form>	   
+    
+</ui:composition>

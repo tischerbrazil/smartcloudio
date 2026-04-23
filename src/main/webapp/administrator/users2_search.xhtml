@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+
+	
+		xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+						<p:growl showDetail="true" escape="false" id="messages"
+							life="3000" />
+
+
+
+
+<div class="card">
+    <h5>Column Filtering</h5>
+    <h:form>
+     <p:log id="log"/>
+        <p:dataTable var="customer" value="#{dtFilterView.model}" widgetVar="customersTable"
+        
+        paginator="true" rows="20"
+		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+		paginatorPosition="bottom"
+								
+        multiViewState="true"
+        
+            emptyMessage="No customers found with given criteria"
+            filteredValue="#{dtFilterView.filteredCustomers1}"
+            lazy="true" 
+            globalFilterOnly="false" partialUpdate="false">
+
+            <f:facet name="header">
+                <div class="flex align-items-center justify-content-between">
+                    <span>List of Customers</span>
+                    <div>
+                    <p:inputText id="globalFilter" onkeyup="PrimeFaces.debounce(() => PF('customersTable').filter())" style="width:10rem"
+                                 placeholder="Enter keyword" />
+                    <p:commandButton value="Global Filter Only" update="@form" styleClass="ml-2"
+                                     action="#{dtFilterView.toggleGlobalFilter()}"/>
+                    </div>
+                </div>
+            </f:facet>
+            <f:facet name="footer">
+                <div class="flex align-items-center justify-content-center">
+                   <span>Total Customers: #{dtFilterView.filteredCustomers1 == null ? dtFilterView.customers1.size() : dtFilterView.filteredCustomers1.size()}</span>
+                </div>
+            </f:facet>
+
+            <p:column headerText="Name" sortBy="#{customer.clientId}" 
+            filterBy="#{customer.clientId}" filterMatchMode="contains"
+             filterPlaceholder="Filter By Name">
+                <h:outputText value="#{customer.clientId}" />
+            </p:column>
+
+           
+
+        </p:dataTable>
+    </h:form>
+</div>
+
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	</ui:define>
+</ui:composition>

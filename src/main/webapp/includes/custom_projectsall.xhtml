@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+						<p:panel header="Projetos">
+
+								<p:dataTable emptyMessage="Nenhum Projeto Encontrado!" id="apps"
+									styleClass="data-table" reflow="true"
+									value="#{applicationEntityBean.appsUserMap}" var="_item"
+									paginatorPosition="bottom" paginator="true" rows="10">
+									<p:column>
+		     	<f:facet name="header">
+		        	<h:outputText value="Ativo" />
+		        </f:facet>
+		       	<p:graphicImage rendered="#{_item.app.enabled}" class="img-circle" 
+					 	value="/resources/true.png" />
+					 	
+				<p:graphicImage rendered="#{!_item.app.enabled}" class="img-circle" 
+					 	value="/resources/false.png" />
+		 	</p:column> 
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Nome" />
+										</f:facet>
+										<p:outputLabel value="#{_item.app.name}" />
+									</p:column>
+									
+									<p:column>
+										
+										<p:button icon="fa fa-map" value="Gis"
+											outcome="/gis/dashboardNA">
+											<f:param name="id" value="#{_item.app.uuid}" />
+										</p:button>
+										#{''}
+										<p:button icon="fa fa-edit" value="Editar"
+											outcome="/application/project_edit">
+											<f:param name="id" value="#{_item.app.uuid}" />
+										</p:button>
+										
+									</p:column>
+								</p:dataTable>
+							
+						</p:panel>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</ui:composition>

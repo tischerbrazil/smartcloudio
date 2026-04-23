@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:c="jakarta.tags.core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+		<section class="pt-15 pb-10 py-5" id="feature">
+			<div class="container px-lg-7 px-xxl-3">
+
+									<div class="position-relative z-index-2">
+										<div
+											class="row mt-2 align-items-center justify-content-between text-center text-lg-start mb-6 mb-lg-0">
+
+											<ui:repeat var="_div" value="#{_block.block.divs}">
+												<div class="#{_div.div_class}" id="#{_div.div_id}">
+
+													<ui:repeat var="_comp" value="#{_div.rComponents}">
+
+														
+															<h:outputText rendered="#{_comp.type eq 'RHeading'}" value="#{_comp.getValueRendered()}"
+																escape="false" />
+														
+														
+														
+															<h:outputText rendered="#{_comp.type eq 'RParagraph'}" value="#{_comp.getValue()}"
+																escape="false" />
+													
+
+														<p:button rendered="#{_comp.type eq 'RButton'}"
+															value="#{_comp.value}" title="#{_comp.title}"
+															href="#{_comp.href}" target="#{_comp.target}"
+															styleClass="#{_comp.styleClass}" icon="#{_comp.icon}" />
+
+														<ui:fragment rendered="#{_comp.type eq 'RVideo'}">
+															<video controls="" class="#{_comp.styleClass}"
+																poster="#{_comp.poster}" src="#{_comp.value}"
+																width="#{_comp.width}" height="#{_comp.height}"></video>
+														</ui:fragment>
+
+														<ui:fragment rendered="#{_comp.type eq 'RFlexDiv'}">
+
+															<div
+																class="d-flex justify-content-#{_comp.justifyContent}">
+
+																<ui:repeat value="#{_comp.children}" var="_compb">
+																	<div class="p-2 bd-highlight">
+
+																		<p:button rendered="#{_compb.type eq 'RButton'}"
+																			value="#{_compb.value}" title="#{_compb.title}"
+																			href="#{_compb.href}" target="#{_compb.target}"
+																			styleClass="#{_compb.styleClass}"
+																			icon="#{_compb.icon}" />
+
+																	</div>
+																</ui:repeat>
+
+															</div>
+
+														</ui:fragment>
+
+													</ui:repeat>
+												</div>
+											</ui:repeat>
+										</div>
+									</div>
+								</div>
+			</section>
+		
+</ui:composition>

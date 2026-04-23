@@ -1,0 +1,209 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" 
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core" 
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:h="jakarta.faces.html" 
+	xmlns:p="http://primefaces.org/ui">
+	
+
+
+	<style>
+.note-video-clip {
+	max-width: 100%;
+	height: auto;
+}
+</style>
+
+	
+		<section class="slice">
+			<div class="container py-1">
+				<h:form>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="body">
+							<div class="breadcrumb-wrap">
+								<div class="container">
+									<div class="row">
+										<ui:fragment
+											rendered="#{catalogBean.item.statusInfo == 'COMINGSOON'}">
+											<div class="col-sm-12 mt-2">
+												<p:staticMessage severity="warn"
+													summary="PLANO INDISPONÍVEL NO MOMENTO!" detail=""
+													style="width: 100%" />
+											</div>
+											<div class="col-sm-12 mt-2">
+												<p:staticMessage severity="info" summary="INFO"
+													detail="Este plano de serviços está em fase de testes com um número reduzido de cliente. por favor aguarde!"
+													style="width: 100%" />
+											</div>
+										</ui:fragment>
+									</div>
+								</div>
+							</div>
+							<div class="container py-3">
+								<div class="row">
+									<div class="col-md-7">
+
+										<p:galleria varStatus="status"
+											value="#{catalogBean.productMedia}" var="photo"
+											numVisible="5" showItemNavigators="true" circular="true"
+											style="max-width: 640px">
+
+											<ui:fragment rendered="#{photo.mimeType == 'video/youtube'}">
+
+												<iframe style="height: 80%; width: 100%"
+													src="#{photo.filename}?rel=0&amp;loop=0&amp;enablejsapi=1&amp;showinfo=1&amp;fs=0&amp;controls=2&amp;playlist=NlTsUcoGzt4"
+													title="YouTube video player" frameborder="0"
+													allowfullscreen="allowfullscreen"
+													allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
+												</iframe>
+
+											</ui:fragment>
+
+											<p:video class="img-fluid"
+												rendered="#{photo.mimeType == 'video/mp4'}"
+												value="#{photo.filename}" alt="#{photo.alt}"
+												style="width: 100%; display: block" player="mp4"
+												controls="true" width="100%"
+												onplay="console.log('MP4 Started Playing')"
+												onpause="console.log('MP4 Stopped Playing')">
+        Seu navegador não suporta vídeos. Mais detalhes em: <h:outputLink
+													value="https://www.w3schools.com/html/html5_video.asp">HTML5 Video</h:outputLink>
+											</p:video>
+
+											<p:graphicImage class="img-fluid"
+												rendered="#{photo.mimeType.startsWith('image')}"
+												onclick="PF('galleria3').show()" url="#{photo.filename}"
+												alt="#{photo.alt}"
+												style="cursor: zoom-in !important;width: 100%; display: block;" />
+
+											<f:facet name="thumbnail">
+												<p:graphicImage
+													rendered="#{photo.mimeType.startsWith('image')}"
+													url="#{photo.filename}" alt="#{photo.alt}"
+													style="width: 70px; display: block" />
+												<p:graphicImage
+													rendered="#{photo.mimeType.startsWith('video')}"
+													name="play.png" alt="#{photo.alt}"
+													style="width: 70px; display: block" />
+											</f:facet>
+										</p:galleria>
+
+									</div>
+									<div class="col-md-4 py-3">
+										<h4>
+											<h:outputText id="itemBeanItemName33" escape="false"
+												value="#{catalogBean.item.name}" />
+										</h4>
+										<h:outputText id="itemBeanItemDescription" escape="false"
+											value="#{catalogBean.item.introduction}" />
+										<hr />
+										<p:rating disabled="true" value="5" readonly="true" />
+										<hr />
+										<h:outputText id="partner" escape="false"
+											value="#{catalogBean.item.parent_id}" />
+
+										<ui:fragment
+											rendered="#{catalogBean.item.statusInfo.ordinal() lt 4}">
+											<h2>
+												<span>R$ </span>
+												<h:outputLabel value="#{catalogBean.item.salePrice}">
+													<f:convertNumber currencyCode="BRL" minFractionDigits="2"
+														currencySymbol="R$" />
+												</h:outputLabel>
+											</h2>
+											<h4>
+												<span></span>
+
+											</h4>
+
+										</ui:fragment>
+										
+										<div class="card-body">
+									<div class="mb-3">
+
+								
+											<h:commandButton
+											rendered="#{catalogBean.item.statusInfo.ordinal() lt 4}"
+											value="Adicionar ao carinnho2" action="#{shoppingCartBean.addItemToCart}"
+											styleClass="btn btn-danger" >
+											
+											<f:param name="id" value="#{catalogBean.id}" />
+											<f:param name="gcmid" value="0" />
+										
+										
+										</h:commandButton>
+										
+										
+										<br/><br/>
+											
+										
+										
+										
+										#{''}
+										<h:button value="Continuar comprando" outcome="/ecommerce/index"
+											styleClass="btn btn-danger" >
+
+											<f:param name="gcmid"
+												value="#{compjson.field.get('gcmid').asText()}" />
+										</h:button>
+										
+										</div></div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					
+
+						<div class="container">
+								
+						<h:outputText id="itemDescription" escape="false"
+							value="#{catalogBean.item.description}" />
+							
+							</div>
+
+
+
+					
+
+
+						<ui:repeat id="blocks" var="_block"
+							value="#{catalogBean.item.blocks}">
+							
+							<ui:include
+										src="/includes/widgets/LoadAll.xhtml">
+										<ui:param name="_block" value="#{_block}" />
+									</ui:include>
+
+						
+
+								
+					
+
+						</ui:repeat>
+
+					</div>
+					
+				</h:form>
+
+				<h:form id="dialog">
+					<p:galleria widgetVar="galleria3"
+						value="#{catalogBean.productMedia.stream().filter((i)->i.mimeType ne 'video/youtube').toList()}"
+						var="photo2" numVisible="7"
+						responsiveOptions="#{catalogBean.responsiveOptions1}"
+						circular="true" fullScreen="true" showItemNavigators="true"
+						showThumbnails="false" style="max-width: 850px">
+
+						<p:graphicImage rendered="#{photo2.mimeType.startsWith('image')}"
+							url="#{photo2.filename}" alt="#{photo.alt}"
+							style="width: 100%; display: block" />
+					</p:galleria>
+				</h:form>
+
+			</div>
+		</section>
+	
+</ui:composition>

@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+	<script>
+	 	$(window).on('load', function() {
+	 		#{abstractIdentityBean.getCookies()}
+	 	});
+    </script>
+
+
+
+	<p:sidebar position="bottom" blockScroll="true"
+	style="overflow-y: scroll !important; width:100% !important; height:50% !important;"
+		widgetVar="sidebar4">
+
+
+		<section class="slice py-5 py-lg-7">
+		
+		<div class="container">
+
+			
+
+			<div class="row align-items-center">
+				<div class="col-12 col-md-6 col-lg-6 order-md-2 mb-0 mb-md-0">
+						<h4>Uso de Cookies</h4>
+						<p>Nós utilizamos cookies apenas para
+						coletar informações sobre como os nossos visitantes usam os nossos
+						sites.</p>
+				</div>
+
+				<div class="col-12 col-md-6 col-lg-6 order-md-1 pr-md-0">
+					<p:commandButton icon="pi pi-bookmark"
+						styleClass="ui-button-secondary" value="Aceitar Todos"
+						action="#{abstractIdentityBean.cookiesSet()}"
+						oncomplete="PF('sidebar4').hide()" title="Aceitar Todos"
+						alt="Aceitar Todos" />
+						#{''}
+						<p:commandButton icon="pi pi-check" styleClass="ui-button-success"
+						value="Saiba mais" onclick="PF('sidebar5').show()"
+						title="Saiba mais" alt="Saiba mais" />
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	</p:sidebar>
+	<p:sidebar widgetVar="sidebar5" position="right" style="overflow-y: scroll !important">
+		<p:commandButton icon="pi pi-plus" type="button"
+			onclick="PF('sidebar5').hide()" styleClass="p-mr-2" />
+		<h:form>
+			<br />
+			<div style="text-align: center;">
+				<strong>Preferências de Cookies</strong>
+			</div>
+			<p:accordionPanel widgetVar="basic">
+				<p:tab title="Cookies Essenciais" closable="true">
+					<p:toggleSwitch disabled="true" value="true" />
+					<p class="p-m-0">Estes cookies são essenciais para que o
+						website funcione e não podem ser desligados nos nossos sistemas.
+						Normalmente, eles só são configurados em resposta a ações levadas
+						a cabo por si e que correspondem a uma solicitação de serviços. Se
+						desliga-lo, algumas partes do website não funcionarão.</p>
+				</p:tab>
+				<p:tab title="Cookies de Desempenho">
+					<p:toggleSwitch value="true" />
+					<p class="p-m-0">Estes cookies permitem-nos contar visitas e
+						fontes de tráfego, para que possamos medir e melhorar o desempenho
+						do nosso website. Eles ajudam-nos a saber quais são as páginas
+						mais e menos populares e a ver como os visitantes se movimentam
+						pelo website. Todas as informações coletadas são anónimas.</p>
+				</p:tab>
+				<p:tab title="Cookies de Funcionalidade">
+					<p:toggleSwitch value="false" />
+					<p class="p-m-0">Isto permite que funcionalidades e
+						personalizações melhorem o desenpenho do web-site através do uso
+						destes cookies. Podem ser estabelecidos por nós ou por
+						fornecedores externos cujos serviços adicionámos às nossas
+						páginas. Se desliga-lo, não podemos oferecer melhorias com a
+						experiência do usuário.</p>
+				</p:tab>
+				<p:tab title="Cookies de Publicidade">
+					<p:toggleSwitch value="false" />
+					<p class="p-m-0">Estes cookies podem ser estabelecidos através
+						do nosso site pelos nossos parceiros de publicidade. Podem ser
+						usados por essas empresas para construir um perfil sobre os seus
+						interesses e mostrar-lhe anúncios relevantes em outros websites.
+						Este cookies são baseados na identificação exclusiva do navegador.
+					</p>
+				</p:tab>
+			</p:accordionPanel>
+		</h:form> 
+		<p:commandButton icon="pi pi-save" 
+			styleClass="ui-button-success" value="Definir Cookies"
+			action="#{abstractIdentityBean.cookiesSet()}"
+			oncomplete="PF('sidebar5').hide(),PF('sidebar4').hide()"
+			title="Salvar Definição" alt="Salvar Definição" />
+		<div class="mt-2">
+		<p:commandButton icon="pi pi-plus" 
+			styleClass="ui-button-danger" value="Rejeitar Todos"
+			action="#{abstractIdentityBean.cookiesSet()}"
+			oncomplete="PF('sidebar5').hide(),PF('sidebar4').hide()"
+			title="Rejeitar Todos" alt="Rejeitar Todos" />
+
+</div>
+
+	</p:sidebar>
+
+
+
+</ui:composition>

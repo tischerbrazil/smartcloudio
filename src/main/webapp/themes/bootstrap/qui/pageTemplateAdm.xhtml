@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="#{activeLocale.languageTag}"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:ui="jakarta.faces.facelets">
+<c:set var="dev" value="#{faces.development}" scope="application" />
+<f:view locale="#{activeLocale.value}">
+	<h:head id="cab">
+		<ui:insert name="head" />
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+		<meta name="viewport" content="width=device-width,maximum-scale=2" />
+		<link rel="canonical" href="#{activeLocale.canonicalURL}" />
+		<c:forEach items="#{activeLocale.others}" var="otherLocale">
+			<link rel="alternate" hreflang="#{otherLocale.languageTag}"
+				href="#{activeLocale.canonicalURL(otherLocale)}" />
+		</c:forEach>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta
+			content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
+			name="viewport" />
+		<link rel="icon" href='#{resource["favicon.ico"]}' />
+		<title>#{abstractIdentityBean.abstractIdentityEntity.title}</title>
+		<script>
+        window.addEventListener("load", function() {
+            setTimeout(function() {
+                document.querySelector('body').classList.add('loaded');
+            }, 300);
+        });
+    </script>
+		<style>
+.dropdown-item {
+	margin-right: 20px !important;
+}
+
+video {
+	max-width: 100%;
+	height: auto;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+</style>
+		<link href="#{request.contextPath}/themes/bootstrap/qui/css/offcanvas.css"
+			rel="stylesheet" />
+		<h:outputStylesheet name="webjars/font-awesome/5.15.1/css/all.min.css" />
+		<ui:fragment rendered="true">
+			<h:outputStylesheet
+				name="webjar/bootstrap/4.6.0-1/css/bootstrap.min.css" />
+		</ui:fragment>
+		<ui:fragment rendered="false">
+			<link href="#{request.contextPath}/themes/bootstrap/qui/b4/css/bootstrap-night.css"
+				rel="stylesheet" />
+		</ui:fragment>
+		<link href="#{request.contextPath}/themes/theme/font/materialicons.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/themes/bootstrap/qui/b4/css/material_style.css"
+			rel="stylesheet" />
+		<ui:insert name="header" />
+	</h:head>
+	<h:body>
+		<div class="preloader">
+			<div class="spinner-border text-primary" role="status">
+				<span class="sr-only">Carregando...</span>
+			</div>
+		</div>
+		<h:form id="proform">
+		<ui:include src="menu_top_site.xhtml" />
+		</h:form>
+		<section></section>
+		<ui:insert name="main" />
+		<ui:insert name="content" />
+		<ui:fragment rendered="false">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="card">
+					<div class="body">
+						<p:dataTable rendered="true" id="modules" styleClass="data-table"
+							value="#{abstractIdentityBean.moduleFiltersAll}" var="_item">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="TYPE" />
+								</f:facet>
+								<p:outputLabel value="#{_item.type}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="ORDERING" />
+								</f:facet>
+								<p:outputLabel value="#{_item.ordering}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="FOLDER" />
+								</f:facet>
+								<p:outputLabel value="#{_item.folder}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="PATH" />
+								</f:facet>
+								<p:outputLabel value="#{_item.path}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="INCLUDE" />
+								</f:facet>
+								<p:outputLabel value="#{_item.htmltag}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="MENU_ITEM" />
+								</f:facet>
+								<p:outputLabel value="#{_item.urlMenuItem}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="COMPONENT" />
+								</f:facet>
+								<p:outputLabel value="#{_item.components}" />
+							</p:column>
+						</p:dataTable>
+					</div>
+				</div>
+			</div>
+		</ui:fragment>
+		<h:form>
+			<p:commandButton rendered="false" icon="fa fa-trash"
+				styleClass="button btn-danger btn-lg  waves-effect" title="FIXME"
+				alt="FIXME" />
+		</h:form>
+	</h:body>
+	<script
+		src="#{request.contextPath}/themes/bootstrap/qui/b4/libs/feather-icons/dist/feather.min.js"></script>
+	<script>
+        feather.replace({
+            'width': '2em',
+            'height': '2em'
+        })
+    </script>
+	<script src="#{request.contextPath}/webjar/bootstrap/4.6.0-1/js/bootstrap.bundle.min.js"></script>
+	<script src="#{request.contextPath}/themes/bootstrap/qui/js/offcanvas.js"></script>
+</f:view>
+</html>
+
+
+

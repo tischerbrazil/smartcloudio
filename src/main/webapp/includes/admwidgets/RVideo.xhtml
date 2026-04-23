@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+
+	<div onclick="rc([{name: 'blockid', value: #{blockid} }, {name: 'columnid', value: #{columnid}}, {name: 'orderid', value: #{city.order}}])">
+
+		<video controls="controls" style="pointer-events: none;" preload="#{city.preload}"
+			class="feature-image img-fluid mb-9 mb-lg-0"
+			poster="#{city.poster}" src="#{city.value}"
+			width="#{city.width}" height="#{city.height}">
+		</video>
+			
+	</div>
+
+</ui:composition>

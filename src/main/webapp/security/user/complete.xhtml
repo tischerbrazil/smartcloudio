@@ -1,0 +1,423 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core" xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets" xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core" xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+
+	<ui:param name="pageTitle" value="Perfil do Usuário" />
+	<ui:define name="content">
+		<section> <p:growl skipDetailIfEqualsSummary="true"
+			id="messages" showSummary="true" showDetail="true">
+			<p:autoUpdate />
+		</p:growl>
+
+		<div class="container py-3">
+
+			<p:tabView id="tablayer" multiViewState="true">
+				<p:tab title="Edição de Perfil">
+					<h:form id="userForm" class="py-3" prependId="false">
+					
+						<div class="row clearfix">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="header"> 
+		
+							 <p:staticMessage severity="info" summary="Email:" 
+							 detail="#{personEntityBean.person.email}" style="width: 100%; margin-bottom: 10px"/>
+						
+							</div>
+								<div class="body">
+									<div class="row clearfix">
+										<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+											<div class="form-group">
+												<span><i class="fa fa-user-o" aria-hidden="true">
+												</i> <label for="fullName" class="control-label"> Nome</label> </span>
+												<div class="form-line">
+													<p:inputText placeholder="Nome" class="form-control"
+														id="fullName" value="#{personEntityBean.person.fullName}" />
+												</div>
+											</div>
+										</div>
+
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+											<div class="form-group">
+												<span><i class="fa fa-intersex" aria-hidden="true">
+												</i> <label for="gendervalue" class="control-label">
+														Sexo</label> </span>
+												<div class="form-line">
+
+													<p:selectOneMenu label="Sexo" required="false"
+														id="gendervalue" hideNoSelectionOption="true"
+														requiredMessage="Sexo Requerido!"
+														class="custom-select d-block w-100"
+														value="#{personEntityBean.person.genderValue}">
+
+														<f:selectItem itemValue="0" itemLabel="Indefinido" />
+														<f:selectItem itemValue="1" itemLabel="Feminino" />
+														<f:selectItem itemValue="2" itemLabel="Masculino" />
+														<f:selectItem itemValue="3" itemLabel="Outros" />
+													</p:selectOneMenu>
+
+												</div>
+											</div>
+										</div>
+
+
+
+									</div>
+									<div class="row clearfix">
+										<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+											<div class="form-group">
+												<span><i class="fa fa-birthday-cake"
+													aria-hidden="true"></i> <label for="nascimento"
+													class="control-label"> Nascimento</label> </span>
+												<div class="form-line">
+													<p:inputMask class="form-control" label="Nascimento"
+														id="birthdate" mask="99/99/9999"
+														value="#{personEntityBean.person.birthdate}"
+														requiredMessage="Nascimento Requerido!" required="false">
+														<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+													</p:inputMask>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+											<div class="form-group">
+												<span><i class="fa fa-phone" aria-hidden="true"></i>
+													<label for="fone" class="control-label"> Telefone</label> </span>
+												<div class="form-line">
+													<p:inputText class="form-control" id="fone"
+														value="#{personEntityBean.person.phone}" />
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+											<div class="form-group">
+												<span><i class="fa fa-globe" aria-hidden="true"></i>
+													<label for="country" class="control-label"> País</label> </span>
+												<div class="form-line">
+													<p:selectOneMenu label="País" required="false"
+														hideNoSelectionOption="true"
+														requiredMessage="País Requerido!"
+														class="custom-select d-block w-100" id="country"
+														converter="omnifaces.SelectItemsConverter"
+														value="#{personEntityBean.person.country}"
+														panelStyle="width:180px" effect="fade" var="c">
+														<p:ajax listener="#{personEntityBean.onCountryChange}"
+															update="tablayer:state tablayer:city" />
+														<f:selectItems
+															itemLabel="#{personEntityBean.person.country.emoji} #{_identityx.native_}"
+															itemValue="#{_identityx}"
+															value="#{personEntityBean.countries}" var="_identityx" />
+														<p:column style="width:10%">
+															<h:outputText value="#{c.emoji}" />
+														</p:column>
+														<p:column>
+															<h:outputText value="#{c.name}" />
+														</p:column>
+													</p:selectOneMenu>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row clearfix">
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+											<div class="form-group">
+												<span><i class="fa fa-file-code-o" aria-hidden="true"></i>
+													<label for="zipcode" class="control-label">C.E.P.</label> </span>
+												<div class="form-line">
+													<p:inputText class="form-control" id="zipcode"
+														maxLength="200" value="#{personEntityBean.person.zipcode}" />
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+											<div class="form-group">
+												<span><i class="fa fa-road" aria-hidden="true"></i> <label
+													for="street1" class="control-label"> Rua/Logradouro</label>
+												</span>
+												<div class="form-line">
+													<p:inputText class="form-control" id="street1"
+														value="#{personEntityBean.person.street}" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row clearfix">
+										<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+											<div class="form-group">
+												<span><i class="fa fa-location-arrow"
+													aria-hidden="true"></i> <label for="numero"
+													class="control-label"> Número</label> </span>
+												<div class="form-line">
+													<p:inputText class="form-control" id="numero"
+														value="#{personEntityBean.person.number}" />
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+											<div class="form-group">
+												<span><i class="fa fa-file-image-o"
+													aria-hidden="true"></i> <label for="neighborhood"
+													class="control-label"> Bairro/Setor</label> </span>
+												<div class="form-line">
+													<p:inputText class="form-control" id="neighborhood"
+														value="#{personEntityBean.person.neighborhood}" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row clearfix">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="form-group">
+												<span><i class="fa fa-shield" aria-hidden="true"></i>
+													<label for="uf" class="control-label"> U.F.</label> </span>
+												<div class="form-line">
+													<p:selectOneMenu label="Estado"
+														hideNoSelectionOption="true"
+														requiredMessage="Estado Requerido!"
+														class="custom-select d-block w-100" id="state"
+														converter="omnifaces.SelectItemsConverter"
+														value="#{personEntityBean.person.state}">
+														<p:ajax listener="#{personEntityBean.onStateChange}"
+															update="tablayer:city" />
+														<f:selectItem noSelectionOption="false" />
+														<f:selectItems itemLabel="#{_identityx.name}"
+															itemValue="#{_identityx}"
+															value="#{personEntityBean.states}" var="_identityx" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="form-group">
+												<span><i class="fa fa-building " aria-hidden="true"></i>
+													<label for="city" class="control-label"> Cidade</label> </span>
+												<div class="form-line">
+													<p:selectOneMenu label="Cidade"
+														hideNoSelectionOption="true"
+														requiredMessage="Cidade Requerido!"
+														class="custom-select d-block w-100" id="city"
+														converter="omnifaces.SelectItemsConverter"
+														value="#{personEntityBean.person.city}">
+														<f:selectItem noSelectionOption="false" />
+														<f:selectItems itemLabel="#{_identityx.name}"
+															itemValue="#{_identityx}"
+															value="#{personEntityBean.cities}" var="_identityx" />
+													</p:selectOneMenu>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="buttons">
+						
+							<p:commandButton value="Salvar"
+								action='#{personEntityBean.updateAccountRet}' icon="fa fa-save"
+								update="messages" title="Salvar" />
+								
+							#{''}
+							
+							<p:commandButton value="Excluir"
+								action='#{personEntityBean.delete}' icon="fa fa-save"
+								update="messages" title="Excluir" >
+								
+								
+								
+								<p:confirm header="Confirmation"
+														message="Confirma Exclusao Completa do Projeto e seus Objetos?"
+														icon="ui-icon-alert" />
+												</p:commandButton>
+												<p:confirmDialog global="true">
+													<p:commandButton value="Sim" update="messages"
+														 type="button"
+														styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+													<p:commandButton value="Não" type="button"
+														styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+												</p:confirmDialog>
+								
+
+						</div>
+					</h:form>
+				</p:tab>
+				
+				<p:tab title="Projetos">
+				
+				
+				
+				
+					<h:form id="formProj" >
+						<p:commandButton value="Clonar Projeto" icon="pi pi-home"
+							action="#{personEntityBean.chooseProject}">
+							<p:ajax event="dialogReturn"
+								listener="#{personEntityBean.onProductChosen}" update="messages" />
+						</p:commandButton>
+					</h:form>
+					
+					
+					<p:dataTable id="proj"
+						emptyMessage="Nenhum projeto encontrado!" var="_proj"
+						value="#{personEntityBean.person.projects}"
+						rowIndexVar="rowIndex" reflow="true">
+						
+						<p:column headerText="Nome">
+							<h:outputText value="#{_proj.app.name}" />
+						</p:column>
+
+						
+
+						<p:column headerText="Ação">
+
+
+						</p:column>
+					</p:dataTable>
+				
+				</p:tab>
+
+				<p:tab title="Atributos">
+
+
+					<p:dataTable id="attrib"
+						emptyMessage="Nenhum attributo encontrado!" var="_attribute"
+						value="#{personEntityBean.person.attributes}"
+						rowIndexVar="rowIndex" reflow="true">
+						<p:column headerText="Nome">
+
+							<h:outputText value="#{_attribute.name}" />
+						</p:column>
+
+						<p:column headerText="Valor">
+
+
+
+							<p:graphicImage style="width: 50px"
+								class="img-circle js-animating-object img-responsive"
+								value="#{_attribute.value}" />
+
+						</p:column>
+
+						<p:column headerText="Ação">
+
+
+						</p:column>
+					</p:dataTable>
+
+
+				</p:tab>
+
+
+
+				<p:tab title="Regras">
+
+					<p:dataTable rendered="true" id="clients"
+						emptyMessage="Nenhuma Regra Encontrada!" var="_role"
+						value="#{personEntityBean.person.groups}" rowIndexVar="rowIndex"
+						reflow="true">
+						<f:facet name="header">Roles on Server Auth</f:facet>
+						<p:column headerText="Índice">
+
+							<h:outputText value="#{rowIndex + 1}" />
+						</p:column>
+						<p:column headerText="Nome">
+
+							<h:outputText value="#{_role}" />
+						</p:column>
+						<p:column headertext="Ação">
+
+
+						</p:column>
+					</p:dataTable>
+
+				</p:tab>
+				
+				<p:tab title="Avatar">
+				
+				<h:form id="avatarForm">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="body">
+						<div class="team-wrap">
+							<ui:repeat var="teste"
+								value="#{personEntityBean.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).toList()}">
+								<p:graphicImage style="width: 150px" rendered="#{teste != null}"
+									class="img-circle js-animating-object img-responsive"
+									value="#{teste.value}" />
+							</ui:repeat>
+							<p:graphicImage style="width: 150px"
+								rendered="#{userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture')).toList().size() == 0}"
+								class="img-circle js-animating-object img-responsive"
+								value="/resources/images/camera.png" />
+							<p:commandButton style="font-size: 1.2em"
+								onclick="PF('imageCarouselDialog').show()" icon="fa fa-camera" />
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+					<div class="body">
+						<div class="form-group">
+							<span><i class="fa fa-user-circle-o" aria-hidden="true"></i>
+								<label for="item" class="control-label">Nome de Usuário</label>
+							</span>
+							<div class="form-line">
+								<p:outputLabel value="#{userEntityBean.person.username}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<span><i class="fa fa-user-circle" aria-hidden="true"></i>
+								<label for="item" class="control-label"> Nome Completo </label>
+							</span>
+							<div class="form-line">
+								<p:outputLabel
+									value="#{userEntityBean.person.name}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<span><i class="fa fa-envelope-o" aria-hidden="true"></i>
+								<label for="item" class="control-label"> E-mail</label> </span>
+							<div class="form-line">
+								<p:outputLabel value="#{userEntityBean.person.email}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	
+	<p:dialog header="Envio de Imagem" multiple="false"
+		widgetVar="imageCarouselDialog" resizable="false">
+		<h:form id="uploadShpForm" prependId="false">
+			<p:fileUpload cancelLabel="Cancelar" label="Arquivo"
+				uploadLabel="Enviar" update="tablayer:userForm tablayer:avatarForm tablayer:attrib @this"
+				oncomplete="PF('imageCarouselDialog').hide()"
+				listener="#{personEntityBean.importIMAGE}" mode="advanced"
+				dragDropSupport="false" 
+				allowTypes="/(\.|\/)(jpg|JPG|jpeg|jpg|png|PNG|gif|GIF)$/" />
+			<div style="clear: both" />
+		</h:form>
+	</p:dialog>
+				
+				</p:tab>
+
+			</p:tabView>
+
+
+
+
+		</div>
+		</section>
+		
+		
+		
+		
+		
+		
+	</ui:define>
+</ui:composition>

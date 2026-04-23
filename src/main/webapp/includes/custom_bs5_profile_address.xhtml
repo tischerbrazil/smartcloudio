@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+ <section>
+        <div class="container py-3">
+        <h4>Meus Endereços</h4>
+	 	
+	 <h:form id="userForm" class="py-3" prependId="false">
+	 
+
+
+			<div class="row clearfix">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="body">
+						<div class="row clearfix">
+						
+						<p:dataTable id="clients"
+											emptyMessage="Nenhum endereço encontrado!" var="_address"
+											value="#{userEntityBean.person.addresses}"
+											rowIndexVar="rowIndex">
+																						
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Nome" />
+												</f:facet>
+												<h:outputText value="#{_address.name}" />
+											</p:column>
+											
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Endereço" />
+												</f:facet>
+												<h:outputText value="#{_address.street} / #{_address.number} /#{_address.neighborhood}" />
+											</p:column>
+											
+																						<p:column>
+												<f:facet name="header">
+													<h:outputText value="CEP" />
+												</f:facet>
+												<h:outputText value="#{_address.zipcode}" />
+											</p:column>
+											
+											<p:column>
+												<f:facet name="header">
+													<h:outputText value="Cidade/Estado" />
+												</f:facet>
+												<h:outputText value="#{_address.city.name} / #{_address.state.name}" />
+											</p:column>
+											
+										</p:dataTable>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</div></section>
+
+
+</ui:composition>

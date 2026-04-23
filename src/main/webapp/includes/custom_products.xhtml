@@ -1,0 +1,287 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.ui-galleria-close {
+	top: 60px !important;
+}
+.product-item .product-item-content {
+        border: 1px solid var(--surface-d);
+        border-radius: 3px;
+        margin: .3rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .product-item .product-image {
+        width: 100%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    }
+    
+    
+    .product-badge {
+  margin-bottom: 3px"
+  border-radius: 2px;
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px; 
+  }
+  
+  .product-badge.status-instock {
+    background: #C8E6C9;
+    color: #256029; }
+    
+  .product-badge.status-outofstock {
+    background: #FFCDD2;
+    color: #C63737; }
+    
+  .product-badge.status-lowstock {
+    background: #FEEDAF;
+    color: #8A5340; }
+    
+</style>
+	
+		
+			<link rel="stylesheet" type="text/css"
+		href="/includes/application/css/layout.css" />
+
+			
+			
+		<section class="slice pt-3 pb-3">
+		<div class="container">
+		
+				<div class="card product">
+
+	 <h:form>
+	 
+	 
+	 <div class="grid">
+    <div class="col-2">3</div>
+    <div class="col-10">
+
+
+<p:dataView rendered="#{uuid == null}" var="product" value="#{productBean.model}" 
+id="availableProducts"  rows="15" layout="grid" gridIcon="pi pi-th-large" 
+
+
+paginator="true"
+paginatorPosition="bottom"
+                    rowsPerPageTemplate="15,30,45"
+                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    >
+
+
+            
+
+            <p:dataViewListItem>
+                <div class="product-list-item">
+                   
+                   
+                   <p:link outcome="/ecommerce/index">
+                        <p:graphicImage id="proimg" style="width: 200px"
+							styleClass="product-image2"	rendered="#{product.images.stream().findFirst().isPresent()}"
+								value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{product.images.stream().findFirst().get().getFilename()}" />
+								<f:param name="uuid" value="#{product.uuid}" />
+							<f:param name="gcmid"
+								value="#{compjson.field.get('gcmid').asText()}" />
+								</p:link>
+                 
+                 
+                   
+                   
+                    <div class="product-list-detail">
+                        <div class="product-name">#{product.name}</div>
+                       
+                        
+                         <div class="product-description">#{product.introduction}</div>
+                        <p:rating readonly="true" value="#{product.average_rating}"/>
+                        <i class="pi pi-tag product-category-icon"/><span
+                            class="product-category">
+ 
+	</span>
+                    </div>
+                        
+                        
+                      
+                   <div class="product-list-action">
+                      
+                       
+                        
+                   
+                        <h:commandLink
+																rendered="#{catalogBean.item.statusInfo != 'COMINGSOON'}"
+																action="#{shoppingCartBean.addItemToCart}"
+																styleClass="btn btn-primary">
+																<i class="pi pi-shopping-cart"></i> #{compjson.field.get('label_addtocart').asText()}
+														<f:param name="itemUuid" value="#{product.uuid}" />
+<f:param name="gcmid" value="#{compjson.field.get('gcmid_redirect').asText()}" />												
+														
+															</h:commandLink>
+															
+                        
+                        
+                     
+                    </div>
+                </div>
+            </p:dataViewListItem>
+        </p:dataView>
+
+
+</div>
+   
+</div>
+	 
+	 
+			
+
+        
+
+															</h:form>
+			
+	
+			
+				<ui:fragment rendered="#{uuid != null}">
+					#{catalogBean.getInjectUuid(uuid)}
+					</ui:fragment>
+				<ui:fragment rendered="#{!empty catalogBean.item}">
+					<section class="slice py-8">
+						<div class="container py-5">
+							<ui:fragment rendered="#{empty catalogBean.item}">
+								<div class="col-sm-12" align="center">
+									<h1>Item não Encontrado!</h1>
+								</div>
+							</ui:fragment>
+							<ui:fragment rendered="#{!empty catalogBean.item}">
+								<h:form id="prodform">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										<div class="body">
+											<div class="breadcrumb-wrap">
+												<div class="container">
+													<div class="row">
+														<div class="col-sm-12" align="center">
+															<h2>
+																<h:outputText id="itemBeanTitle" escape="false"
+																	value="#{catalogBean.item.title}" />
+															</h2>
+														</div>
+														<ui:fragment
+															rendered="#{catalogBean.item.statusInfo == 'COMINGSOON'}">
+															<div class="col-sm-12 mt-2">
+																<p:staticMessage severity="warn"
+																	summary="PLANO INDISPONÍVEL NO MOMENTO!" detail=""
+																	style="width: 100%" />
+															</div>
+															<div class="col-sm-12 mt-2">
+																<p:staticMessage severity="info" summary="INFO"
+																	detail="Este plano de serviços está em fase de testes com um número reduzido de cliente. por favor aguarde!"
+																	style="width: 100%" />
+															</div>
+														</ui:fragment>
+													</div>
+												</div>
+											</div>
+											<div class="container py-2">
+												<div class="row">
+													<div class="col-md-7">
+														<p:galleria value="#{catalogBean.photos}" var="photo"
+															circular="true"
+															varStatus="status" numVisible="5"
+															responsiveOptions="#{catalogBean.responsiveOptions1}"
+															showThumbnails="false" showIndicators="true"
+															changeItemOnIndicatorHover="false"
+															showItemNavigators="true"
+															showItemNavigatorsOnHover="false"
+															showIndicatorsOnItem="true" indicatorsPosition="bottom"
+															styleClass="custom-indicator-galleria"
+															style="max-width: 640px">
+															<p:graphicImage onclick="PF('galleria3').show()"
+																url="#{photo.itemImageSrc}" alt="#{photo.alt}"
+																style="width: 100%; display: block;" />
+														</p:galleria>
+													</div>
+													<div class="col-md-5">
+														<h4>
+															<h:outputText id="itemBeanItemName" escape="false"
+																value="#{catalogBean.item.name}" />
+														</h4>
+														<ui:fragment
+															rendered="#{catalogBean.item.statusInfo != 'COMINGSOON'}">
+															<h2>
+																<h:outputLabel for="itemBeanItemsalePrice"
+																	value="#{catalogBean.item.salePrice} (#{catalogBean.item.uom.name})" >
+																	<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+																	</h:outputLabel>
+															</h2>
+														</ui:fragment>
+														<div class="buttons, col-md-12">
+															<h:commandLink
+																rendered="#{catalogBean.item.statusInfo != 'COMINGSOON'}"
+																action="#{shoppingCartBean.addItemToCart}"
+																styleClass="btn btn-primary">
+																<i class="pi pi-shopping-cart"></i> #{compjson.field.get('label_addtocart').asText()}
+														<f:param name="itemUuid" value="#{catalogBean.itemUuid}" />
+<f:param name="gcmid" value="#{compjson.field.get('gcmid_redirect').asText()}" />												
+														
+															</h:commandLink>
+															<br/>
+															<h:link 
+																		styleClass="btn btn-primary" 
+																		outcome="/ecommerce/index">
+																<i class="pi pi-list"></i> #{compjson.field.get('label_buymore').asText()}
+<f:param name="gcmid" value="#{compjson.field.get('gcmid').asText()}" />
+</h:link>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="container py-2">
+												<div class="row">
+													<div class="col-md-12">
+														<strong> <h:outputText id="itemBeanItemIntro"
+																escape="false" value="#{catalogBean.item.introduction}" />
+														</strong> <br />
+														<h:outputText id="itemBeanItemDescription" escape="false"
+															value="#{catalogBean.item.description}" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</h:form>
+								<h:form id="dialog">
+									<p:galleria widgetVar="galleria3" value="#{catalogBean.photos}"
+										var="photo" numVisible="7" 
+										responsiveOptions="#{catalogBean.responsiveOptions1}"
+										circular="true" fullScreen="true" showItemNavigators="true"
+										showThumbnails="false" style="max-width: 850px">
+										<p:graphicImage url="#{photo.itemImageSrc}" alt="#{photo.alt}"
+											style="width: 100%; display: block" />
+									</p:galleria>
+								</h:form>
+							</ui:fragment>
+						</div>
+					</section>
+				</ui:fragment>
+				
+				
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+		</div>
+	</section>
+</ui:composition>

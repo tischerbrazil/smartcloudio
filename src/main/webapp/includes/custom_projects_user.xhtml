@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	<link href="#{request.contextPath}/themes/theme/css/geoazul.css" rel="stylesheet" />
+	<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div
+					class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center service-box text-center">
+					<div class="card" style="background-color: #11ffff">
+						<div class="header">
+							<br/>
+								<h5>DASHBOARD</h5>
+							</div>
+							<div class="body">
+								Bem-vindo ao SmartCloudIO. <br/><br/> 
+								qVocê pode começar por aqui criando novos projetos, ou acessar um modelo
+								que criamos para você iniciar e praticar! <br/> <br/>
+							</div>
+							<h:form>
+								<div class="buttons">
+									<p:button outcome="/application/project_edit.xhtml" class="waves-effect"
+										value="Novo Projeto" /><br/><br/>
+								</div>
+							</h:form>
+					</div>
+				</div>
+				<ui:repeat value="#{applicationEntityBean.appsUserMap}" var="_item">
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="card" style="background-color: #ddd7c6">
+							<div class="header">
+								
+									<p:graphicImage class="js-animating-object img-responsive"
+										value="/files/#{request.serverName}/#{_item.app.uuid}/media/#{_item.app.image}" />
+								
+								<br /> <strong>#{_item.app.name}</strong>
+								<div align="center">
+									<p:button icon="fa fa-draw-polygon" title="GIS"
+										outcome="/gis/dashboardNA.xhtml">
+										<f:param name="id" value="#{_item.app.uuid}" />
+									</p:button>
+									#{''}
+									<p:button icon="fa fa-edit" title="Editar"
+										outcome="/application/project_edit.xhtml">
+										<f:param name="id" value="#{_item.app.uuid}" />
+									</p:button>
+								</div>
+								<br/>
+							</div>
+						</div>
+					</div>
+				</ui:repeat>
+			</div>
+		</div>
+	</section>
+</ui:composition>

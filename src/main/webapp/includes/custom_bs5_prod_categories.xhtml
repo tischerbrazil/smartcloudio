@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+		<c:forEach varStatus="categs"
+			items="#{itemITLazyBean.productCategoriesOne.stream().filter(t -> t.parentId.id == null).toList()}"
+			var="ca">
+			<li class="bd-links-group py-2"><strong
+				class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+					<p:graphicImage pt:aria-hidden="true" class="bi me-2"
+						url="#{ca.link_href}" />#{ca.name}
+			</strong>
+				<ul class="list-unstyled fw-normal pb-2 small">
+					<c:forEach varStatus="grops"
+						items="#{itemITLazyBean.productCategoriesOne.stream().filter(t -> t.parentId.id == ca.id).toList()}"
+						var="grop">
+						<li><h:link value="#{grop.name}"
+								class="bd-links-link d-inline-block rounded" aria-current="page"
+								outcome="/ecommerce/index">
+								<f:param name="gcmid"
+									value="#{compjson.field.get('gcmid_redirect').asText()}" />
+								<f:param name="smartcompositeCategories.productCategoryOne.name"
+									value="#{grop.name}" />
+							</h:link></li>
+					</c:forEach>
+				</ul></li>
+		</c:forEach>
+	</ul>
+</ui:composition>

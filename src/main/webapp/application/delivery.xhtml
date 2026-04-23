@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+
+	
+
+	<ui:define name="content">
+
+		<p:growl id="messages" showSummary="true" showDetail="true">
+			<p:autoUpdate />
+		</p:growl>
+
+
+
+		<style type="text/css">
+.label {
+	width: 20%;
+	padding: 4px;
+}
+
+.value {
+	width: 80%;
+	padding: 4px;
+}
+
+.grid {
+	width: 100%;
+}
+
+.error {
+	color: red;
+}
+
+.outputLabel {
+	font-weight: bold;
+}
+
+.grid {
+	width: 33%;
+	padding: 4px;
+}
+
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number {
+	background: #e64949;
+	color: #fff;
+	border-color: #2014a7;
+}
+
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-title {
+	font-weight: 700;
+}
+</style>
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-4 order-md-2 mb-4 py-4">
+
+					<ul class="list-group mb-3">
+						<ui:repeat value="#{shoppingCartBean.cartItems}" var="_item">
+							<li
+								class="list-group-item d-flex justify-content-between lh-condensed">
+								<div>
+									<h6 class="my-0">
+
+										<p:graphicImage style="width: 50px"
+											value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_item.item.images.stream().findFirst().get().getFilename()}" />
+
+									</h6>
+									<small class="text-muted"></small>
+								</div> <span class="text-muted"> #{_item.quantity} x
+									#{_item.item.name} </span> <span class="text-muted"><h:outputText
+										value="#{_item.subTotal}">
+										<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+									</h:outputText></span>
+							</li>
+						</ui:repeat>
+						<ui:fragment rendered="false">
+							<li
+								class="list-group-item d-flex justify-content-between bg-light">
+								<div class="text-success">
+									<h6 class="my-0">Promo code</h6>
+									<small>EXAMPLECODE</small>
+								</div> <span class="text-success">-$5</span>
+							</li>
+						</ui:fragment>
+
+
+						<li class="list-group-item d-flex justify-content-between"><span>Total
+								em Produtos </span> <strong> <h:outputText
+									value="#{shoppingCartBean.total}">
+									<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+								</h:outputText>
+						</strong></li>
+
+						<li class="list-group-item d-flex justify-content-between"><span>Desconto
+						</span> <strong> 0,00 </strong></li>
+
+						<li class="list-group-item d-flex justify-content-between"><span>Frete
+						</span> <strong> <h:outputText
+									value="#{shoppingCartBean.shoppingCart.shippingValue}">
+									<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+								</h:outputText>
+						</strong></li>
+
+						<ui:fragment
+							rendered="#{shoppingCartBean.shoppingCart.shippingValue > 0}">
+							<li
+								class="list-group-item d-flex justify-content-between bg-light">
+								<div class="text-success">
+									<h6 class="my-0">C.E.P.</h6>
+
+
+								</div> <span class="text-success">#{shoppingCartBean.shoppingCart.zipcode}</span>
+
+							</li>
+						</ui:fragment>
+
+						<li
+							class="list-group-item d-flex justify-content-between bg-light">
+							<div class="text-success">
+
+								<h6 class="my-0">Método de Envio</h6>
+
+							</div> <span class="text-success">#{shoppingCartBean.shoppingCart.shippingMethod.name}</span>
+
+						</li>
+
+						<li class="list-group-item d-flex justify-content-between"><span>Total
+								Geral da Nota </span> <strong> <h:outputText
+									value="#{shoppingCartBean.totalWithShipping}">
+									<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+								</h:outputText>
+						</strong></li>
+					</ul>
+					<ui:fragment rendered="false">
+
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Promo code" />
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-secondary">Redeem</button>
+							</div>
+						</div>
+
+					</ui:fragment>
+				</div>
+				<div class="col-md-8 order-md-1">
+					<p:steps id="etapas" activeIndex="1">
+						<p:menuitem value="Cliente" />
+						<p:menuitem value="Entrega" />
+						<p:menuitem value="Pagamento" />
+					</p:steps>
+					<br />
+					<h:form id="delivery" class="needs-validation">
+						<div class="alert alert-primary" role="alert">
+							<ui:fragment rendered="true">
+								<p:selectBooleanCheckbox
+									value="#{shoppingCartBean.user.isSameAddress}"
+									id="same-address"
+									itemLabel="O endereço de entrega será o mesmo do cliente">
+									<p:ajax update=":delivery"
+										listener="#{shoppingCartBean.addMessage}" />
+								</p:selectBooleanCheckbox>
+							</ui:fragment>
+						</div>
+						<h:panelGroup rendered="#{shoppingCartBean.user.isSameAddress}"
+							id="empresa1">
+							<br />
+							<div class="row">
+								<div class="col-md-12 mb-0">Destinatário:
+									#{shoppingCartBean.user.name}</div>
+								<div class="col-md-12 mb-0">Endereço:
+									#{shoppingCartBean.user.street},
+									#{shoppingCartBean.user.number},
+									#{shoppingCartBean.user.neighborhood} Cep:
+									#{shoppingCartBean.user.zipcode}
+									#{shoppingCartBean.user.city.name} /
+									#{shoppingCartBean.user.state.iso2}</div>
+							</div>
+						</h:panelGroup>
+						<hr />
+						<h:panelGroup rendered="#{!shoppingCartBean.user.isSameAddress}"
+							id="empresa">
+							<div class="row">
+								<div class="col-md-9 mb-6">
+									<label for="firstName">Nome</label>
+									<p:inputText class="form-control" id="firstName" placeholder=""
+										value="#{shoppingCartBean.shippingAddress.name}"
+										requiredMessage="Nome Requerido!" required="true" />
+								</div>
+
+								<div class="col-md-3 mb-6">
+									<label for="cep">C.E.P. <span class="text-muted"></span></label>
+									<p:inputMask class="form-control" id="cep" required="true"
+										mask="99999-999"
+										value="#{shoppingCartBean.shippingAddress.zipcode}"
+										requiredMessage="CEP Requerido!" />
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<label for="state">Estado</label>
+									<p:selectOneMenu label="Estado" required="true"
+										hideNoSelectionOption="true"
+										requiredMessage="Estado Requerido!"
+										class="custom-select d-block w-100" id="state"
+										converter="omnifaces.SelectItemsConverter"
+										value="#{shoppingCartBean.shippingAddress.state}">
+										<p:ajax
+											listener="#{shoppingCartBean.onStatePostalCodeChange()}"
+											update=":delivery:city" />
+										<f:selectItem noSelectionOption="false" />
+										<f:selectItems itemLabel="#{_identityx.name}"
+											itemValue="#{_identityx}"
+											value="#{shoppingCartBean.statesPostalCode}" var="_identityx" />
+									</p:selectOneMenu>
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="city">Cidade</label>
+									<p:selectOneMenu label="Cidade" hideNoSelectionOption="true"
+										requiredMessage="Cidade Requerido!" required="true"
+										class="custom-select d-block w-100" id="city"
+										converter="omnifaces.SelectItemsConverter"
+										value="#{shoppingCartBean.shippingAddress.city}">
+										<f:selectItem noSelectionOption="false" />
+										<f:selectItems itemLabel="#{_identityx.name}"
+											itemValue="#{_identityx}"
+											value="#{shoppingCartBean.citiesPostalCode}" var="_identityx" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-8 mb-4">
+									<label for="street">Rua</label>
+									<p:inputText class="form-control" id="street" placeholder=""
+										value="#{shoppingCartBean.shippingAddress.street}"
+										requiredMessage="Endereço Requerido!" required="true">
+										<p:autoUpdate />
+
+									</p:inputText>
+								</div>
+								<div class="col-md-4 mb-2">
+									<label for="number">Número</label>
+									<p:inputText class="form-control" id="number" placeholder=""
+										value="#{shoppingCartBean.shippingAddress.number}"
+										requiredMessage="Número Requerido!" required="true" />
+								</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-md-6 mb-6">
+									<label for="neighborhood">Bairro</label>
+									<p:inputText class="form-control" id="neighborhood"
+										placeholder=""
+										value="#{shoppingCartBean.shippingAddress.neighborhood}"
+										required="true" />
+								</div>
+
+
+								<div class="col-md-6 mb-6">
+									<label for="complement">Complemento <span
+										class="text-muted"> (Opcional)</span></label>
+									<p:inputText class="form-control" id="complement"
+										placeholder=""
+										value="#{shoppingCartBean.shippingAddress.complement}"
+										required="false" />
+								</div>
+							</div>
+
+
+						</h:panelGroup>
+						
+						
+						
+						<div class="alert alert-primary" role="alert">Forma de Envio</div>
+						<p:selectOneRadio id="customRadio2" required="true"
+							converter="omnifaces.SelectItemsIndexConverter"
+							requiredMessage="Escolha um método de Envio!"
+							value="#{shoppingCartBean.shoppingCart.shippingMethod}"
+							layout="custom">
+							<f:selectItems itemLabel="#{_item.name}" itemValue="#{_item}"
+								value="#{shoppingCartBean.shippingMethods}" var="_item" />
+						</p:selectOneRadio> 
+						<h:panelGrid class="tb" columns="7" cellpadding="15">
+							<c:forEach var="media" varStatus="_seq"
+								items="#{shoppingCartBean.shippingMethods}">
+								<p:radioButton id="ref#{_seq.index}" for="delivery:customRadio2"
+									itemIndex="#{_seq.index}" />
+								<span class="legend" />
+								<h:outputLabel for="ref#{_seq.index}" value="#{media.name}" />
+
+								<span class="legend" />
+
+
+								<h:outputLabel for="ref#{_seq.index}"
+									value="R$ #{media.shippingValue}">
+
+								</h:outputLabel>
+
+
+								<span class="legend" />
+								<h:outputLabel for="ref#{_seq.index}"
+									value="Prazo de entrega: #{media.deliveryTime} dia(s)" />
+							</c:forEach>
+						</h:panelGrid>
+						<hr class="mb-4" />
+						<div class="row">
+							<div class="col-6 col-md-6 col-lg-6 text-center">
+								<p:button icon="pi pi-user-edit" value="Cliente"
+									styleClass="btn btn-primary waves-effect" outcome="/application/checkout"
+									title="Alterar dados do cliente" alt="Alterar dados do cliente" />
+							</div>
+							<div class="col-6 col-md-6 col-lg-6 text-center">
+								<p:commandButton ajax="true" value="Pagamento"
+									action='#{shoppingCartBean.update1}' icon="pi pi-money-bill"
+									update="delivery messages" title="Escolher método de pagamento"
+									styleClass="btn btn-warning waves-effect"
+									alt="Escolher método de agamento" />
+							</div>
+						</div>
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<section class="slice">
+		<div class="container py-5"></div>
+		</section>
+
+	</ui:define>
+</ui:composition>

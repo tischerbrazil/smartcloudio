@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+
+
+
+	
+	<div class="row">
+		<div class="form-group">
+			<span><i class="fa fa-user-o" aria-hidden="true"> </i> <label
+				for="textvalue" class="control-label"> Título</label> </span>
+			<div class="form-line">
+
+				<p:inputText value="#{productAllBean.selectedRComponent.value}"
+					class="form-control" id="headingValue" type="text"
+					placeholder="Digite aqui o Título" />
+
+				<p:tooltip for="headingValue" value="Texto do Título"
+					position="left" />
+
+			</div>
+		</div>
+	</div>
+
+						
+
+
+	<div class="row">
+		<div class="form-group">
+			<span><i class="fa fa-user-o" aria-hidden="true"> </i> <label
+				for="value" class="control-label"> Tipo</label> </span>
+			<div class="form-line">
+
+				<p:selectOneMenu label="typeHeading" required="true"
+					id="typeHeading"
+					value="#{productAllBean.selectedRComponent.typeHeading}">
+					<f:selectItem itemLabel="Formato H1" itemValue="h1" />
+					<f:selectItem itemLabel="Formato H2" itemValue="h2" />
+					<f:selectItem itemLabel="Formato H3" itemValue="h3" />
+					<f:selectItem itemLabel="Formato H4" itemValue="h4" />
+					<f:selectItem itemLabel="Formato H5" itemValue="h5" />
+					<f:selectItem itemLabel="Formato H6" itemValue="h6" />
+					<f:selectItem itemLabel="Parágrafo" itemValue="p" />
+				</p:selectOneMenu>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="form-group">
+			<span><i class="fa fa-user-o" aria-hidden="true"> </i> <label
+				for="value" class="control-label"> Estilo</label> </span>
+			<div class="form-line">
+
+				<p:inputText value="#{productAllBean.selectedRComponent.styleClass}"
+					id="styleClass" type="text" placeholder="Left" />
+
+				<p:tooltip for="styleClass" value="Estilo do Título" position="left" />
+
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<p:selectBooleanCheckbox
+			value="#{productAllBean.selectedRComponent.bold}" itemLabel="Negrito" />
+		<p:selectBooleanCheckbox
+			value="#{productAllBean.selectedRComponent.italic}"
+			itemLabel="Itálico" />
+		<p:selectBooleanCheckbox
+			value="#{productAllBean.selectedRComponent.strike}"
+			itemLabel="Tachado" />
+		<p:selectBooleanCheckbox
+			value="#{productAllBean.selectedRComponent.underline}"
+			itemLabel="Sublinhado" />
+	</div>
+
+
+</ui:composition>

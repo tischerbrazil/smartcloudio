@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="jakarta.tags.core"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.footer-dark {
+	color: #a0aec0 !important;
+	background-color: #{compjson.field.at('/background-color') .asText()
+}!important;
+}
+
+
+
+</style>
+<h1>--------asdfasdfsd</h1>
+
+	<footer class="pt-0 position-relative" id="footer-main">
+		<div class="footer pt-lg-7 footer-dark bg-dark">
+			<div
+				class="shape-container shape-line shape-position-top shape-orientation-inverse">
+			</div>
+			<div class="container pt-4">
+			
+					<div class="row align-items-center justify-content-md-between pb-4">
+					<div class="col-md-6">
+						<div
+							class="copyright text-sm font-weight-bold text-center text-md-left">
+							<i class="fa fa-copyright"></i>2026
+							<a href="/index" class="font-weight-bold">SmartCloudIO</a>.
+							Todos os Direitos Reservados
+						</div>
+					</div>
+					<div class="col-md-6">
+						<ul
+							class="nav justify-content-center justify-content-md-end mt-3 mt-md-0">
+							<c:forEach
+								items="#{compjson.strings.stream().filter(t->t.at('/position').asText() == 'bottom').toArray()}"
+								var="_bottompos">
+								<li class="nav-item"><h:link outcome="/index"
+										class="nav-link" value="#{_bottompos.at('/name').asText()}">
+										<f:param name="uuid"
+											value="#{_bottompos.at('/linkid').asText()}" />
+											
+											<f:param name="gcmid"
+											value="#{_bottompos.at('/image-full').asText()}" />
+
+									</h:link></li>
+							</c:forEach>
+						</ul>
+					</div>
+					<hr/>
+					<br/>
+					<br/>
+				</div>
+			</div>
+		</div>
+	</footer>
+</ui:composition>

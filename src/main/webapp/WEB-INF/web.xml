@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	version="4.0">
+	<display-name>Risteos</display-name>
+
+
+	<!-- Standard JSF settings. -->
+
+	<context-param>
+    	<param-name>resteasy.preferJacksonOverJsonB</param-name>
+    	<param-value>false</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.geoazul.view.security.SessionListener</listener-class>
+	</listener>
+
+
+	<context-param>
+		<param-name>jakarta.faces.FACELETS_BUFFER_SIZE</param-name>
+		<param-value>65535</param-value> <!-- 64KB -->
+	</context-param>
+	<context-param>
+		<param-name>jakarta.faces.FACELETS_REFRESH_PERIOD</param-name>
+		<param-value>0</param-value> <!-- TODO: parameterize this. -->
+	</context-param>
+	<context-param>
+		<param-name>jakarta.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>jakarta.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>jakarta.faces.PROJECT_STAGE</param-name>
+		<param-value>Production</param-value>
+	</context-param>
+	<!-- Development Production -->
+	<context-param>
+		<param-name>jakarta.faces.SERIALIZE_SERVER_STATE</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>jakarta.faces.FACELETS_LIBRARIES</param-name>
+		<param-value>/WEB-INF/kickoff.taglib.xml</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>jakarta.faces.FACELETS_LIBRARIES</param-name>
+		<param-value>/WEB-INF/kickoff.taglib.xml</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+		<param-value>6Lf2XQkTAAAAAHsc1-7Mt_kMlmcmGqlxoMDJlp2K</param-value>
+	</context-param>
+	<context-param>
+		<param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+		<param-value>6Lf2XQkTAAAAANcvOwYqPxWL4iZDksFqHpS39GDA</param-value>
+	</context-param>
+	
+
+
+
+	<!-- Mojarra specific settings. -->
+
+	<context-param>
+		<param-name>com.sun.faces.defaultResourceMaxAge</param-name>
+		<param-value>4838400000</param-value> <!-- 8 weeks in millis. -->
+	</context-param>
+	<context-param>
+		<param-name>com.sun.faces.enableViewStateIdRendering</param-name>
+		<param-value>false</param-value> <!-- Prevent duplicate jakarta.faces.ViewState element IDs. -->
+	</context-param>
+
+	<context-param>
+		<param-name>com.sun.faces.numberOfViewsInSession</param-name>
+		<param-value>5</param-value>
+	</context-param>
+
+
+	<context-param>
+		<param-name>org.omnifaces.FACES_VIEWS_SCAN_PATHS</param-name>
+		<param-value>/*.xhtml/*, !/api, !/push,  !/jakarta.faces.push</param-value><!-- 
+			mail not work on mod proxy -->
+	</context-param>
+
+	<!-- PrimeFaces specific settings. -->
+
+	<context-param>
+		<param-name>primefaces.FONT_AWESOME</param-name>
+		<param-value>false</param-value> <!-- Enable referencing Font Awesome icons in CSS. -->
+	</context-param>
+	<context-param>
+		<param-name>primefaces.SUBMIT</param-name>
+		<param-value>partial</param-value> <!-- Make partialSubmit="true" the default behavior. -->
+	</context-param>
+	<context-param>
+		<param-name>primefaces.TRANSFORM_METADATA</param-name>
+		<param-value>true</param-value> <!-- Renders bean validation metadata (@NotNull/@Size/@Min/@Max) as HTML 
+			element attributes. -->
+	</context-param>
+
+	<context-param>
+		<param-name>primefaces.COOKIES_SAME_SITE</param-name>
+		<param-value>Strict</param-value>
+	</context-param>
+
+	<!-- <context-param> <param-name>javax.faces.PARTIAL_STATE_SAVING</param-name> 
+		<param-value>false</param-value> </context-param> <context-param> <param-name>javax.faces.FULL_STATE_SAVING_VIEW_IDS</param-name> 
+		<param-value>/some.xhtml,/other.xhtml</param-value> </context-param> 01. 
+		<c:choose>: usar rendered attribute 02. <c:forEach>: usar <o componente <ui:repeat> 
+		03. <c:if>: usar o atributo rendered 04. <c:set>: usar <ui:param>, <f:viewParam>, 
+		@ManagedProperty ou @PostConstruct 05. <f:actionListener>: usar o atributo 
+		actionListener 06. <f:convertXxx> (ex.: <f:convertNumber>): usar o atributo 
+		converter <f:converter> 07. <f:facet>: não há alternativa. Apenas não use 
+		EL em nenhum de seus atributos 08. <f:validateXxx> (ex.: <f:validateLongRange>): 
+		usar o atributo validator ou <f:validator> 09. <f:valueChangeListener>: usar 
+		o atributo valueChangeListener 10. <ui:decorate>: não há alternativa. Apenas 
+		não use EL em nenhum de seus atributo 11. <ui:composition>: não há alternativa. 
+		Apenas não use EL em nenhum de seus atributo 12. <ui:include>: usar uma combinação 
+		de componentes <ui:fragment rendered> com cada uma dos <ui:include> estáticos 
+		13. qualquer custom tag: deve cumprir JSF UIComponent -->
+
+
+	<filter>
+		<filter-name>Character Encoding Filter</filter-name>
+		<filter-class>org.primefaces.webapp.filter.CharacterEncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Character Encoding Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>No Cache Filter</filter-name>
+		<filter-class>org.primefaces.webapp.filter.NoCacheFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>No Cache Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>FileUpload Resume Servlet</servlet-name>
+		<servlet-class>org.primefaces.webapp.FileUploadChunksServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FileUpload Resume Servlet</servlet-name>
+		<url-pattern>/file/resume/</url-pattern>
+	</servlet-mapping>
+
+	<context-param>
+		<param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+   
+    <context-param> 
+        <param-name>primefaces.THEME</param-name>
+        <param-value>#{app.theme}</param-value>
+    </context-param>
+  
+    
+    
+
+	<!-- <context-param>
+        <param-name>primefaces.MOVE_SCRIPTS_TO_BOTTOM</param-name>
+        <param-value>true</param-value>
+    </context-param> -->
+
+
+	<context-param>
+		<param-name>org.omnifaces.EXCEPTION_TYPES_TO_UNWRAP</param-name>
+		<param-value>jakarta.ejb.EJBException,jakarta.persistence.RollbackException</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>org.omnifaces.EXCEPTION_TYPES_TO_IGNORE_IN_LOGGING</param-name>
+		<param-value>jakarta.faces.application.ViewExpiredException</param-value>
+	</context-param>
+
+
+	<!-- Servlets. -->
+
+	<servlet>
+		<servlet-name>facesServlet</servlet-name>
+		<servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>facesServlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Filters. NOTE: ordering of filter-mapping matters! -->
+
+	<filter>
+		<filter-name>characterEncodingFilter</filter-name>
+		<filter-class>org.omnifaces.filter.CharacterEncodingFilter</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>facesExceptionFilter</filter-name>
+		<filter-class>org.omnifaces.filter.FacesExceptionFilter</filter-class>
+	</filter>
+
+	<!--
+	<filter>
+		<filter-name>gzipResponseFilter</filter-name>
+		<filter-class>org.omnifaces.filter.GzipResponseFilter</filter-class>
+	</filter>
+	-->
+
+	<filter>
+		<filter-name>localeFilter</filter-name>
+		<filter-class>org.example.kickoff.view.filter.LocaleFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>localeFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>characterEncodingFilter</filter-name>
+		<servlet-name>facesServlet</servlet-name>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>facesExceptionFilter</filter-name>
+		<servlet-name>facesServlet</servlet-name>
+	</filter-mapping>
+
+
+	<!--
+	<filter-mapping>
+		<filter-name>gzipResponseFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+	-->
+
+	<context-param>
+		<param-name>jakarta.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>jakarta.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
+	<!-- Session configuration. -->
+
+	<context-param>
+		<param-name>primefaces.MULTI_VIEW_STATE_STORE</param-name>
+		<param-value>client-window</param-value>
+	</context-param>
+
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+		<cookie-config>
+			<http-only>true</http-only> <!-- Prevent client side scripting from accessing/manipulating session cookie. -->
+		</cookie-config>
+		<tracking-mode>COOKIE</tracking-mode> <!-- This disables URL rewriting. -->
+	</session-config>
+
+	<context-param>
+		<param-name>jakarta.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<!-- Welcome files and error pages. -->
+
+	<welcome-file-list>
+		<welcome-file>index.xhtml</welcome-file> 
+	</welcome-file-list>
+
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/WEB-INF/errorpages/400.xhtml</location>
+	</error-page>
+
+	<error-page>
+		<exception-type>jakarta.faces.application.ViewExpiredException</exception-type>
+		<location>/WEB-INF/viewExpired.xhtml</location>
+	</error-page>
+
+	<error-page>
+		<error-code>400</error-code>
+		<location>/WEB-INF/errorpages/400.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/errorpages/404.xhtml</location>
+		<!-- We don't want to leak restricted pages, so 404 instead of 403. -->
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/errorpages/404.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/errorpages/500.xhtml</location>
+	</error-page>
+	
+	<!-- Security constraints and roles. -->
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>User pages</web-resource-name>
+			<url-pattern>/user/*</url-pattern>
+			<url-pattern>/en-US/user/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>VIEW_USER_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Admin pages</web-resource-name>
+			<url-pattern>/admin/*</url-pattern>
+			<url-pattern>/en-US/admin/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>VIEW_ADMIN_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Administrator pages</web-resource-name>
+			<url-pattern>/administrator/*</url-pattern>
+			<url-pattern>/en-US/administrator/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>EDIT_ADMINISTRATOR_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Erp pages</web-resource-name>
+			<url-pattern>/erp/*</url-pattern>
+			<url-pattern>/en-US/erp/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>EDIT_ERP_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Scm pages</web-resource-name>
+			<url-pattern>/scm/*</url-pattern>
+			<url-pattern>/en-US/scm/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>EDIT_SCM_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Crm pages</web-resource-name>
+			<url-pattern>/crm/*</url-pattern>
+			<url-pattern>/en-US/crm/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>EDIT_CRM_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gis pages</web-resource-name>
+			<url-pattern>/gis/*</url-pattern>
+			<url-pattern>/en-US/gis/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>EDIT_GIS_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Security pages</web-resource-name>
+			<url-pattern>/security/*</url-pattern>
+			<url-pattern>/en-US/security/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>EDIT_SECURITY_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Application pages</web-resource-name>
+			<url-pattern>/application/*</url-pattern>
+			<url-pattern>/en-US/application/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>OAuth authorization</web-resource-name>
+			<url-pattern>/api/oauth2/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ACCESS_API</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-role>
+		<role-name>VIEW_USER_PAGES</role-name>
+	</security-role>
+	<security-role>
+		<role-name>VIEW_ADMIN_PAGES</role-name>
+	</security-role>
+	<security-role>
+		<role-name>ACCESS_API</role-name>
+	</security-role>
+
+	<security-role>
+		<role-name>EDIT_ADMINISTRATOR_PAGES</role-name>
+	</security-role>
+
+	<context-param>
+		<param-name>jakarta.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+
+	<!-- New mime mappings not already defined by server. -->
+
+	<mime-mapping>
+		<extension>otf</extension>
+		<mime-type>application/x-font-opentype</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>ttf</extension>
+		<mime-type>application/x-font-truetype</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>woff</extension>
+		<mime-type>application/font-woff</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>woff2</extension>
+		<mime-type>application/font-woff2</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>eot</extension>
+		<mime-type>application/vnd.ms-fontobject</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>eot?#iefix</extension>
+		<mime-type>application/vnd.ms-fontobject</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>svg</extension>
+		<mime-type>image/svg+xml</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>svg#latobold</extension>
+		<mime-type>image/svg+xml</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>svg#latoblack</extension>
+		<mime-type>image/svg+xml</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>svg#latolight</extension>
+		<mime-type>image/svg+xml</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>svg#latoregular</extension>
+		<mime-type>image/svg+xml</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>svg#fontawesomeregular</extension>
+		<mime-type>image/svg+xml</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>ico</extension>
+		<mime-type>image/x-icon</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>css.map</extension>
+		<mime-type>text/css</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>js.map</extension>
+		<mime-type>text/javascript</mime-type>
+	</mime-mapping>
+
+</web-app>

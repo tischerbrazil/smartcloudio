@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:event type="preRenderView" listener='#{shoppingCartBean.retrieve}' />
+	</f:metadata>
+
+	<ui:define name="content">
+
+		<p:growl id="messages" showSummary="false" showDetail="true">
+			<p:autoUpdate />
+		</p:growl>
+
+		<style type="text/css">
+.label {
+	width: 20%;
+	padding: 4px;
+}
+
+.value {
+	width: 80%;
+	padding: 4px;
+}
+
+.grid {
+	width: 100%;
+}
+
+.error {
+	color: red;
+}
+
+.outputLabel {
+	font-weight: bold;
+}
+
+.grid {
+	width: 33%;
+	padding: 4px;
+}
+
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number {
+	background: #e64949;
+	color: #fff;
+	border-color: #2014a7;
+}
+
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-title {
+	font-weight: 700;
+}
+
+.card {
+	border: none;
+}
+
+.card-header {
+	padding: .5rem 1rem;
+	margin-bottom: 0;
+	background-color: rgba(0, 0, 0, .03);
+	border-bottom: none;
+}
+
+.btn-light:focus {
+	color: #212529;
+	background-color: #e2e6ea;
+	border-color: #dae0e5;
+	box-shadow: 0 0 0 0.2rem rgba(216, 217, 219, .5);
+}
+
+.form-control {
+	height: 50px;
+	border: 2px solid #eee;
+	border-radius: 6px;
+	font-size: 14px;
+}
+
+.form-control:focus {
+	color: #495057;
+	background-color: #fff;
+	border-color: #039be5;
+	outline: 0;
+	box-shadow: none;
+}
+
+.input {
+	position: relative;
+}
+
+.input i {
+	position: absolute;
+	top: 16px;
+	left: 11px;
+	color: #989898;
+}
+
+.card-text {
+	font-size: 16px;
+	margin-left: 6px;
+}
+
+.line {
+	color: #bfbdbd;
+}
+
+.payment-card-body {
+	flex: 1 1 auto;
+	padding: 24px 1rem !important;
+}
+</style>
+
+
+
+		<h:form id="payment" class="needs-validation">
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 order-md-2 mb-4 py-4">
+
+						<ul class="list-group mb-3">
+							<ui:repeat value="#{shoppingCartBean.cartItems}" var="_item">
+								<li
+									class="list-group-item d-flex justify-content-between lh-condensed">
+									<div>
+										<h6 class="my-0">
+
+											<p:graphicImage style="width: 50px"
+												value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_item.item.images.stream().findFirst().get().getFilename()}" />
+
+										</h6>
+										<small class="text-muted"></small>
+									</div> <span class="text-muted"> #{_item.quantity} x
+										#{_item.item.name} </span> <span class="text-muted"><h:outputText
+											value="#{_item.subTotal}">
+											<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+										</h:outputText></span>
+								</li>
+							</ui:repeat>
+							<ui:fragment rendered="false">
+								<li
+									class="list-group-item d-flex justify-content-between bg-light">
+									<div class="text-success">
+										<h6 class="my-0">Promo code</h6>
+										<small>EXAMPLECODE</small>
+									</div> <span class="text-success">-$5</span>
+								</li>
+							</ui:fragment>
+
+							<ui:fragment rendered="false">
+								<li
+									class="list-group-item d-flex justify-content-between bg-light">
+									<div class="text-success">
+										<h6 class="my-0">Cep do Endereço de Entrega</h6>
+										<small> <p:inputText size="7" id="cepCookie"
+												placeholder="" value="#{shoppingCartBean.address.zipcode}" />
+
+											<button class="btn btn-dark btn-sm px-4">Calcular</button>
+										</small>
+									</div>
+
+								</li>
+							</ui:fragment>
+
+
+
+
+							<li class="list-group-item d-flex justify-content-between"><span>Total
+									em Produtos </span> <strong> <h:outputText
+										value="#{shoppingCartBean.total}">
+										<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+									</h:outputText>
+							</strong></li>
+							<ui:fragment rendered="true">
+								<li class="list-group-item d-flex justify-content-between"><span>Desconto
+								</span> <strong> 0,00 </strong></li>
+							</ui:fragment>
+							<li class="list-group-item d-flex justify-content-between"><span>Frete
+							</span> <strong> <h:outputText
+										value="#{shoppingCartBean.shoppingCart.shippingValue}">
+										<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+									</h:outputText>
+							</strong></li>
+
+							<ui:fragment
+								rendered="#{shoppingCartBean.shoppingCart.shippingValue > 0}">
+								<li
+									class="list-group-item d-flex justify-content-between bg-light">
+									<div class="text-success">
+										<h6 class="my-0">C.E.P.</h6>
+
+
+									</div> <span class="text-success">#{shoppingCartBean.shoppingCart.zipcode}</span>
+
+								</li>
+							</ui:fragment>
+
+							<li
+								class="list-group-item d-flex justify-content-between bg-light">
+								<div class="text-success">
+
+									<h6 class="my-0">Método de Envio</h6>
+
+								</div> <span class="text-success">#{shoppingCartBean.shoppingCart.shippingMethod.name}</span>
+
+							</li>
+
+							<li class="list-group-item d-flex justify-content-between"><span>Total
+									Geral da Nota </span> <strong> <h:outputText
+										value="#{shoppingCartBean.totalWithShipping}">
+										<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+									</h:outputText>
+							</strong></li>
+						</ul>
+						<ui:fragment rendered="false">
+
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Promo code" />
+								<div class="input-group-append">
+									<button type="submit" class="btn btn-secondary">Redeem</button>
+								</div>
+							</div>
+
+						</ui:fragment>
+					</div>
+					<div class="col-md-8 order-md-1">
+						<p:steps id="etapas" activeIndex="2">
+							<p:menuitem value="Cliente" />
+							<p:menuitem value="Entrega" />
+							<p:menuitem value="Pagamento" />
+						</p:steps>
+
+
+
+						<div class="alert alert-primary" role="alert">
+							<p:selectOneRadio id="console"
+								valueChangeListener="#{shoppingCartBean.paymentChange}"
+								value="#{shoppingCartBean.shoppingCart.paymentMethod}"
+								unselectable="false">
+								<f:selectItem itemLabel="Cartão de Crédito" itemValue="false" />
+								<f:selectItem itemLabel="Pagar com PIX QR-CODE" itemValue="true" />
+								<p:ajax event="valueChange" update="empresa" />
+							</p:selectOneRadio>
+						</div>
+
+						<h:panelGroup id="empresa">
+							<h:panelGroup
+								rendered="#{not shoppingCartBean.shoppingCart.paymentMethod}">
+
+
+								<div class="card-body payment-card-body">
+
+									<span class="card-text">Titular do Cartão</span>
+									<div class="ui-inputgroup ">
+										<div class="ui-inputgroup-addon">
+											<i class="pi pi-user"></i>
+										</div>
+										<p:inputText class="form-control" required="true"
+											autocomplete="false"
+											value="#{shoppingCartBean.safraPayCard.cardholderName}"
+											requiredMessage="Titular do Cartão Requerido!"
+											placeholder="Username" />
+									</div>
+
+									<div class="row mt-3 mb-3">
+
+										<div class="col-md-6">
+
+
+											<span class="card-text">Número do Cartão</span>
+											<div class="ui-inputgroup ">
+
+												<div class="ui-inputgroup-addon">
+													<i class="fa fa-credit-card"></i>
+												</div>
+
+												<p:inputMask class="form-control" required="true"
+													autocomplete="false" mask="9999 9999 9999 9999"
+													placeholder="0000 0000 0000 0000"
+													value="#{shoppingCartBean.safraPayCard.cardNumber}"
+													requiredMessage="Número do Cartão Requerido!" />
+											</div>
+
+										</div>
+
+
+										<div class="col-md-3">
+
+											<span class="card-text">Validade</span>
+											<div class="ui-inputgroup ">
+
+												<div class="ui-inputgroup-addon">
+													<i class="fa fa-calendar"></i>
+												</div>
+												 
+												<p:inputMask class="form-control" required="true"
+													autocomplete="false" mask="99/99"
+													placeholder="00/00"
+													value="#{shoppingCartBean.safraPayCard.validade}"
+													requiredMessage="Data Validade Requerido!" />
+												
+												
+											</div>
+
+										</div>
+
+										<div class="col-md-3">
+
+
+
+											<span class="card-text">CVC/CVV</span>
+											<div class="ui-inputgroup ">
+
+												<div class="ui-inputgroup-addon">
+													<i class="fa fa-lock"></i>
+												</div>
+												<p:inputMask class="form-control" required="true"
+													autocomplete="false" placeholder="000" mask="999"
+													value="#{shoppingCartBean.safraPayCard.cvv}"
+													requiredMessage="Data Validade Requerido!" />
+											</div>
+
+
+
+										</div>
+
+									</div>
+
+								</div>
+
+
+								<span class="card-text">Número de Parcelas</span>
+									<div class="ui-inputgroup ">
+										<div class="ui-inputgroup-addon">
+											<i class="pi pi-user"></i>
+										</div>
+										
+										
+										
+										
+										</div>
+
+								<div class="row">
+
+									<div class="col-md-12  text-center">
+										<p:commandButton value="Confirmar Pagamento"
+											title="Confirmar Pagamento" ajax="false"
+											style="padding: 10px 30px 10px 30px;font-size: 1.2em"
+											action='#{shoppingCartBean.createPay()}' icon="fa fa-send"
+											update="messages" styleClass="btn btn-primary waves-effect">
+										</p:commandButton>
+									</div>
+								</div>
+
+
+							</h:panelGroup>
+							<h:panelGroup
+								rendered="#{shoppingCartBean.shoppingCart.paymentMethod}">
+
+
+
+<div class="row">
+
+									<div class="col-md-12  text-center">
+										<p:commandButton value="Gerar QR-CODE"
+										rendered="#{!shoppingCartBean.isValidPix()}"
+											title="Confirmar Pagamento" ajax="true"
+											style="padding: 10px 30px 10px 30px;font-size: 1.2em"
+											action='#{shoppingCartBean.createPix()}' icon="fa fa-send"
+											update="payment messages" styleClass="btn btn-primary waves-effect">
+										</p:commandButton>
+									</div>
+						 
+									
+			<p:graphicImage rendered="#{shoppingCartBean.isValidPix()}"
+			
+			style="text-align:left; display: block;margin-left: auto;margin-right: auto;width: 350px"
+			
+			 id="pixQrCode"	value="#{shoppingCartBean.pixImage}" />
+		
+								</div>
+
+
+
+							</h:panelGroup>
+						</h:panelGroup>
+
+
+
+					</div>
+				</div>
+			</div>
+			<section class="slice">
+			<div class="container py-5"></div>
+			</section>
+		</h:form>
+
+	</ui:define>
+
+
+</ui:composition>

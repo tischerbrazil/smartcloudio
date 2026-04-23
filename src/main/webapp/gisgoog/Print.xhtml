@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core" 
+    
+    xmlns:p="http://primefaces.org/ui"> 
+	
+	<h:form id="printForm">
+	<p:panelGrid id="iiii" columns="1" cellpadding="4" style="margin:0 auto;">   
+   	  
+   	
+   	
+	<p:selectOneMenu id="scaleOptions"  required="true"  value="#{projectBasicEntityBean.scale}">
+		<f:selectItem itemValue="223" itemLabel="1/250" />
+		<f:selectItem itemValue="445" itemLabel="1/500" />
+		<f:selectItem itemValue="890" itemLabel="1/1000" />
+		<f:selectItem itemValue="1781" itemLabel="1/2000" />
+		<f:selectItem itemValue="3562" itemLabel="1/3500" />
+		<f:selectItem itemValue="7125" itemLabel="1/7000" />
+		<f:selectItem itemValue="14250" itemLabel="1/15000" />
+        <f:selectItem itemValue="28500" itemLabel="1/30000" />	
+		<f:selectItem itemValue="57000" itemLabel="1/60000" />	
+		<f:selectItem itemValue="114000" itemLabel="1/120000" />	
+		<f:selectItem itemValue="228000" itemLabel="1/200000" />	
+     </p:selectOneMenu>
+     
+    
+	 <p:selectOneMenu id="paperOptions"  required="true"  value="#{projectBasicEntityBean.paper}">
+					   	<f:selectItem itemValue="4"  itemLabel="A4 - PAISAGEM" />
+					  	<f:selectItem itemValue="3"  itemLabel="A3 - PAISAGEM" />
+					  	<f:selectItem itemValue="2"  itemLabel="A2 - PAISAGEM" />
+	      </p:selectOneMenu>
+	
+	   
+	
+	
+	  <p:selectOneMenu id="sistemaOptions"  required="true"  value="#{projectBasicEntityBean.sistcord}">
+					  	<f:selectItem itemValue="2"  itemLabel="SIRGAS-2000" /> 
+      </p:selectOneMenu>
+      <h:outputText rendered="false" value="Cor do Fundo"/>
+      <p:colorPicker rendered="true" id="colorPopup" value="#{projectBasicEntityBean.colorPopup}" />                   
+    
+	
+					<p:selectOneMenu rendered="true" id="modeloOptions"  required="true"  value="#{projectBasicEntityBean.modelo}">
+					   	<f:selectItem itemValue="1"  itemLabel="MODELO 01" />
+				
+	       			</p:selectOneMenu>
+ 
+                
+	
+	   <p:selectOneMenu id="backgroundOptions" value="#{projectBasicEntityBean.background}" required="true"  >
+					   	<f:selectItem itemValue="1"  itemLabel="Nenhum" />
+	<f:selectItem itemValue="2"  itemLabel="Satélite" />
+       </p:selectOneMenu>
+	   <p:commandButton onclick="printPDF()" value="Gerar Arquivo" icon="ui-icon-print"  type="button" />
+       </p:panelGrid>
+   	    <p:dialog modal="true" widgetVar="dlg" showEffect="fade" hideEffect="fade" header="Selected Colors" resizable="false">
+        <h:panelGrid id="grid" columns="2" cellpadding="5">
+         
+            <h:outputText value="Cor Fundo: " />
+            <h:outputText value="#{projectBasicEntityBean.colorPopup}" style="background-color: \#{projectBasicEntityBean.colorPopup}" />
+        </h:panelGrid>
+    	</p:dialog> 
+	</h:form>	   
+</ui:composition>

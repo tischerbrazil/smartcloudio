@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<f:metadata>
+
+	</f:metadata>
+
+	<ui:define name="content">
+
+		<p:growl id="messages" showSummary="true" showDetail="true">
+			<p:autoUpdate />
+		</p:growl>
+
+		<style>
+.navbar {
+	z-index: 100;
+}
+
+.ui-fab {
+	z-index: 50;
+}
+
+.ui-growl {
+	z-index: 1000 !important;
+}
+
+.ui-sidebar {
+	overflow-y: scroll !important;
+	margin-top: 56px !important;
+	z-index: 40 !important;
+}
+
+.manufacturer-image {
+	width: 100px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23)
+}
+</style>
+		<section>
+		<div class="container py-5">
+		
+
+
+			
+
+			<h:form id="form">
+
+			
+
+				<p:dataTable var="manufacturer" value="#{manufacturerBean.model}"
+					paginator="true" rows="30"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					rowsPerPageTemplate="5,10,15,30" lazy="true" widgetVar="vtWidget"
+					reflow="true" paginatorPosition="bottom" id="manufacturerTable">
+
+					<f:facet name="header">
+						
+							<p:inputText id="globalFilter" onkeyup="PF('vtWidget').filter()"
+								style="width:150px" placeholder="Palavra chave" />
+						#{''}
+							<p:commandButton value="Limpar Filtro"
+					onclick="PF('vtWidget').clearFilters()" />
+						#{''}
+						<p:commandButton icon="fa fa-edit"
+							onclick="PF('changeOrder').show();" title="Novo"
+							update="changeOrderForm"
+							action="#{manufacturerBean.newAction()}" />
+							
+						
+					
+					</f:facet>
+
+					
+
+						
+
+					<p:column headerText="Ativo" sortBy="#{manufacturer.enabled}">
+
+						<p:graphicImage rendered="#{manufacturer.enabled}" class="img-circle"
+							value="/resources/true.png" />
+						<p:graphicImage rendered="#{!manufacturer.enabled}" class="img-circle"
+							value="/resources/false.png" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Imagem" />
+						</f:facet>
+						<p:graphicImage styleClass="manufacturer-image"
+							style="float: left; margin: 0 15px 0 0"
+							rendered="#{manufacturer.image != null}"
+							value="#{manufacturer.image}" />
+					</p:column>
+
+					<p:column headerText="Nome" filterBy="#{manufacturer.name}"
+						sortBy="#{manufacturer.name}">
+						<h:outputText value="#{manufacturer.name}" />
+					</p:column>
+
+					
+
+
+
+					<p:column headerText="Editar">
+						<p:commandButton icon="fa fa-edit"
+							onclick="PF('changeOrder').show();" title="Editar"
+							update="changeOrderForm"
+							action="#{manufacturerBean.editAction(manufacturer.uuid)}" />
+					</p:column>
+
+
+				</p:dataTable>
+			</h:form>
+
+
+
+
+
+
+
+
+
+		</div>
+		</section>
+		<p:sidebar position="right" blockScroll="true"
+			style="overflow-y: scroll;width:100% !important; height:100% !important;"
+			modal="true" responsive="true" fitViewport="true"
+			widgetVar="changeOrder" id="changeOrder">
+			<br />
+			<h:form id="changeOrderForm">
+
+				<div class="col-md-12 col-lg-12">
+					<div class="row">
+						<div class="col-sm-3">
+					
+							<c:choose>
+								<c:when
+									test='#{manufacturerBean.manufacturer.image != null}'>
+									<p:graphicImage id="prodimg1" width="50"
+										value="#{manufacturerBean.manufacturer.image}" />
+								</c:when>
+								<c:otherwise>
+									<p:graphicImage width="50"
+											value="img/placeholder.png" name="img/placeholder.png" />
+								</c:otherwise>
+							</c:choose>
+						</div>
+
+						<div class="col-sm-3">
+
+							<p:commandButton id="saveBtn2"
+								style="min-width: 4rem; font-size: 2rem"
+								oncomplete="PF('changeOrder').hide()" update="messages form"
+								action="#{manufacturerBean.update()}" icon="pi pi-save" />
+							#{''}
+							<p:commandButton id="closeBtn2"
+								style="min-width: 4rem; font-size: 2rem"
+								oncomplete="PF('changeOrder').hide()" icon="pi pi-times" />
+						</div>
+					</div>
+					<div class="row">
+						<p:tabView id="tablayer">
+							<p:tab title="#{i18n.Information}">
+								<div class="row g-3">
+
+									
+									<div class="col-sm-3">
+										<label for="enabled" class="form-label">Enabled</label>
+										<p:selectBooleanCheckbox id="enabled" class="form-control"
+											value="#{manufacturerBean.manufacturer.enabled}" />
+									</div>
+									
+
+
+
+								</div>
+								<hr />
+								<div class="row g-3">
+									<div class="col-sm-12">
+										<label for="firstName" class="form-label">Nome</label>
+										<p:inputText id="firstname" class="form-control"
+											required="true" value="#{manufacturerBean.manufacturer.name}" />
+									</div>
+									
+								</div>
+							</p:tab>
+							
+							<p:tab rendered="#{manufacturerBean.manufacturer != null}" title="Enviar Imagem">
+								<div>
+									<p:commandButton icon="fa fa-image" onclick="imageEdit()"
+										onupdate=":mainForm:itemForm, :QuantityUpdateForm"
+										value="Selecionar Imagem" />
+
+
+								</div>
+													
+								
+
+								
+							</p:tab>
+						</p:tabView>
+					</div>
+				</div>
+			</h:form>
+			<hr />
+		</p:sidebar>
+		<p:dialog header="Envio de Imagem" width="600" height="400"
+			widgetVar="imagePointDialog" resizable="false">
+			<h:form id="uploadShpForm" prependId="false">
+				<p:remoteCommand name="imageEdit"
+					oncomplete="PF('imagePointDialog').show();" />
+				<h:panelGroup id="entrada">
+					<p:fileUpload listener="#{manufacturerBean.importIMAGE}"
+						update="changeOrderForm :uploadShpForm"
+						cancelLabel="Cancelar" label="Arquivo" uploadLabel="Enviar"
+						mode="advanced" dragDropSupport="false"
+						oncomplete="PF('imagePointDialog').hide()" 
+						allowTypes="/(\.|\/)(svg|SVG|webp|gif|tif|jpe?g|gif|mp4|png)$/" />
+					<div style="clear: both" />
+				</h:panelGroup>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

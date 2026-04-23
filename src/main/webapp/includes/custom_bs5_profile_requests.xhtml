@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core" xmlns:o="http://omnifaces.org/ui"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+	<style>
+.div-1 {
+	margin-bottom: 5px;
+	background-color: #EBEBEB;
+}
+.logo {
+	width: 5%
+}
+.detail {
+	width: 95%;
+	padding-left: 25px;
+}
+.detail td {
+	font-size: 24px;
+}
+</style>
+	<section>
+		<div class="container py-3">
+			<h4>Meus Pedidos</h4>
+			<h:form id="userForm" class="py-3" prependId="false">
+				<div class="row clearfix">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="body">
+							<div class="row clearfix">
+								<div class="table-responsive">
+									<table class="table">
+										<tbody>
+											<c:forEach varStatus="sale1"
+												items="#{userEntityBean.person.shoppingCarts
+								.stream().filter(t -> t.status != 'DRAFT').toList()
+								}"
+												var="_sale1">
+												<tr>
+													<td>Data: <h:outputText value="#{_sale1.datetime}">
+															<f:convertDateTime type="localDateTime"
+																dateStyle="medium" timeStyle="short"
+																pattern="dd/MM/yyyy HH:mm" />
+														</h:outputText></td>
+													<td>Valor: <h:outputText id="totals"
+															value="#{_sale1.getTotalWithSipping()}">
+															<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+														</h:outputText>
+													</td>
+													<td>Estado: <strong>#{i18n[_sale1.getI18nStatus()]}</strong>
+													</td>
+													<td><p:button rendered="#{_sale1.status != 'PAIDOUT'}"
+															icon="pi pi-user-edit" value="Efetuar Pagamento"
+															outcome="/application/pay" title="Efetuar Pagamento"
+															alt="Efetuar Pagamento">
+															<f:param name="uuid" value="#{_sale1.uuid}" />
+														</p:button></td>
+												</tr>
+												<tr>
+													<td colspan="5"><p:accordionPanel activeIndex="null"
+															widgetVar="Accord-#{sale1.index}">
+															<p:tab closable="true" title="Items do Pedido">
+																<p:dataTable id="products" var="_item"
+																	value="#{_sale1.shoppingCartItens}"
+																	rowIndexVar="rowIndexItem">
+																	<p:column>
+																		<f:facet name="header">
+																			<h:outputText value="Imagem" />
+																		</f:facet>
+																		
+												
+																		<p:graphicImage style="width: 100px"
+																			value="#{_item.item.images.stream().findFirst().get().getFilename()}" />
+																	</p:column>
+																	<p:column>
+																		<f:facet name="header">
+																			<h:outputText value="Produto" />
+																		</f:facet>
+																		<h:outputText value="#{_item.item.name}" />
+																	</p:column>
+																	<p:column>
+																		<f:facet name="header">
+																			<h:outputText value="Preço" />
+																		</f:facet>
+																		<h:outputText value="#{_item.item.salePrice}" />
+																	</p:column>
+																	<p:column>
+																		<f:facet name="header">
+																			<h:outputText value="Quantidade" />
+																		</f:facet>
+																		<h:outputText value="#{_item.quantity}" />
+																	</p:column>
+																	<p:column>
+																		<f:facet name="header">
+																			<h:outputText value="SubTotal" />
+																		</f:facet>
+																		<h:outputText value="#{_item.subTotal}" />
+																	</p:column>
+																</p:dataTable>
+															</p:tab>
+														</p:accordionPanel></td>
+												</tr>
+												<tr class="ii">
+													<td style="border: none" colspan="5"><br /></td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</section>
+</ui:composition>

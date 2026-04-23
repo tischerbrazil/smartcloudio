@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:o="http://omnifaces.org/ui"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+	
+	<ui:define name="content">
+	
+	
+	<style>
+	.ui-growl-pl {
+  		z-index: 150000 !important;
+	}
+	</style>
+	
+		
+		
+		
+		<p:growl id="messages" showSummary="true"  
+		showDetail="true" >  <p:autoUpdate/>
+		</p:growl>
+	
+		
+		<c:forEach varStatus="loop"
+			items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'content').toList()}"
+			var="modulox">
+			<f:subview id="thing_#{loop.index}">
+				<ui:include src="#{modulox.complete}">
+					<ui:param name="id"
+						value="#{modulox.components.at('/id').asText()}" />
+						<ui:param name="uuid" value="#{abstractIdentityBean.uuid}" />
+					<ui:param name="viewid" value="thing_#{loop.index}" />
+					<ui:param name="cgmid" value="#{abstractIdentityBean.gcmid}" />
+					<ui:param name="compjson" value="#{modulox.compJson}" />
+					<ui:param name="fields" value="#{modulox.fields}" />
+				</ui:include>
+			</f:subview>
+		</c:forEach>
+		
+		
+	</ui:define>
+</ui:composition>

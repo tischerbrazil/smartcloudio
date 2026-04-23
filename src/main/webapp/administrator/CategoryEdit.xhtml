@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+    xmlns:p="http://primefaces.org/ui"> 
+
+	<h:form id="categoryForm">
+			
+			<h:panelGrid id="display" columnClasses="label,component,required" columns="3">
+		
+				<h:outputLabel id="categoryname" for="categorynameInput" value="Nome CAT" />
+				<p:inputText required="true" locale="pt_BR"
+					requiredMessage="Nome Requerido!" label="Nome" id="categorynameInput"
+					size="50" maxlength="50"
+			 		value="#{applicationEntityBean.layerCategory.categoryname}" />
+				<h:outputText />
+				  
+				<h:outputLabel id="descrip" for="description" value="Descrição" />
+				<p:inputText  locale="pt_BR"
+					label="Nome" id="description" size="50" maxlength="50" 
+					value="#{applicationEntityBean.layerCategory.descri}" />
+				<h:outputText /> 
+				
+				<h:outputLabel id="icon" for="iconflag" value="Ícone" />
+				<p:inputText  locale="pt_BR"
+					label="Nome" id="iconflag" size="50" maxlength="50" 
+					value="#{applicationEntityBean.layerCategory.iconflag}" />
+				<h:outputText /> 
+
+			</h:panelGrid>
+
+			<div class="buttons">
+			  <p:commandButton value="Salvar" action="#{applicationEntityBean.updateLayerCategory}"   
+            update=":categoryForm:display :SelectedLayerForm" oncomplete="PF('editCategoryDialog').hide();" />
+        
+        	  <p:commandButton value="Excluir" action="#{applicationEntityBean.deleteLayerCategory}"   
+            update=":categoryForm:display :SelectedLayerForm" oncomplete="PF('editCategoryDialog').hide();" />
+			</div>
+		
+		
+	</h:form>	   
+</ui:composition>

@@ -1,0 +1,285 @@
+
+.product-badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+.product-badge.status-instock {
+  background: #C8E6C9;
+  color: #256029;
+}
+.product-badge.status-outofstock {
+  background: #FFCDD2;
+  color: #C63737;
+}
+.product-badge.status-lowstock {
+  background: #FEEDAF;
+  color: #8A5340;
+}
+
+.order-badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+.order-badge.order-delivered {
+  background: #C8E6C9;
+  color: #256029;
+}
+.order-badge.order-cancelled {
+  background: #FFCDD2;
+  color: #C63737;
+}
+.order-badge.order-pending {
+  background: #FEEDAF;
+  color: #8A5340;
+}
+.order-badge.order-returned {
+  background: #ECCFFF;
+  color: #694382;
+}
+
+.image-text {
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}
+
+.p-multiselect-representative-option {
+  display: inline-block;
+  vertical-align: middle;
+}
+.p-multiselect-representative-option img {
+  vertical-align: middle;
+  width: 24px;
+}
+.p-multiselect-representative-option span {
+  margin-top: 0.125rem;
+}
+
+.p-column-filter {
+  width: 100%;
+}
+
+.country-item {
+  display: flex;
+  align-items: center;
+}
+.country-item img.flag {
+  width: 18px;
+  margin-right: 0.5rem;
+}
+
+.image-text {
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}
+
+.p-multiselect-representative-option {
+  display: inline-block;
+  vertical-align: middle;
+}
+.p-multiselect-representative-option img {
+  vertical-align: middle;
+  width: 24px;
+}
+.p-multiselect-representative-option span {
+  margin-top: 0.125rem;
+}
+
+.p-column-filter {
+  width: 100%;
+}
+
+.country-item {
+  display: flex;
+  align-items: center;
+}
+.country-item img.flag {
+  width: 18px;
+  margin-right: 0.5rem;
+}
+
+.product .product-name {
+  font-size: 1rem;
+  font-weight: 700;
+}
+.product .product-description {
+  margin: 0 0 1rem 0;
+}
+.product .product-category-icon {
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+.product .product-category {
+  font-weight: 600;
+  vertical-align: middle;
+}
+.product .product-list-item {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 1rem;
+}
+.product .product-list-item.border-1 {
+  border-bottom: 1px solid var(--surface-d);
+}
+.product .product-list-item img {
+  width: 150px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  margin-right: 2rem;
+}
+.product .product-list-item .product-list-detail {
+  flex: 1 1 0;
+  -ms-flex: 1 1 0;
+}
+.product .product-list-item .ui-rating {
+  margin: 0 0 0.5rem 0;
+}
+.product .product-list-item .product-price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  align-self: flex-end;
+}
+.product .product-list-item .product-list-action {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.product .product-list-item .ui-button {
+  margin-bottom: 0.5rem;
+}
+.product .product-grid-item.border-1 {
+  border: 1px solid var(--surface-d);
+}
+.product .product-grid-item .product-grid-item-top,
+.product .product-grid-item .product-grid-item-bottom {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.product .product-grid-item img {
+  width: 75%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  margin: 2rem 0;
+}
+.product .product-grid-item .ui-rating {
+  margin: 0 0 1rem 0;
+}
+.product .product-grid-item .product-grid-item-content {
+  text-align: center;
+}
+.product .product-grid-item .product-price {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 576px) {
+  .product .product-list-item {
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+  .product .product-list-item img {
+    width: 75%;
+    margin: 2rem 0;
+  }
+  .product .product-list-item .product-list-detail {
+    text-align: center;
+  }
+  .product .product-list-item .product-price {
+    align-self: center;
+  }
+  .product .product-list-item .product-list-action {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+  .product .product-list-item .product-list-action {
+    margin-top: 2rem;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+  }
+}
+.crud-demo .ui-datatable {
+  margin-top: 1rem;
+}
+.crud-demo .product-image {
+  width: 100px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+.crud-demo .ui-dialog .product-image {
+  width: 250px;
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+.crud-demo .ui-dialog-footer .ui-button {
+  min-width: 6rem;
+}
+.crud-demo .ui-datatable .ui-column-filter {
+  display: none;
+}
+.crud-demo .products-table-header {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.crud-demo .edit-button.ui-button {
+  margin-right: 0.5rem;
+}
+.crud-demo .orders-subtable {
+  padding: 1rem;
+}
+.crud-demo .products-table > .ui-datatable-tablewrapper > table > thead > tr > th:nth-child(1) {
+  width: 1rem;
+}
+.crud-demo .products-table .ui-rating {
+  display: inline-block;
+}
+
+@media (max-width: 640px) {
+  .products-table > .ui-datatable-tablewrapper > table > thead > tr > th:nth-child(2) .ui-column-title,
+  .products-table > .ui-datatable-tablewrapper > table > tbody > tr > td:nth-child(2) .ui-column-title {
+    display: none !important;
+  }
+  .products-buttonbar {
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+  .products-buttonbar > div:last-child {
+    margin-top: 0.5rem;
+  }
+}
+.cascadeselect-item.country-item .flag {
+  width: 18px;
+  height: 12px;
+  margin-right: 0.5rem;
+}
+
+.manymenu-advanced.ui-selectmanymenu .ui-selectlistbox-listcontainer .ui-selectlistbox-list .ui-selectlistbox-item > td:nth-child(2) {
+  width: 1rem;
+  padding: 0;
+}

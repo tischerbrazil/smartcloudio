@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"> 
+<h:head> 
+<ui:insert name="head" />
+<title>#{empty pageTitle ? 'Page Title' : pageTitle}</title> 
+<link rel="icon" href='#{resource["favicon.ico"]}' />  
+
+
+	<!-- Carregando...   MUDAR SO LOAD -->    
+    <link href="#{request.contextPath}/gisgoog/material/css/style.css" rel="stylesheet"/>
+
+    
+    <script type="text/javascript" src="#{request.contextPath}/gisgoog/interaction/selectclusterinteraction.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/gisgoog/layer/animatedclusterlayer.js"></script>
+
+    
+
+	
+
+
+</h:head>
+
+<h:body>
+<!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Carregando...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+<ui:insert name="body" />
+			
+
+
+</h:body>
+</html>

@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core" xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<c:if test="#{activeUser.can('VIEW_ADMIN_PAGES')}">
+		<h:form id="platform">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="card">
+					<div class="body">
+						<p:dataTable rendered="true" id="modules" styleClass="data-table"
+							value="#{abstractIdentityBean.moduleFiltersAll}" var="_item">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="COMP" />
+								</f:facet>
+								<p:outputLabel value="#{_item.components}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="FIELDS" />
+								</f:facet>
+								<p:outputLabel value="#{_item.fields}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="ORDER2" />
+								</f:facet>
+								<p:outputLabel value="#{_item.ordering2}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="INCLUDE" />
+								</f:facet>
+								<p:outputLabel value="#{_item.htmltag}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Widget" />
+								</f:facet>
+
+								<p:outputLabel value="#{_item.widget_id}" />
+
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="COMPONENT" />
+								</f:facet>
+
+								<h:link value="#{_item.moduloId}"
+									outcome="/administrator/module_view"  
+									styleClass="btn btn-primary">
+									<f:param name="modcomp_uuid" value='#{_item.type}' />  
+								</h:link>
+							</p:column>
+						</p:dataTable>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</c:if>
+
+</ui:composition>

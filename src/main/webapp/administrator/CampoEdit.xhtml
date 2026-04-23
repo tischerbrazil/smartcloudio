@@ -1,0 +1,146 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+    xmlns:p="http://primefaces.org/ui"> 
+    
+    
+    
+
+
+	<h:form id="campoForm">
+			<h:panelGrid id="display" columnClasses="component,component,required" columns="3">
+			<h:outputLabel value="Campo:" />
+   			<p:selectOneMenu id="situacao" value="#{componentBean.fieldNew.typeData}">
+		           		<f:selectItem itemValue="string" itemLabel="String" />
+		           		<f:selectItem itemValue="number" itemLabel="Number" />
+		           		<f:selectItem itemValue="date" itemLabel="Date" />
+		           		<f:selectItem itemValue="time" itemLabel="Time" />
+		           		<f:selectItem itemValue="datetime" itemLabel="Datetime" />
+                 		<f:selectItem itemValue="boolean" itemLabel="Boolean" />
+                   		<f:selectItem itemValue="media" itemLabel="Media" />
+	      	</p:selectOneMenu>
+    		<h:outputText />
+    		
+    		<h:outputLabel id="master" for="script" value="Id #:" />
+    		
+				<p:selectOneMenu id="component" value="#{componentBean.fieldNew.fieldControl.type}">
+		           		
+		     	<f:selectItem itemValue="inputText" itemLabel="inputText" />
+		      	<f:selectItem itemValue="selectOneMenu" itemLabel="selectOneMenu" />
+		      	<f:selectItem itemValue="inputTextarea" itemLabel="inputTextarea" />
+		      	<f:selectItem itemValue="inputMask" itemLabel="inputMask" />
+		      	<f:selectItem itemValue="password" itemLabel="password" />
+              	<f:selectItem itemValue="fileUpload" itemLabel="fileUpload" />
+              	<f:selectItem itemValue="datePicker" itemLabel="datePicker" />
+              	<f:selectItem itemValue="colorPicker" itemLabel="colorPicker" />
+               	<f:selectItem itemValue="textEditor" itemLabel="textEditor" />
+              	<f:selectItem itemValue="htmlEditor" itemLabel="htmlEditor" />
+              
+              	
+              	<f:selectItem itemValue="inputNumber" itemLabel="inputNumber - N" />
+              	<f:selectItem itemValue="spinner" itemLabel="spinner - N" />
+              	
+              	<f:selectItem itemValue="selectBooleanButton" itemLabel="selectBooleanButton - B" />
+              	<f:selectItem itemValue="selectBooleanCheckbox" itemLabel="selectBooleanCheckbox - B" />
+              	
+              	<f:selectItem itemValue="chips" itemLabel="chips - A" />
+  
+
+	      	</p:selectOneMenu>
+    		<h:outputText />
+    		
+				<h:outputLabel id="camponame" for="camponameInput" value="Id #:" />
+				<p:inputText required="true" locale="pt_BR"
+					requiredMessage="Nome Requerido!" label="Nome" id="camponameInput"
+					size="50" maxlength="50"
+			 		value="#{componentBean.fieldNew.name}" />
+				<h:outputText />
+				
+				<h:outputLabel id="label" for="labelInput" value="Rótulo:" />
+				<p:inputText required="true" locale="pt_BR"
+					requiredMessage="Rótulo Requerido!" label="Label" id="labelInput"
+					size="50" maxlength="50"
+			 		value="#{componentBean.fieldNew.label}" />
+				<h:outputText />
+				
+				<h:outputLabel id="place" for="placeHolder" value="PlaceHolder:" />
+				<p:inputText locale="pt_BR"
+					requiredMessage="PlaceHolder Requerido!" label="Label" id="placeHolder"
+					size="50" maxlength="50"
+			 		value="#{componentBean.fieldNew.placeHolder}" />
+				<h:outputText />
+
+				<h:outputLabel id="descrip" for="description" value="Ordem:" />
+				<p:inputText  locale="pt_BR"
+					label="Nome" id="description" size="50" maxlength="50" 
+					value="#{componentBean.fieldNew.sequence}" />
+				<h:outputText /> 
+				
+				<h:outputLabel id="icone" for="icon" value="Icone:" />
+				<p:inputText  locale="pt_BR"
+					label="Icone" id="icon" size="50" maxlength="50" 
+					value="#{componentBean.fieldNew.icon}" />
+				<h:outputText /> 
+
+				<h:outputLabel value="Tipo:" rendered="#{componentBean.fieldNew.typeData == 'boolean'}"  id="descripc" for="descriptionc"  />
+				<p:inputText  locale="pt_BR" rendered="#{componentBean.fieldNew.typeData == 'boolean'}" 
+					label="Nomec" id="descriptionc" size="50" maxlength="50" 
+					value="#{componentBean.fieldNew.fieldControl.selectBooleanCheckbox.typeInput}" />
+				<h:outputText rendered="#{componentBean.fieldNew.typeData == 'boolean'}" /> 
+					
+				<h:outputLabel value="Disable:"  rendered="#{componentBean.fieldNew.typeData == 'boolean'}"  id="descripd" for="descriptiond" />
+				<p:selectBooleanCheckbox rendered="#{componentBean.fieldNew.typeData == 'boolean'}"  locale="pt_BR"
+					label="Nomed" id="descriptiond" size="50" maxlength="50" 
+					value="#{componentBean.fieldNew.fieldControl.selectBooleanCheckbox.disabled}" />
+				<h:outputText rendered="#{componentBean.fieldNew.typeData == 'boolean'}" /> 
+
+
+			<h:outputLabel rendered="#{componentBean.fieldNew.fieldControl.type == 'selectOneMenu'}" 
+				id="selectLabel"  value="Itens:" />
+	<p:dataTable  rendered="#{componentBean.fieldNew.fieldControl.type == 'selectOneMenu'}"   
+			id="selectItems" styleClass="data-table" 
+			value="#{componentBean.fieldNew.fieldControl.selectItems}" var="_item">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Label"/>
+					</f:facet>
+					<p:outputLabel  value="#{_item.label}"/>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Valor"/>
+					</f:facet>
+					<p:outputLabel  value="#{_item.value}"/>
+				</p:column>
+			</p:dataTable>
+<h:outputText rendered="#{componentBean.fieldNew.fieldControl.type == 'selectOneMenu'}" /> 
+
+ 
+			</h:panelGrid>
+
+
+			
+						
+				
+				
+
+			<div class="buttons">
+			
+		
+			
+			
+			  <p:commandButton value="Salvar" action="#{componentBean.updateField2}"   
+              	update=":idxForm" oncomplete="PF('editCampoDialog').hide();" />
+        
+        	  <p:commandButton value="Excluir" action="#{componentBean.deleteField()}"   
+            	update="campoForm :idxForm:tablayer:displayfields" oncomplete="PF('editCampoDialog').hide();" />
+			</div>
+		
+		
+	</h:form>	   
+</ui:composition>

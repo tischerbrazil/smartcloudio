@@ -1,0 +1,170 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core" 
+    xmlns:h="jakarta.faces.html" 
+    xmlns:p="http://primefaces.org/ui"
+    template="#{request.contextPath}/scaffold/templateOl_G.xhtml"> 
+    
+    <f:metadata> 
+    	
+		
+		<f:viewParam name="id" value='#{projectBasicEntityBean.id}'/>
+		<f:event type="preRenderView" listener='#{projectBasicEntityBean.retrieve}'/>
+		<f:viewParam name="page" value='#{projectBasicEntityBean.page}'/>
+		<f:event type="preRenderView" listener='#{projectBasicEntityBean.paginate}'/>
+	</f:metadata>
+	
+	<ui:define name="head">
+	
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    
+    <!--  OpenLayers -->
+    <link rel="stylesheet" href="#{request.contextPath}/css/ol.css"/>
+    <script src="#{request.contextPath}/js/ol.js"></script>
+    
+     <!--  OpenLayers Icon and Cluster-->
+    <link rel="stylesheet" href="#{request.contextPath}/css/fontmaki.css" />
+	<script type="text/javascript" src="#{request.contextPath}/style/fontsymbol.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/style/fontmaki.def.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/style/fontawesome.def.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/style/shadowstyle.js"></script>
+
+	<style>
+		body, html {
+  		padding: 0px;
+  		margin: 0px;
+  		border: 0px none;
+  		height: 100%;
+  		width: 100%;
+	}
+	div.fill {
+      	width: 100%;
+       height: 100%;
+    }
+	</style>
+	
+	<!--  Materialize -->
+	<link href="#{request.contextPath}/css/ghpages-materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/ol-btn-material.css" />
+
+	<link href="#{request.contextPath}/resources/font/inconsolata.css" rel="stylesheet" type="text/css"/>
+    <link href="#{request.contextPath}/resources/font/materialicons.css" rel="stylesheet"/>
+ 
+ 	
+	<title>GeoEJB - Vilhena</title>
+   	</ui:define>     
+	<ui:define name="body">
+		<div>
+			<aside id="slide-out" class="side-nav" style="transform: translateX(-100%);">
+         			<div class="user-view">
+          				<h:form id="point2Form">
+	       					<ui:repeat id="contentBeanPageItems" var="_itemData"
+	       					value="#{projectBasicEntityBean.tableDataShape}" >
+	       						<p:graphicImage width="240" value="#{_itemData['Imagem'].value}" />
+								<strong>#{_itemData['Nome'].value}</strong>
+                        		<hr/>
+								<h:outputText escape="false" value="#{_itemData['Introdução'].value}" />
+                			</ui:repeat>
+                			<p:commandButton value="Fechar" oncomplete="$('.button-collapse').sideNav('hide');"/>
+	       				</h:form>
+          			</div>
+			</aside>
+	       	<h:form id="formtischer">
+
+
+	 <p:contextMenu for="mapcontext">
+        <p:menuitem onclick="editFeature()" value="Editar" icon="fa fa-edit" />
+        <p:menuitem rendered="false" onclick="deleteFeature()" value="Excluir" icon="fa fa-trash" />
+    </p:contextMenu>
+				<p:remoteCommand name="objEdit"
+					oncomplete="PF('editPointDialog').show();"
+  	  			actionListener="#{projectBasicEntityBean.beanMethod}" />
+  	  	
+  	  			<p:remoteCommand name="objEdit2" update=":point2Form" 
+  	  				oncomplete="$('.button-collapse').sideNav('show');"
+  	  				actionListener="#{projectBasicEntityBean.beanMethodView}" />
+  	  			<p:commandLink value=""  id="printEdit2" update=":printForm:iiii" oncomplete="PF('printDialog').show();" >
+		    		
+  				</p:commandLink>	
+  	  			<p:commandLink value=""  id="printEdit"    oncomplete="PF('printDialog').hide();"  action="#{projectBasicEntityBean.printPDF}">
+					
+  					
+  				</p:commandLink>
+			</h:form>
+		</div>
+	
+		<h:panelGroup id="mapcontext">
+ 		<div id="map" class="fill"></div>
+ 	</h:panelGroup>
+
+	
+
+
+
+	<h:panelGroup onclick="editFeature()" rendered="true" layout="block" id="btnDrawPoint" 
+		class="btnMenu btn-floating btn-large waves-effect waves-light red">
+		<i class="material-icons">border_color</i>
+	</h:panelGroup>
+		
+	<h:panelGroup onclick="editFeaturePrint()" rendered="true" layout="block" id="btnEdit" 
+		class="btnMenu btn-floating btn-large waves-effect waves-light red">
+		<i class="material-icons">print</i>
+	</h:panelGroup>
+	
+	
+	
+	
+	<h:panelGroup onclick="PF('reportDialog').show(); return false;" rendered="true" id="btnDrawLine" 
+		class="btnMenu btn-floating btn-large waves-effect waves-light red">
+		<i class="material-icons">shopping_cart</i>
+	</h:panelGroup>
+	
+	<h:panelGroup rendered="false" id="btnDrawPoly" 
+		class="btnMenu btn-floating btn-large waves-effect waves-light red">
+		<i class="material-icons">change_history</i>
+	</h:panelGroup>
+	
+	<h:panelGroup rendered="false" id="btnDelete" 
+		class="btnMenu btn-floating btn-large waves-effect waves-light red">
+		<i class="material-icons">delete</i>
+		</h:panelGroup>
+		
+	<div id="btnZoomIn"  class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></div>
+	<div id="btnZoomOut" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">remove</i></div>
+ 	
+
+ 	
+ 	
+ 	<div id="btnOpenMenu" data-activates="slide-out" class="button-collapse btn-floating btn-large waves-effect waves-light red">
+ 	<i class="material-icons">chrome_reader_mode</i></div>
+
+	<!-- NEW MATERIAL SIDE BAR -->
+    	<script src="#{request.contextPath}/js/materialize.js"></script>
+    	<script src="#{request.contextPath}/js/init.js"></script>
+	<!-- END MATERIAL SIDE BAR -->
+		
+	<p:growl id="message" showDetail="true" showSummnary="true" />
+    
+     <p:dialog  header="Edição da Geometria" dynamic="true" width="500" height="420"  modal="true" widgetVar="editPointDialog" resizable="false"  > 
+ 		<ui:include src="ShapeEdit2.xhtml" />    
+    </p:dialog> 
+    
+    <p:dialog header="Arquivos"  modal="false"  widgetVar="reportDialog" width="370"  height="300" resizable="false" id="userDlgReport" > 
+    	<ui:include src="Report.xhtml" /> 
+    </p:dialog>   
+
+    <p:dialog  header="Imprimir"  height="260" widgetVar="printDialog" resizable="false"> 
+ 		<ui:include src="Print.xhtml" /> 
+ 		<p:ajax event="close"   onstart="deactivate()"/>  
+    </p:dialog> 
+    
+	<script type="text/javascript"  src="#{request.contextPath}/javascriptGO.xhtml?id=#{projectBasicEntityBean.id}"></script> 
+  
+    <script src="#{request.contextPath}/js/adminGoog.js"></script>
+	</ui:define>  
+	</ui:composition>

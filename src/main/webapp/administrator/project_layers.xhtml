@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"> 
+	
+	<f:metadata>
+		<f:viewParam name="id" value="#{applicationEntityBean.id}"/>
+		<f:event type="preRenderView" listener="#{applicationEntityBean.retrieve}"/>
+	</f:metadata>
+	
+	
+	
+	<ui:define name="content">
+    <section class="content">
+        <div class="container-fluid">
+			
+            <div class="row clearfix"> 
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                    <div class="card">
+                        <div class="body">
+                        
+
+  <h:form id="layersForm">
+
+  <p:growl id="message" showDetail="false" showSummnary="true" />
+ 
+ 	<style>
+ 	.ui-orderlist-list{
+		width:100% !important;
+			height:100% !important; 
+	}
+	.ui-orderlist{
+		width:100% !important;
+			height:100% !important;
+	}
+	
+	.ui-grid {
+	width:100% !important;
+		height:100% !important;
+	}
+
+ 	</style>
+ 	
+ 	
+ 	
+ 	<p:tabView id="tablayer">
+	
+	<p:tab title="Campos">
+	
+	<div style="text-align: right">
+	    	
+				#{''}
+		<p:commandButton ajax="false" value="Salvar" action='#{applicationEntityBean.update}' 
+		icon="fa fa-floppy-o"/>
+   				#{''}
+   			<p:button outcome="/administrator/project_layers" value="Camadas" 
+    			icon="fa fa-list-ul"  title="Voltar" >
+    		<f:param name="id" value="#{applicationEntityBean.id}"/>
+    	</p:button> 
+				#{''}
+				<c:choose>
+					<c:when test='#{!empty applicationEntityBean.id}'>
+					<p:commandButton    icon="fa fa-trash-o"  
+						value="Excluir" action="#{applicationEntityBean.delete}" >
+        	<p:confirm header="Confirmation" message="Confirma Exclusao Completa do Projeto e seus Objetos?" icon="ui-icon-alert" />
+    	</p:commandButton>
+		
+		<p:confirmDialog global="true" >
+        	<p:commandButton value="Sim" ajax="false" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        	<p:commandButton value="Não"  type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    	</p:confirmDialog>
+		
+			</c:when>
+					<c:otherwise>
+						<p:button value="Cancelar" outcome="/index" icon="ui-icon-home"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+	
+		<h:panelGrid columnClasses="label,component" columns="3">
+				
+				<p:outputLabel for="applicationEntityBeanGlebaNome" value="Nome do Projeto:"/>
+				<h:panelGroup>
+					<p:inputText id="applicationEntityBeanGlebaNome" label="Nome do Projeto" size="50" maxLength="100" required="true" value="#{applicationEntityBean.applicationEntity.name}"/>
+				</h:panelGroup>
+				<h:outputText/>
+				
+				
+				<p:outputLabel for="applicationEntityBeanGlebaDefault" value="Principal:"/>
+				<h:panelGroup>
+					<p:selectBooleanCheckbox id="applicationEntityBeanGlebaDefault" value="#{applicationEntityBean.applicationEntity.default}" />
+				</h:panelGroup>
+				<h:outputText/>
+				
+				<p:outputLabel rendered="true" for="lang"  value="Linguagem:"/> 
+				<h:panelGroup rendered="true">
+     	        	<h:selectOneMenu rendered="true" id="lang" 
+     	        	value="#{applicationEntityBean.applicationEntity.locale}">
+            			<f:selectItems value="#{applicationEntityBean.countries}" /> 
+	         		</h:selectOneMenu>
+         			<h:message rendered="true" for="lang" styleClass="error"/>
+         		</h:panelGroup>
+				<h:outputText rendered="true"/> 
+
+				<p:outputLabel for="applicationEntityBeanTitle" value="Título:"/>
+				<h:panelGroup>
+					<p:inputText id="applicationEntityBeanTitle" label="Título:" 
+					size="50" maxLength="100" required="true" 
+					value="#{applicationEntityBean.applicationEntity.title}"/>
+				</h:panelGroup>
+				<h:outputText/>
+				
+				<p:outputLabel for="applicationEntityBeanDescription" value="Descrição:"/>
+				<h:panelGroup>
+				
+				
+				<p:textEditor  id="applicationEntityBeanDescription"
+				  value="#{applicationEntityBean.applicationEntity.description}" 
+				  height="200" > 
+				  <f:facet name="toolbar">
+             			<span class="ql-formats">
+                			<button class="ql-bold"></button>
+                			<button class="ql-italic"></button>
+                			<button class="ql-underline"></button>
+                			<button class="ql-strike"></button>
+            			</span>
+            			<span class="ql-formats">
+                			<select class="ql-font"></select>
+                			<select class="ql-size"></select>
+            			</span>
+        				</f:facet>
+				  </p:textEditor>
+				
+				
+				</h:panelGroup>
+				<h:outputText/> 
+				
+				<p:outputLabel for="applicationEntityBeanZoom" value="Zoom:"/>
+				<h:panelGroup>
+					<p:inputText id="applicationEntityBeanZoom" label="Zoom:" 
+					size="50" maxLength="100" required="true" 
+					value="#{applicationEntityBean.applicationEntity.zoom}"/>
+				</h:panelGroup>
+				<h:outputText/>
+				
+				<p:outputLabel for="applicationEntityBeancentroidwkt" value="Centro (wkt)"/>
+				<h:panelGroup>
+					<p:inputText id="applicationEntityBeancentroidwkt" label="Centro (wkt)" 
+					size="50" maxLength="100" required="true" 
+					value="#{applicationEntityBean.applicationEntity.centroidwkt}"/>
+				</h:panelGroup>
+				<h:outputText/>
+					
+				<p:outputLabel for="applicationEntityBeanGlebaMC" value="EPSG:"/>
+				<h:panelGroup>
+					<p:selectOneMenu  label="epsg"   required="true"  id="applicationEntityBeanGlebaMC" value="#{applicationEntityBean.applicationEntity.epsg}">
+						<f:selectItem itemLabel="#{applicationEntityBean.applicationEntity.epsg}" itemValue="#{applicationEntityBean.applicationEntity.epsg}"/>
+						<f:selectItems itemLabel="#{_item.srid}" itemValue="#{_item}" value="#{epsgBean.all}" var="_item"/>
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:outputText/>
+
+	</h:panelGrid>
+	
+	</p:tab>
+ 	
+ 	<p:tab title="Camadas">
+ 	
+ 	<p:panelGrid style="width: 100%">  
+    	<f:facet name="header" style="width: 100%">
+        <p:row >  
+        	<p:column style="text-align: left;width: 8%">#</p:column>  
+        	<p:column style="text-align: left;width: 8%">Registros</p:column>  
+            <p:column style="text-align: left;width: 76%">Nome</p:column>  
+           	<p:column style="text-align: left;width: 8%">Editar</p:column>  
+        </p:row>
+        
+        </f:facet>
+        </p:panelGrid>
+  	<p:orderList controlsLocation="none" 
+    	responsive="true" id="layers"  value="#{applicationEntityBean.applicationEntity.layers}"  
+    	var="layer" itemValue="#{layer}" converter="#{layerConverterBean.converter}"
+ 		selectionMode="single" rowKey="#{layer.toString()}" > 
+ 		 
+    <p:ajax  event="reorder" listener="#{applicationEntityBean.onReorder}" update="layersForm,layersForm:message"/> 
+
+	<p:column style="text-align: left;width: 8%">  
+		<h:outputText value="#{layer.orderlayer}"/>  
+ 	</p:column>
+ 	
+
+ 
+ 	<p:column style="text-align: left;width: 76%">  
+      	<h:outputText  alt="#{layer.dtype}" title="#{layer.dtype}" value="#{layer.name}"/>  
+ 	</p:column>
+ 	
+ 	<p:column style="text-align: left;width: 8%">  
+    	 
+                        	
+         <h:link outcome="/administrator/layer_view" alt="#{layer.dtype}" title="#{layer.dtype}" 
+         class="dropdown-toggle btn btn-lg  waves-effect">
+         <span><i class="material-icons">home</i></span>
+			<f:param name="id" value="#{layer.uuid}"/>
+         </h:link>
+                        	
+ 	</p:column>
+
+	</p:orderList>	  	 	
+	
+	</p:tab>
+	</p:tabView>
+	
+
+    </h:form>
+    	
+   	
+							
+	               		</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   
+	</ui:define>
+	
+	 
+</ui:composition>

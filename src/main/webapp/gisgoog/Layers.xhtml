@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    
+    xmlns:p="http://primefaces.org/ui" > 
+
+	
+	<h:form id="layersForm2">  
+    <p:contextMenu for="layers">
+        <p:menuitem value="Editar" update="SelectedLayerForm,editLayerHeader" icon="fa fa-edit" oncomplete="PF('editlayerDialog').show()"/>
+         <p:menuitem rendered="false" value="Atualizar" url="#" icon="fa fa-rocket" />
+    </p:contextMenu>
+    <p:orderList   controlsLocation="none" responsive="true"
+    	 id="layers"  value="#{projectBasicEntityBean.projectBasicEntity.layers}"  var="layer"
+ 		itemValue="#{layer}" converter="#{layerConverterBean.converter}"
+ 		selectionMode="single"  rowKey="#{layer.toString()}" styleClass="table">  
+ 			<p:ajax  event="select" listener="#{projectBasicEntityBean.onSelect}" update="message"/> 
+            <p:ajax  event="reorder" listener="#{projectBasicEntityBean.onReorder}" oncomplete="remoteCommand()" update="layersForm,message"/> 
+	<p:column>  
+  		<fieldset class="btnMenu2" id="#{layer.layerString()}">
+  		<h:selectBooleanCheckbox  id="visible#{layer.layerString()}" class="visible" />
+        <label class="checkbox" for="visible#{layer.layerString()}">
+        	#{layer.name}
+        </label>
+      	</fieldset>
+  	</p:column>
+	</p:orderList>	
+	</h:form>
+	<h:form id="layersForm">
+		<p:remoteCommand name="remoteCommand" oncomplete="fetchDataLAYERID(#{projectBasicEntityBean.projectBasicEntity.cities})" />
+	</h:form> 
+</ui:composition>

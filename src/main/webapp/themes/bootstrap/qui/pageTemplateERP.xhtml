@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="#{activeLocale.languageTag}"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="jakarta.faces.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core"
+	xmlns:ui="jakarta.faces.facelets">
+<c:set var="dev" value="#{faces.development}" scope="application" />
+<f:view locale="#{activeLocale.value}">
+	<h:head id="cab">
+		<ui:insert name="head" />
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+		<meta name="viewport" content="width=device-width,maximum-scale=2" />
+		<link rel="canonical" href="#{activeLocale.canonicalURL}" />
+		<c:forEach items="#{activeLocale.others}" var="otherLocale">
+			<link rel="alternate" hreflang="#{otherLocale.languageTag}"
+				href="#{activeLocale.canonicalURL(otherLocale)}" />
+		</c:forEach>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta
+			content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
+			name="viewport" />
+		<link rel="icon" href='#{resource["favicon.ico"]}' />
+		<title>#{abstractIdentityBean.abstractIdentityEntity.title}</title>
+		<script>
+        window.addEventListener("load", function() {
+            setTimeout(function() {
+                document.querySelector('body').classList.add('loaded');
+            }, 300);
+        });
+    </script>
+		<style>
+.dropdown-item {
+	margin-right: 20px !important;
+}
+
+video {
+	max-width: 100%;
+	height: auto;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+.border-especial {
+margin-left: 15px !important;
+padding-right: 15px !important;
+margin-right: 15px !important;
+padding-left: 15px !important;
+}
+
+</style>
+		<link href="#{request.contextPath}/themes/bootstrap/qui/css/offcanvas.css"
+			rel="stylesheet" />
+		
+		
+		<ui:fragment rendered="true">
+			<link href="#{request.contextPath}/themes/bootstrap/qui/b4/css/bootstrap.min.css"
+				rel="stylesheet" />
+		</ui:fragment>
+		
+		
+		<ui:fragment rendered="false">
+			<link href="#{request.contextPath}/themes/bootstrap/qui/b4/css/bootstrap-night.css"
+				rel="stylesheet" />
+		</ui:fragment>
+		<link href="#{request.contextPath}/themes/theme/font/materialicons.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/themes/bootstrap/qui/b4/css/material_style.css"
+			rel="stylesheet" />
+			
+				 <h:outputScript library="scripts" name="script.js" />
+				 
+		<ui:insert name="header" />
+		
+		
+			<style type="text/css">
+.nav-link:hover {
+	background-color: rgba(255, 0, 0, 0.3) !important;
+	text-decoration: none !important;
+}
+
+.dropdown-item:hover{  
+background-color: rgba(255, 0, 0, 0.3) !important;
+	text-decoration: none !important;
+ }
+
+.ui-button:hover{
+	background-color: rgba(0, 0, 125, 0.9) !important;
+
+}
+
+
+
+
+
+
+.navbar {
+	z-index: 100;
+}
+
+.ui-fab {
+	z-index: 50;
+}
+
+.ui-growl {
+	z-index: 1000 !important;
+}
+
+.ui-sidebar {
+	overflow-y: scroll !important;
+	width: 100% !important;
+	height: 100% !important;
+	margin-top: 56px !important;
+	z-index: 40 !important;
+}
+
+
+
+</style>
+	
+		
+	</h:head>
+	<h:body>
+	
+	<f:facet name="last">
+	   		<h:outputStylesheet library="css" name="style3.css" />
+	</f:facet>
+	
+		<div class="preloader">
+			<div class="spinner-border text-primary" role="status">
+				<span class="sr-only">Carregando...</span>
+			</div>
+		</div>
+		
+			
+		
+		<h:form id="proform">
+			<nav class="#{abstractIdentityBean.abstractIdentityEntity.strings.at('/nav_class').asText()}"
+				aria-label="Main navigation">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="#{request.contextPath}/index"> <p:graphicImage
+							value="/files/#{userData2.realmEntity}/images/logo.png" /></a> <a
+						class="navbar-brand" href="index"> <span>#{abstractIdentityBean.abstractIdentityEntity.title}</span>
+					</a>
+					<button class="navbar-toggler p-0 border-0" type="button"
+						data-toggle="offcanvas" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="navbar-collapse offcanvas-collapse"
+						id="navbarsExampleDefault">
+						<ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+						</ul>
+						<ul class="navbar-nav ml-auto">
+							<li><p:outputPanel rendered="false">
+									<p:linkButton id="btnNotifications" url="#" value="Mensagens" />
+									<pe:badge content="3" for="@previous" color="purple"
+										position="top-right" widgetVar="badgeNotifications" />
+								</p:outputPanel></li>
+							<c:forEach
+								items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'top_navbar').toList()}"
+								var="_module">
+								<ui:include src="/#{_module.path}#{_module.components.at('/type').asText()}_menu.xhtml">
+									<ui:param name="id" value="#{_module.components.at('/id').asLong()}" />
+								</ui:include>
+							</c:forEach>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</h:form>
+		
+
+			
+			
+		<ui:insert name="content" />
+
+
+	</h:body>
+	<script
+		src="#{request.contextPath}/themes/bootstrap/qui/b4/libs/feather-icons/dist/feather.min.js"></script>
+	<script>
+        feather.replace({
+            'width': '2em',
+            'height': '2em'
+        })
+    </script>
+	<script src="#{request.contextPath}/themes/bootstrap/qui/b4/js/bootstrap.bundle.min.js"></script>
+	<script src="#{request.contextPath}/themes/bootstrap/qui/js/offcanvas.js"></script>
+</f:view>
+</html>
+
+
+

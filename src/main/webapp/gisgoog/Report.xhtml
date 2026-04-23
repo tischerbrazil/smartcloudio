@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    
+    xmlns:p="http://primefaces.org/ui" > 
+ 
+  	<h:form id="reportForm33">
+   	<p:commandButton ajax="true" id="xxpffsdfg"   value="Atualizar" update="features33"    />
+    <p:dataTable  id="features33" var="_report" value="#{projectBasicEntityBean.relatoriosAll}">  
+    <p:column style="font-size: 14px; padding: 3px;vertical-align: middle;" headerText="Arquivo">  
+
+    <h:outputLink target="_blank" value="http://#{_report.gleba.realm}#{request.contextPath}/public/#{_report.gleba.realm}/#{_report.gleba.id}/#{_report.fileName}#{_report.nome}">
+ 		<h:outputText value="#{_report.nome}"/>
+    </h:outputLink>
+            #{''}
+            <p:commandButton value=" X "  id="ertert"  action="#{projectBasicEntityBean.deleteRelatorio}"  > 
+    	
+   	</p:commandButton>
+    </p:column>  
+    </p:dataTable>
+    </h:form>
+</ui:composition>

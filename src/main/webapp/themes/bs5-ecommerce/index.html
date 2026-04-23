@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>.On </title>
+
+  
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"/>
+    <!-- Bootstrap CSS -->
+    
+    <!-- splidejs CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.1/dist/css/splide.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.5.0/dist/css/themes/splide-skyblue.min.css">
+    <!-- splidejs CSS -->
+
+    <!-- css -->
+    <link rel="stylesheet" href="/app/themes/bs5-ecommerce/css/style.css"/>
+    <!-- css -->
+
+    <!-- Bootstrap icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"/>
+    <!-- Bootstrap icons -->
+
+    <!-- Fonte Google -->
+    <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <!-- Fonte Google -->
+
+  </head>
+
+  <body>
+    
+    <!-- START LOADING -->
+    <div class="spinner-wrapper">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <!-- END LOADING -->
+
+    
+
+    <header>
+
+      <!-- START ALERT TOP BAR -->
+      <div class="alert alert-primary" role="alert">
+        <img src="/app/themes/bs5-ecommerce/img/Icons/logo-pix-icone-256.png" width="20" height="20" />
+        <span>Pague no PIX e tenha 20% de desconto!</span>
+      </div>
+      <!-- END ALERT TOP BAR -->
+
+      <!-- START NAVBAR HEADER -->
+      <section class="navbar navbar-expand-lg" id="navbar1">
+        <div class="col-md-2" onclick="redirectBtnindex()" href="Login.html">
+          <img  src="/app/javax.faces.resource/images/bs.png.xhtml" alt="" height="75" ismap="false" />
+        </div>
+      <button class="navbar-toggler d-lg-none" id="main">
+        <span class="navbar-toggler-icon">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <ion-icon name="menu-outline"></ion-icon>
+          </a>
+        </span>
+      </button>
+      <form class="d-lg-flex mb-2 mb-lg-0 mx-auto w-100" id="mobile">
+        <div class="busca">
+          <input class="form-control me-2 w-75" type="search" placeholder="Search" aria-label="Search">
+         
+        </div>
+      </form>
+        <div class="col-md-3" >
+          <div class="d-flex d-md-flex flex-row align-items-center">
+            <div class="col-md-3" id="iconsoutline">
+              <span class="shop-bag" >
+                <ion-icon name="chatbubbles-outline"></ion-icon>
+              </span>
+              <div class="text-icon">Central de
+                Atendimento</div>
+            </div>
+            <div class="col-md-3" id="iconsperson" onclick="redirectBtnlogin()">
+              <span class="shop-bag">
+                <ion-icon name="person-circle-outline"></ion-icon>
+              </span>
+              <div class="text-icon">
+                Entrar ou Cadastrar
+              </div>
+            </div>
+
+            <div class="col-md-3" id="iconscart" onclick="redirectIconCheckout()">
+              <span class="shop-bag" id="cart">
+                  <ion-icon name="cart-outline"></ion-icon>
+                  <div class="notification">
+                    <span class="notification-number">4</span>
+                  </div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+    <!-- END NAVBAR HEADER -->
+
+    <!-- MODAL MOBILE -->
+    <div class="modal animated slide-in-right" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div  class="account-login" >
+              <span>
+                <ion-icon name="person-circle-outline" onclick="redirectBtnlogin()" href="Login.html" ></ion-icon>
+              </span>
+            </div>
+            <div class="text menu-dropdown" onclick="redirectBtnlogin()" href="Login.html">
+              <span class="msg" onclick="redirectBtnlogin()" href="Login.html" >Bem vindo(a)</span>
+              <a class="link" onclick="redirectBtnlogin()" href="Login.html">Entrar ou Cadastrar</a>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-line">
+              <a href="#">Meus Pedidos</a>
+            </div>
+            <div class="modal-line">
+              <a href="#">Minha Conta</a>
+            </div>
+            <div class="modal-line" id="titlesub-menu-modal">
+              <a href="#"> <strong>Compre por departamento</strong></a>
+            </div>
+            <div class="modal-line" onclick="toggleDropdownMenu()">
+              <a href="#" >Fones</a>
+              <i class="bi bi-chevron-down" id="setmodal"></i>
+              <ul id="dropdown-menu" class="sidebar-dropdown-menu" style="display:none">
+                <li class="sidebar-dropdown-item">
+                  <a href="#">JBL</a>
+                </li>
+                <li class="sidebar-dropdown-item">
+                  <a href="#">Baseus</a>
+                </li>
+                <li class="sidebar-dropdown-item">
+                  <a href="#">Hyperx Cloud</a>
+                </li>
+                <li class="sidebar-dropdown-item">
+                  <a href="#">Redragon</a>
+                </li>
+              </ul>
+          </div>
+          <div class="modal-line" onclick="toggleDropdownMenu2()">
+            <a href="#" >Smartphones</a>
+            <i class="bi bi-chevron-down" id="setmodal2"></i>
+            <ul id="dropdown-menu2" class="sidebar-dropdown-menu" style="display: none;">
+              <li class="sidebar-dropdown-item">
+                <a href="#">Xiaomi</a>
+              </li>
+              <li class="sidebar-dropdown-item">
+                <a href="#">Samsung</a>
+              </li>
+              <li class="sidebar-dropdown-item">
+                <a href="">Huawei</a>
+              </li>
+              <li class="sidebar-dropdown-item">
+                <a href="#">Realme</a>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-line">
+            <i class="fa-solid fa-file-lines"></i>
+            <a href="#">Smartwatch</a>
+          </div>
+          <div class="modal-line">
+            <i class="fa-solid fa-file-lines"></i>
+            <a href="#">Informática1</a>
+          </div>
+          <div class="modal-line" onclick="toggleDropdownMenu3()">
+            <a href="#" >Iphones</a>
+            <i class="bi bi-chevron-down" id="setmodal3"></i>
+            <ul id="dropdown-menu3" class="sidebar-dropdown-menu" style="display: none;">  
+              <li class="sidebar-dropdown-item">
+                <a href="#">Iphone 14</a>
+              </li>
+              <li class="sidebar-dropdown-item">
+                <a href="#">Iphone 13</a>
+              </li>
+              <li class="sidebar-dropdown-item">
+                <a href="#">Iphone 11</a>
+              </li>
+              <li class="sidebar-dropdown-item">
+                <a href="#">Acessorios Apple</a>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-line" onclick="toggleDropdownMenu4()">
+            <a href="#" >Ofertas</a>
+            <i class="bi bi-chevron-down" id="setmodal4"></i>
+            <ul id="dropdown-menu4" class="sidebar-dropdown-menu" style="display: none;"> 
+              <li class="sidebar-dropdown-item">
+                <a href="#">Subcategoria 01</a>
+              </li>
+              <li class="sidebar-dropdown-item">
+                <a href="#">Subcategoria 02</a>
+              </li>
+              <li class="sidebar-dropdown-item">
+                <a href="#">Subcategoria 03</a>
+              </li>
+              <li class="sidebar-dropdown-item">
+                <a href="#">Subcategoria 04</a>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <a target="_blank" href="#">
+              <i class="bi bi-whatsapp" id="whatsmodal"></i>
+            </a>
+            <span>Compre pelo Whatsapp</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL MOBILE -->
+      <!-- START MENU TOP NAVIGATION -->
+      <section class="navigationmenu">
+        <nav class="navigation-menu" id="navbar2">
+          <div class="container-navigation-menu">
+            <ul class="menu-category-list">
+              <li class="menu-category">
+                <span>
+                  <i class="bi bi-list" id="Todosdepartamentos-icon" ></i>
+                  <a href="#" class="menu-title" id="Todosdepartamentos">Todos departamentos </a>
+                  <i class="bi bi-chevron-down" id="departamentosdown"></i>
+                </span> 
+              </li>
+              <li class="menu-category">
+                <span>
+                  <i class="bi bi-headphones" id="Fones"></i>
+                  <a href="#" class="menu-title" id="Fonescolorchange">Fones</a>
+                  <i class="bi bi-chevron-down" id="Fonesdown"></i>
+                </span>
+                <ul class="dropdown-list">
+                  <li class="dropdown-item">
+                    <a href="#">Subcategoria Informática 01</a>
+                  </li>
+                  <li class="dropdown-item">
+                    <a href="#">Subcategoria Informática 01</a>
+                  </li>
+                  <li class="dropdown-item">
+                    <a href="#">Subcategoria Informática 01</a>
+                  </li>
+                  <li class="dropdown-item">
+                    <a href="#">Subcategoria Informática 01</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="menu-category" id="Celulares">
+                <span>
+                  <i class="bi bi-phone" id="Smartphone"></i>
+                  <a href="#" class="menu-title" id="Smartphoneschange">Smartphones</a>
+                  <i class="bi bi-chevron-down" id="Smartphonesown"></i>
+                </span>
+                <ul class="dropdown-list">
+                  <li class="dropdown-item">
+                    <a href="#">Subcategoria Informática 01</a>
+                  </li>
+                  <li class="dropdown-item">
+                    <a href="#">Subcategoria Informática 01</a>
+                  </li>
+                  <li class="dropdown-item">
+                    <a href="#">Subcategoria Informática 01</a>
+                  </li>
+                  <li class="dropdown-item">
+                    <a href="#">Subcategoria Informática 01</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="menu-category" id="Eletro">
+                <span>
+                  <i class="bi bi-smartwatch" id="Smartwatch"></i>
+                  <a href="#" class="menu-title" id="Smartwatchlchange">Smartwatch</a>
+                </span>
+              </li>
+              <li class="menu-category" id="Informática">
+                <span>
+                  <i class="bi bi-pc-display-horizontal" id="iconpc"></i>
+                  <a href="#" class="menu-title">Informática</a>
+                </span>
+                <li class="menu-category" id="Iphone">
+                  <span>
+                    <i class="bi bi-phone" id="Iphones"></i>
+                    <a href="#" class="menu-title">Iphones</a>
+                    <i class="bi bi-chevron-down" id="Iphonesdown"></i>
+                  </span>
+                  <ul class="dropdown-list">
+                    <li class="dropdown-item">
+                      <a href="#">Subcategoria Informática 01</a>
+                    </li>
+                    <li class="dropdown-item">
+                      <a href="#">Subcategoria Informática 01</a>
+                    </li>
+                    <li class="dropdown-item">
+                      <a href="#">Subcategoria Informática 01</a>
+                    </li>
+                    <li class="dropdown-item">
+                      <a href="#">Subcategoria Informática 01</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-category-btn" id="Ofertas">
+                  <button type="button" class="btn btn-primary">
+                    <i class="bi bi-list"></i>
+                    <span>OFERTAS</span> 
+                  </button>
+                </li>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </section>
+      <!-- END MENU TOP NAVIGATION -->
+
+      <!-- HOME BANNER -->
+      <div id="carouselExampleCaptions" class="carousel slide" data-bs-slide="false">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2" ></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item">
+            <img src="/app/themes/bs5-ecommerce/img/AnyConv.com__1635345209_go-tech-desktop-full-banner-02.svg" class="d-block w-100" alt="..." />
+            <div class="carousel-caption d-none d-md-block">
+              <h5></h5>
+              <p>
+              
+              </p>
+            </div>
+          </div>
+          <div class="carousel-item active">
+            <img src="/app/themes/bs5-ecommerce/img/AnyConv.com__1635345209_go-tech-desktop-full-banner-01.svg" class="d-block w-100" alt="..." />
+              <div class="carousel-caption d-none d-md-block">
+                <h5></h5>
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      <!-- END BANNER -->
+
+      <!-- HOME BANNER-MOBILE -->
+      <div id="carouselExampleCaptionsmobile" class="carousel slide" data-bs-slide="false">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptionsmobile" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptionsmobile" data-bs-slide-to="1" aria-label="Slide 2" ></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item">
+            <img src="/app/themes/bs5-ecommerce/img/AnyConv.com__1635417895_mobile-02.svg" class="d-block w-100" alt="..." />
+            <div class="carousel-caption d-none d-md-block">
+              <h5></h5>
+              <p>
+                
+              </p>
+            </div>
+          </div>
+          <div class="carousel-item active">
+            <img src="/app/themes/bs5-ecommerce/img/AnyConv.com__1635417895_mobile-01.svg" class= "d-block w-100" alt="..." />
+            <div class="carousel-caption d-none d-md-block">
+              <h5></h5>
+              <p>
+                
+              </p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptionsmobile" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" data-bs-target="#carouselExampleCaptionsmobile" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <!-- END BANNER-MOBILE -->
+    </header>
+
+    <main>
+      <!--START NAV-ITENS-->
+      <div class="container mt-4 mb-4" id="contdiv">
+        <div class="splide">
+          <div class="splide__slider">
+            <div class="splide__track">
+              <ul class="splide__list">
+                <li class="splide__slide">
+                  <div class="category-item">
+                    <div class="category-item-icon">
+                      <i class="bi bi-bag-heart"></i>
+                    </div>
+                      <div class="category-item-title">
+                        <strong>Garantia</strong>
+                        <span >
+                          30 dias de garantia
+                        </span>
+                      </div>
+                  </div>
+                </li>
+                <li class="splide__slide">
+                  <div class="category-item">
+                    <div class="category-item-icon">
+                      <i class="bi bi-shield-fill-check"></i>
+                    </div>
+                      <div class="category-item-title">
+                        <strong>Compra Segura</strong>
+                        <span>
+                          Seus dados estão seguros
+                        </span>
+                      </div>
+                  </div>
+                </li>
+                <li class="splide__slide">
+                  <div class="category-item">
+                    <div class="category-item-icon">
+                      <i class="bi bi-cash-coin"></i>
+                    </div>          
+                      <div class="category-item-title">
+                        <strong>
+                          10% de desconto
+                        </strong>
+                        <span >
+                          Pix e boleto bancário
+                        </span>
+                      </div>
+                  </div>
+                </li>
+                <li class="splide__slide">
+                  <div class="category-item">
+                    <div class="category-item-icon">
+                      <i class="bi bi-cart-check"></i>
+                    </div>
+                      <div class="category-item-title">
+                        <strong>
+                          Entregamos
+                        </strong>
+                        <span>
+                          Para todo o Brasil
+                        </span>
+                      </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>  
+        </div> 
+      </div>     
+      <!--END NAV-ITENS-->
+
+      <!--START MINI BANNER-->
+            <div class="container">
+              <div class="row">
+                <div class="minibannermobile col-4">
+                  <div class="flexslider">
+                    <ul class="slides">
+                      <li>
+                        <img src="/app/themes/bs5-ecommerce/img/1645553758_mini1.webp" alt="Mini banner 1" >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="minibannermobile col-4">
+                  <div class="flexslider">
+                    <ul class="slides">
+                      <li>
+                        <img src="/app/themes/bs5-ecommerce/img/1645553838_mini3.webp" alt="Mini banner 1" >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="minibannermobile col-4">
+                  <div class="flexslider">
+                    <ul class="slides">
+                      <li>
+                        <img src="/app/themes/bs5-ecommerce/img/1645553867_mini4.webp" alt="Mini banner 1" >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="minibannermobile col-4">
+                  <div class="flexslider">
+                    <ul class="slides">
+                      <li>
+                        <img src="/app/themes/bs5-ecommerce/img/1645553818_mini2.webp" alt="Mini banner 1" >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+      <!--END MINI BANNER-->
+
+      
+      <!--START MINI BANNER - MOBILE-->
+      <section id="image-carousel" class="splide" aria-label="Beautiful Images">
+        <div class="splide__track">
+          <ul class="splide__list">
+            <li class="splide__slide">
+              <img src="/app/themes/bs5-ecommerce/img/1645553838_mini3.webp" alt="">
+            </li>
+            <li class="splide__slide">
+              <img src="/app/themes/bs5-ecommerce/img/1645553867_mini4.webp" alt="">
+            </li>
+            <li class="splide__slide">
+              <img src="/app/themes/bs5-ecommerce/img/1645553818_mini2.webp" alt="">
+            </li>
+            <li class="splide__slide">
+              <img src="/app/themes/bs5-ecommerce/img/1645553758_mini1.webp" alt="">
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- START TITLE-SECTION -->
+      <div class="category-tittle">
+        <div class="category-tittle-container">
+          <div class="category-item-tittle">
+            <div class="category-content-flex-tittle">
+              <h3 class="category-item-title-title">
+                <a href="#">Super ofertas</a>
+                <span>
+                </span> 
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--END TITLE-SECTION-->
+
+      <!-- START PRODUCT -->
+      <section class="section-product-Lançamentos grid">
+        <div class="container-sm-fluid container-fluid-md">
+          <ul class="product-list">
+            <li class="col-3 col-md-3">
+              <div class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/b641d84456.webp" alt=""  class="img-fluid w-75"/>
+                  <div class="card-badge">New</div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#" >Jogo Uncharted Coleção Legado Dos Ladrões Remasterizado PS5</a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 484,00</data>
+                      <data value="">R$ 324,90</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>  
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 8x de R$ 46,15 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/monitor-gamer-aoc-led-24-full-hd-widescreen-hero-g2460pf-b3ded940.webp" alt="" class="img-fluid w-75"/>
+                  <div class="card-badge">New</div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title"> 
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#" >Monitor Gamer AOC SPEED 24 75Hz IPS 1ms 24G2HE5</a> 
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 1.869,00</data>
+                      <data value="">R$ 1.792,42</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 10x de R$ 179,24 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/headset-gamer-razer-kraken-7-1-v2-chroma-oval-usb-06ab2be1.webp" alt="" class="img-fluid w-75"/>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#" >Headset Razer Kraken X Lite Surrounbr <br> d7.1 Drivers 40mm</a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()" >
+                      <data value="">R$ 999,00</data>
+                      <data value="">R$ 399,10</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()" >
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()" >
+                      <span> ou 10x de R$ 39,90 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard endheart" ></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/jogo-mortal-kombat-11-ps4-6bba1909.webp" alt="" class="img-fluid w-75"/>
+                    <div class="card-badge-full">
+                      Full <ion-icon name="flash"></ion-icon>
+                    </div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#" >Mortal Kombat 11 - PS4</a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 99,10</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 10x de R$ 9,90 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+  
+            <li class="col-3">
+              <div class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/console-playstation-4-slim-500gb-preto-bivolt-2aaceb63.webp" alt="" class="img-fluid w-75"/>
+                    <div class="card-badge-full">
+                      Full <ion-icon name="flash"></ion-icon>
+                    </div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#" >Console Playstation 4 Slim 1 TB <div>God of War Ragnarok Bundle</div></a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()" >
+                      <data value="">R$ 3.999,00</data>
+                      <data value="">R$ 2.899,10</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()" >
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()" >
+                      <span> ou 10x de R$ 289,90 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/3d6e734e22.webp" alt="Varsi Leather Bag" class="img-fluid w-75"/>
+                  <div class="card-badge-red">50% off</div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Console Atari Flashback X Tectoy<div>Com 110 Jogos E 2 Joystick</div></a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 895,10</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 10x de R$ 85,00 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div  class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/console-playstation-4-slim-500gb-preto-bivolt-2aaceb63.webp" alt="" class="img-fluid w-75"/>
+                    <div class="card-badge-full">
+                      Full <ion-icon name="flash"></ion-icon>
+                    </div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Console Playstation 4 Slim 1 TB <div>God of War Ragnarok Bundle</div></a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 2.499,10</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 10x de R$ 49,00 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div  class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard endheart"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/66f0195677.webp" alt="Varsi Leather Bag" class="img-fluid w-75"/>
+                  <div class="card-badge-red">50% off</div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Caixa de Som Multimídia 6W Rms - SP261 Multilaser</a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 399,10</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 10x de R$ 439,90 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <!-- END PRODUCT -->
+
+      <!-- INICIO BANNER- CONTATDOR -->
+      <section class="category-banner d-flex justify-content-center">
+        <div class="container" id="bannerdesktop">
+          <div class="col-10 col-md-12">
+            <div class="container-category-banner d-flex justify-content-center">
+              <ul class="category-list-banner">
+                <li class="category-item-banner">
+                  <div>
+                    <img src="/app/themes/bs5-ecommerce/img/banner-contador (1).webp" alt=""/>
+
+                    <div class="counter">
+                      <div class="days">
+                        <div class="number" id="days"> 00 </div>
+                        <div class="day" id="day-label">Dia</div>  
+                      </div>
+                      <div class="ping">:</div>
+                      <div class="hours">
+                        <div class="number" id="hours"> 00 </div>
+                        <div class="hr" id="hours-label">Hr</div>
+                      </div>
+                      <div class="ping">:</div>
+                      <div class="minutes">
+                        <div class="number" id="minutes"> 00 </div>
+                        <div class="min" id="minutes-label">Min</div>
+                      </div>
+                      <div class="ping">:</div>
+                      <div class="seconds">
+                        <div class="number" id="seconds"> 00 </div>
+                        <div class="seg" id="seconds-label">Seg</div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- FIM INICIO BANNER- CONTATDOR
+
+      <!-- INICIO BANNER- CONTATDOR MOBILE -->
+      <section class="bannercontador">
+        <div class="container" id="mobilebanner">
+          <div class="row-fluid">
+            <div class="picturebannermobile">
+              <img src="/app/themes/bs5-ecommerce/img/banner-contador-mob.png" alt="" width=""/>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="counter-mobile">
+        <div class="days-mobile">
+          <div class="number" id="days-mobile">00</div>
+          <div class="day" id="day-label-mobile">Dias</div>
+        </div>
+        <div class="ping">:</div>
+        <div class="hours-mobile">
+          <div class="number" id="hours-mobile">00</div>
+          <div class="day" id="hours-label-mobile">Horas</div>
+        </div>
+        <div class="ping">:</div>
+        <div class="minutes-mobile">
+          <div class="number" id="minutes-mobile">00</div>
+          <div class="day" id="minutes-label-mobile">Minutos</div>
+        </div>     
+        <div class="ping">:</div>
+        <div class="seconds-mobile">
+          <div class="number" id="seconds-mobile">00</div>
+          <div class="day" id="seconds-label-mobile">Segundos</div>
+        </div>
+      </div>
+      <!-- FIM INICIO BANNER- CONTATDOR MOBILE -->
+
+          <!-- START TITLE-SECTION -->
+    <div class="category-tittle">
+      <div class="category-tittle-container">
+        <div class="category-item-tittle">
+          <div class="category-content-flex-tittle">
+            <h3 class="category-item-title-title">
+              <a href="#">Mais vendidos</a>
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--END TITLE-SECTION-->
+
+      <!-- START PRODUCT -->
+      <section class="section-product-Lançamentos grid">
+        <div class="container-sm-fluid container-fluid-md">
+          <ul class="product-list">
+            <li class="col-3">
+              <div class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/iphone-xs-max-space-select-2018.jfif" alt="" class="img-fluid w-75"/>
+                  <div class="card-badge">New</div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Apple iPhone 11 (64 GB) Preto</a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 8.299,00</data>
+                      <data value="">R$ 6.599,10</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 10x de R$ 659,90 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/cf31dba1ff.webp" alt="" class="img-fluid w-75"/>
+                  <div class="card-badge">New</div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Apple iPhone 11 (64 GB) Preto</a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 8.299,00</data>
+                      <data value="">R$ 6.599,10</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 10x de R$ 659,90 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div  class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/2xiaomi_redmi_note_10_5g_128gb_graphite_gray-e1623347692143-250x300.jpg" alt="" class="img-fluid w-75"/>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">iPhone 14 Pro Max (512 GB) - Preto</a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 1.499,00</data>
+                      <data value="">R$ 1.349,10</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 10x de R$ 149,90 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div  class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard endheart"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/foto5-1-e1650206247663-250x300.jpg" alt="" class="img-fluid w-75"/>
+                  <div class="card-badge-red">50% off</div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">iPhone 12 Pro Max (512 GB) - Preto</a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 1.059,00</data>
+                      <data value="">R$ R$999,00</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 10x de R$ 99,90 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div  class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/3d6e734e22.webp" alt="" class="img-fluid w-75"/>
+                  <div class="card-badge-red">50% off</div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Console Atari Flashback X Tectoy <br> Com 110 Jogos E 2 Joystick</a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 349,90</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 6x R$ 58,35 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div  class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/capinha-de-celular-iphone-8-cf2cb00b.webp" alt="" class="img-fluid w-75"/>
+                  <div class="card-badge-red">50% off</div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Tablet Multilaser Minnie Quad Core<div> 32GB Tela 7 Polegadas Preto</div></a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 439,00</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 8x R$ 54,91 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="col-3">
+              <div  class="product-card">
+                <div class="card-banner">
+                  <div class="clearfix mb-1 pe-3">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard"></i>
+                    </span>
+                  </div>
+                  <img src="/app/themes/bs5-ecommerce/img/capinha-de-celular-iphone-8-cf2cb00b.webp" alt="" class="img-fluid w-75"/>
+                  <div class="card-badge-full">
+                    Full <ion-icon name="flash"></ion-icon>
+                  </div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Smart TV 32" LG HD 32LQ620 Wi-Fi <div>Bluetooth HDR ThinQ AI Google Alexa</div></a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 1.299,99</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 8x de R$ 162,49 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+  
+            <li class="col-3">
+              <div class="product-card" >
+                <div class="card-banner">
+                  <div class="clearfix mb-1">
+                    <span class="float-end">
+                      <i class="bi bi-heart heartcard endheart"></i>
+                    </span>
+                  </div>
+                    <img
+                      src="/app/themes/bs5-ecommerce/img/capinha-de-celular-iphone-8-cf2cb00b.webp" alt="" class="img-fluid w-75"/>
+                    <div class="card-badge-full">
+                      Full <ion-icon name="flash"></ion-icon>
+                    </div>
+                </div>
+                <div class="card-body"> 
+                  <div class="mb-3"> 
+                    <a class="card-title">
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Refrigerador Frost Free RF27T5501SG <div> Door Family 614 Litros Samsung - 220V</div></a>
+                    </a>
+                    <div class="star">
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star"></ion-icon>
+                      <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                    </div>
+                    <div class="card-price" onclick="redirectProductpage()">
+                      <data value="">R$ 25.999,00</data>
+                    </div>
+                    <div class="conditions-price" onclick="redirectProductpage()">
+                      <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                    </div>
+                    <div class="conditions-payment" onclick="redirectProductpage()">
+                      <span> ou 12x de R$ 2.166,58 sem juros </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <!-- END PRODUCT -->
+
+      <!--START MINI BANNER 2-->
+      <div class="container">
+        <div class="row d-flex justify-content-between m">
+          <div class="modulo col-md-6">
+            <div class="flexslider">
+              <ul class="slides">
+                <li>
+                  <img src="/app/themes/bs5-ecommerce/img/04fe14a2ce66ef1087c1d9411005cd09 (1)123.jpg" alt="Mini banner 1" >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="modulo col-md-6">
+            <div class="flexslider" >
+              <ul class="slides">
+                <li>
+                  <img src="/app/themes/bs5-ecommerce/img/Captura de tela 2023-01-10 171951.png" alt="Mini banner 2">
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--END MINI BANNER 2-->
+
+      <!-- START TITLE-SECTION -->
+      <div class="category-tittle">
+        <div class="category-tittle-container">
+          <div class="category-item-tittle">
+            <div class="category-content-flex-tittle">
+              <h3 class="category-item-title-title">
+                <a href="#">Lançamentos</a>
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--END TITLE-SECTION-->
+      
+      
+      
+      
+      <!-- START PRODUCT -->
+      <section class="section-product-Lançamentos grid">
+        <div class="container-fluid">
+          <ul class="product-list">
+            <li class="col-3">
+              <div class="product-card">
+                  <div class="card-banner">
+                    <div class="clearfix mb-1 pe-3">
+                      <span class="float-end">
+                        <i class="bi bi-heart heartcard"></i>
+                      </span>
+                    </div>
+                    <img src="/app/themes/bs5-ecommerce/img/Products/GERADOR.jpg"   alt="" class="img-fluid w-75"/>
+                    <div class="card-badge-full">
+                      Full <ion-icon name="flash"></ion-icon>
+                    </div>
+                  </div>
+                  <div class="card-body"> 
+                    <div class="mb-3"> 
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Gerador de Energia a Gasolina Trifásico 8kva 110-220v Partida Elétrica - Nagano</a>
+                        <div class="star">
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                        </div>
+                        <div class="card-price" onclick="redirectProductpage()" >
+                          <data value="">R$ 5.523,32</data>
+                          <data value=""> R$ 4.970,99</data>
+                        </div>   
+                        <div class="conditions-price" onclick="redirectProductpage()" >
+                          <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                        </div>
+                        <div class="conditions-payment" onclick="redirectProductpage()" >
+                          <span> ou 12x de R$ 460,28 sem juros </span>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </li>
+            <li class="col-3">
+              <div  class="product-card">
+                  <div class="card-banner">
+                    <div class="clearfix mb-1 pe-3">
+                      <span class="float-end">
+                        <i class="bi bi-heart heartcard"></i>
+                      </span>
+                    </div>
+                      <img src="/app/themes/bs5-ecommerce/img/Products/NIKE.jpg"  alt="" class="img-fluid w-75"/>
+                      <div class="card-badge badge badge-danger">New</div>
+                  </div>
+                  <div class="card-body"> 
+                    <div class="mb-3"> 
+                      <a class="title-text"  target="_blank" onclick="redirectProductpage()" href="#">Tênis Desportivo Nike Free Rn 5.0 <div> Série Neon Verde </div></a>
+                        <div class="star">
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                        </div>
+                        <div class="card-price" onclick="redirectProductpage()">
+                          <data value="">R$ 900,00</data>
+                        </div>    
+                        <div class="conditions-price" onclick="redirectProductpage()">
+                          <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                        </div>
+                        <div class="conditions-payment" onclick="redirectProductpage()">
+                          <span> ou 10x de R$ 90,00 sem juros </span>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+            </li>
+            <li class="col-3">
+              <div  class="product-card">
+                  <div class="card-banner">
+                    <div class="clearfix mb-1 pe-3">
+                      <span class="float-end">
+                        <i class="bi bi-heart heartcard"></i>
+                      </span>
+                    </div>
+                      <img src="/app/themes/bs5-ecommerce/img/Products/PLACADEVIDEO2.jpg"  alt="" class="img-fluid w-75"/>
+                      <div class="card-badge badge badge-danger">New</div>
+                  </div>
+                  <div class="card-body"> 
+                    <div class="mb-3"> 
+                    <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Placa de Vídeo Gigabyte AMD <div> Radeon RX 6700 XT Eagle 12GB GDDR6</div></a>
+                        <div class="star">
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                        </div>
+                        <div class="card-price" onclick="redirectProductpage()">
+                          <data value="">R$ 2.699,99</data>
+                        </div>
+                        <div class="conditions-price" onclick="redirectProductpage()">
+                          <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                        </div>
+                        <div class="conditions-payment" onclick="redirectProductpage()">
+                          <span> ou 10x de R$ 317,64 sem juros </span>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+            </li>
+  
+            <li class="col-3">
+              <div class="product-card">
+                  <div class="card-banner">
+                    <div class="clearfix mb-1">
+                      <span class="float-end">
+                        <i class="bi bi-heart heartcard endheart"></i>
+                      </span>
+                    </div>
+                      <img src="/app/themes/bs5-ecommerce/img/Products/IMPRESSORA.jpg"  alt="" class="img-fluid w-75" />
+                      <div class="card-badge badge badge-danger">New</div>
+                  </div>
+                  <div class="card-body"> 
+                    <div class="mb-3"> 
+                      <a class="title-text" target="_blank" onclick="redirectProductpage()" href="#">Tênis Desportivo Nike Free Rn 5.0 <div> Série Neon Verde </div></a>
+                        <div class="star">
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star"></ion-icon>
+                          <ion-icon name="star-half"></ion-icon> <span>(5)</span>
+                        </div>
+                        <div class="card-price" onclick="redirectProductpage()">
+                          <data value="">R$ 677,35</data>
+                        </div>
+                        <div class="conditions-price" onclick="redirectProductpage()">
+                          <p><a href="">à vista</a> <span>(10% de desconto)</span></p>
+                        </div>
+                        <div class="conditions-payment" onclick="redirectProductpage()">
+                          <span> ou 10x de R$ 67,74  sem juros </span>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+      
+      
+      
+    </main>   
+    
+    
+    
+    
+    <!-- START TITLE-SECTION -->
+    <div class="category-tittle">
+      <div class="category-tittle-container">
+        <div class="category-item-tittle">
+          <div class="category-content-flex-tittle">
+            <h3 class="category-item-title-title">
+              <a href="#">Compre pela marca </a>
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--END TITLE-SECTION-->
+    <!--START BANNERS MARCAS-->
+    <section class="splide container-fluid" id="carouseltag">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <li class="splide__slide" id="imgcarouseltag">
+          <div>
+            <img src="/app/themes/bs5-ecommerce/img/SAMSUNG-150x150.jpg" alt="Mini banner 6" >
+          </div>
+          </li>
+          <li class="splide__slide">
+            <img src="/app/themes/bs5-ecommerce/img/GIGABYTE-150x150.jpg" alt="Mini banner 5" >
+          </li>
+          <li class="splide__slide">
+            <img src="/app/themes/bs5-ecommerce/img/COOLER-MASTER-150x150.jpg" alt="Mini banner 5" >
+          </li>
+          <li class="splide__slide">
+            <img src="/app/themes/bs5-ecommerce/img/ASUS-150x150.jpg" alt="Mini banner 5" >
+          </li>
+          <li class="splide__slide">
+            <img src="/app/themes/bs5-ecommerce/img/RAZER-150x150.jpg" alt="Mini banner 5" >
+          </li>
+          <li class="splide__slide">
+            <img src="/app/themes/bs5-ecommerce/img/THERMALTAKE-150x150.jpg" alt="Mini banner 5" >
+          </li>
+          <li class="splide__slide">
+            <img src="/app/themes/bs5-ecommerce/img/TP-LINK-150x150.jpg" alt="Mini banner 4" >
+          </li>
+          <li class="splide__slide">
+            <img src="/app/themes/bs5-ecommerce/img/TARGUS-150x150.jpg" alt="Mini banner 4" >
+          </li>
+          <li class="splide__slide">
+            <img src="/app/themes/bs5-ecommerce/img/NVDIA-150x150.jpg" alt="Mini banner 4" >
+          </li>
+          <li class="splide__slide">
+            <img src="/app/themes/bs5-ecommerce/img/LOGITECH-150x150.jpg" alt="Mini banner 4" >
+          </li>
+        </ul>
+      </div>
+    </section>
+    <!--END BANNERS MARCAS-->
+    <!--INICIO FOOTER-->
+    <footer>
+      <div class="container-fluid" id="footerb">
+        <div class="text-center text-lg-start mt-xl-5 pt-4">
+          <div class="container p-4">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 mb-4 mb-lg-0">
+                <h5 class="text-uppercase mb-4">Institucional</h5>
+                <ul class="list-unstyled mb-4">
+                  <li>
+                    <a href="#!">Fale Conosco</a>
+                  </li>
+                  <li>
+                    <a href="#!">Formas de Envio</a>
+                  </li>
+                  <li>
+                    <a href="#!">Política de Troca</a>
+                  </li>
+                  <li>
+                    <a href="#!">Segurança e Privacidade</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-3 col-md-3 mb-6 mb-lg-0">
+                <h5 class="text-uppercase mb-4">Categorias</h5>
+                <ul class="list-unstyled">
+                  <li>
+                    <a href="#!">Eletrônicos</a>
+                  </li>
+                  <li>
+                    <a href="#!">Lançamentos</a>
+                  </li>
+                  <li>
+                    <a href="#!">Casa e Decor</a>
+                  </li>
+                  <li>
+                    <a href="#!">Outlet</a>
+                  </li>
+                  <li>
+                    <a href="#!">Mochilas</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-3 col-md-3 mb-4 mb-lg-0">
+                <h5 class="text-uppercase mb-4">Selos</h5>
+                <ul class="list-unstyled">
+                  <div class="media-icons" id="selos">
+                    <div>
+                      <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/site seguro 2.png" alt=""></a>
+                    </div>
+                    <div>
+                      <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/selo-google-res.png" alt=""></a>
+                    </div>
+                    <div>
+                      <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/site prote.png" alt=""></a>
+                    </div>
+                    <div>
+                      <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/siteseguro3.png" alt=""></a>
+                    </div>
+                  </div>
+                </ul>
+              </div>
+              <div class="col-lg-3 col-md-3 mb-4 mb-lg-0" id="form2">
+                <h5 class="text-uppercase mb-4">Receba Ofertas e Novidades de nossa loja</h5>
+                <div class="form-outline form-white mb-4">
+                  <input type="email"  class="form-control" placeholder="Email"/>
+                </div>
+                <button type="submit" class="btn btn-outline-light  btn-block">Quero Receber!</button>
+              </div>
+            </div>
+          </div>
+          <div class="text-center  border-top border-dark">
+            <div class="alert my-alert" role="alert">
+              <div class="container">
+                <div class="row">
+                <div class="col-md-4">
+                  <div class="media-icons">
+                    <a href="#"><ion-icon name="logo-linkedin"></ion-icon></a>
+                    <a href="#"><ion-icon name="logo-facebook"></ion-icon></a>
+                    <a href="#"><ion-icon name="logo-google"></ion-icon></a>
+                    <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
+                    <a href="#"><ion-icon name="logo-github"></ion-icon></a>
+                  </div>
+                </div> 
+                <div class="col-md-4">
+                  <span class="policy_terms">
+                    <a href="#">Privacy policy</a><br/>
+                    <a href="#">Terms e condition</a>
+                  </span>
+                </div>
+                <div class="col-md-4">
+                  <div class="payment methods">
+                    <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/visa.svg" alt=""></a>
+                    <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/master.svg" alt=""></a>
+                    <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/hipercard.svg" alt=""></a> 
+                    <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/boleto.svg" alt=""></a>
+                    <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/elo.svg" alt=""></a>
+                    <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/aura.svg" alt=""></a>
+                    <a href="#"><img src="/app/themes/bs5-ecommerce/img/Icons/diners.svg" alt=""></a>
+                  </div> 
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+      </div>
+    </footer>
+    <!--FIM FOOTER
+
+    
+  
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="http://10.0.0.106/app/javax.faces.resource/jquery/jquery.js.xhtml?ln=primefaces&v=11.0.0&e=10.0.0-RC1"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+      integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+      crossorigin="anonymous"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"></script>
+    <!-- Bootstrap JavaScript Libraries -->
+
+    <!-- SPLIDE JS LINK-->
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.1/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.4.2/dist/js/splide-extension-auto-scroll.min.js">
+    </script>
+
+    <!-- JS-COOKIES-->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+    <!-- CUSTOM JS LINK-->
+    <script src="/app/themes/bs5-ecommerce/js/index3.js"></script>
+
+    <!-- ionicon link -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  </body>
+
+
+</html>

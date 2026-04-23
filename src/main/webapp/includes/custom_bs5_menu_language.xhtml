@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	
+	<li class="nav-item dropdown">
+            <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
+                    id="bd-theme"
+                    type="button"
+                    aria-expanded="false"
+                    data-bs-toggle="dropdown"
+                    data-bs-display="static"
+                    aria-label="Toggle theme (auto)">
+            
+              
+              <h:graphicImage class="my-1 theme-icon-active"
+				name="flags/#{activeLocale.languageTag}.svg" 
+				width="28" />
+              
+              <span class="d-lg-none ms-2" id="bd-theme-text">Language</span>
+            </button>
+            
+            
+            
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text" style="--bs-dropdown-min-width: 8rem;">
+              
+             <c:forEach items="#{sessionTest.others}" var="otherLocale">
+           
+              
+              
+              <li>
+              
+              <h:outputLink  rendered="#{otherLocale.value != activeLocale.value}" 
+				 class="dropdown-item" title="#{otherLocale.name}"
+					value="#{activeLocale.canonicalURL(otherLocale)}"> <h:graphicImage
+						styleClass="flag" name="flags/#{otherLocale.languageTag}.svg"
+						width="28"  /> #{otherLocale.name}
+					(#{i18n[otherLocale.languageTag]})#{''}
+				</h:outputLink>
+              
+                
+                
+                
+                
+             </li>
+             
+             </c:forEach>
+             
+             
+            </ul>
+          </li>
+	
+		
+	
+</ui:composition>

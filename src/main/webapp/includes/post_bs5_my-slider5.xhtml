@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
+const splidemobile = new Splide("#image-carousel", {
+  type: "loop",
+  padding: { y: 10 },
+  gap: "1rem",
+  rewind: true,
+  speed: 2000,
+  width: "100vw",
+  perPage: 1,
+  start: 1,
+  perMove: 1,
+  autoplay: true,
+  interval: 4000,
+  arrows: true,
+  pagination: false,
+  pauseOnHover: true,
+  wheel: true,
+}).mount();
+});
+	</script>
+	
+	
+	
+	<div class="container">
+		<div class="row">
+			<div class="minibannermobile col-3">
+				<div class="flexslider">
+					<ul class="slides">
+						<li><img src="/themes/bs5-ecommerce/img/a1.png" alt="Stihl" />
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="minibannermobile col-3">
+				<div class="flexslider">
+					<ul class="slides">
+						<li><img src="/themes/bs5-ecommerce/img/a2.png"
+							alt="Mini banner 1" /></li>
+					</ul>
+				</div>
+			</div>
+			<div class="minibannermobile col-3">
+				<div class="flexslider">
+					<ul class="slides">
+						<li><img src="/themes/bs5-ecommerce/img/a3.png"
+							alt="Mini banner 1" /></li>
+					</ul>
+				</div>
+			</div>
+			<div class="minibannermobile col-3">
+				<div class="flexslider">
+					<ul class="slides">
+						<li><img src="/themes/bs5-ecommerce/img/a4.png"
+							alt="Mini banner 1" /></li>
+					</ul>
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+	<section id="image-carousel" class="splide"
+		aria-label="Beautiful Images">
+		<div class="splide__track">
+			<ul class="splide__list">
+				<li class="splide__slide"><img
+					src="/themes/bs5-ecommerce/img/a1.png" alt="" /></li>
+				<li class="splide__slide"><img
+					src="/themes/bs5-ecommerce/img/a2.png" alt="" /></li>
+				<li class="splide__slide"><img
+					src="/themes/bs5-ecommerce/img/a3.png" alt="" /></li>
+				<li class="splide__slide"><img
+					src="/themes/bs5-ecommerce/img/a4.png" alt="" /></li>
+			</ul>
+		</div>
+	</section>
+</ui:composition>

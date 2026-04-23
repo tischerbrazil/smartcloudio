@@ -1,0 +1,121 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+
+
+	<!-- START TITLE-SECTION -->
+	<div class="category-tittle">
+		<div class="category-tittle-container">
+			<div class="category-item-tittle">
+				<div class="category-content-flex-tittle">
+					<h3 class="category-item-title-title">
+						<a href="#">Novidades</a>
+					</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--END TITLE-SECTION-->
+	
+	
+	
+	
+	
+		
+	
+	
+	
+	<section class="section-product-Lançamentos grid">
+	
+	
+	<div class="container text-center">
+
+
+  <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+  <div class="row">
+  
+  <ui:repeat var="_prod" value="#{jsfPaginationBean.productList}">
+    <div class="col-6 col-md-3">
+
+		<div class="product-card">
+								<div class="card-banner">
+									<div class="clearfix mb-1">
+										<span class="float-end"> <i	class="bi bi-heart heartcard endheart"></i>
+										</span>
+									</div>
+									<h1>
+									<h:link outcome="/ecommerce/index">
+						
+							<f:param name="uuid" value="#{_prod.uuid}" />
+							<f:param name="gcmid"
+								value="#{compjson.field.get('gcmid').asText()}" />
+										<p:graphicImage class="img-fluid w-75"
+											rendered="#{_prod.images.stream().filter((i)->i.mimeType ne 'video/youtube').findFirst().isPresent()}"
+											value="#{_prod.images.stream().filter((i)->i.mimeType ne 'video/youtube').findFirst().get().getFilename()}" />
+									</h:link>
+									</h1>
+									<div class="card-badge badge badge-danger">Novo</div>
+								</div>
+								<div class="card-body">
+									<div class="mb-3">
+										#{_prod.name}
+										<div>
+											<strong>Horticeres</strong>
+										</div>
+
+										<div class="star">
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star-half"></ion-icon>
+											<span>(5)</span>
+										</div>
+										<div class="card-price">
+											<data value="">R$ <h:outputLabel
+												value="#{_prod.salePrice}"
+												style="font-weight: bold;font-size: extra-large">
+												<f:convertNumber currencyCode="BRL" minFractionDigits="2"
+													currencySymbol="R$" />
+											</h:outputLabel> </data>
+										</div>
+										<div class="conditions-price">
+											<p>
+												<a href="">à vista no Pix</a> <span>(5% de desconto)</span>
+											</p>
+										</div>
+										<div class="conditions-payment"
+											>
+											<span> ou 3x sem juros no cartão de crédito</span>
+										</div>
+										
+										
+									</div>
+								</div>
+							</div>
+
+
+</div>
+  
+  </ui:repeat>
+  
+    
+  </div>
+
+</div>
+
+
+
+   
+   
+        
+</section>
+
+
+</ui:composition>

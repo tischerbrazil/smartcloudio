@@ -1,0 +1,178 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:p="http://primefaces.org/ui">
+
+	<style>
+.footer-dark {
+	color: #a0aec0 !important;
+	background-color: #{compjson.field.at('/backgound-color') .asText()
+}
+</style>
+
+
+	<footer
+		style="background-image: linear-gradient(to bottom, rgba(9, 14, 81, 0.7), rgba(50, 50, 90, 0.3))">
+
+
+
+		<div class="container pt-4">
+
+
+
+
+
+
+			<div class="row">
+				<div class="col-lg-4 mb-5 mb-lg-0">
+					<a href="https://smartcloudio.com.br"> <img
+						alt="Image placeholder"
+						src="#{request.contextPath}/files/#{userData2.realmEntity}/images/logo.png"
+						id="footer-logo" />
+					</a>
+
+					<ul class="nav mt-8">
+
+
+						<ui:repeat value="#{compjson.strings}" var="_fieldGeom2">
+
+
+							<li class="nav-item"><a class="nav-link pl-0"
+								href="#{_fieldGeom2.at('/linkid').asText()}" target="_blank">
+
+									<i class="#{_fieldGeom2.at('/image-full').asText()}"
+									style="font-size: 35px"></i>
+							</a></li>
+
+
+
+						</ui:repeat>
+
+
+
+
+
+					</ul>
+				</div>
+				<div class="col-lg-2 col-6 col-sm-4 ml-lg-auto mb-5 mb-lg-0">
+					<ul class="list-unstyled">
+						<c:forEach
+							items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'footer_left').toList()}"
+							var="_module">
+							<h6 class="heading mb-3">#{_module.compJson.title}</h6>
+							<p:linkButton rendered="#{activeUser.can('VIEW_ADMIN_PAGES')}"
+								target="_blank" icon="pi pi-file-edit"
+								outcome="/administrator/module_view"
+								styleClass="rounded-button ui-button-warning"
+								style="position: absolute;">
+								<f:param name="modcomp_uuid" value='#{_module.type}' />
+							</p:linkButton>
+							<ui:include src="#{_module.complete}">
+								<ui:param name="id"
+									value="#{_module.components.at('/id').asLong()}" />
+							</ui:include>
+						</c:forEach>
+					</ul>
+				</div>
+				<div class="col-lg-2 col-6 col-sm-4 mb-5 mb-lg-0">
+
+					<ul class="list-unstyled">
+
+						<c:forEach
+							items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'footer_middle').toList()}"
+							var="_module">
+							<h6 class="heading mb-3">#{_module.compJson.title}</h6>
+
+							<p:linkButton rendered="#{activeUser.can('VIEW_ADMIN_PAGES')}"
+								target="_blank" icon="pi pi-file-edit"
+								outcome="/administrator/module_view"
+								styleClass="rounded-button ui-button-warning"
+								style="position: absolute;">
+								<f:param name="modcomp_uuid" value='#{_module.type}' />
+							</p:linkButton>
+
+							<ui:include src="#{_module.complete}">
+								<ui:param name="id"
+									value="#{_module.components.at('/id').asLong()}" />
+							</ui:include>
+						</c:forEach>
+					</ul>
+				</div>
+				<div class="col-lg-2 col-6 col-sm-4 mb-5 mb-lg-0">
+					<h6 class="heading mb-3">#{compjson.field.at('/label_right').asText()}</h6>
+					<ul class="list-unstyled">
+
+						<c:forEach
+							items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'footer_middle').toList()}"
+							var="_modulem">
+
+							<p:linkButton rendered="#{activeUser.can('VIEW_ADMIN_PAGES')}"
+								target="_blank" icon="pi pi-file-edit"
+								outcome="/administrator/module_view"
+								styleClass="rounded-button ui-button-warning"
+								style="position: absolute;">
+								<f:param name="modcomp_uuid" value='#{_modulok.type}' />
+							</p:linkButton>
+
+							<ui:include src="#{_modulem.complete}">
+								<ui:param name="id"
+									value="#{_modulem.components.at('/id').asLong()}" />
+							</ui:include>
+						</c:forEach>
+					</ul>
+				</div>
+
+
+				<div class="col-lg-2 col-6 col-sm-4 mb-5 mb-lg-0">
+
+					<h6 class="heading mb-3">Newsletter</h6>
+
+					<div class="form-outline form-white mb-4">
+						<input type="email" class="form-control" placeholder="Email" />
+					</div>
+					<h:form>
+						<p:commandButton ajax="true" value="Quero Receber!"
+							class="btn btn-outline-light  btn-block" />
+					</h:form>
+
+
+
+				</div>
+			</div>
+			<hr class="divider divider-fade divider-dark my-4" />
+			<div class="row align-items-center justify-content-md-between pb-4">
+				<div class="col-md-6">
+					<div
+						class="copyright text-sm font-weight-bold text-center text-md-left">
+						<i class="fa fa-copyright"></i>#{compjson.field.at('/year').asText()}
+						<a href="/index" class="font-weight-bold">#{compjson.field.at('/copyright').asText()}</a>.
+						Todos os Direitos Reservados
+					</div>
+				</div>
+				<div class="col-md-6">
+					<ul
+						class="nav justify-content-center justify-content-md-end mt-3 mt-md-0">
+						<c:forEach
+							items="#{compjson.strings.stream().filter(t->t.at('/position').asText() == 'bottom').toArray()}"
+							var="_bottompos">
+							<li class="nav-item"><h:link outcome="/index"
+									class="nav-link" value="#{_bottompos.at('/name').asText()}">
+					
+
+    <o:pathParam value="#{_bottompos.at('/image-full').asText()}" />
+    <o:pathParam value="#{_bottompos.at('/linkid').asText()}" />
+
+								</h:link></li>
+						</c:forEach>
+					</ul>
+				</div>
+				<hr />
+				<br />
+			</div>
+		</div>
+
+	</footer>
+
+</ui:composition>

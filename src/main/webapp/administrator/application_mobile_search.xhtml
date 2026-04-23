@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<f:metadata>
+		<f:viewParam name="page" value='#{applicationMobileBean.page}' />
+		<f:event type="preRenderView"
+			listener='#{applicationMobileBean.paginate}' />
+	</f:metadata>
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+						<h:form id="search">
+							<div align="right">
+								<p:button value="Novo" icon="pi pi-plus"
+								outcome="/administrator/application_mobile_edit"
+									styleClass="btn btn-primary" />
+							</div>
+							<p:dataTable id="extensions" styleClass="data-table"
+								reflow="true" value="#{applicationMobileBean.pageItems}"
+								var="_item">
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Id" />
+									</f:facet>
+									<p:outputLabel value="#{_item.id}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Nome" />
+									</f:facet>
+									<p:outputLabel value="#{_item.name}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Lang" />
+									</f:facet>
+									<p:outputLabel value="#{_item.locale}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Client" />
+									</f:facet>
+									<p:outputLabel value="#{_item.clientEntity.clientId}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="TIPO" />
+									</f:facet>
+									<p:outputLabel value="#{_item.dtype}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Ativo" />
+									</f:facet>
+									<p:graphicImage rendered="#{_item.enabled}" class="img-circle"
+										value="/resources/true.png" />
+									<p:graphicImage rendered="#{!_item.enabled}" class="img-circle"
+										value="/resources/false.png" />
+								</p:column>
+
+					
+					<p:button icon="fa fa-edit" title="Editar"
+										outcome="/administrator/application_mobile_edit">
+										<f:param name="id" value="#{_item.uuid}" />
+									</p:button>
+
+							
+							</p:dataTable>
+						</h:form>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+
+	</ui:define>
+
+
+</ui:composition>

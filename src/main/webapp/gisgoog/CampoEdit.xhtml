@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    
+    xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+    xmlns:p="http://primefaces.org/ui"> 
+
+	<h:form id="campoForm">
+			<h:panelGrid id="display" columnClasses="component,component,required" columns="3">
+			<h:outputLabel value="Campo:"    />
+   			<p:selectOneMenu id="situacao"   value="#{projectBasicEntityBean.fieldNew.typeData}">
+		           		<f:selectItem itemValue="string" itemLabel="String" />
+                 		<f:selectItem itemValue="boolean" itemLabel="Boolean" />
+                 		<f:selectItem itemValue="text" itemLabel="Text" />
+                 		<f:selectItem itemValue="image" itemLabel="Image" />
+	      	</p:selectOneMenu>
+    		<h:outputText />
+    		
+				
+		
+				<h:outputLabel id="camponame" for="camponameInput" value="Nome:" />
+				<p:inputText required="true" locale="pt_BR"
+					requiredMessage="Nome Requerido!" label="Nome" id="camponameInput"
+					size="50" maxlength="50"
+			 		value="#{projectBasicEntityBean.fieldNew.name}" />
+				<h:outputText />
+
+				<h:outputLabel id="descrip" for="description" value="Ordem:" />
+				<p:inputText  locale="pt_BR"
+					label="Nome" id="description" size="50" maxlength="50" 
+					value="#{projectBasicEntityBean.fieldNew.sequence}" />
+				<h:outputText /> 
+				
+				
+				
+				
+				<h:outputLabel rendered="#{projectBasicEntityBean.fieldNew.typeData == 'string'}" id="descripa" for="descriptiona" value="Título:" />
+				<p:inputText  rendered="#{projectBasicEntityBean.fieldNew.typeData == 'string'}"  locale="pt_BR"
+					label="Nome:" id="descriptiona" size="50" maxlength="50" 
+					value="#{projectBasicEntityBean.fieldNew.fieldControl.outputText.typeInput}" />
+				<h:outputText rendered="#{projectBasicEntityBean.fieldNew.typeData == 'string'}" /> 
+				
+				<h:outputLabel rendered="#{projectBasicEntityBean.fieldNew.typeData == 'string'}"  id="descripb" for="descriptionb" value="Tamanho:" />
+				<p:inputText  locale="pt_BR" rendered="#{projectBasicEntityBean.fieldNew.typeData == 'string'}" 
+					label="Nomeb" id="descriptionb" size="50" maxlength="50" 
+					value="#{projectBasicEntityBean.fieldNew.fieldControl.outputText.size}" />
+				<h:outputText rendered="#{projectBasicEntityBean.fieldNew.typeData == 'string'}"  /> 
+				
+
+				<h:outputLabel value="Tipo:" rendered="#{projectBasicEntityBean.fieldNew.typeData == 'boolean'}"  id="descripc" for="descriptionc"  />
+				<p:inputText  locale="pt_BR" rendered="#{projectBasicEntityBean.fieldNew.typeData == 'boolean'}" 
+					label="Nomec" id="descriptionc" size="50" maxlength="50" 
+					value="#{projectBasicEntityBean.fieldNew.fieldControl.selectBooleanCheckbox.typeInput}" />
+				<h:outputText rendered="#{projectBasicEntityBean.fieldNew.typeData == 'boolean'}" /> 
+			
+					
+				<h:outputLabel value="Disable:"  rendered="#{projectBasicEntityBean.fieldNew.typeData == 'boolean'}"  id="descripd" for="descriptiond" />
+				<p:selectBooleanCheckbox rendered="#{projectBasicEntityBean.fieldNew.typeData == 'boolean'}"  locale="pt_BR"
+					label="Nomed" id="descriptiond" size="50" maxlength="50" 
+					value="#{projectBasicEntityBean.fieldNew.fieldControl.selectBooleanCheckbox.disabled}" />
+				<h:outputText rendered="#{projectBasicEntityBean.fieldNew.typeData == 'boolean'}" /> 
+
+
+				
+	
+				
+				
+	
+			</h:panelGrid>
+
+			<div class="buttons">
+			  <p:commandButton value="Salvar" action="#{projectBasicEntityBean.updateField2}"   
+              update=":SelectedLayerForm:tablayer:displayfields" oncomplete="PF('editCampoDialog').hide();" />
+        
+        	  <p:commandButton value="Excluir" action="#{projectBasicEntityBean.deleteField2}"   
+            update=":campoForm:display :SelectedLayerForm" oncomplete="PF('editCampoDialog').hide();" />
+			</div>
+		
+		
+	</h:form>	   
+</ui:composition>

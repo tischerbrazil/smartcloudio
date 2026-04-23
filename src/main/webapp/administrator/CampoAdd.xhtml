@@ -1,0 +1,192 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="addFieldForm" prependId="false">
+		<p:wizard id="wiza" flowListener="#{componentBean.onFlowProcess}"
+			widgetVar="wiz" showNavBar="false">
+			<p:tab id="personal" title="Tipo">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="row clearfix">
+						<div class="col-md-6">
+							<b>Tipo do Dado</b>
+							<div class="input-group">
+								<span class="input-group-addon"><i
+									class="fa fa-calculator" /> </span>
+								<div class="form-line">
+									<p:selectOneMenu id="Fieldchoose" class="form-control"
+										required="true" requiredMessage="Tipo Requerido!"
+										value="#{componentBean.dataTypeChose}">
+										<f:selectItem itemLabel="SELECIONE" noSelectionOption="false" />
+										<f:selectItem itemValue="STRING" itemLabel="STRING" />
+										<f:selectItem itemValue="NUMBER" itemLabel="NUMBER" />
+										<f:selectItem itemValue="BOOLEAN" itemLabel="BOOLEAN" />
+										<f:selectItem itemValue="DATE" itemLabel="DATE" />
+										<f:selectItem itemValue="DATETIME" itemLabel="DATETIME" />
+										<f:selectItem itemValue="TIME" itemLabel="TIME" />
+										<f:selectItem itemValue="MEDIA" itemLabel="MEDIA" />
+										<f:selectItem itemValue="ARRAY" itemLabel="ARRAY" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<b>Nome do Campo</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">label_outline</i>
+								</span>
+								<div class="form-line">
+									<p:inputText requiredMessage="Nome Requerido!" required="true"
+										styleclass="form-control" value="#{componentBean.fieldName}">
+									</p:inputText>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p:commandButton value="Próximo" update="addFieldForm:wiza messages"
+					onclick="PF('wiz').next();" />
+			</p:tab>
+			<p:tab id="upload" title="Campo">
+				<p:selectOneMenu id="fieldType"
+					value="#{componentBean.fieldTypeChose}" style="width:150px">
+					<f:selectItem itemLabel="Selecione" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItems value="#{componentBean.fieldTypes}" />
+				</p:selectOneMenu>
+				<p:commandButton value="Próximo" update="addFieldForm:wiza"
+					onclick="PF('wiz').next();" />
+			</p:tab>
+
+			<p:tab id="xxx" title="Opções">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="row clearfix">
+						<div class="col-md-4">
+							<b>Rótulo</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">label_outline</i>
+								</span>
+								<div class="form-line">
+									<p:inputText requiredMessage="Rótulo Requerido!"
+										required="true" styleclass="form-control"
+										value="#{componentBean.fieldNew.label}">
+									</p:inputText>
+								</div>
+							</div>
+						</div>
+					
+						<div class="col-md-4">
+							<b>Ordem</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">label_outline</i>
+								</span>
+								<div class="form-line">
+									<p:inputNumber requiredMessage="Ordem Requerido!"
+										required="true" styleclass="form-control"
+										decimalPlaces="0"
+										value="#{componentBean.fieldNew.sequence}">
+									</p:inputNumber>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<b>Ícone</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">label_outline</i>
+								</span>
+								<div class="form-line">
+									<p:inputText styleclass="form-control"
+										value="#{componentBean.fieldNew.icon}">
+									</p:inputText>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					
+					<ui:fragment rendered="#{componentBean.dataTypeChose == 'BOOLEAN'}">
+						<div class="row clearfix">
+					
+						<div class="col-md-3">
+							<b>PlaceHolder</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">label_outline</i>
+								</span>
+								<div class="form-line">
+									<p:selectBooleanCheckbox styleclass="form-control"
+										value="#{componentBean.fieldNew.fieldControl.keys.initval}">
+									</p:selectBooleanCheckbox>
+								</div>
+							</div>
+						</div>
+						</div>
+						</ui:fragment>
+						
+						
+						<ui:fragment rendered="#{componentBean.dataTypeChose ne 'BOOLEAN'}">
+						<div class="row clearfix">
+					
+						<div class="col-md-3">
+							<b>PlaceHolder</b>
+							<div class="input-group">
+								<span class="input-group-addon"> <i
+									class="material-icons">label_outline</i>
+								</span>
+								<div class="form-line">
+								
+								<p:inputText styleclass="form-control"
+						label="PlaceHolder" id="placeholder" value="#{componentBean.fieldNew.fieldControl.keys.placeHolder}" />
+								
+									
+								</div>
+							</div>
+						</div>
+						</div>
+						</ui:fragment>
+					
+					
+					
+					
+		
+					
+					</div>
+				<p:commandButton value="Próximo" update="addFieldForm:wiza messages"
+					onclick="PF('wiz').next();" />
+			</p:tab>
+			<p:tab id="confirm" title="Entrada">
+				<p:commandButton value="Adicionar"
+					oncomplete="handleAddField(xhr, status, args)"
+					actionListener='#{componentBean.saveField}'
+					update=":idxForm :messages" />
+			</p:tab>
+		</p:wizard>
+	</h:form>
+	<p:dialog header="Envio de Imagem" width="600" height="400"
+		widgetVar="imagePointDialog2" resizable="false">
+	</p:dialog>
+	<script type="text/javascript">
+	function handleAddField(xhr, status, args) {
+ 		     	if(args.validationFailed) { 
+ 		     		console.info("-1111-sTART--- " );
+ 		        }else{
+ 		        	    PF('wiz').loadStep('personal', false);
+ 		      			PF('addFieldDialog').hide();
+ 		      			console.info("-555-sTART--- " );
+  		        }
+ 		    }
+</script>
+
+</ui:composition>

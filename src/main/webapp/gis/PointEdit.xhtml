@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    
+    xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+    xmlns:p="http://primefaces.org/ui"> 
+
+	<h:form id="pointForm33">
+
+
+			<h:panelGrid id="display" columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="projectRuralEntityBeanPointsId" value="Id:"/>
+				<h:panelGroup>
+					<h:inputText id="projectRuralEntityBeanPointsId" value="#{projectRuralEntityBean.examplePoint.id}"/>
+					<h:message for="projectRuralEntityBeanPointsId" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="projectRuralEntityBeanPointsNome" value="Nome:"/>
+				<h:panelGroup>
+					<h:inputText id="projectRuralEntityBeanPointsNome" value="#{projectRuralEntityBean.examplePoint.nome}"/>
+					<h:message for="projectRuralEntityBeanPointsNome" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="projectRuralEntityBeanPointsValoroffset" value="Valoroffset:"/>
+				<h:panelGroup>
+					<h:inputText id="projectRuralEntityBeanPointsValoroffset" value="#{projectRuralEntityBean.examplePoint.valoroffset}"/>
+					<h:message for="projectRuralEntityBeanPointsValoroffset" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="projectRuralEntityBeanPointsSituacao" value="Situacao:"/>
+				<h:panelGroup>
+					<h:inputText id="projectRuralEntityBeanPointsSituacao" value="#{projectRuralEntityBean.examplePoint.situacao}"/>
+					<h:message for="projectRuralEntityBeanPointsSituacao" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+
+
+ 
+				<h:outputLabel for="JSON" value="JSON:"/>
+				<h:panelGroup>
+					<h:inputText id="JSON" value="#{projectRuralEntityBean.examplePoint.jsonStrings.getString('pt_BR')}"/>
+					<h:message for="JSON" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+
+
+
+			</h:panelGrid>
+
+			<div class="buttons">
+				<p:commandButton value="Salvar" oncomplete="PF('editPointDialog').hide();fetchData()"  
+				 icon="fa fa-save" update="SelectedLayerForm" />
+				<c:choose>
+					<c:when test='#{!empty projectRuralEntityBean.id}'>
+						 <p:commandButton  oncomplete="PF('editPointDialog').hide();"  icon="fa fa-close"  title="Cancelar"/>
+						<p:commandButton value="Excluir" oncomplete="PF('editPointDialog').hide();fetchData()" 
+						action='#{projectRuralEntityBean.deletePoint(projectRuralEntityBean.examplePoint.id)}'
+						 icon="fa fa-trash"/>
+					</c:when>
+					<c:otherwise>
+						 <p:commandButton  oncomplete="PF('editPointDialog').hide();"  icon="fa fa-close"  title="Cancelar"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		
+		
+	</h:form>	   
+</ui:composition>

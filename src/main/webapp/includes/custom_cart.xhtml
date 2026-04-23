@@ -1,0 +1,227 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+
+		<style>
+.ui-galleria-close {
+	top: 60px !important;
+}
+.product-item .product-item-content {
+        border: 1px solid var(--surface-d);
+        border-radius: 3px;
+        margin: .3rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .product-item .product-image {
+        width: 100%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    }
+    
+    
+    .product-badge {
+  margin-bottom: 3px"
+  border-radius: 2px;
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px; 
+  }
+  
+  .product-badge.status-instock {
+    background: #C8E6C9;
+    color: #256029; }
+    
+  .product-badge.status-outofstock {
+    background: #FFCDD2;
+    color: #C63737; }
+    
+  .product-badge.status-lowstock {
+    background: #FEEDAF;
+    color: #8A5340; }
+    
+</style>
+
+		
+	<link rel="stylesheet" type="text/css"	href="includes/application/css/layout.css" />
+
+
+          <section>
+	  <div class="container">
+	  
+	  
+	  
+	  <div class="container py-4">
+			<div class="alert alert-primary" role="alert">
+				<h3>Carrinho de Compras</h3>
+			</div>
+			<h:form id="cart">
+				<ui:fragment rendered="#{shoppingCartBean.shoppingCartIsEmpty()}">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="body">
+							<div class="row clearfix">
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12  text-center">
+									<p:graphicImage width="120" library="images"
+										name="svg/shopping-cart-empty.svg" />
+								</div>
+								<div class="col-sm-9 mt-2">
+									<p:staticMessage severity="warn"
+										summary="Seu carrinho de compras está vazio!!!" detail=""
+										style="width: 100%" />
+								</div>
+								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12  text-center">
+								</div>
+							</div>
+						</div>
+					</div>
+					<br />
+				</ui:fragment>
+				
+				<div class="card">
+					<p:dataTable value="#{shoppingCartBean.cartItems}" var="_item"
+						id="cart-table"
+						rendered="#{shoppingCartBean.shoppingCartIsEmpty() != true}"
+						class="table-striped" reflow="true" showGridlines="false"
+						rowIndexVar="rowIndex" style="width: 100%"
+						emptyMessage="Nenhum Plano Selecionado ainda!">
+						<p:column>
+						
+						<p:graphicImage id="prodimgcart"	 
+								
+								rendered="#{_item.item.images.stream().findFirst().isPresent()}"
+					value="#{_item.item.images.stream().findFirst().get().getFilename()}" 
+					width="50%"
+					/>
+											
+						
+							
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Produtos" />
+							</f:facet>
+							<h:link outcome="/ecommerce/index">
+								<f:param name="id" value="#{_item.item.id}" />
+								<f:param name="gcmid"
+								value="#{compjson.field.get('gcmid').asText()}" />
+								<h:outputText value="#{_item.item.name}" />
+							</h:link>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Quantidade" />
+							</f:facet>
+							<p:spinner   buttons="horizontal" stepFactor="1" min="1" max="99" value="#{_item.quantity}" id="quant" size="1">
+								<p:ajax rendered="false" event="change"
+								update=":#{viewid}:cart:cart-table:totals :#{viewid}:cart:total_geral"
+									listener="#{shoppingCartBean.refreshCantidad(_item)}"
+									 />
+							</p:spinner>
+							<p:tooltip rendered="false" for="quant" value="Ítens" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Valor Total" />
+							</f:facet>
+							<h:outputText id="totals" value="#{_item.subTotal}" >
+							<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+							</f:facet>
+							<p:commandButton ajax="true"
+								update=":#{viewid}:cart :#{viewid}:cart:cart-table"
+								actionListener="#{shoppingCartBean.removeItemFromCart}"
+								styleClass="ui-button-danger" title="Excluir Item"
+								icon="pi pi-trash">
+								<f:param name="itemId" value="#{_item.id}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+
+
+
+					<style type="text/css">
+.ui-g1y {
+	background-color: #ededed !important;
+}
+
+ui-g1x {
+	background-color: #ededed !important;
+	text-align: left !important;;
+	border-bottom: 1px solid #007bff !important;
+}
+
+.ui-g1y {
+	background-color: #ededed !important;
+	text-align: left !important;
+	border-bottom: 1px solid #007bff !important;
+}
+
+.ui-g div {
+	background-color: #ededed !important;
+}
+</style>
+
+					<div class="ui-g">
+						<div class="ui-g-6 ui-md-6 ui-lg-3"></div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3"></div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3 ui-g1y">
+							<h:outputText value="Total Geral:" style="font-weight: bold" />
+						</div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3 ui-g1y">
+							<h:outputText id="total_geral"
+								value="#{shoppingCartBean.total}" style="font-weight: bold;" >
+								<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+								</h:outputText>
+						</div>
+					</div>
+
+					<div class="ui-g">
+						<div class="ui-g-6 ui-md-6 ui-lg-3"></div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3"></div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3 ui-g1y">
+
+							<p:button value="Comprar mais" outcome="/ecommerce/index"
+								icon="pi pi-chevron-left" styleClass="ui-button-warning" >
+								
+							<f:param name="gcmid"
+								value="#{compjson.field.get('gcmid_redirect').asText()}" />
+								</p:button>
+								
+						</div>
+						<div class="ui-g-6 ui-md-6 ui-lg-3 ui-g1y">
+							<p:button value="Finalizar compra" icon="pi pi-check"
+								rendered="#{shoppingCartBean.shoppingCartIsEmpty() != true}"
+								outcome="/application/checkout" styleClass="ui-button-success"/>
+								
+						</div>
+					</div>
+
+
+
+
+
+
+				</div>
+
+			</h:form>
+		</div>
+	  
+	  
+	
+
+
+	</div>
+	</section>	
+
+	
+</ui:composition>

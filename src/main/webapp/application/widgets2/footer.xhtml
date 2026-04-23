@@ -1,0 +1,1050 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html">
+
+
+/**
+* ---------------------------- FOOTER START ------------------------
+*/
+
+/**
+ * Add interaction to the map
+ */	
+//map.addInteraction(selectPointerMove);
+
+var interaction;
+
+var select = new ol.interaction.Select({
+	style: new ol.style.Style({
+		stroke: new ol.style.Stroke({
+			color: '#6f84ec', width: 4
+		})
+	})
+	});
+
+var dirty = {};
+var formatWFS = new ol.format.WFS();
+var formatGML;
+
+/**
+ * Draw Points
+ */
+var processDrawVertex = function() { 
+	map.removeInteraction(interaction);
+	var layerInsert = findBy(layerSelected);
+	select.getFeatures().clear();
+	map.removeInteraction(select);
+	interaction = new ol.interaction.Draw({
+		    type: 'Point',
+		    source: layerInsert.getSource()
+		});
+		map.addInteraction(interaction);
+		interaction.on('drawend', function(e) {
+			transactWFS('insert',e.feature);
+			map.removeInteraction(interaction);
+			pDV = false;
+	    });
+
+
+
+
+
+};
+
+/**
+ * Draw Linestrings
+ */
+var processDrawLine = function() {
+	map.removeInteraction(interaction);
+	var layerInsert = findBy(layerSelected);
+	select.getFeatures().clear();
+	map.removeInteraction(select);
+	interaction = new ol.interaction.Draw({
+		    type: 'LineString',
+		    source: layerInsert.getSource()
+		});
+		map.addInteraction(interaction);
+		interaction.on('drawend', function(e) {
+			transactWFS('insert',e.feature);
+	    });
+};
+
+
+
+
+/**
+ * Draw Polygons
+ */
+var processLayerPoly = function() {
+	map.removeInteraction(interaction);
+	var layerInsert = findBy(layerSelected);
+	select.getFeatures().clear();
+	map.removeInteraction(select);
+		interaction = new ol.interaction.Draw({
+		    type: 'Polygon',
+		    source: layerInsert.getSource()
+		});
+		map.addInteraction(interaction);
+		interaction.on('drawend', function(e) {
+			transactWFS('insert',e.feature);
+	    });
+	};
+
+
+
+/**
+ * Add class highlight to select buttom from a riboon edition group
+ */
+var pDP;
+var pDL;
+var pDV;
+
+	$('#btnZoomIn').on('click', function() {
+		var view = map.getView();
+		var newResolution = view.constrainResolution(view.getResolution(), -1);
+		view.setResolution(newResolution);
+	});
+
+	$('#btnZoomOut').on('click', function() {
+		var view = map.getView();
+		var newResolution = view.constrainResolution(view.getResolution(), 1);
+		view.setResolution(newResolution);
+	});
+	
+	$('#btnDelete').on('click', function() {
+		var view = map.getView();
+		view.setCenter(center);
+		view.setZoom(zoom );
+	});
+	
+	$('#returnDash').on('click', function() {
+		window.location.href = "index.xhtml";
+	});
+	
+	
+
+	$('.btnMenu').on('click', function(event) {
+
+	
+
+	switch($(this).attr('id')) {
+	
+	case 'btnSelect':
+		
+		
+		//$('.btnMenu').addClass('ui-state-disabled');
+		
+		//$('button:').addClass('ui-state-disabled');
+		//$('button').ribbonControl:btnDrawVertex').addClass('ui-state-disabled');
+		
+		$(document.getElementById('ribbonControl:btnDrawVertex')).addClass('ui-state-disabled');
+		
+		//$(this).addClass('ui-state-disabled');
+		//$(this.disabled = true);
+		
+		$(this).removeClass('ui-state-disabled');
+		$(this).addClass('blue');
+		
+		//$('.btnMenu').removeClass('blue');
+		//$(this).addClass('blue');
+	
+		map.removeInteraction(interaction);
+		select.getFeatures().clear();
+		map.removeInteraction(select);
+		processSelect();
+	break;
+	
+	
+	case 'ribbonControl:btnSelect':
+		
+		
+		//$('.btnMenu').addClass('ui-state-disabled');
+		
+		//$('button:').addClass('ui-state-disabled');
+		//$('button').ribbonControl:btnDrawVertex').addClass('ui-state-disabled');
+		
+		$(document.getElementById('ribbonControl:btnDrawVertex')).addClass('ui-state-disabled');
+		
+		//$(this).addClass('ui-state-disabled');
+		//$(this.disabled = true);
+		
+		$(this).removeClass('ui-state-disabled');
+		$(this).addClass('blue');
+
+		
+		
+		
+		
+		
+		//$('.btnMenu').removeClass('blue');
+		//$(this).addClass('blue');
+
+	
+		map.removeInteraction(interaction);
+		select.getFeatures().clear();
+		map.removeInteraction(select);
+		processSelect();
+	break;
+	
+case 'ribbonControl:btnSelect2':
+
+		$(document.getElementById('ribbonControl:btnDrawVertex')).addClass('ui-state-disabled');
+		$(this).removeClass('ui-state-disabled');
+		$(this).addClass('blue');
+		map.removeInteraction(interaction);
+		select.getFeatures().clear();
+		map.removeInteraction(select);
+		processSelect();
+	break;
+	
+	case 'ribbonControl:btnNav':
+		$('.btnMenu').removeClass('blue');
+		$(this).addClass('blue');
+		map.removeInteraction(select);
+		select.getFeatures().clear();
+	break;
+	
+	case 'ribbonControl:btnEdit':
+	break;
+	case 'ribbonControl:btnDrawVertex':
+if (layerSelected == null){
+		alert("Selecione Primeiro uma Camada!");
+		$(this).removeClass('blue');	
+}else{
+
+
+//if (layerSelected === 'Wexac11c-erty-12c8-srtc-Auya23d970we' || layerSelected === 'lxQxac11c121100c8ssacAA7a23d970cd' || layerSelected === 'l38bf1ad5bf004c60a3a09b85772cfdec' || layerSelected === 'l70fb230899f740969c8ed7143ec1563b')   {
+
+       $('.btnMenu').removeClass('blue');
+		$(this).addClass('blue');
+		map.removeInteraction(interaction);
+		select.getFeatures().clear();
+		map.removeInteraction(select);
+	if (pDV !== true) {
+		pDV = true;
+		pDV = false;
+		processDrawVertex();
+	}else{
+		pDV = false;
+ 		$(this).removeClass('blue');
+	};
+
+ 
+//}else{
+//alert("Camada não editavel!");
+//		$(this).removeClass('blue');	
+//}
+
+
+		
+};
+	break;
+	case 'ribbonControl:btnDrawLine':
+if (layerSelected == null){
+		alert("Selecione Primeiro uma Camada!");
+		$(this).removeClass('blue');	
+}else{
+		$('.btnMenu').removeClass('blue');
+		$(this).addClass('blue');
+		map.removeInteraction(interaction);
+		select.getFeatures().clear();
+		map.removeInteraction(select);
+	if (pDL !== true) {
+		pDL = true;
+		pDP = false;
+		processDrawLine();
+	}else{
+		pDL = false;
+ 		$(this).removeClass('blue');
+	};
+}
+	break;
+	case 'ribbonControl:btnDrawBox':
+	break;
+	case 'ribbonControl:btnDrawSquare':
+	break;
+	case 'ribbonControl:btnDrawCircle':
+	break;
+	case 'ribbonControl:btnDrawPoly':
+
+editFeatureInsert();
+
+if (layerSelected == null){
+		alert("Selecione Primeiro uma Camada!");
+		$(this).removeClass('blue');	
+}else{
+		$('.btnMenu').removeClass('blue');
+		$(this).addClass('blue');
+		map.removeInteraction(interaction);
+		select.getFeatures().clear();
+		map.removeInteraction(select);
+	if (pDP !== true) {
+		pDP = true;
+		pDL = false;
+		processLayerPoly();
+	}else{
+		pDP = false;
+ 		$(this).removeClass('blue');
+	};
+};		
+	break;
+	case 'btnDelete2':
+		deleteFeature('not implement yet');
+	break;
+	default:
+	break;
+
+	};
+});
+
+
+/**
+ * This is a workaround.
+ * Returns the associated layer.
+ * @param {ol.Map} map.
+ * @return {ol.layer.Vector} Layer.
+ */
+ol.Feature.prototype.getLayer = function(map) {
+    var this_ = this, layer_, layersToLookFor = [];
+    /**
+     * Populates array layersToLookFor with only
+     * layers that have features
+     */
+    var check = function(layer){
+        var source = layer.getSource();
+        if(source instanceof ol.source.Vector){
+            var features = source.getFeatures();
+            if(features.length 
+            <h:outputText value="&gt;" escape="false" /> 
+            0){
+            	layersToLookFor.push({
+                	layer: layer,
+                    features: features
+                });
+            }
+        }
+    };
+    map.getLayers().forEach(function(layer){
+        if (layer instanceof ol.layer.Group) {
+            layer.getLayers().forEach(check);
+        } else {
+			check(layer);
+        }
+    });
+    layersToLookFor.forEach(function(obj){
+        var found = obj.features.some(function(feature){
+            return this_ === feature;
+        });
+        if(found){
+            layer_ = obj.layer;
+        }
+    });
+    return layer_;
+};
+
+/**
+ * Select a feature 
+ */
+var processSelect =  function(event) {
+	map.removeInteraction(interaction);
+	select.getFeatures().clear();
+	map.removeInteraction(select); //Analisar
+	map.addInteraction(select);
+	
+	
+	
+		interaction = new ol.interaction.Modify({
+			features: select.getFeatures(),
+
+
+
+deleteCondition: evt =<h:outputText value="&gt;" escape="false" /> { 
+	return ol.events.condition.shiftKeyOnly(evt) 
+		<h:outputText value="&amp;&amp;" escape="false"/>
+ 		ol.events.condition.singleClick(evt) 
+ 	}
+
+			});
+		map.addInteraction(interaction);
+
+		//var snap = new ol.interaction.Snap({
+		//	source: layerve7dd1afaa8da0sserc90333e44aedr5.getSource()
+		//	});
+		//map.addInteraction(snap);		
+
+		
+		
+		dirty = {};
+		select.getFeatures().on('add', function(e) {
+			e.element.on('change', function(e) {
+				dirty[e.target.getId()] = true;
+				});
+			});
+		select.getFeatures().on('remove', function(e) {
+			f = e.element;
+			if (dirty[f.getId()]){
+				delete dirty[f.getId()];
+				featureProperties = f.getProperties();
+			    delete featureProperties.boundedBy;
+			    var clone = new ol.Feature(featureProperties);
+			    clone.setId(f.getId());
+ 			    clone.setGeometry(f.getGeometry());
+
+
+			    transactWFS('update',clone);
+				}
+			});
+	};
+
+
+
+
+function removeSelectedFeature() {
+   var features = this.select.getFeatures();
+
+     if (features != null 
+     <h:outputText value="&amp;&amp;" escape="false"/> 
+     features.length <h:outputText value="&gt;" escape="false" /> 0) {
+         for (x in features) {
+            var properties = features[x].getProperties();
+            var id = properties.id;
+            if (id == selectedFeatureID) {
+              layerpa7781afaa8da023erc90338004ae544.removeFeature(features[x]);
+               break;
+            }
+          }
+        }
+      }
+	
+
+/**
+ * Draw edit feature
+ */
+var deleteFeature2 = function() {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+	var keyFid = feature.getId();
+	select.getLayer(feature).getSource().removeFeature(feature);
+	select.getFeatures().clear();
+  }
+};
+
+
+ var newStyle33 = new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 5,
+                fill: new ol.style.Fill({color: 'red'}),
+                stroke: new ol.style.Stroke({color: 'yellow', width: 1})
+            })
+        });
+       
+
+
+function geometryStyle33(feature){
+  var
+    style = [],
+    geometry_type = feature.getGeometry().getType(),
+    white = [255, 255, 255, 1],
+    blue = [0, 153, 255, 1],
+    width = 6
+  ;
+
+  style['LineString'] = [
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: white, width: width + 2
+      })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: blue, width: width
+      })
+    })
+  ],
+  style['Polygon'] = [
+    new ol.style.Style({
+      fill: new ol.style.Fill({ color: [255, 255, 255, 0.5] })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: white, width: 3.5
+      })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: blue, width: 2.5
+      })
+    })
+  ],
+  style['MultiPolygon'] = [
+    new ol.style.Style({
+      fill: new ol.style.Fill({ color: [255, 255, 255, 0.0] })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: white, width: 3.5
+      })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: blue, width: 2.5
+      })
+    })
+  ],
+  style['Point'] = [
+    new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: width * 2,
+        fill: new ol.style.Fill({color: blue}),
+        stroke: new ol.style.Stroke({
+          color: white, width: width / 2
+        })
+      })
+    })
+  ];
+
+  return style[geometry_type];
+}
+
+
+
+var outro ;
+var deleteFeature = function(outro) {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+	this.select.getLayer(feature).getSource().removeFeature(feature);
+  }
+};
+
+
+
+
+/**
+ * Rename geometry name at runtime
+ */
+var newname ;
+var renameFeature = function(newname) {
+  var features = this.select.getFeatures();
+   	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+    	feature.set('nome', newname);
+    	this.select.getFeatures().clear();
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Function to print any feature
+ */
+
+var editFeatureInsert = function() {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+    	var geometry = feature.getGeometry();
+    	var keyFid = feature.getId();
+    	var npos = keyFid.indexOf(".");
+
+
+
+    	var lenkeyFid = keyFid.length;
+    	var layerName = keyFid.substr(0, npos);
+    	var numeros = 0;
+
+
+    	
+  		numeros = layerName.length - 4;
+		var layerType = keyFid.substr(0, npos - numeros);  
+    
+
+ 	var idDef = feature.get('id');
+	if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+		idNumero = feature.get('id');
+	}else{
+		var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+	}
+ 	geometrySelected = idNumero;
+  }
+};
+
+var editLayer = function() {
+	if (layerSelected == null){ 
+		alert("Selecione Primeiro uma Camada!");
+		PF('sidebar1').show() ;
+	}else{
+		layerEdit([{name:'layerid', value: layerSelected}]);
+	}
+};
+
+var editLayerGeo = function() {
+	if (layerSelected == null){ 
+		alert("Selecione Primeiro uma Camada!");
+		PF('sidebar1').show() ;
+	}else{
+		layerGeoEdit([{name:'layerid', value: layerSelected}]);
+	}
+};
+
+
+/**
+ * Draw edit feature
+ */
+var editFeature = function() {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+    	var geometry = feature.getGeometry();
+    	var keyFid = feature.getId();
+    	var npos = keyFid.indexOf(".");
+
+
+
+    	var lenkeyFid = keyFid.length;
+    	var layerName = keyFid.substr(0, npos);
+    	var numeros = 0;
+
+
+    	fidX1  = 'obratemp' + projeto;
+    	fidV1  = 'vertice4326_view_' + projeto;
+    	fidP1  = 'limiteoffset4326_view_' + projeto;
+	fidPL1 = 'limite4326_view_' + projeto;
+
+
+	if (layerName === fidX1) {
+     		numeros = layerName.length - 8;
+		var layerType = keyFid.substr(0, npos - numeros); 
+ 	}else if (layerName === fidV1) {
+ 		numeros = layerName.length - 7;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else if (layerName === fidP1 || layerName === fidPL1) {
+  		numeros = layerName.length - 6;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else {
+  		numeros = layerName.length - 4;
+		var layerType = keyFid.substr(0, npos - numeros);  
+    	}
+
+ 	var idDef = feature.get('id');
+	if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+		idNumero = feature.get('id');
+	}else{
+		var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+	}
+
+	
+
+	objEdit([{name:'objectid', value: idNumero}, {name:'layerid', value: layerName}]);
+
+	
+
+
+ 	
+  }
+};
+
+
+/**
+ * Draw edit feature
+ */
+var editFeatureVer = function() {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+    	var geometry = feature.getGeometry();
+    	var keyFid = feature.getId();
+    	var npos = keyFid.indexOf(".");
+
+
+
+    	var lenkeyFid = keyFid.length;
+    	var layerName = keyFid.substr(0, npos);
+    	var numeros = 0;
+
+
+    	fidX1  = 'obratemp' + projeto;
+    	fidV1  = 'vertice4326_view_' + projeto;
+    	fidP1  = 'limiteoffset4326_view_' + projeto;
+    	fidPL1 = 'limite4326_view_' + projeto;
+
+
+	if (layerName === fidX1) {
+     		numeros = layerName.length - 8;
+		var layerType = keyFid.substr(0, npos - numeros); 
+ 	}else if (layerName === fidV1) {
+ 		numeros = layerName.length - 7;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else if (layerName === fidP1 || layerName === fidPL1) {
+  		numeros = layerName.length - 6;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else {
+  		numeros = layerName.length - 4;
+		var layerType = keyFid.substr(0, npos - numeros);  
+    	}
+
+ 	var idDef = feature.get('id');
+	if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+		idNumero = feature.get('id');
+	}else{
+		var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+	}
+
+	
+
+	objEditVer([{name:'objectid', value: idNumero}, {name:'layerid', value: layerName}]);
+
+	
+
+
+ 	
+  }
+};
+
+
+var editFeatureRI = function() {
+  var features = this.select.getFeatures();
+  	if (features.getLength() === 1) {
+    	var feature = features.item(0);
+    	var geometry = feature.getGeometry();
+    	var keyFid = feature.getId();
+    	var npos = keyFid.indexOf(".");
+
+
+
+    	var lenkeyFid = keyFid.length;
+    	var layerName = keyFid.substr(0, npos);
+    	var numeros = 0;
+
+
+    	fidX1  = 'obratemp' + projeto;
+    	fidV1  = 'vertice4326_view_' + projeto;
+    	fidP1  = 'limiteoffset4326_view_' + projeto;
+	fidPL1 = 'limite4326_view_' + projeto;
+
+
+	if (layerName === fidX1) {
+     		numeros = layerName.length - 8;
+		var layerType = keyFid.substr(0, npos - numeros); 
+ 	}else if (layerName === fidV1) {
+ 		numeros = layerName.length - 7;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else if (layerName === fidP1 || layerName === fidPL1) {
+  		numeros = layerName.length - 6;
+		var layerType = keyFid.substr(0, npos - numeros);  
+	}else {
+  		numeros = layerName.length - 4;
+		var layerType = keyFid.substr(0, npos - numeros);  
+    	}
+
+ 	var idDef = feature.get('id');
+	if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+		idNumero = feature.get('id');
+	}else{
+		var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+	}
+
+	
+
+	objEditRI([{name:'objectid', value: idNumero}, {name:'layerid', value: layerName}]);
+
+	
+
+
+ 	
+  }
+};
+
+
+var parcelFeatureRI = function() {
+	  var features = this.select.getFeatures();
+	  	if (features.getLength() === 1) {
+	    	var feature = features.item(0);
+	    	var geometry = feature.getGeometry();
+	    	var keyFid = feature.getId();
+	    	var npos = keyFid.indexOf(".");
+
+
+
+	    	var lenkeyFid = keyFid.length;
+	    	var layerName = keyFid.substr(0, npos);
+	    	var numeros = 0;
+
+
+	    	fidX1  = 'obratemp' + projeto;
+	    	fidV1  = 'vertice4326_view_' + projeto;
+	    	fidP1  = 'limiteoffset4326_view_' + projeto;
+		fidPL1 = 'limite4326_view_' + projeto;
+
+
+		if (layerName === fidX1) {
+	     		numeros = layerName.length - 8;
+			var layerType = keyFid.substr(0, npos - numeros); 
+	 	}else if (layerName === fidV1) {
+	 		numeros = layerName.length - 7;
+			var layerType = keyFid.substr(0, npos - numeros);  
+		}else if (layerName === fidP1 || layerName === fidPL1) {
+	  		numeros = layerName.length - 6;
+			var layerType = keyFid.substr(0, npos - numeros);  
+		}else {
+	  		numeros = layerName.length - 4;
+			var layerType = keyFid.substr(0, npos - numeros);  
+	    	}
+
+	 	var idDef = feature.get('id');
+		if (idDef <h:outputText value="&gt;" escape="false" /> 0){
+			idNumero = feature.get('id');
+		}else{
+			var idNumero = keyFid.substr(npos + 1, lenkeyFid);
+		}
+
+		
+
+		objParceltRI([{name:'objectid', value: idNumero}, {name:'layerid', value: layerName}]);
+
+		
+
+
+	 	
+	  }
+	};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Refresh map 
+ */
+
+var fetchData = function () {
+ 	map.removeInteraction(select);
+	map.removeInteraction(draw);
+	map.removeInteraction(interaction);
+
+    jQuery.ajax(urlwfs,{
+       success: function (data, textStatus, jqXHR) {
+
+
+    	   source607bec088d2d48e7a046fe4e8183bf1c.clear();
+    	   source783e57ddb6084bd9b6900b6556648a0c.clear();
+
+    	  // sourcef2fa285ae20a4455b4b1f98b8847bf5e;
+    	  // source8797844e91bc48d39fd63dd7d1961a1d
+    	  // source178acdd15fe340cbbacceb7d911127b6
+
+
+$('.btnMenu').removeClass('blue');
+     //  obra4326source.addFeatures(geojsonFormat.readFeatures(data));
+    }});
+};
+
+
+var fetchData55 = function () {
+	   source607bec088d2d48e7a046fe4e8183bf1c.clear();
+	   source783e57ddb6084bd9b6900b6556648a0c.clear();
+};
+
+
+var fetchData3 = function (rr, pp) {
+	var utm31980 = "+proj=utm +zone=20 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+	var wgs3857 = "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs";
+
+	var center = proj4(utm31980,wgs3857,[rr, pp]);
+	this.view.setCenter(center);
+	this.view.setZoom(18);
+	};
+
+var fetchData5 = function (minLat, maxLng, minLng, maxLat, idx) {
+	var pt1 = ol.proj.transform([minLat,maxLat], 'EPSG:4326', 'EPSG:3857');
+	var pt2 = ol.proj.transform([minLng,maxLng], 'EPSG:4326', 'EPSG:3857');
+	var boxarray = [pt1[0], pt2[1], pt2[0], pt1[1]];
+	this.map.getView().fit(boxarray, this.map.getSize());
+	};
+
+ var fetchDataLAYERID_ = function (layersOrder) {
+	var temp = new Array();
+	// this will return an array with strings "1", "2", etc.
+	temp = layersOrder.split(",");
+
+  		var layers = map.getLayers();
+                var length = layers.getLength();
+ 		var layerChange;	 		 
+                for (var i = 0; i <h:outputText value="&lt;" escape="false" /> length; i++) {
+
+ 			 layerChange = findBy(temp[i]);
+				if (i <h:outputText value="&lt;" escape="false" /> (length - 1)){
+					 layerChange.setZIndex(i);
+				}
+                	
+                }
+	     }; 
+
+ 	     /**
+             * Change layers orders base on layersOrder list array
+             * @param {list array} layersOrder
+             * @returns {undef}
+             */
+	    var fetchDataLAYERID = function (layersOrder) { 
+
+  		var layers = map.getLayers();
+        var length = layers.getLength();
+ 		var layerChange;	 		
+                for (var i = 0; i <h:outputText value="&lt;" escape="false" /> length; i++) {
+                	layerChange = findBy(layersOrder[i]);
+				if (i <h:outputText value="&lt;" escape="false" /> (length - 1)){
+					 layerChange.setZIndex(i);
+				}
+             }
+	     }; 
+
+ 	     /**
+             * Find a layer name from the map layers.
+             * @param {type} layers, layername
+             * @returns {ol.layer}
+             */
+ 	     function findBy(layername) {
+		    var layers = map.getLayers();
+            var lenLayers = layers.getLength();
+         for (var i = 0; i <h:outputText value="&lt;" escape="false" /> lenLayers; i++) {
+			var layerFind = layers.item(i);
+			var name = layerFind.get('name')
+                       if (name == layername) {
+                              return layerFind;
+                        }
+                    }
+         	return null; 
+            };
+
+ 
+
+/**
+* Add Layer default unctions
+*/
+      
+      
+      
+      
+      var psf467db146181c4b6f92e004647e5e060c = function() {
+    	  var image = new ol.style.Circle({
+    	    radius: 5,
+    	    fill: null,
+    	    stroke: new ol.style.Stroke({color: 'orange', width: 2})
+    	  });
+    	  return [
+    	      new ol.style.Style({
+    	          image: image,
+    	          geometry: function(feature) {
+    	              var coordinates = feature.getGeometry().getCoordinates()[0];
+    	              return new ol.geom.MultiPoint(coordinates);
+    	          }
+    	      }),
+    	      new ol.style.Style({
+    	        stroke: new ol.style.Stroke({
+    	          color: 'blue',
+    	          width: 3
+    	        }),
+    	        fill: new ol.style.Fill({
+    	          color: 'rgba(0, 0, 255, 0.1)'
+    	        })
+    	      })
+    	  ];
+    	};      
+      
+      
+
+function psfbcf9728812584d99a26ee970e692857a(feature, resolution) {
+    	return new ol.style.Style({
+    	
+    		fill: new ol.style.Fill({
+	          color: 'rgba(245, 235, 255, 0.1)'
+	        }),
+
+	        stroke: new ol.style.Stroke({
+	          color: '#ffcc33',
+	          width: 1
+	        }),
+	        
+          image: new ol.style.Circle({
+            radius: 5,
+            fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
+            stroke: new ol.style.Stroke({color: 'red', width: 1})
+          }),
+           text: tsbcf9728812584d99a26ee970e692857a(feature, resolution, svbcf9728812584d99a26ee970e692857a)
+        });
+	}
+
+
+
+var changeStyleLayerbcf9728812584d99a26ee970e692857a = function (layerStyle) {
+	function psfbcf9728812584d99a26ee970e692857a(feature, resolution) {
+    	return new ol.style.Style({
+          image: new ol.style.Circle({
+            radius: 5,
+            fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
+            stroke: new ol.style.Stroke({color: 'red', width: 1})
+          }),
+           text: tsbcf9728812584d99a26ee970e692857a(feature, resolution, layerStyle)
+        });
+	}
+	layerbcf9728812584d99a26ee970e692857a.setStyle(psfbcf9728812584d99a26ee970e692857a);
+	}; 
+
+
+
+
+
+
+
+
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
+var addWfsLayer = function (str) {
+    var layer333 = new ol.layer.Vector({
+        source: sourcebcf9728812584d99a26ee970e692857a,
+        name: str
+    });
+    this.map.addLayer(layer333);
+    PF('addLayerDialog').hide();
+};
+
+
+
+
+
+      
+
+</ui:composition>

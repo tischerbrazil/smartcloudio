@@ -1,0 +1,450 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html">
+ 
+    
+/**
+* ---------------------------- LABEL START ------------------------
+*/
+
+
+var image33 = new ol.style.Circle({
+  radius: 5,
+  fill: null,
+  stroke: new ol.style.Stroke({ color: 'red', width: 1 })
+});
+
+var styles33 = { 
+  'Point': new ol.style.Style({
+    image: image33
+  }),
+  'LineString': new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'green',
+      width: 1
+    })
+  }),
+  'MultiLineString': new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'green',
+      width: 1
+    })
+  }),
+  'MultiPoint': new ol.style.Style({
+    image: image33
+  }),
+  'MultiPolygon': new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'yellow',
+      width: 1
+    }),
+    fill: new ol.style.Fill({
+      color: 'rgba(255, 255, 0, 0.1)'
+    })
+  }),
+  'Polygon': new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'blue',
+      lineDash: [4],
+      width: 3
+    }),
+    fill: new ol.style.Fill({
+      color: 'rgba(0, 0, 255, 0.1)'
+    })
+  }),
+  'GeometryCollection': new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'magenta',
+      width: 2
+    }),
+    fill: new ol.style.Fill({
+      color: 'magenta'
+    }),
+    image: new ol.style.Circle({
+      radius: 10,
+      fill: null,
+      stroke: new ol.style.Stroke({
+        color: 'magenta'
+      })
+    })
+  }),
+  'Circle': new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: 'red',
+      width: 2
+    }),
+    fill: new ol.style.Fill({
+      color: 'rgba(255,0,0,0.2)'
+    })
+  })
+};
+
+var styleFunction33 = function (feature) {
+  return styles33[feature.getGeometry().getType()];
+};
+          
+
+
+/**
+ * Start variables dd
+ */
+
+ var defaultStyle = {
+        'Point': new ol.style.Style({
+          image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+              color: 'rgba(255,255,0,0.5)'
+            }),
+            radius: 5,
+            stroke: new ol.style.Stroke({
+              color: '#ff0',
+              width: 1
+            })
+          })
+        }),
+        'LineString': new ol.style.Style({
+          stroke: new ol.style.Stroke({
+            color: '#f00',
+            width: 3
+          })
+        }),
+        'Polygon': new ol.style.Style({
+          fill: new ol.style.Fill({
+            color: 'rgba(0,255,255,0.5)'
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#0ff',
+            width: 1
+          })
+        }),
+        'MultiPoint': new ol.style.Style({
+          image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+              color: 'rgba(255,0,255,0.5)'
+            }),
+            radius: 5,
+            stroke: new ol.style.Stroke({
+              color: '#f0f',
+              width: 1
+            })
+          })
+        }),
+        'MultiLineString': new ol.style.Style({
+          stroke: new ol.style.Stroke({
+            color: '#0f0',
+            width: 3
+          })
+        }),
+        'MultiPolygon': new ol.style.Style({
+          fill: new ol.style.Fill({
+            color: 'rgba(0,0,255,0.5)'
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#00f',
+            width: 1
+          })
+        })
+      };
+
+
+
+var myDom = {
+  points: {
+    text: 'shorten',
+    align: 'left',
+    baseline: 'top',
+    rotation: '0',
+    font: 'Arial',
+    weight: 'normal',
+    size: '16px',
+    offsetX: '10',
+    offsetY: '10',
+    color: '#0000FF',
+    outline: '#00FFEE',
+    outlineWidth: '3',
+    maxreso: '3'
+  }
+};
+
+
+
+
+/**
+ * Styling points
+ */
+var getText = function(feature, resolution, dom) {
+  var type = dom.text;
+  var maxResolution = dom.maxreso;
+
+  var text = feature.get('nome');
+
+  <h:outputText value="if (resolution &gt; maxResolution) {"
+		escape="false" />
+
+    text = '';
+  } else if (type == 'hide') {
+    text = '';
+  } else if (type == 'shorten') {
+    text = text; 
+  } else if (type == 'wrap') {
+    text = text;
+  }
+
+  return text;
+};
+
+/**
+ * Styling points 2
+ */
+var getText2 = function(feature, resolution, dom) {
+  var type = dom.text;
+  var maxResolution = dom.maxreso2;
+
+  var text = feature.get('nome');
+
+<h:outputText value="if (resolution &gt; maxResolution) {"
+		escape="false" />
+
+    text = '';
+  } else if (type == 'hide') {
+    text = '';
+  } else if (type == 'shorten') {
+    text = text; 
+  } else if (type == 'wrap') {
+    text = text;
+  }
+
+  return text;
+};
+
+/**
+ * Function/ Style fro "Point"
+ */
+var createTextStyleVertices = function(feature, resolution, dom) {
+  var align = dom.align;
+  var baseline = dom.baseline;
+  var size = dom.size;
+  var offsetX = parseInt(dom.offsetX, 10);
+  var offsetY = parseInt(dom.offsetY, 10);
+if (dom.weight == 'true'){
+ var weight = 'bold';
+}else{
+ var weight = 'normal';
+}
+ 
+  var rotation = parseFloat(dom.rotation);
+  var font = weight + ' ' + size + ' ' + dom.font;
+  var fillColor = dom.color;
+  var outlineColor = dom.outline;
+  var outlineWidth = parseInt(dom.outlineWidth, 20);
+  return new ol.style.Text({
+    textAlign: align,
+    textBaseline: baseline,
+    font: font,
+    text: getText(feature, resolution, dom),
+    fill: new ol.style.Fill({color: fillColor}),
+    stroke: new ol.style.Stroke({color: outlineColor, width: outlineWidth}),
+    offsetX: offsetX,
+    offsetY: offsetY,
+    rotation: rotation
+  });
+};
+
+
+/**
+ * Function/Style for "Text"
+ */
+var createTextStyleVPoint = function(feature, resolution, dom) {
+  var align = dom.align;
+  var baseline = dom.baseline;
+  var size = dom.size;
+  var offsetX = parseInt(dom.offsetX, 20);
+  var offsetY = parseInt(dom.offsetY, 10);
+  var weight = dom.weight;
+  var rotation = parseFloat(dom.rotation);
+  var font = weight + ' ' + size + ' ' + dom.font;
+  var fillColor = dom.color;
+  var outlineColor = dom.outline;
+  var outlineWidth = parseInt(dom.outlineWidth, 10);
+  return new ol.style.Text({
+    textAlign: align,
+    textBaseline: baseline,
+    font: font,
+    text: getText2(feature, resolution, dom),
+    fill: new ol.style.Fill({color: fillColor}),
+    stroke: new ol.style.Stroke({color: outlineColor, width: outlineWidth}),
+    offsetX: offsetX,
+    offsetY: offsetY,
+    rotation: rotation
+  });
+};
+
+
+/**
+ * Function/Style for "VPoint"
+ */
+var createVPointStyleFunction = function() {
+  return function(feature, resolution) {
+    var style = new ol.style.Style({
+       image: new ol.style.Icon(({
+	    anchor: [0.5, 26],
+	    anchorXUnits: 'fraction',
+	    anchorYUnits: 'pixels',
+	    opacity: 0.75,
+	    src: feature.get('iconflag')
+	  })) ,
+      text: createTextStyleVPoint(feature, resolution, myDom.points)
+    });
+    return [style];
+  };
+};
+
+/**
+ * Function/Style for "Point"
+ */
+var createVerticeStyleFunction = function() {
+  return function(feature, resolution) {
+    var style = new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 5,
+        fill: new ol.style.Fill({color: 'rgba(0, 255, 215, 0.1)'}),
+        stroke: new ol.style.Stroke({color: 'blue', width: 1})
+      }),
+      text: createTextStyleVertices(feature, resolution, myDom.points)
+    });
+    return [style];
+  };
+};
+
+/**
+ * Function/Style for "VP"
+ */
+var createVPStyleFunction = function() {
+  return function(feature, resolution) {
+  	var style = new ol.style.Style({
+		fill: new ol.style.Fill({
+			color: 'rgba(245, 235, 255, 0.6)'
+		}),
+		stroke: new ol.style.Stroke({
+			color: '#ffcc33',
+	        	width: 1
+		}),
+  	})
+  	return [style];
+  };
+};
+
+/**
+ * END - STYLE MODULE
+ */
+
+/**
+ * Hide Layers in "Layers" window.
+ */
+var processLayer = function(indexN1) {
+ var layers = this.map.getLayers().getArray();
+ var layer = layers[indexN1];
+	if (layer.get('visible') == true){
+		layer.set('visible', false);
+	}else{  
+		layer.set('visible', true);
+	};
+};
+/**
+ * Mouse Position Control Projection/Format
+ */
+
+
+
+    var controlMousePos = new ol.control.MousePosition({
+        coordinateFormat: ol.coordinate.createStringXY(4),
+        projection: projectionCode,
+        undefinedHTML: '<h:outputText
+		value="&amp;" escape="false" />nbsp;'
+      });
+
+    var mousePositionControl = new ol.control.MousePosition({
+        className: 'custom-mouse-position',
+        target: document.getElementById('location'),
+        coordinateFormat: ol.coordinate.createStringXY(5),
+        undefinedHTML: '<h:outputText
+		value="&amp;" escape="false" />nbsp;'
+      });
+
+function geometryStyle(feature){
+  var
+    style = [],
+    geometry_type = feature.getGeometry().getType(),
+    white = [255, 255, 255, 1],
+    blue = [0, 153, 255, 1],
+    width = 6
+  ;
+
+  style['LineString'] = [
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: white, width: width + 2
+      })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: blue, width: width
+      })
+    })
+  ],
+  style['Polygon'] = [
+    new ol.style.Style({
+      fill: new ol.style.Fill({ color: [255, 255, 255, 0.0] })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: white, width: 3.5
+      })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: blue, width: 2.5
+      })
+    })
+  ],
+  style['MultiPolygon'] = [
+    new ol.style.Style({
+      fill: new ol.style.Fill({ color: [255, 255, 255, 0.0] })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: white, width: 3.5
+      })
+    }),
+    new ol.style.Style({
+      stroke: new ol.style.Stroke({
+        color: blue, width: 2.5
+      })
+    })
+  ],
+  style['Point'] = [
+    new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: width * 2,
+        fill: new ol.style.Fill({color: blue}),
+        stroke: new ol.style.Stroke({
+          color: white, width: width / 2
+        })
+      })
+    })
+  ];
+
+  return style[geometry_type];
+}
+
+
+
+  	
+
+/**
+* ---------------------------- LABEL END ------------------------
+*/
+
+</ui:composition>

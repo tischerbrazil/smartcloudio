@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:pt="jakarta.faces.passthrough"   
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="SelectedLayerGeoForm" >
+  	
+		<h:panelGroup id="tablayer"> 	
+		<p:commandButton rendered="#{applicationEntityBean.page8 gt 0}"
+			actionListener="#{applicationEntityBean.previousPage}"
+		 		icon="pi pi-step-backward"  update="tablayer" />
+		
+		<p:outputLabel id="paginator" 	
+			value="#{applicationEntityBean.page8 * applicationEntityBean.pageSize8 + 1} até 
+			#{applicationEntityBean.page8 * applicationEntityBean.pageSize8 + 
+			fn:length(applicationEntityBean.pageItems8)} (de #{applicationEntityBean.count8})"/>
+		
+		<p:commandButton  rendered="#{(applicationEntityBean.page8 + 1) * applicationEntityBean.pageSize8 lt applicationEntityBean.count8}"
+			actionListener="#{applicationEntityBean.nextPage}"
+		 		icon="pi pi-step-forward"  update="tablayer" />
+
+		<p:inputText pt:placeholder="Buscar Nome" size="7"
+			value="#{applicationEntityBean.nameSearch}"/>
+		#{''}
+		<p:commandButton icon="pi pi-search"  
+			action="#{applicationEntityBean.search8}" update="tablayer" title="Buscar Autor" alt="Buscar Autor"/>
+			
+			#{''}
+		<p:commandButton icon="pi pi-import"  value="Importar KML"
+		oncomplete="PF('importKMLDialog').show();" update="importKMLForm" title="Importar KML"/>
+	
+	 	<p:remoteCommand name="reco" update="message"
+	 	 oncomplete="fetchData3(args.coordx,args.coordy, '4326')" 
+	 	 
+	 	 action="#{applicationEntityBean.extendsFeature}"/>
+	
+		<p:dataTable id="tbl1" emptyMessage="Nenhuma Geometria Encontrada!"  var="result" 
+		       value="#{applicationEntityBean.tableData}" rowIndexVar="rowIndex">
+		 	<p:column>
+		 	
+		 	
+		 	 <p:commandButton type="button"  icon="fa fa-arrows-alt" styleClass="mr-2"
+                 title="Zoom na Geometria"
+                onclick="reco([{name: 'abstractId', value: '#{result['Id'].value}'}])"/>
+                
+		       
+				#{''}
+				
+		        <p:commandButton ajax="true" icon="fa fa-edit" title="View" 
+				onclick="objEdit([{name:'objectid', value:'#{result['Id'].value}'}]);" />	#{''}
+		       	<h:outputText value="#{result['Nome'].value}" />
+		 	</p:column>  
+		</p:dataTable>
+		</h:panelGroup>
+	</h:form>
+</ui:composition>

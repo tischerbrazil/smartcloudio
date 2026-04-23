@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core" 
+    xmlns:p="http://primefaces.org/ui"> 
+	
+	
+	<p:panelGrid id="iiii" columns="1" cellpadding="4" style="margin:0 auto;">   
+   	  
+   	
+   	
+	<p:selectOneMenu id="scaleOptions"  required="true"  value="#{applicationEntityBean.scale}">
+		<f:selectItem itemValue="50" itemLabel="1:70" />
+		<f:selectItem itemValue="100" itemLabel="1:150" />
+		<f:selectItem itemValue="200" itemLabel="1:300" />
+		<f:selectItem itemValue="300" itemLabel="1:450" />
+		<f:selectItem itemValue="400" itemLabel="1:600" />
+		<f:selectItem itemValue="500" itemLabel="1:750" />
+		<f:selectItem itemValue="600" itemLabel="1:900" />
+		<f:selectItem itemValue="700" itemLabel="1:1050" />
+		<f:selectItem itemValue="800" itemLabel="1:1200" />
+		<f:selectItem itemValue="900" itemLabel="1:1350" />
+		<f:selectItem itemValue="1000" itemLabel="1:1500" />
+		<f:selectItem itemValue="1100" itemLabel="1:1650" />
+		<f:selectItem itemValue="1200" itemLabel="1:1800" />
+		<f:selectItem itemValue="1300" itemLabel="1:1950" />
+		<f:selectItem itemValue="1400" itemLabel="1:2100" />
+		<f:selectItem itemValue="1500" itemLabel="1:2000" />
+		<f:selectItem itemValue="2000" itemLabel="1:2000" />
+		<f:selectItem itemValue="3000" itemLabel="1:4500" />
+		<f:selectItem itemValue="4000" itemLabel="1:6000" />
+		<f:selectItem itemValue="5000" itemLabel="1:7500" />
+		<f:selectItem itemValue="6000" itemLabel="1:9000" />
+		<f:selectItem itemValue="7000" itemLabel="1:10500" />
+		<f:selectItem itemValue="8000" itemLabel="1:12000" />
+		<f:selectItem itemValue="9000" itemLabel="1:13500" />
+		<f:selectItem itemValue="10000" itemLabel="1:15000" />
+		<f:selectItem itemValue="20000" itemLabel="1:30000" />
+        <f:selectItem itemValue="30000" itemLabel="1:45000" />	
+        <f:selectItem itemValue="40000" itemLabel="1:60000" />	
+        <f:selectItem itemValue="50000" itemLabel="1:75000" />	
+		<f:selectItem itemValue="60000" itemLabel="1:90000" />	
+		<f:selectItem itemValue="70000" itemLabel="1:105000" />	
+		<f:selectItem itemValue="80000" itemLabel="1:120000" />	
+		<f:selectItem itemValue="90000" itemLabel="1:135000" />	
+		                        
+		<f:selectItem itemValue="100000" itemLabel="1:150000" />	
+		<f:selectItem itemValue="200000" itemLabel="1:300000" />	
+		<f:selectItem itemValue="300000" itemLabel="1:450000" />
+		<f:selectItem itemValue="400000" itemLabel="1:600000" />	
+		<f:selectItem itemValue="500000" itemLabel="1:750000" />
+		<f:selectItem itemValue="600000" itemLabel="1:900000" />
+		<f:selectItem itemValue="700000" itemLabel="1:1050000" />
+		<f:selectItem itemValue="800000" itemLabel="1:1200000" />
+		<f:selectItem itemValue="900000" itemLabel="1:1350000" />
+		<f:selectItem itemValue="1000000" itemLabel="1:1500000" />
+		
+
+		<f:selectItem itemValue="2000000" itemLabel="1:3000000" />	
+		<f:selectItem itemValue="3000000" itemLabel="1:4500000" />
+		<f:selectItem itemValue="4000000" itemLabel="1:6000000" />	
+		<f:selectItem itemValue="5000000" itemLabel="1:7500000" />
+		<f:selectItem itemValue="6000000" itemLabel="1:9000000" />
+		<f:selectItem itemValue="7000000" itemLabel="1:10500000" />
+		<f:selectItem itemValue="8000000" itemLabel="1:12000000" />
+		<f:selectItem itemValue="9000000" itemLabel="1:13500000" />
+		<f:selectItem itemValue="10000000" itemLabel="1:15000000" />
+		
+     	</p:selectOneMenu>
+     
+    
+	  <p:selectOneMenu id="paperOptions"  required="true"  value="#{applicationEntityBean.paper}">
+		  	<f:selectItem itemValue="4"  itemLabel="A4 - RETRATO" />
+		   	<f:selectItem itemValue="3"  itemLabel="A3 - PAISAGEM" />
+	  </p:selectOneMenu>
+
+	  <p:selectOneMenu id="sistemaOptions"  required="true"  value="#{applicationEntityBean.sistcord}">
+					  	<f:selectItem itemValue="2"  itemLabel="SIRGAS-2000" /> 
+      </p:selectOneMenu>
+      <h:outputText rendered="false" value="Cor do Fundo"/>
+      <p:colorPicker rendered="false" id="colorPopup" value="#{applicationEntityBean.colorPopup}" />                   
+    
+	
+					<p:selectOneMenu rendered="true" id="modeloOptions"  required="true"  
+					value="#{applicationEntityBean.modelo}">
+					   	<f:selectItem itemValue="Planta"  itemLabel="PLANTA" />
+						<f:selectItem itemValue="RetAtual"  itemLabel="RET-ATUAL" />
+						<f:selectItem itemValue="RetFutura"  itemLabel="RET-FUTURA" />
+	       			</p:selectOneMenu>
+ 
+                
+	
+	<p:selectOneMenu id="backgroundOptions" value="#{applicationEntityBean.background}" required="true"  >
+	<f:selectItem itemValue="1"  itemLabel="Nenhum" />
+	<f:selectItem itemValue="2"  itemLabel="Satélite" />
+       </p:selectOneMenu>
+	   <p:commandButton onclick="printPDF()" value="Gerar Arquivo" icon="ui-icon-print"  type="button" />
+       </p:panelGrid>
+   	    <p:dialog modal="true" widgetVar="dlg" showEffect="fade" hideEffect="fade" header="Selected Colors" resizable="false">
+        <h:panelGrid id="grid" columns="2" cellpadding="5">
+         
+            <h:outputText value="Cor Fundo: " />
+            <h:outputText value="#{applicationEntityBean.colorPopup}" style="background-color: \#{applicationEntityBean.colorPopup}" />
+        </h:panelGrid>
+    	</p:dialog> 
+	   
+</ui:composition>

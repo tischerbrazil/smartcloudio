@@ -1,0 +1,411 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+
+	
+
+	<ui:define name="content">
+
+		<p:growl id="messages" showSummary="false" showDetail="true">
+			<p:autoUpdate />
+		</p:growl>
+
+		<style type="text/css">
+.label {
+	width: 20%;
+	padding: 4px;
+}
+
+.value {
+	width: 80%;
+	padding: 4px;
+}
+
+.grid {
+	width: 100%;
+}
+
+.error {
+	color: red;
+}
+
+.outputLabel {
+	font-weight: bold;
+}
+
+.grid {
+	width: 33%;
+	padding: 4px;
+}
+
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number {
+	background: #e64949;
+	color: #fff;
+	border-color: #2014a7;
+}
+
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-title {
+	font-weight: 700;
+}
+</style>
+		
+		
+
+
+			<h:form id="checkout" class="needs-validation">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4 order-md-2 mb-4 py-4">
+							
+							<ul class="list-group mb-3">
+								<ui:repeat value="#{shoppingCartBean.cartItems}" var="_item">
+									<li
+										class="list-group-item d-flex justify-content-between lh-condensed">
+										<div>
+											<h6 class="my-0">
+
+												<p:graphicImage style="width: 50px"
+													value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_item.item.images.stream().findFirst().get().getFilename()}" />
+
+											</h6>
+											<small class="text-muted"></small>
+										</div> <span class="text-muted"> #{_item.quantity} x
+											#{_item.item.name} </span> <span class="text-muted"><h:outputText
+												value="#{_item.subTotal}">
+												<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+											</h:outputText></span>
+									</li>
+								</ui:repeat>
+								<ui:fragment rendered="false">
+									<li
+										class="list-group-item d-flex justify-content-between bg-light">
+										<div class="text-success">
+											<h6 class="my-0">Promo code</h6>
+											<small>EXAMPLECODE</small>
+										</div> <span class="text-success">-$5</span>
+									</li>
+								</ui:fragment>
+								
+								<ui:fragment rendered="false">
+									<li
+										class="list-group-item d-flex justify-content-between bg-light">
+										<div class="text-success">
+											<h6 class="my-0">Cep do Endereço de Entrega</h6>
+										<small>
+											
+											<p:inputText size="7" id="cepCookie" placeholder=""
+											value="#{shoppingCartBean.user.zipcode}" />
+											
+											 <button class="btn btn-dark btn-sm px-4">Calcular</button>
+											</small>
+										</div>
+									
+									</li>
+								</ui:fragment>
+								
+						 		
+
+
+								<li class="list-group-item d-flex justify-content-between"><span>Total
+										em Produtos </span> <strong> <h:outputText
+											value="#{shoppingCartBean.total}">
+											<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+										</h:outputText>
+								</strong></li>
+<ui:fragment rendered="true">
+								<li class="list-group-item d-flex justify-content-between"><span>Desconto
+								</span> <strong> 0,00 </strong></li>
+</ui:fragment>
+								<li class="list-group-item d-flex justify-content-between"><span>Frete
+								</span> <strong> <h:outputText
+											value="#{shoppingCartBean.shoppingCart.shippingValue}">
+											<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+										</h:outputText>
+								</strong></li>
+								
+								<ui:fragment rendered="#{shoppingCartBean.shoppingCart.shippingValue > 0}">
+									<li
+										class="list-group-item d-flex justify-content-between bg-light">
+										<div class="text-success">
+											<h6 class="my-0">C.E.P.</h6> 
+											
+											
+										</div> <span class="text-success">#{shoppingCartBean.shoppingCart.zipcode}</span>
+										
+									</li>
+									</ui:fragment>
+									
+									<li
+										class="list-group-item d-flex justify-content-between bg-light">
+										<div class="text-success">
+										
+											<h6 class="my-0">Método de Envio</h6> 
+											
+										</div> <span class="text-success">#{shoppingCartBean.shoppingCart.shippingMethod.name}</span>
+										
+									</li>
+
+								<li class="list-group-item d-flex justify-content-between"><span>Total
+										Geral da Nota </span> <strong> <h:outputText
+											value="#{shoppingCartBean.totalWithShipping}">
+											<f:convertNumber pattern="¤#,##0.00" currencySymbol="R$ " />
+										</h:outputText>
+								</strong></li>
+							</ul>
+							<ui:fragment rendered="false">
+
+								<div class="input-group">
+									<input type="text" class="form-control"
+										placeholder="Promo code" />
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-secondary">Redeem</button>
+									</div>
+								</div>
+
+							</ui:fragment>
+						</div>
+						<div class="col-md-8 order-md-1">
+							<p:steps id="etapas" activeIndex="0">
+							<p:menuitem value="Cliente" />
+							<p:menuitem value="Entrega" />
+							<p:menuitem value="Pagamento" />
+							</p:steps>
+							
+								
+								
+							<div class="alert alert-primary" role="alert">
+								<p:selectOneRadio id="console"
+									valueChangeListener="#{shoppingCartBean.fireSelection}"
+									value="#{shoppingCartBean.user.isCompany}" unselectable="false">
+									<f:selectItem itemLabel="Pessoa Física" itemValue="false" />
+									<f:selectItem itemLabel="Pessoa Jurídica" itemValue="true" />
+									<p:ajax event="valueChange" update="empresa" />
+								</p:selectOneRadio>
+							</div>
+						
+							<h:panelGroup id="empresa">
+								<h:panelGroup rendered="#{not shoppingCartBean.user.isCompany}">
+								<div class="row">
+									
+									
+									<div class="col-md-12 mb-3">
+										<label for="firstName">Nome</label>
+										<p:inputText class="form-control" id="firstName"
+											placeholder="" value="#{shoppingCartBean.user.name}"
+											requiredMessage="Nome Requerido!" required="true" />
+									</div>
+									
+									
+									
+								</div>
+									<div class="row">
+										<div class="col-md-3 mb-3">
+											<label for="cpf">CPF <span class="text-muted">
+													*</span></label>
+
+											<p:inputMask class="form-control" id="cpf"
+												mask="999.999.999-99" value="#{shoppingCartBean.user.cpf}"
+												requiredMessage="CPF Requerido!" required="true" />
+										</div>
+										<div class="col-md-3 mb-3">
+											<label for="email">Nascimento <span
+												class="text-muted"> *</span></label>
+											<p:inputMask class="form-control" label="Nascimento"
+												id="birthdate" mask="99/99/9999"
+												value="#{shoppingCartBean.user.birthdate}"
+												requiredMessage="Nascimento Requerido!" required="true">
+												<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+											</p:inputMask>
+										</div>
+										<div class="col-md-3 mb-3">
+											<label for="gendervalue">Sexo <span class="text-muted">
+													*</span></label>
+											<p:selectOneMenu label="Sexo" required="true" id="gendervalue"
+												hideNoSelectionOption="true"
+												requiredMessage="Sexo Requerido!"
+												class="custom-select d-block w-100"
+												value="#{shoppingCartBean.user.genderValue}">
+												 
+											<f:selectItem itemValue="0" itemLabel="Indefinido" />
+												<f:selectItem itemValue="1" itemLabel="Feminino" />
+												<f:selectItem itemValue="2" itemLabel="Masculino" />
+												<f:selectItem itemValue="3" itemLabel="Outros" />
+											</p:selectOneMenu>
+										</div>
+										<div class="col-md-3 mb-3">
+									<label for="celphone">Celular com DDD<span
+										class="text-muted"> *</span></label>
+												<p:inputMask class="form-control" id="celphone"
+												required="true" placeholder=""
+												mask="(99)99999-9999"
+												value="#{shoppingCartBean.user.mobile}"
+												requiredMessage="Telefone Celular Requerido!" />
+										
+								</div>
+										
+									</div>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{shoppingCartBean.user.isCompany}">
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="namej">Nome da Empresa <span
+												class="text-muted"> *</span></label>
+											<p:inputText class="form-control" id="namej" placeholder=""
+												value="#{shoppingCartBean.user.name}"
+												requiredMessage="Nome da Empresa Requerido!" required="true" />
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="lastName">Razão Social <span
+												class="text-muted"> *</span></label>
+											<p:inputText class="form-control" id="razaosocial"
+												placeholder="" value="#{shoppingCartBean.user.razao_social}"
+												requiredMessage="Razão Social Requerido!" required="true" />
+										</div>
+									</div>
+									<div class="row">
+
+										<div class="col-md-4 mb-3">
+											<label for="email">CNPJ <span class="text-muted">
+													*</span></label>
+											<p:inputMask class="form-control" id="cc"
+												mask="99.999.999/9999-99"
+												value="#{shoppingCartBean.user.cnpj}"
+												requiredMessage="CNPJ Requerido!" placeholder=""
+												required="true" />
+										</div>
+										<div class="col-md-4 mb-3">
+											<label for="celphome">Inscrição Estadual</label>
+											<p:inputText class="form-control" id="ie" placeholder=""
+												value="#{shoppingCartBean.user.inscricao_estadual}" />
+										</div>
+										<div class="col-md-4 mb-3">
+											<label for="phone">Telefone com DDD <span
+												class="text-muted"> *</span></label>
+											<p:inputMask class="form-control" id="phone"
+												mask="(99)9999-9999"
+												value="#{shoppingCartBean.user.phone}" />
+										</div>
+									</div>
+								</h:panelGroup>
+							</h:panelGroup>	
+								
+								
+							<h:panelGroup id="empresa1">
+								
+								
+								
+								
+								<div class="row">
+								
+								<div class="col-md-3 mb-2">
+										<label for="cep">C.E.P. <span class="text-muted"></span></label>
+										
+											<p:inputMask class="form-control" id="cep"
+												required="true" mask="99999-999"
+												value="#{shoppingCartBean.user.zipcode}"
+												requiredMessage="CEP Requerido!" />
+										
+										
+									</div>
+								
+									<div class="col-md-4 mb-3">
+										<label for="state">Estado</label>
+
+										<p:selectOneMenu label="Estado" required="true"
+											hideNoSelectionOption="true"
+											requiredMessage="Estado Requerido!"
+											class="custom-select d-block w-100" id="state"
+											converter="omnifaces.SelectItemsConverter"
+											value="#{shoppingCartBean.user.state}">
+											<p:ajax listener="#{shoppingCartBean.onStateChange}"
+												update=":checkout:city" />
+											<f:selectItem noSelectionOption="false" />
+											<f:selectItems itemLabel="#{_identityx.name}"
+												itemValue="#{_identityx}" value="#{shoppingCartBean.states}"
+												var="_identityx" />
+										</p:selectOneMenu>
+									</div>
+									<div class="col-md-5 mb-3">
+										<label for="city">Cidade</label>
+										<p:selectOneMenu label="Cidade" hideNoSelectionOption="true"
+											requiredMessage="Cidade Requerido!" required="true"
+											class="custom-select d-block w-100" id="city"
+											converter="omnifaces.SelectItemsConverter"
+											value="#{shoppingCartBean.user.city}">
+											<f:selectItem noSelectionOption="false" />
+											<f:selectItems itemLabel="#{_identityx.name}"
+												itemValue="#{_identityx}" value="#{shoppingCartBean.cities}"
+												var="_identityx" />
+										</p:selectOneMenu>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-4">
+										<label for="street">Rua</label>
+										<p:inputText class="form-control" id="street" placeholder=""
+											value="#{shoppingCartBean.user.street}"
+											requiredMessage="Endereço Requerido!" required="true">
+											<p:autoUpdate />
+
+										</p:inputText>
+									</div>
+									<div class="col-md-4 mb-2">
+										<label for="number">Número</label>
+										<p:inputText class="form-control" id="number" placeholder=""
+											value="#{shoppingCartBean.user.number}"
+											requiredMessage="Número Requerido!" required="true" />
+									</div>
+								</div>
+								
+								
+								<div class="row">
+									<div class="col-md-6 mb-6">
+										<label for="neighborhood">Bairro</label>
+									<p:inputText class="form-control" id="neighborhood" placeholder=""
+										value="#{shoppingCartBean.user.neighborhood}" required="true" />
+									</div>
+									
+									
+									<div class="col-md-6 mb-6">
+										<label for="complement">Complemento <span
+										class="text-muted"> (Opcional)</span></label>
+									<p:inputText class="form-control" id="complement" placeholder=""
+										value="#{shoppingCartBean.user.complement}" required="false" />
+									</div>
+								</div>
+									
+								
+								
+								
+								<hr class="mb-4" />
+								<div class="row">
+					
+								<div class="col-md-12  text-center">
+									<p:commandButton value="Forma de entrega"  title="Forma de entrega"  ajax="false"
+										style="padding: 10px 30px 10px 30px;font-size: 1.2em"
+										action='#{shoppingCartBean.update}' icon="fa fa-shipping-fast"
+										update="messages" styleClass="btn btn-primary waves-effect">
+									</p:commandButton>
+								</div>
+								</div>
+							</h:panelGroup>
+						</div>
+					</div>
+				</div>
+				<section class="slice">
+				<div class="container py-5"></div>
+				</section>
+			</h:form>
+		
+	</ui:define>
+
+
+</ui:composition>

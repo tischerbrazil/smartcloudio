@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<f:metadata>
+		<f:event type="preRenderView" listener='#{urlMenuBean.retrieve}' />
+		<f:viewParam name="id" value='#{urlMenuBean.id}' />
+	</f:metadata>
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+						<h:form id="form">
+							<p:messages id="messages" showDetail="true" showSummary="true" />
+							<p:growl id="msgs" showDetail="true" />
+							<p:dialog header="Reordenar Item de Menu" widgetVar="reorderMenu"
+								modal="true" showEffect="fade" hideEffect="fade"
+								resizable="false" width="50%">
+								<p:outputPanel id="detail" style="text-align:center;">
+									<p:dataTable expandableRowGroups="true" reflow="true"
+										emptyMessage="Nenhum item encontrado!" id="apps"
+										draggableRows="true" value="#{urlMenuBean.menusRoot}"
+										var="_menuItem" rowKey="#{_menuItem.id}"
+										selectionMode="single"
+										selection="#{urlMenuBean.selectedMenuItem}">
+										<p:ajax event="rowReorder"
+											listener="#{urlMenuBean.onRowReorder}" update=":form:msgs" />
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Id" />
+											</f:facet>
+											<h:outputText value="#{_menuItem.id}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Nome" />
+											</f:facet>
+											<h:outputText rendered="#{_menuItem.parentId.id == null}"
+												value="#{_menuItem.name}" />
+											
+										</p:column>
+									</p:dataTable>
+								</p:outputPanel>
+							</p:dialog>
+							<h1>
+								<h:outputLabel value=" #{urlMenuBean.urlMenu.name}" />
+							</h1>
+							<div align="right">
+								<p:button title="Novo Menu Item" id="newmenulink"
+									outcome="/gis/menu_item_edit" icon="fa fa-plus">
+									<f:param name="menu_id" value="#{urlMenuBean.id}" />
+								</p:button>
+							</div>
+							<p:treeTable reflow="true" emptyMessage="Nenhum item encontrado!" 
+								id="apps2"	value="#{urlMenuBean.root}" var="_menuItem"
+								selectionMode="single" rowKey="#{_menuItem.id}"
+								selection="#{urlMenuBean.selectedNode}">
+								<f:facet rendered="false" name="header">
+           								<p:commandButton process="apps2" rendered="false"
+										update=":form:detail" icon="pi pi-search" value="Reordenar"
+										oncomplete="PF('reorderMenu').show()" />
+								</f:facet>
+								<p:column headerText="Ordem">
+									<h:outputText value="#{_menuItem.ordering}" />
+								</p:column>
+								<p:column headerText="Ativo">
+									<p:graphicImage rendered="#{_menuItem.enabled}"
+										value="/resources/true.png" />
+									<p:graphicImage rendered="#{!_menuItem.enabled}"
+										value="/resources/false.png" />
+								</p:column>
+								<p:column headerText="Nome">
+									<h:outputText value="#{_menuItem.name}" />
+								</p:column>
+								
+								<p:column >
+										<p:button title="Editar" icon="fa fa-edit" 
+											outcome="/gis/menu_item_edit">
+											<f:param name="id" value="#{_menuItem.uuid}" />
+										</p:button>
+								</p:column>
+							</p:treeTable>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	</ui:define>
+</ui:composition>

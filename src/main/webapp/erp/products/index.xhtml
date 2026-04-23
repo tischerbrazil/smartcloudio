@@ -1,0 +1,604 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<ui:define name="head">
+		<link rel="stylesheet" href="dist/summernote-bs4.css" />
+		<script type="text/javascript" src="dist/summernote-bs4.js" />
+		<script src="dist/summernote-video-attributes.js"></script>
+		<script src="dist/summernote-gallery-extension.js" type="text/javascript"></script>
+		<link href="#{request.contextPath}/tam-emoji/css/emoji.css" rel="stylesheet" />
+		<script src="#{request.contextPath}/tam-emoji/js/config.js"></script>
+		<script src="#{request.contextPath}/tam-emoji/js/tam-emoji.min.js?v=1.1"></script>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:growl id="messages" showSummary="true" showDetail="true">
+			<p:autoUpdate />
+		</p:growl>
+
+		<style>
+.ui-sidebar {
+	overflow-y: scroll !important;
+	margin-top: 56px !important;
+}
+
+.modal-backdrop {
+	z-index: 40 !important;
+}
+
+.product-image {
+	width: 100px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23)
+}
+</style>
+		<section>
+		<div class="container py-5">
+			<h:form id="form">
+				<p:dataTable var="product" value="#{productAllBean.model}"
+					paginator="true" rows="30"
+					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+					rowsPerPageTemplate="5,10,15,30" lazy="true" widgetVar="vtWidget"
+					reflow="true" paginatorPosition="bottom" id="productTable">
+					<f:facet name="header">
+						<p:inputText id="globalFilter" onkeyup="PF('vtWidget').filter()"
+							style="width:150px" placeholder="Palavra chave" />
+						#{''}
+							<p:commandButton value="Limpar Filtro"
+							onclick="PF('vtWidget').clearFilters()" />
+						#{''}
+						<p:commandButton icon="fa fa-edit"
+							onclick="PF('changeOrder').show();" title="Novo"
+							update="changeOrderForm" action="#{productAllBean.newAction()}" />
+					</f:facet>
+
+					<p:column headerText="SKU" sortBy="#{product.sku}">
+						<h:outputText value="#{product.sku}" />
+					</p:column>
+
+					<p:column headerText="Ativo" sortBy="#{product.enabled}">
+						<p:graphicImage rendered="#{product.enabled}" class="img-circle"
+							value="/resources/true.png" />
+						<p:graphicImage rendered="#{!product.enabled}" class="img-circle"
+							value="/resources/false.png" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Imagem" />
+						</f:facet>
+						<p:graphicImage styleClass="product-image"
+							style="float: left; margin: 0 15px 0 0"
+							rendered="#{product.images.stream().findFirst().isPresent()}"
+							value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{product.images.stream().findFirst().get().getFilename()}" />
+					</p:column>
+
+					<p:column headerText="Nome" filterBy="#{product.name}"
+						sortBy="#{product.name}">
+						<h:outputText value="#{product.name}" />
+					</p:column>
+
+					
+					<p:column headerText="Multi-Categoria">
+						<h:outputText
+							value="#{product.compositeCategories.stream().filter(b->b.productCategoryOne.id > 0)
+              .map(b->b.productCategoryOne.name)
+              .toList()}" />
+					</p:column>
+
+					<p:column headerText="Preço">
+						<span style="font-weight: bold; font-size: extra-large">R$
+						</span>
+						<h:outputLabel value="#{product.salePrice}"
+							style="font-weight: bold;font-size: extra-large">
+							<f:convertNumber currencyCode="BRL" minFractionDigits="2"
+								currencySymbol="R$" />
+						</h:outputLabel>
+					</p:column>
+					<p:column headerText="Editar">
+						<p:commandButton icon="fa fa-edit"
+							onclick="PF('changeOrder').show();" title="Editar"
+							update="changeOrderForm"
+							action="#{productAllBean.editAction(product.id)}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+
+
+		</div>
+		</section>
+
+
+
+		<p:sidebar position="right" blockScroll="true"
+			style="overflow-y: scroll;width:100% !important; height:100% !important;"
+			modal="true" responsive="true" fitViewport="true"
+			widgetVar="changeOrder" id="changeOrder">
+			<br />
+			<h:form id="changeOrderForm">
+				<div class="col-md-12 col-lg-12">
+					<div class="row">
+
+						<div class="d-flex justify-content-between bg-light">
+							<div>
+								<c:choose>
+									<c:when
+										test='#{productAllBean.product.images.stream().findFirst().isPresent()}'>
+										<p:graphicImage id="prodimg1" width="50"
+											value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{productAllBean.product.images.stream().findFirst().get().getFilename()}" />
+									</c:when>
+									<c:otherwise>
+										<p:graphicImage width="50"
+											rendered="#{!productAllBean.product.images.stream().findFirst().isPresent()}"
+											value="img/placeholder.png" name="img/placeholder.png" />
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<div>
+								<p:commandButton id="saveBtn2"
+									style="min-width: 4rem; font-size: 2rem"
+									oncomplete="PF('changeOrder').hide()" update="messages form"
+									action="#{productAllBean.update()}" icon="pi pi-save" />
+									
+									#{''}
+									
+									<p:commandButton id="delBtn"
+									style="min-width: 4rem; font-size: 2rem"
+									oncomplete="PF('changeOrder').hide()" update="messages form"
+									action="#{productAllBean.delete()}" icon="pi pi-trash" />
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<p:tabView id="tablayer" multiViewState="true">
+							<p:tab title="Dados">
+								<div class="row g-3">
+									<div class="col-sm-3">
+										<label for="lastName" class="form-label">Ativo: #{''}</label>
+										<p:selectBooleanCheckbox id="active" class="form-control"
+											value="#{productAllBean.product.active}" />
+									</div>
+									<div class="col-sm-3">
+										<label for="statusinfo" class="form-label">Status:
+											#{''}</label>
+										<p:selectOneMenu id="statusinfo"
+											value="#{productAllBean.product.statusInfo}" required="true"
+											requiredMessage="Status Requerido">
+											<f:selectItem itemValue="NORMAL" itemLabel="NORMAL" />
+											<f:selectItem itemValue="BESTVALUE" itemLabel="MELHOR PREÇO" />
+											<f:selectItem itemValue="PROMOTION" itemLabel="PROMOÇÃO" />
+											<f:selectItem itemValue="ONLYCONTACT"
+												itemLabel="PARA CONTATO" />
+											<f:selectItem itemValue="COMINGSOON" itemLabel="EM BREVE" />
+										</p:selectOneMenu>
+									</div>
+									<div class="col-sm-3">
+										<label for="enabled" class="form-label">Enabled</label>
+										<p:selectBooleanCheckbox id="enabled" class="form-control"
+											value="#{productAllBean.product.enabled}" />
+									</div>
+									<div class="col-sm-3">
+										<label for="salePrice" class="form-label">Preço R$:
+											#{''}</label>
+										<p:inputNumber id="salePrice"
+											value="#{productAllBean.product.salePrice}"
+											decimalSeparator="," thousandSeparator="." class="required"
+											size="10" required="true"
+											converterMessage="#{i18n.InvalidSalePrice}"
+											requiredMessage="#{i18n.SalePriceRequired}" />
+									</div>
+								</div>
+								<hr />
+								<div class="row g-3">
+									<div class="col-sm-12">
+										<label for="firstName" class="form-label">Nome</label>
+										<p:inputText id="firstname" class="form-control"
+											required="true" value="#{productAllBean.product.name}" />
+									</div>
+									<div class="col-sm-12">
+										<label for="introduction" class="form-label">Introdução</label>
+										<p:textEditor rendered="true" widgetVar="introduction"
+											id="introduction" height="300" required="true"
+											value="#{productAllBean.product.introduction}"
+											placeholder="Digite aqui a introdução">
+											<f:facet name="toolbar">
+												<span class="ql-formats">
+													<button class="ql-bold"></button>
+													<button class="ql-italic"></button>
+													<button class="ql-underline"></button>
+													<button class="ql-strike"></button>
+												</span>
+												<span class="ql-formats"> <select class="ql-font"></select>
+													<select class="ql-size"></select>
+												</span>
+											</f:facet>
+										</p:textEditor>
+									</div>
+								</div>
+							</p:tab>
+
+
+							<p:tab rendered="true" title="Descrição">
+								<div class="row">
+									<div class="col-sm-12">
+										<p:inputTextarea name="text" class="summernote" id="contents"
+											value="#{productAllBean.product.description}" />
+									</div>
+								</div>
+								<div class="row g-3">
+									<p:commandButton
+										style="margin-right: 10px; padding-right: 10px"
+										icon="fa fa-image" onclick="imageEdit()"
+										value="Enviar Arquivo" />
+
+
+
+									<p:dataTable id="relatorios" var="_media" reflow="true"
+										rowIndexVar="index" rowKey="#{_media.id}"
+										style="margin-bottom:0" paginatorPosition="bottom"
+										paginator="true" rows="10"
+										value="#{productAllBean.product.images}">
+										<p:column>
+											<p:graphicImage
+												rendered="#{_media.mimeType.startsWith('image')}"
+												style="width: 100px" value="#{_media.filename}" />
+											<h:outputText id="myInput"
+												rendered="#{_media.mimeType.startsWith('video')}"
+												value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_media.filename}" />
+											<h:outputText
+												rendered="#{_media.mimeType.startsWith('application')}"
+												value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{_media.filename}" />
+
+											<p:commandButton icon="pi pi-copy"
+												rendered="#{_media.mimeType.startsWith('video')}"
+												oncomplete="myFunction(#{index})" />
+										</p:column>
+										<p:column>
+											<p:commandButton style="min-width: 4rem; font-size: 2rem"
+												actionListener="#{productAllBean.removeImage}"
+												styleClass="ui-button-danger" title="Excluir Item"
+												update="changeOrderForm:tablayer:tbl1  changeOrderForm:tablayer:relatorios"
+												icon="pi pi-trash">
+												<f:param name="itemId" value="#{_media.id}" />
+											</p:commandButton>
+										</p:column>
+									</p:dataTable>
+
+
+
+									<script type="text/javascript">
+			$(function() {
+				document.emojiSource = '#{request.contextPath}/tam-emoji/img';
+				document.emojiButton = 'fa fa-smile-o';
+				document.emojiType = 'unicode';
+				$('.summernote')
+						.summernote(
+								{
+									height : 600,
+									disableDragAndDrop : true,
+									toolbar : [
+											[
+													'extensions',
+													[ 'gallery', 'videoAttributes','style',
+															'emoji', 'table' ] ],
+											[
+													'font',
+													[ 'bold', 'italic', 'underline',
+															'clear',
+															'fontsize',
+															
+															 ] ],
+											[
+													'font2',
+													[ 'forecolor', 'backcolor',
+															
+															'superscript',
+															'strikethrough',
+															'subscript' ] ],
+											[
+													'fontname',
+													[ 
+															'ul', 'ol',
+															'paragraph' ] ],
+											[
+													'insert',
+													[ 	
+														'link', 'video',	'hr', 'fullscreen','codeview'
+															 ] ], ],
+									callbacks : {
+										onInit : function() {
+											$(this)
+													.data(
+															'image_dialog_images_url',
+															"#{request.contextPath}/erp/products/medias.xhtml?id=#{productAllBean.product.id}");
+											$(this).data('image_dialog_title',
+													"Galeria de Imagens");
+											$(this)
+													.data(
+															'image_dialog_close_btn_text',
+															"Fechar");
+											$(this).data(
+													'image_dialog_ok_btn_text',
+													"Adicionar");
+										}
+									}
+								});
+			});
+		</script>
+									<script type="text/javascript">
+										function myFunction(rowKey) { 
+											/* Get the text field */
+											var copyText = document
+											.getElementById("changeOrderForm:tablayer:relatorios:"
+															+ rowKey
+															+ ":myInput");
+											var textArea = document.createElement("textarea");
+											textArea.value = copyText.textContent;
+											document.body.appendChild(textArea);
+											textArea.select();
+											document.execCommand("Copy");
+											textArea.remove();
+										}
+									</script>
+								</div>
+							</p:tab>
+
+
+
+
+							<p:tab title="Peso/Vol">
+								<div class="row g-3">
+									<div class="col-sm-3">
+										<label for="weight" class="form-label">#{i18n.Weight}</label>
+										<p:inputText id="weight" class="form-control" required="true"
+											value="#{productAllBean.product.weight}" />
+										<span style="margin-left: 5px;">g</span>
+									</div>
+									<div class="col-sm-3">
+										<label for="lenght" class="form-label">#{i18n.Length}</label>
+										<p:inputText id="length" class="form-control" required="true"
+											value="#{productAllBean.product.length}" />
+										<span style="margin-left: 5px;">cm</span>
+									</div>
+									<div class="col-sm-3">
+										<label for="width" class="form-label">#{i18n.Widht}</label>
+										<p:inputText id="width" class="form-control" required="true"
+											value="#{productAllBean.product.width}" />
+										<span style="margin-left: 5px;">cm</span>
+									</div>
+									<div class="col-sm-3">
+										<label for="height" class="form-label">#{i18n.Height}</label>
+										<p:inputText id="height" class="form-control" required="true"
+											value="#{productAllBean.product.height}" />
+										<span style="margin-left: 5px;">cm</span>
+									</div>
+								</div>
+							</p:tab>
+							<p:tab title="#{i18n.Category}">
+								<div class="row g-3">
+									<div class="col-sm-12">
+										<label for="productManuMenu" class="form-label">Fabricante</label>
+										<p:selectOneMenu id="productManuMenu" filter="true"
+											filterMatchMode="contains"
+											value="#{productAllBean.product.manufacturer}"
+											required="true" requiredMessage="Fabricante Requerido"
+											converter="omnifaces.SelectItemsConverter">
+
+											<f:selectItems value="#{productAllBean.manufactureries}"
+												var="manufacturer" itemValue="#{manufacturer}"
+												itemLabel="#{manufacturer.name}" />
+										</p:selectOneMenu>
+									</div>
+									
+
+									<p:pickList rendered="false" responsive="true"
+										showTargetFilter="false" showSourceFilter="true" id="pickList"
+										value="#{productAllBean.categs}" var="categ"
+										itemLabel="#{categ.name}" itemValue="#{categ}">
+
+										<p:ajax event="transfer"
+											listener="#{productAllBean.onTransfer}" update="messages" />
+									</p:pickList>
+
+								</div>
+							</p:tab>
+
+
+							<p:tab title="Mídia">
+								<div>
+									<p:commandButton icon="fa fa-image" onclick="imageEdit()"
+										value="Enviar Imagem" />
+								</div>
+
+								<p:dataTable rendered="#{productAllBean.product != null}"
+									id="tbl1" scrollable="true" scrollHeight="360"
+									emptyMessage="Nenhum registro encontrado!" var="result"
+									value="#{productAllBean.product.images}" rowIndexVar="rowIndex">
+
+									<f:facet name="header"></f:facet>
+
+
+
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Imagem" />
+										</f:facet>
+										<p:graphicImage
+											rendered="#{result.mimeType.startsWith('image')}"
+											style="width: 100px"
+											value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{result.filename}" />
+										<h:outputText id="myInput"
+											rendered="#{result.mimeType.startsWith('video')}"
+											value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{result.filename}" />
+										<h:outputText
+											rendered="#{result.mimeType.startsWith('application')}"
+											value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{result.filename}" />
+
+
+									</p:column>
+
+
+
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Ações" />
+										</f:facet>
+
+										<p:commandButton style="min-width: 4rem; font-size: 2rem"
+											actionListener="#{productAllBean.removeImage}"
+											styleClass="ui-button-danger" title="Excluir Item"
+											update="changeOrderForm:tablayer:tbl1" icon="pi pi-trash">
+											<f:param name="itemId" value="#{result.id}" />
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:tab>
+
+
+
+							<p:tab title="Blocos" id="blockTab">
+
+								<div>
+									<p:commandButton id="newComponent" value="Adicionar Bloco"
+										icon="fa fa-plus" onclick="PF('dlgneighborhood').show();" />
+								</div>
+
+								<section class="pt-15 pb-10 py-5" id="feature"> <c:forEach
+									varStatus="block" rendered="#{productAllBean.product != null}"
+									items="#{productAllBean.rBlocks}" var="_block">
+
+									<ui:include
+										src="/includes/widgets/custom_#{_block.abstractWidget}.xhtml">
+										<ui:param name="_block" value="#{_block}" />
+									</ui:include>
+
+								</c:forEach> </section>
+							</p:tab>
+
+
+
+
+
+
+
+
+
+						</p:tabView>
+					</div>
+				</div>
+			</h:form>
+			<hr />
+		</p:sidebar>
+
+
+
+		<p:dialog header="Envio de Imagem" widgetVar="imagePointDialog"
+			resizable="false">
+			<h:form id="uploadShpForm" prependId="false">
+				<p:remoteCommand name="imageEdit"
+					action="#{productAllBean.executeFileType}"
+					oncomplete="PF('imagePointDialog').show();" />
+				<h:panelGroup id="entrada">
+					<p:fileUpload listener="#{productAllBean.importIMAGE}"
+						update="changeOrderForm:tablayer:tbl1  changeOrderForm:tablayer:relatorios"
+						cancelLabel="Cancelar" label="Arquivo" uploadLabel="Enviar"
+						mode="advanced" dragDropSupport="true"
+						oncomplete="PF('imagePointDialog').hide()"
+						allowTypes="/(\.|\/)(svg|SVG|webp|gif|tif|jpe?g|gif|mp4|png)$/" />
+					<div style="clear: both" />
+				</h:panelGroup>
+			</h:form>
+		</p:dialog>
+
+		<p:remoteCommand name="rc" update="sidebarForm"
+			action="#{productAllBean.executeSelect}"
+			oncomplete="PF('editWidget').show();" />
+
+		<h:form id="sidebarForm">
+
+			<p:sidebar position="#{productAllBean.position}" blockScroll="true"
+				style="overflow-y: scroll;width:50% !important; height:100% !important;"
+				modal="false" responsive="true" fitViewport="false"
+				widgetVar="editWidget" id="editWidget">
+
+				<div class="justify-content-center">
+
+					<p:commandButton icon="pi pi-plus" value="Novo" />
+
+					#{''}
+
+					<p:commandButton value="Salvar" id="saveBtn2"
+						oncomplete="PF('editWidget').hide()" update="changeOrderForm"
+						action="#{productAllBean.saveBlockAction}" icon="pi pi-save" />
+
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="body">
+
+
+						<ui:fragment
+							rendered="#{productAllBean.selectedRComponent.type eq 'RHeading'}">
+							<ui:include src="/includes/widgets/edit/RHeading.xhtml" />
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{productAllBean.selectedRComponent.type eq 'RParagraph'}">
+							<ui:include src="/includes/widgets/edit/RParagraph.xhtml" />
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{productAllBean.selectedRComponent.type eq 'RButton'}">
+							<ui:include src="/includes/widgets/edit/RButton.xhtml" />
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{productAllBean.selectedRComponent.type eq 'RVideo'}">
+							<ui:include src="/includes/widgets/edit/RVideo.xhtml" />
+						</ui:fragment>
+					</div>
+				</div>
+			</p:sidebar>
+		</h:form>
+
+		<p:dialog id="addComp" header="Adicionar Bloco"
+			widgetVar="dlgneighborhood" modal="true" style="border-radius:10px;"
+			position="center center"
+			onShow="PF('dlgneighborhood').initPosition()">
+
+			<h:form id="formNeighborhood">
+
+				<p:outputLabel for="widget" value="Widget: " />
+				<p:selectOneMenu label="Widget" required="true" filter="true"
+					filterMatchMode="contains"
+					requiredMessage="Campo Widget Requerido!"
+					converter="omnifaces.SelectItemsConverter" id="widget"
+					value="#{productAllBean.widget}">
+
+					<f:selectItem itemLabel="Select Widget" itemValue=""
+						noSelectionOption="true" />
+
+					<f:selectItems itemLabel="#{_item.nome}" itemValue="#{_item}"
+						value="#{productAllBean.widgets}" var="_item" />
+
+				</p:selectOneMenu>
+
+				<p:commandButton value="Anexar Widget" update="changeOrderForm"
+					oncomplete="PF('dlgneighborhood').hide();"
+					action="#{productAllBean.createNewBlock}" icon="pi pi-check" />
+
+
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>

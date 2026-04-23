@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<li class="nav-item dropdown dropdown-animate" data-toggle="hover">
+		<a id="dropdownLang" href="#" class="nav-link dropdown-toggle"
+		data-toggle="dropdown" role="button" aria-haspopup="true"
+		aria-expanded="false"> 
+		<h:graphicImage
+				name="flags/#{activeLocale.languageTag}.svg" width="28" height="21" />
+		</a>
+		<ul aria-labelledby="dropdownLang"
+			class="dropdown-menu dropdown-menu-single">
+			<c:forEach items="#{sessionTest.others}" var="otherLocale">
+				<h:outputLink  rendered="#{otherLocale.value != activeLocale.value}" 
+				 class="dropdown-item" title="#{otherLocale.name}"
+					value="#{activeLocale.canonicalURL(otherLocale)}"> <h:graphicImage
+						styleClass="flag" name="flags/#{otherLocale.languageTag}.svg"
+						width="28" height="21" /> #{otherLocale.name}
+					(#{i18n[otherLocale.languageTag]})#{''}
+				</h:outputLink>
+			</c:forEach>
+		</ul>
+	</li>
+		
+	
+</ui:composition>

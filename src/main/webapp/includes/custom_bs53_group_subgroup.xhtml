@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:pt="jakarta.faces.passthrough" xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core" xmlns:o="http://omnifaces.org/ui"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	
+	
+	
+	
+
+	<div class="modal animated slide-in-right" id="exampleModal"
+		tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-fullscreen">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="account-login">
+						<span> <ion-icon name="person-circle-outline"
+								onclick="redirectBtnlogin()" href="Login.html"></ion-icon>
+						</span>
+					</div>
+					<div class="text menu-dropdown" onclick="redirectBtnlogin()"
+						href="Login.html">
+						<span class="msg" onclick="redirectBtnlogin()" href="Login.html">Bem
+							vindo(a)</span> <a class="link" onclick="redirectBtnlogin()"
+							href="Login.html">Entrar ou Cadastrar</a>
+					</div>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-line">
+						<a href="#">Meus Pedidos</a>
+					</div>
+					<div class="modal-line">
+						<a href="#">Minha Conta</a>
+					</div>
+					
+					
+					
+
+					<p:panelMenu style="width:100%" model="#{productBean.modelMenu}"/>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<section class="navigationmenu">
+		<nav class="navbar navbar-expand-lg bg-light">
+			<div
+				class="container-fluid align-items-center justify-content-center">
+				<div
+					class="collapse navbar-collapse align-items-center justify-content-center"
+					id="navbarNav">
+					
+					
+   
+					
+					
+					<ul class="navbar-nav">
+						<c:forEach varStatus="categs"
+							items="#{productBean.productCategoriesOne.stream().filter(t -> t.parentId.id == null).toList()}"
+							var="ca">
+							<li class="nav-item dropdown"><a
+								class="nav-link dropdown-toggle" href="#" role="button"
+								data-bs-toggle="dropdown" aria-expanded="false"> <p:graphicImage
+										class="img2" style="margin-left: 0 !important;"
+										pt:aria-hidden="true" width="20" url="#{ca.link_href}" /><strong>
+										#{ca.name}</strong>
+							</a>
+								<ul class="dropdown-menu">
+									<c:forEach varStatus="grops"
+										items="#{productBean.productCategoriesOne.stream().filter(t -> t.parentId.id == ca.id).toList()}"
+										var="grop">
+										<li><h:link class="dropdown-item"
+												outcome="/ecommerce/index"><i class="fa fa-home"></i> #{''} #{grop.name}
+												<f:param name="gcmid"
+													value="#{compjson.field.get('gcmid').asText()}" />
+												<f:param name="compCategory" value="#{grop.id}" />
+											</h:link></li>
+									</c:forEach>
+
+
+								</ul></li>
+						</c:forEach>
+
+
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</section>
+</ui:composition>

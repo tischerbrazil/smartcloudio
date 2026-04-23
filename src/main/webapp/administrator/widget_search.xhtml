@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html" xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets" xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:pt="jakarta.faces.passthrough" xmlns:p="http://primefaces.org/ui"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+
+	<ui:define name="main">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 wcol-lg-12">
+					<div class="body">
+						<h:form id="search">
+							<div class="body" align="right">
+
+								<p:button icon="fa fa-plus"
+									styleClass="button btn-primary btn-lg waves-effect"
+									outcome="widget_edit" title="Novo Widget" alt="Novo Widget" />
+
+							</div>
+							<p:dataTable reflow="true" id="abstractWidgetBeanPageItems"
+								value="#{abstractWidgetBean.all}" var="_item">
+
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Arquivo" />
+									</f:facet>
+									<h:outputText id="arq" value="#{_item.arquivo}" />
+								</p:column>
+							
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Nome" />
+									</f:facet>
+									<h:outputText id="name" value="#{_item.nome}" />
+								</p:column>
+								
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Image" />
+									</f:facet>
+									<p:graphicImage rendered="#{_item.iconflag ne null}"
+										class="img-circle" value="#{_item.iconflag}" />
+								</p:column>
+								
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Def" />
+									</f:facet>
+									<h:outputText id="def" value="#{_item.compDef}" />
+								</p:column>
+								
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Ação" />
+									</f:facet>
+									<p:button icon="fa fa-edit" outcome="widget_edit"
+										title="Editar Widget" alt="Editar Widget">
+										   <o:pathParam value="0" />
+    									   <o:pathParam value="#{_item.id}" />
+									</p:button>
+								</p:column>
+								
+							</p:dataTable>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	</ui:define>
+</ui:composition>

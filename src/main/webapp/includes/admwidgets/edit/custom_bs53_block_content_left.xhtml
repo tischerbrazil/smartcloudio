@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+
+		
+
+	
+			<section class="pt-15 pb-10 py-5 dashed33" id="feature">
+			<div class="container px-lg-7 px-xxl-3 ">
+
+
+				<div class="position-relative z-index-2">
+					<div class="row mt-2 align-items-center justify-content-between text-center text-lg-start mb-6 mb-lg-0">
+						<c:forEach varStatus="loo" items="#{_block.divs}"
+							var="_div">
+							<div class="dashed333 float-start #{_div.div_class}"
+								id="marechal">
+								<p:commandButton rendered="false" style="height: 25px; width: 25px"
+									styleClass="ui-button-danger heartcard endheart float-end"
+									icon="pi pi-heart" widgetVar="saveButton" />
+								<c:forEach varStatus="xxx"
+									items="#{_div.rComponents.stream().filter(t -> t.parentId == null).toList()}"
+									var="city">
+									
+							
+										<ui:include src="/includes/widgets/#{city.type}.xhtml">
+											<ui:param name="city" value="#{city}" />
+										</ui:include>
+									
+								</c:forEach>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+		</section>				
+					
+	
+		
+										
+				
+
+
+
+</ui:composition>

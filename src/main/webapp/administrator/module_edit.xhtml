@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+	<ui:define name="content">
+		<section class="slice py-8">
+        <div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="body">
+							<h:form id="meuform" prependId="true">
+								<h:panelGrid columnClasses="label,component" columns="3">
+									<p:outputLabel for="app" value="App" />
+									<h:panelGroup>
+										<p:selectOneMenu label="Extensão"
+											converter="omnifaces.SelectItemsConverter" id="app"
+											value="#{moduloBean.modulo.abstractIdentityEntity}">
+											
+											<f:selectItem 
+											itemLabel="#{moduloBean.modulo.abstractIdentityEntity.name}" 
+											itemValue="#{moduloBean.modulo.abstractIdentityEntity}"/>
+											
+											<f:selectItems itemLabel="#{_item.name}" itemValue="#{_item}"
+												value="#{moduloBean.allIdentityApps}" var="_item" />
+										</p:selectOneMenu>
+									</h:panelGroup>
+									<h:outputText />
+
+									<h:outputLabel for="nome" value="Nome:" />
+									<h:panelGroup>
+										<p:inputText id="nome" label="Nome" size="50" maxLength="100"
+											value="#{moduloBean.modulo.name}" />
+									</h:panelGroup>
+									<h:outputText />
+
+									<h:outputLabel for="enabled" value="Ativo" />
+									<p:selectBooleanCheckbox required="true" locale="pt_BR"
+										label="Tipo" id="enabled" value="#{moduloBean.modulo.enabled}" />
+									<h:outputText />
+
+									<h:outputText for="access" value="Acesso" />
+									<p:selectOneMenu id="access" required="true"
+										value="#{moduloBean.modulo.access}">
+										<f:selectItem itemValue="0" itemLabel="PÚBLICO" />
+										<f:selectItem itemValue="1" itemLabel="REGISTRADOS" />
+										<f:selectItem itemValue="2" itemLabel="ADMINISTRADOR" />
+
+									</p:selectOneMenu>
+									<h:panelGroup /> 
+
+									<h:outputText for="posicao" value="Posição" />
+									<p:selectOneMenu id="posicao" required="true"
+										value="#{moduloBean.modulo.include}">
+										<f:selectItem itemValue="top_navbar_left" itemLabel="navbar-left" />
+										<f:selectItem itemValue="top_navbar_right" itemLabel="navbar-right" />
+										<f:selectItem itemValue="top_navbar" itemLabel="navbar" />
+										<f:selectItem itemValue="left_sidebar" itemLabel="left_sidebar" />
+										<f:selectItem itemValue="right_sidebar"	itemLabel="right_sidebar" />
+										<f:selectItem itemValue="content" itemLabel="content" />
+										<f:selectItem itemValue="main" itemLabel="main" />
+										<f:selectItem itemValue="header" itemLabel="header" />
+									<f:selectItem itemValue="footer" itemLabel="footer" />
+											<f:selectItem itemValue="footer_social" itemLabel="footer_social" />
+												<f:selectItem itemValue="footer_left" itemLabel="footer_left" />
+													<f:selectItem itemValue="footer_middle" itemLabel="footer_middle" />
+														<f:selectItem itemValue="footer_right" itemLabel="footer_right" />
+															<f:selectItem itemValue="footer_bottom" itemLabel="footer_bottom" />
+															
+									</p:selectOneMenu>
+									<h:outputText />
+
+									<h:outputLabel for="lang" value="Language:" />
+									<h:panelGroup>
+										<p:inputText id="lang" label="Nome" size="50" maxLength="100"
+											value="#{moduloBean.modulo.languageId}" />
+									</h:panelGroup>
+									<h:outputText />
+
+									<h:outputLabel for="intro" value="Introdution:" />
+									<h:panelGroup>
+										<p:inputText id="intro" label="Introdution" size="50"
+											maxLength="100" value="#{moduloBean.modulo.introdution}" />
+									</h:panelGroup>
+									<h:outputText />
+
+									<h:outputLabel for="order" value="Order:" />
+									<h:panelGroup>
+										<p:inputText id="order" label="Nome" size="50" maxLength="100"
+											required="true" value="#{moduloBean.modulo.ordering}" />
+									</h:panelGroup>
+									<h:outputText />
+
+									<h:outputLabel for="path" value="Path:" />
+									<h:panelGroup>
+										<p:inputText id="path" label="Path" size="50" maxLength="100"
+											value="#{moduloBean.modulo.path}" />
+									</h:panelGroup>
+									<h:outputText />
+									
+									
+									<p:outputLabel for="proj" value="Projeto" />
+									<h:panelGroup>
+										<p:selectOneMenu 
+											converter="omnifaces.SelectItemsConverter" id="proj"
+											value="#{moduloBean.modulo.identityEntity}">
+											
+											<f:selectItem 
+											itemLabel="#{moduloBean.modulo.identityEntity.name}" 
+											itemValue="#{moduloBean.modulo.identityEntity}"/>
+											
+											<f:selectItems itemLabel="#{_item.name}" itemValue="#{_item}"
+												value="#{moduloBean.allApps}" var="_item" />
+										</p:selectOneMenu>
+									</h:panelGroup>
+									<h:outputText />
+
+								</h:panelGrid>
+
+								<div class="buttons">
+									<h:commandLink value="Salvar" action='#{moduloBean.update}'
+										styleClass="btn btn-primary" update=""/>
+									#{''}
+									<c:choose>
+										<c:when test='#{!empty moduloBean.id}'>
+											<h:link value="Cancelar" outcome="/administrator/module_search"
+												styleClass="btn btn-primary" />
+									#{''}
+									<h:commandLink value="Excluir" action='#{moduloBean.delete}'
+												styleClass="btn btn-primary" />
+										</c:when>
+										<c:otherwise>
+											<h:link value="Cancelar" outcome="/administrator/module_search"
+												styleClass="btn btn-primary" />
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</ui:define>
+</ui:composition>

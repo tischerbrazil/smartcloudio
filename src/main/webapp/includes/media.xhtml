@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	
+    xmlns:ui="jakarta.faces.facelets">
+	<ui:composition>
+	<div class="article">
+	
+		<ui:repeat id="mediaitem"  value="#{urlPostBean.getGeometries(id,page)}" var="_mediaitem"> 
+      	<h4>#{_mediaitem.nome}</h4>
+        
+      	
+      				
+      	<ui:repeat id="mediaitem"  value="#{_mediaitem.medias}" 
+      				var="_mediaitem"> 
+      	<ui:fragment rendered="#{_mediaitem.mimeType.startsWith('video')}">				
+      				<video controls="" src="#{request.contextPath}/#{_mediaitem.filename}" width="640" height="360" class="note-video-clip"></video>
+      				</ui:fragment>
+      	<p:graphicImage 
+    		style="display: block;text-align: left " 
+ 			rendered="#{_mediaitem.mimeType.startsWith('image')}" 
+ 			class="js-animating-object img-responsive" 
+			value="#{_mediaitem.filename}" />
+		    
+		</ui:repeat>
+		<br/>
+		<h:outputText escape="false" value="#{_mediaitem.strings.at('/introduction').asText()}" />
+		<hr/>
+      	</ui:repeat>
+		</div>
+</ui:composition>
+</html>

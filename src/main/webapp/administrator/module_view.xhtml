@@ -1,0 +1,612 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="content">
+
+		<style>
+.navbar {
+	z-index: 100;
+}
+
+.ui-fab {
+	z-index: 50;
+}
+
+.ui-growl {
+	z-index: 1000 !important;
+}
+
+.ui-sidebar {
+	overflow-y: scroll !important;
+	margin-top: 56px !important;
+}
+
+.ui-orderlist {
+	display: block
+}
+
+.ui-orderlist .ui-orderlist-caption {
+	width: 100% !important;;
+}
+
+.ui-orderlist .ui-orderlist-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hide !important;;
+	height: 100% !important;
+	width: 100% !important;
+}
+
+.ui-orderlist .ui-orderlist-list li {
+	margin: 1px;
+	padding: 2px
+}
+
+.ui-orderlist .ui-button {
+	display: block;
+	margin-bottom: .3em
+}
+
+.ui-orderlist .ui-orderlist-button.ui-button-text-icon-primary {
+	width: 100%
+}
+
+.ui-orderlist .ui-orderlist-item {
+	cursor: pointer;
+	border: 0 none;
+	font-weight: inherit
+}
+
+.ui-orderlist .ui-orderlist-caption {
+	text-align: center;
+	padding: 4px 0;
+	border-bottom: 0 none
+}
+
+.ui-orderlist table {
+	width: 100%;
+	border-collapse: collapse
+}
+
+.ui-orderlist.ui-state-disabled .ui-orderlist-item, .ui-orderlist.ui-state-disabled .ui-button
+	{
+	cursor: default
+}
+
+.ui-orderlist.ui-state-disabled .ui-orderlist-list {
+	overflow: hidden
+}
+
+.ui-orderlist.ui-grid-responsive {
+	display: block;
+	width: 100%
+}
+
+.ui-orderlist.ui-grid-responsive .ui-orderlist-list, .ui-orderlist.ui-grid-responsive .ui-orderlist-caption
+	{
+	width: 100%
+}
+
+.ui-orderlist.ui-grid-responsive .ui-orderlist-controls .ui-button {
+	width: 100%
+}
+
+@media ( max-width :640px) {
+	.ui-orderlist.ui-grid-responsive .ui-orderlist-controls {
+		text-align: center;
+		padding: 0
+	}
+	.ui-orderlist.ui-grid-responsive .ui-orderlist-controls .ui-button {
+		display: inline;
+		width: 20%
+	}
+}
+
+.ui-state-highlight {
+	background: #cac2fe !important;
+}
+
+.ui-orderlist-item {
+	background: #fbf3f3;
+}
+
+.dashed33 {
+	border-style: dashed;
+	border-color: coral;
+	border-width: 2px;
+}
+
+.dashed333 {
+	border-style: dashed;
+	border-color: gray;
+	border-width: 1px;
+}
+</style>
+
+		<script type="text/javascript">
+			function handleRequest(xhr, status, args) {
+				if (args.validationFailed) {
+					PF('dlgneighborhood').jq.effect("shake", {
+						times : 15
+					}, 100);
+				} else {
+					PF('dlgneighborhood').hide();
+				}
+			}
+
+			function handleDrop(event, ui) {
+				var droppedProduct = ui.draggable;
+				droppedProduct.fadeOut('fast');
+			}
+		</script>
+
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+
+
+
+						<style>
+.ui-widget-content2 ul {
+	list-style-type: none;
+	overflow: hidden;
+}
+
+.ui-widget-content2 li {
+	float: left;
+}
+
+.ui-widget-content2 li a {
+	display: block;
+}
+</style>
+
+						<p:sidebar position="right" blockScroll="true"
+							style="overflow-y: scroll;width:100% !important; height:100% !important;"
+							modal="true" responsive="true" fitViewport="true"
+							widgetVar="changeOrder" id="changeOrder">
+
+							<ui:include src="/administrator/WidgetEdit.xhtml" />
+
+						</p:sidebar>
+
+						<h:form>
+							<p:remoteCommand name="rc" update="msgs sidebarForm"
+								action="#{moduloBean.executeSelect}"
+								oncomplete="PF('editWidget77').show();" />
+						</h:form>
+
+
+						<h:form id="sidebarForm">
+
+							<p:sidebar position="left" blockScroll="true"
+								style="overflow-y: scroll;width:80% !important; height:100% !important;"
+								modal="true" responsive="true" fitViewport="false"
+								widgetVar="editWidget77" id="editWidget77">
+								<div class="justify-content-center">
+									<p:commandButton value="Excluir33"
+										action="#{moduloBean.deleteRComponent}" id="exclude"
+										update="viewWidgetForm" oncomplete="PF('editWidget77').hide()"
+										icon="pi pi-trash" />
+									#{''}
+									<p:commandButton value="Alterar" id="saveBtn2"
+										update="viewWidgetForm" oncomplete="PF('editWidget77').hide()"
+										icon="pi pi-save" />
+								</div>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="body">
+										<ui:fragment
+											rendered="#{moduloBean.selectedRComponent.type eq 'RHeading'}">
+											<ui:include src="/includes/admwidgets/edit/RHeading.xhtml" />
+										</ui:fragment>
+										<ui:fragment
+											rendered="#{moduloBean.selectedRComponent.type eq 'RParagraph'}">
+											<ui:include src="/includes/admwidgets/edit/RParagraph.xhtml" />
+										</ui:fragment>
+										<ui:fragment
+											rendered="#{moduloBean.selectedRComponent.type eq 'RButton'}">
+											<ui:include src="/includes/admwidgets/edit/RButton.xhtml" />
+										</ui:fragment>
+										<ui:fragment
+											rendered="#{moduloBean.selectedRComponent.type eq 'RVideo'}">
+											<ui:include src="/includes/admwidgets/edit/RVideo.xhtml" />
+										</ui:fragment>
+									</div>
+								</div>
+							</p:sidebar>
+
+						</h:form>
+
+						<p:sidebar position="right" blockScroll="true"
+							style="overflow-y: scroll;width:100% !important; height:100% !important;"
+							modal="true" responsive="true" fitViewport="true"
+							widgetVar="viewWidget" id="viewWidget">
+							<p:ajax event="close" oncomplete="PF('editWidget77').hide();" />
+							<h:form id="viewWidgetForm">
+								<p:commandButton value="Salvar" id="saveBtn21"
+									oncomplete="PF('viewWidget').hide()"
+									action="#{moduloBean.saveBlockAction}" update="msgs pageform"
+									style="margin-bottom: 3px" icon="pi pi-save" />
+								<ui:include
+									src="/includes/widgets/custom_#{moduloBean.rBlock.abstractWidget}.xhtml">
+									<ui:param name="_block" value="#{moduloBean.rBlock}" />
+								</ui:include>
+							</h:form>
+						</p:sidebar>
+
+						<p:dialog id="addComp" header="Adicionar Widget"
+							widgetVar="dlgneighborhood" modal="true"
+							style="border-radius:10px;" position="center center"
+							onShow="PF('dlgneighborhood').initPosition()">
+							<h:form id="formNeighborhood">
+								<p:growl id="msgs" showDetail="true"
+									skipDetailIfEqualsSummary="true" />
+								<h:panelGrid columns="2" cellpadding="5">
+									<p:outputLabel for="identityx" value="Projeto: " />
+									<p:selectOneMenu label="Projeto" required="false"
+										converter="omnifaces.SelectItemsConverter" id="identityx"
+										value="#{moduloBean.abstractIdentity}" filter="true"
+										filterMatchMode="startsWith">
+										<p:ajax listener="#{moduloBean.onIdentityChange}"
+											update="componentex" />
+										<f:selectItem itemLabel="Projeto Ativo" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems itemLabel="#{_identityx.name}"
+											itemValue="#{_identityx}"
+											value="#{moduloBean.allAbstractdentity}" var="_identityx" />
+									</p:selectOneMenu>
+									<p:outputLabel for="componentex" value="Dados: " />
+									<p:selectOneMenu label="Componente" required="false"
+										converter="omnifaces.SelectItemsConverter" id="componentex"
+										value="#{moduloBean.component}" filter="true"
+										filterMatchMode="startsWith">
+										<p:ajax listener="#{moduloBean.onComponentChange}"
+											update="widget" />
+										<f:selectItem itemLabel="Widget Estático" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems itemLabel="#{_compx.name}"
+											itemValue="#{_compx}" value="#{moduloBean.components}"
+											var="_compx" />
+									</p:selectOneMenu>
+									<p:outputLabel for="widget" value="Widget: " />
+									<p:selectOneMenu label="Widget" required="true" filter="true"
+										filterMatchMode="contains"
+										requiredMessage="Campo Widget Requerido!"
+										converter="omnifaces.SelectItemsConverter" id="widget"
+										value="#{moduloBean.widget}">
+										<f:selectItem itemLabel="Select Widget" itemValue="#{_item}"
+											noSelectionOption="true" />
+										<f:selectItems itemLabel="#{_item.nome}" itemValue="#{_item}"
+											value="#{moduloBean.widgets}" var="_item" />
+									</p:selectOneMenu>
+								</h:panelGrid>
+								<p:divider />
+								<p:commandButton value="Anexar Widget"
+									update="msgs pageform:tablayer:modules"
+									action="#{moduloBean.displayLocation}" icon="pi pi-check"
+									oncomplete="handleRequest(xhr, status, args)" />
+							</h:form>
+						</p:dialog>
+
+
+						<style type="text/css">
+.ui-button {
+	margin-top: 10px
+}
+</style>
+
+						<p:messages id="messages" showDetail="true" showSummary="true" />
+
+						<p:growl id="msgs" showDetail="true" escape="false" />
+
+						<h4>#{moduloBean.modulo.name}</h4>
+
+
+
+						<h:form id="pageform">
+							<p:growl id="pageMessage" showDetail="true"
+								skipDetailIfEqualsSummary="true" />
+
+							<p:tabView id="tablayer" multiViewState="true">
+
+								<p:tab title="Blocos" rendered="#{moduloBean.id != null}">
+
+									<div align="right">
+										<p:commandButton id="newComponent" value="ADICIONAR"
+											onclick="PF('dlgneighborhood').show();" />
+									</div>
+									<p:dataTable id="modules" styleClass="data-table" reflow="true"
+										value="#{moduloBean.modulo.components}" var="_item">
+
+										<p:column headerText="Ativo" sortBy="#{_item.enabled}">
+											<p:graphicImage rendered="#{_item.enabled}"
+												class="img-circle" value="/resources/true.png" />
+											<p:graphicImage rendered="#{!_item.enabled}"
+												class="img-circle" value="/resources/false.png" />
+										</p:column>
+
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Ordem" />
+											</f:facet>
+											<p:outputLabel value="#{_item.ordering}" />
+										</p:column>
+										
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Arq. Bloco" />
+											</f:facet>
+											<p:outputLabel value="#{_item.abstractWidget.compDef} #{_item.abstractWidget.arquivo}" />
+										</p:column>
+
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Nom. Bloco" />
+											</f:facet>
+											<p:outputLabel value="#{_item.abstractWidget.nome}" />
+										</p:column>
+
+
+
+
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Ações" />
+											</f:facet>
+
+											<p:commandButton title="Excluir" icon="fa fa-trash"
+												update="msgs pageform:tablayer:modules :pageform"
+												actionListener="#{moduloBean.deleteModCompMap}">
+												<p:confirm header="Confirmation"
+													message="Desacoplar o Widget?" icon="ui-icon-alert" />
+												<f:attribute name="compid" value="#{_item}" />
+											</p:commandButton>
+											#{''}
+											<p:commandButton icon="fa fa-edit"
+												onclick="PF('changeOrder').show();"
+												title="Editar #{_item.id}" update="changeOrderForm"
+												action="#{moduloBean.editAction(_item)}" />
+												
+												#{''}
+											<p:commandButton icon="fa fa-list"
+												onclick="PF('viewWidget').show();" title="Exibir"
+												update="viewWidgetForm"
+												action="#{moduloBean.editActionView(_item)}" />
+										</p:column>
+									</p:dataTable>
+
+									<p:confirmDialog global="true">
+										<p:commandButton value="Sim" update="pageform" ajax="false"
+											type="button" styleClass="ui-confirmdialog-yes"
+											icon="ui-icon-check" />
+										<p:commandButton value="Não" type="button"
+											styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+									</p:confirmDialog>
+
+
+								</p:tab>
+
+
+
+								<p:tab title="Páginas" rendered="#{moduloBean.id != null}">
+
+									<p:selectOneMenu id="tipoLimite1" update="rootTree"
+										value="#{moduloBean.modulo.show}">
+										<f:selectItem itemValue="0" itemLabel="Nenhuma Pagina]" />
+										<f:selectItem itemValue="1" itemLabel="Todas as Paginas" />
+										<f:selectItem itemValue="2" itemLabel="Paginas Selecionadas" />
+										<p:ajax event="change"
+											listener="#{moduloBean.displaySelected()}" update="pageform" />
+									</p:selectOneMenu>
+
+									<p:tree style="width: 100% !important" id="rootTree"
+										rendered="#{moduloBean.modulo.show > 1}"
+										value="#{moduloBean.root}" var="doc" selectionMode="checkbox"
+										dynamic="true" selection="#{moduloBean.selectedNode}">
+
+										<p:treeNode icon="pi pi-folder-open">
+											<h:outputText value="#{doc.name}" />
+										</p:treeNode>
+
+										<p:treeNode type="component" icon="pi pi-file">
+											<h:outputText value="#{doc.name}" />#{''}
+											<p:link outcome="/administrator/menu_item_edit">
+												<i class="pi pi-link" style="color: green"
+													aria-hidden="true"></i>
+
+												<f:param name="id" value="#{doc.id}" />
+											</p:link>
+										</p:treeNode>
+
+										<p:treeNode type="document" icon="pi-external-link">
+											<h:outputText value="#{doc.name}" />
+										</p:treeNode>
+
+										<p:treeNode type="picture" icon="pi pi-image">
+											<h:outputText value="#{doc.name}" />
+										</p:treeNode>
+
+										<p:treeNode type="mp3" icon="pi pi-video">
+											<h:outputText value="#{doc.name}" />
+										</p:treeNode>
+									</p:tree>
+
+									<p:commandButton value="Salvar" update="msgs,pageform"
+										icon="ui-icon-newwin" rendered="#{moduloBean.modulo.show > 1}"
+										action="#{moduloBean.displaySelectedMultiple(moduloBean.selectedNode)}" />
+
+								</p:tab>
+
+
+
+
+								<p:tab title="Dados do Container">
+
+
+
+									<h:panelGrid columnClasses="label,component" columns="3">
+										<p:outputLabel for="app" value="App" />
+										<h:panelGroup>
+											<p:selectOneMenu label="Extensão"
+												converter="omnifaces.SelectItemsConverter" id="app"
+												value="#{moduloBean.modulo.abstractIdentityEntity}">
+
+												<f:selectItem
+													itemLabel="#{moduloBean.modulo.abstractIdentityEntity.name}"
+													itemValue="#{moduloBean.modulo.abstractIdentityEntity}" />
+
+												<f:selectItems itemLabel="#{_item.name}"
+													itemValue="#{_item}" value="#{moduloBean.allIdentityApps}"
+													var="_item" />
+											</p:selectOneMenu>
+										</h:panelGroup>
+										<h:outputText />
+
+										<h:outputLabel for="nome" value="Nome:" />
+										<h:panelGroup>
+											<p:inputText id="nome" label="Nome" size="50" maxLength="100"
+												value="#{moduloBean.modulo.name}" />
+										</h:panelGroup>
+										<h:outputText />
+
+										<h:outputLabel for="enabled" value="Ativo" />
+										<p:selectBooleanCheckbox required="true" locale="pt_BR"
+											label="Tipo" id="enabled"
+											value="#{moduloBean.modulo.enabled}" />
+										<h:outputText />
+
+										<h:outputText for="access" value="Acesso" />
+										<p:selectOneMenu id="access" required="true"
+											value="#{moduloBean.modulo.access}">
+											<f:selectItem itemValue="0" itemLabel="PÚBLICO" />
+											<f:selectItem itemValue="1" itemLabel="REGISTRADOS" />
+											<f:selectItem itemValue="2" itemLabel="ADMINISTRADOR" />
+
+										</p:selectOneMenu>
+										<h:panelGroup />
+
+										<h:outputText for="posicao" value="Posição" />
+										<p:selectOneMenu id="posicao" required="true"
+											value="#{moduloBean.modulo.include}">
+											<f:selectItem itemValue="top_navbar_left"
+												itemLabel="navbar-left" />
+											<f:selectItem itemValue="top_navbar_right"
+												itemLabel="navbar-right" />
+											<f:selectItem itemValue="top_navbar" itemLabel="navbar" />
+											<f:selectItem itemValue="left_sidebar"
+												itemLabel="left_sidebar" />
+											<f:selectItem itemValue="right_sidebar"
+												itemLabel="right_sidebar" />
+											<f:selectItem itemValue="content" itemLabel="content" />
+											<f:selectItem itemValue="main" itemLabel="main" />
+											<f:selectItem itemValue="header" itemLabel="header" />
+											<f:selectItem itemValue="footer" itemLabel="footer" />
+											<f:selectItem itemValue="footer_social"
+												itemLabel="footer_social" />
+											<f:selectItem itemValue="footer_left" itemLabel="footer_left" />
+											<f:selectItem itemValue="footer_middle"
+												itemLabel="footer_middle" />
+											<f:selectItem itemValue="footer_right"
+												itemLabel="footer_right" />
+											<f:selectItem itemValue="footer_bottom"
+												itemLabel="footer_bottom" />
+
+										</p:selectOneMenu>
+										<h:outputText />
+
+										<h:outputLabel for="lang" value="Language:" />
+										<h:panelGroup>
+											<p:inputText id="lang" label="Nome" size="50" maxLength="100"
+												value="#{moduloBean.modulo.languageId}" />
+										</h:panelGroup>
+										<h:outputText />
+
+										<h:outputLabel for="intro" value="Introdution:" />
+										<h:panelGroup>
+											<p:inputText id="intro" label="Introdution" size="50"
+												maxLength="100" value="#{moduloBean.modulo.introdution}" />
+										</h:panelGroup>
+										<h:outputText />
+
+										<h:outputLabel for="order" value="Order:" />
+										<h:panelGroup>
+											<p:inputText id="order" label="Nome" size="50"
+												maxLength="100" required="true"
+												value="#{moduloBean.modulo.ordering}" />
+										</h:panelGroup>
+										<h:outputText />
+
+										<h:outputLabel for="path" value="Path:" />
+										<h:panelGroup>
+											<p:inputText id="path" label="Path" size="50" maxLength="100"
+												value="#{moduloBean.modulo.path}" />
+										</h:panelGroup>
+										<h:outputText />
+
+
+										<p:outputLabel for="proj" value="Projeto" />
+										<h:panelGroup>
+											<p:selectOneMenu converter="omnifaces.SelectItemsConverter"
+												id="proj" value="#{moduloBean.modulo.identityEntity}">
+
+												<f:selectItem
+													itemLabel="#{moduloBean.modulo.identityEntity.name}"
+													itemValue="#{moduloBean.modulo.identityEntity}" />
+
+												<f:selectItems itemLabel="#{_item.name}"
+													itemValue="#{_item}" value="#{moduloBean.allApps}"
+													var="_item" />
+											</p:selectOneMenu>
+										</h:panelGroup>
+										<h:outputText />
+
+									</h:panelGrid>
+
+									<div class="buttons">
+										<h:commandLink value="Salvar" action='#{moduloBean.update}'
+											styleClass="btn btn-primary" update="" />
+										#{''}
+										<c:choose>
+											<c:when test='#{!empty moduloBean.id}'>
+												<h:link value="Cancelar"
+													outcome="/administrator/module_search"
+													styleClass="btn btn-primary" />
+									#{''}
+									<h:commandLink value="Excluir" action='#{moduloBean.delete}'
+													styleClass="btn btn-primary" />
+											</c:when>
+											<c:otherwise>
+												<h:link value="Cancelar"
+													outcome="/administrator/module_search"
+													styleClass="btn btn-primary" />
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</p:tab>
+
+							</p:tabView>
+						</h:form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		</section>
+
+	</ui:define>
+
+
+</ui:composition>

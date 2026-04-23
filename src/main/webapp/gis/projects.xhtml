@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"> 
+	
+	<c:set var="folder_template" value="/#{abstractIdentityBean.abstractIdentityEntity.template}" scope="application" />
+	
+	<f:metadata>
+		<f:viewParam name="page" value='#{applicationEntityBean.page}'/>
+		<f:event type="preRenderView" listener='#{applicationEntityBean.paginate}'/>
+	</f:metadata>
+	
+	<ui:define name="title">Mapa Cultural</ui:define>
+	
+	<ui:define name="h1"></ui:define>
+	
+	
+	
+	<ui:define name="navbar_top">
+    	  <ui:include src="#{abstractIdentityBean.abstractIdentityEntity.template}/menu_top.xhtml"/> 
+	</ui:define>
+	
+	<ui:define name="sidebar_left">
+    	 <ui:include src="#{abstractIdentityBean.abstractIdentityEntity.template}/menu_left.xhtml"/> 
+	</ui:define>
+	
+	<ui:define name="sidebar_right">
+    	  <ui:include src="#{abstractIdentityBean.abstractIdentityEntity.template}/menu_right.xhtml"/> 
+	</ui:define>
+	
+	
+	<ui:define name="content">
+    <section class="content">
+        <div class="container-fluid">
+			
+            <div class="row clearfix"> 
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+                    <div class="card">
+                        <div class="body" align="right">
+
+                      
+ 						<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						
+						<p:outputLabel for="applicationName" value="Nome do Projeto:"/>
+						<h:panelGroup>
+							<p:inputText id="applicationName" value="#{applicationEntityBean.example.name}"/>
+							<h:message for="applicationName" styleClass="error"/>
+						</h:panelGroup>
+						<p:commandButton ajax="false" value="Buscar" action='#{applicationEntityBean.search}' styleClass="btn btn-primary"/>
+							
+					</h:panelGrid>
+				</h:panelGroup>
+			</f:validateBean>
+			
+					
+			<p:dataTable id="applicationEntityBeanPageItems" styleClass="data-table" 
+			value="#{applicationEntityBean.pageItems}" var="_item">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Id"/>
+					</f:facet>
+					<p:outputLabel  value="#{_item.name}"/>
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Tipo"/>
+					</f:facet>
+					<p:outputLabel  value=" #{_item['class'].simpleName}"/>
+				</p:column> 
+				
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="id"/>
+					</f:facet>
+					<p:button   icon="fa fa-edit" value="Editar" outcome="/gis/project_edit"> 
+						<f:param name="id" value="#{_item.id}"/>
+				</p:button>
+
+				#{''}
+				
+				
+				<p:button   icon="fa fa-edit" value="Camadas" outcome="/gis/project_layers"> 
+						<f:param name="id" value="#{_item.id}"/>
+				</p:button>
+
+				#{''}
+				
+				<p:button 
+						 icon="fa fa-edit" value="Dashboard" outcome="/gis/dashboardNA"> 
+						<f:param name="id" value="#{_item.id}"/>
+				</p:button>
+
+   
+    	
+				</p:column>
+				
+			</p:dataTable>
+			
+			</h:form>
+							
+	               		</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   
+	</ui:define>
+	
+	 
+</ui:composition>

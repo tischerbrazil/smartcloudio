@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	<ui:repeat varStatus="_seq"
+					value="#{abstractGeometryBean.getAbstractGeometry('ebae13e8-f9f0-4a18-92d0-50507144e0ee')}"
+					var="_fieldGeom">
+					<h:outputText escape="false" 
+					value="#{_fieldGeom.strings.at('/html').asText()}" />
+				</ui:repeat>
+	
+</ui:composition>

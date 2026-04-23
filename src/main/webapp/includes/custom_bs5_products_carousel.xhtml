@@ -1,0 +1,121 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	
+		
+	<style>
+
+.product-item2 .product-item2-content {
+        border: 1px solid var(--surface-d);
+        border-radius: 3px;
+        margin: .3rem;
+
+
+    }
+
+    .product-item2 .product-image2 {
+        width: 100%;
+       
+    }
+    
+    
+    .product-badge {
+  margin-bottom: 3px"
+  border-radius: 2px;
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px; 
+  }
+  
+  .product-badge.status-instock {
+    background: #C8E6C9;
+    color: #256029; }
+    
+  .product-badge.status-outofstock {
+    background: #FFCDD2;
+    color: #C63737; }
+    
+  .product-badge.status-lowstock {
+    background: #FEEDAF;
+    color: #8A5340; }
+    
+</style>
+	
+		
+	
+	<section class="bd-main">
+		<div class="container">
+		
+		
+				
+				
+				
+				
+				
+				
+				
+				
+				<div class="card">
+				
+				<div align="center">
+						<h4>#{compjson.title}</h4> 
+				</div>
+				
+				
+			
+				
+        <p:carousel value="#{productBean.getCategoryById(compjson.image)}" var="product" circular="true" autoplayInterval="4700"
+                   numVisible="4" numScroll="1" responsiveOptions="#{productBean.responsiveOptions}">
+           
+
+            <div class="product-item2">
+                <div class="product-item2-content">
+                    <div class="p-mb-3">
+                    <p:link outcome="/ecommerce/index">
+                        <p:graphicImage id="imgx" 
+							styleClass="product-image2"	rendered="#{product.images.stream().findFirst().isPresent()}"
+								value="#{request.scheme}://#{request.serverName}#{request.contextPath}#{product.images.stream().findFirst().get().getFilename()}" />
+								<f:param name="uuid" value="#{product.uuid}" />
+							<f:param name="gcmid"
+								value="#{compjson.field.get('gcmid').asText()}" />
+								</p:link>
+                    </div>
+                    <div align="center">
+                        <h5 class="p-mb-1">#{product.name}</h5>
+                        
+                      
+                        <div class="p-mt-5">
+                           
+                             
+                              <p:button  icon="pi pi-search"
+						value="#{compjson.field.get('label_button').asText()}"
+							
+							style="margin-top: 5px"
+							outcome="/ecommerce/index"
+							title="Mais Detalhes">
+							<f:param name="uuid" value="#{product.uuid}" />
+							<f:param name="gcmid"
+								value="#{compjson.field.get('gcmid').asText()}" />
+						</p:button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p:carousel>
+    </div>
+				
+				
+				
+				
+			</div>
+		
+	</section>
+	
+</ui:composition>

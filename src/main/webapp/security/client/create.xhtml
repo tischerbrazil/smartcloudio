@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+
+
+	<ui:define name="content">
+
+		<section class="slice py-8">
+
+
+
+		<div class="container py-5">
+
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<p:panel header="CLIENTE #{clientBean.clientEntity.dtype}">
+
+
+
+						<h:form id="create">
+
+
+
+							<ui:repeat var="teste33"
+								value="#{clientBean.clientEntity.attributes.stream().filter(car->car.name.equals('picture') ).toList()}">
+
+								<p:graphicImage style="width: 150px"
+									rendered="#{teste33 != null}"
+									class="img-circle js-animating-object img-responsive"
+									value="#{teste33.value}" />
+
+							</ui:repeat>
+
+							<p:graphicImage style="width: 150px"
+								rendered="#{clientBean.clientEntity.attributes.stream().filter(car->car.name.equals('picture')).toList().size() == 0}"
+								class="img-circle js-animating-object img-responsive"
+								value="/resources/images/camera.png" />
+
+							<p:commandButton style="font-size: 1.2em"
+								onclick="PF('imageCarouselDialog').show()" icon="fa fa-camera" />
+
+							<p:messages id="message" styleClass="error" closable="true"
+								globalOnly="true" showDetail="true" showSummary="true" />
+
+
+						
+
+
+
+
+
+						<div class="body">
+							<h:panelGrid columnClasses="label,component,required" columns="3">
+								<p:outputLabel for="clientId" value="Client ID:" />
+								<h:panelGroup>
+									<p:inputText disabled="#{!empty clientBean.id}" size="50"
+										id="clientId" value="#{clientBean.clientEntity.clientId}" />
+									<h:message for="clientId" styleClass="error" />
+								</h:panelGroup>
+								<h:outputText />
+								<h:outputLabel for="enabled" value="Enabled" />
+								<p:selectBooleanCheckbox id="enabled"
+									value="#{clientBean.clientEntity.enabled}" />
+								<h:outputText />
+								<p:outputLabel for="clientName" value="Name:" />
+								<h:panelGroup>
+									<p:inputText size="50" id="clientName"
+										value="#{clientBean.clientEntity.clientId}" />
+									<h:message for="clientName" styleClass="error" />
+								</h:panelGroup>
+								<h:outputText />
+
+								<p:outputLabel for="sn" value="Server Url" />
+								<h:panelGroup>
+									<p:inputText id="sn"
+										value="#{clientBean.clientEntity.serverName}" />
+									<h:message for="sn" styleClass="error" />
+								</h:panelGroup>
+								<h:outputText />
+
+								<p:outputLabel for="secret" value="Secret" />
+								<h:panelGroup>
+									<p:inputText id="secret"
+										value="#{clientBean.clientEntity.secret}" />
+									<h:message for="secret" styleClass="error" />
+								</h:panelGroup>
+								<h:outputText />
+
+								<p:outputLabel for="username" value="Username" />
+								<h:panelGroup>
+									<p:inputText id="username"
+										value="#{clientBean.clientEntity.username}" />
+									<h:message for="username" styleClass="error" />
+								</h:panelGroup>
+								<h:outputText />
+
+								<p:outputLabel for="password" value="Password" />
+								<h:panelGroup>
+									<p:inputText id="password"
+										value="#{clientBean.clientEntity.password}" />
+									<h:message for="password" styleClass="error" />
+								</h:panelGroup>
+								<h:outputText />
+
+								<p:outputLabel for="introduction" value="Introduction" />
+								<h:panelGroup>
+									<p:textEditor id="introduction" height="200"
+										value="#{clientBean.clientEntity.introduction}" />
+									<h:message for="introduction" styleClass="error" />
+								</h:panelGroup>
+								<h:outputText />
+
+								<p:outputLabel for="description" value="Description" />
+								<h:panelGroup>
+									<p:textEditor id="description" height="200"
+										value="#{clientBean.clientEntity.description}" />
+									<h:message for="description" styleClass="error" />
+								</h:panelGroup>
+								<h:outputText />
+
+							</h:panelGrid>
+							<br />
+							<div class="buttons">
+								<p:commandButton value="Salvar" action='#{clientBean.update}' />
+								#{''}
+								
+								
+								
+								<c:choose>
+									<c:when test='#{!empty clientBean.id}'>
+										<p:commandButton value="Excluir" action='#{clientBean.delete}'
+											styleClass="btn btn-primary" />
+													#{''}
+												<p:button value="Cancelar" outcome="/security/client/search"
+											styleClass="btn btn-primary">
+											<f:param name="id" value='#{clientBean.id}' />
+										</p:button>
+									</c:when>
+									<c:otherwise>
+												#{''}
+												<p:button value="Cancelar" outcome="/security/search"
+											styleClass="btn btn-primary" />
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
+						
+						</h:form>
+					</p:panel>
+				</div>
+			</div>
+		</div>
+
+
+		</section>
+
+
+		<p:dialog header="Envio de Imagem" multiple="false"
+			widgetVar="imageCarouselDialog" resizable="false">
+			<h:form id="uploadShpForm" prependId="false">
+				<p:fileUpload cancelLabel="Cancelar" label="Arquivo"
+					uploadLabel="Enviar" oncomplete="PF('imageCarouselDialog').hide()"
+					listener="#{clientBean.importIMAGE}" mode="advanced"
+					dragDropSupport="false"
+					allowTypes="/(\.|\/)(jpg|JPG|png|PNG|gif|GIF)$/" />
+				<div style="clear: both" />
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

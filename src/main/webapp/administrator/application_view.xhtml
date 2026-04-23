@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener='#{applicationIdentityBean.retrieve}' />
+
+	</f:metadata>
+
+	
+
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+						<h:form id="search">
+							
+
+								<p:growl id="messages" showDetail="true"
+									skipDetailIfEqualsSummary="true" />
+
+
+							<h:panelGrid columnClasses="label,component" columns="2">
+								<h:outputLabel value="Nome: " />
+								<h:outputLabel
+									value="#{applicationIdentityBean.applicationIdentityEntity.name}" />
+							</h:panelGrid>
+
+							<div align="right">
+
+
+
+								<p:menuButton value="Adicionar Componente"
+									icon="ui-icon-document">
+									<p:menuitem ajax="false" outcome="/administrator/component_edit" value="Post"
+										icon="ui-icon-document" id="post">
+										<f:param name="component_type" value="post" />
+										<f:param name="identity_id"
+											value="#{applicationIdentityBean.id}" />
+									</p:menuitem>
+
+									<p:menuitem ajax="false" outcome="/administrator/component_edit"
+										value="Carousel" icon="ui-icon-document" id="carousel">
+										<f:param name="component_type" value="carousel" />
+										<f:param name="identity_id"
+											value="#{applicationIdentityBean.id}" />
+									</p:menuitem>
+
+									<p:menuitem ajax="false" outcome="/administrator/component_edit"
+										value="Banner" icon="ui-icon-document" id="banner">
+										<f:param name="component_type" value="banner" />
+										<f:param name="identity_id"
+											value="#{applicationIdentityBean.id}" />
+									</p:menuitem>
+
+									<p:menuitem ajax="false" outcome="/administrator/component_edit"
+										value="Custom" icon="ui-icon-document" id="custom">
+										<f:param name="component_type" value="custom" />
+										<f:param name="identity_id"
+											value="#{applicationIdentityBean.id}" />
+									</p:menuitem>
+
+									<p:menuitem ajax="false" outcome="/administrator/component_edit" value="Card"
+										icon="ui-icon-document" id="card">
+										<f:param name="component_type" value="card" />
+										<f:param name="identity_id"
+											value="#{applicationIdentityBean.id}" />
+									</p:menuitem>
+
+								</p:menuButton>
+
+
+							</div>
+
+								<p:tabView id="tabapp" multiViewState="true">
+	
+									<p:tab title="Menus">
+
+					
+
+									<p:dataTable emptyMessage="Nenhum Menu encontrado!"
+										id="comp" reflow="true"
+value="#{applicationIdentityBean.applicationIdentityEntity.components.stream().filter(t -> t.dtype == 'menu').toList()}"
+										var="_comp" paginatorPosition="bottom" paginator="true"
+										rows="50">
+							
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Id" />
+											</f:facet>
+											<h:outputText value="#{_comp.id}" />
+										</p:column>
+
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Nome" />
+											</f:facet>
+											<h:outputText value="#{_comp.name}" />
+										</p:column>
+
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Ação" />
+											</f:facet>
+											<p:button icon="fa fa-th-list" 
+											
+											title="Exibir"
+												outcome="/administrator/menu_view">
+							
+												<o:pathParam value="0" />
+											 <o:pathParam value="#{_comp.id}" />
+											</p:button>
+							
+										</p:column>
+
+									</p:dataTable>
+
+								</p:tab>
+								
+								
+								<p:tab title="Formulários">
+
+								
+
+									<p:dataTable emptyMessage="Nenhum Componente encontrado!"
+										id="forms" reflow="true"
+										value="#{applicationIdentityBean.applicationIdentityEntity.components.stream().filter(t -> t.dtype == 'post').toList()}"
+										var="_comp" paginatorPosition="bottom" paginator="true"
+										rows="50">
+
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Id" />
+											</f:facet>
+											<h:outputText value="#{_comp.id}" />
+										</p:column>
+
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Nome" />
+											</f:facet>
+											<h:outputText value="#{_comp.name}" />
+										</p:column>
+
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Ação" />
+											</f:facet>
+											<p:button icon="fa fa-th-list" 
+										
+											title="Exibir"
+												outcome="/administrator/component_view">
+									
+												
+												  <o:pathParam value="0" />
+										          <o:pathParam value="#{_comp.id}" />
+												
+											</p:button>
+												
+										</p:column>
+
+									</p:dataTable>
+
+								</p:tab>
+								
+								<p:tab title="Containers">
+								
+						<p:dataTable var="_item" value="#{applicationIdentityBean.applicationIdentityEntity.modulos}"
+								paginator="true" rows="100" 
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+								rowsPerPageTemplate="10, 50, 100" lazy="true"
+								
+								widgetVar="modWidget" reflow="true" paginatorPosition="bottom"
+								id="_itemTable">
+
+								<p:column headerText="Ativo" sortBy="#{_item.enabled}">
+									<p:graphicImage rendered="#{_item.enabled}" class="img-circle"
+										value="/resources/true.png" />
+									<p:graphicImage rendered="#{!_item.enabled}" class="img-circle"
+										value="/resources/false.png" />
+								</p:column>
+
+								<p:column headerText="Nome" filterBy="#{_item.name}"
+									sortBy="#{_item.name}">
+									<h:outputText value="#{_item.name}" />
+								</p:column>
+
+								
+
+								<p:column headerText="Posição" filterBy="#{_item.include}"
+									sortBy="#{_item.include}">
+									<h:outputText value="#{_item.include}" />
+								</p:column>
+								
+								
+
+								<p:column headerText="Widgets">
+									<h:outputText
+										value="#{_item.components.stream().filter(b->b.id > 0)
+              .map(b->b.abstractWidget.nome)
+              .toList()}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Ação" />
+									</f:facet>
+									<p:button icon="fa fa-th-list" title="Exibir"
+										outcome="module_view">
+										    <o:pathParam value="0" />
+    										<o:pathParam value="#{_item.id}" />
+									</p:button>
+									
+								</p:column>
+
+
+							</p:dataTable>
+
+								</p:tab>
+								
+
+								<p:tab title="Atributos">
+									<p:dataTable  reflow="true" emptyMessage="Nenhum item encontrado!" id="apps"
+										value="#{applicationIdentityBean.applicationIdentityEntity.attributes}"
+										var="_attribute" paginatorPosition="bottom" paginator="true"
+										rows="50">
+										<f:facet name="header">
+											<h:outputText value="ATTRIBUTOS" />
+										</f:facet>
+
+								
+
+										
+
+
+									</p:dataTable>
+
+								</p:tab>
+
+
+
+								<p:tab title="Dados">
+
+
+
+									<h:panelGrid columnClasses="label,component" columns="3">
+
+										<h:outputLabel for="nome" value="Nome:" />
+										<h:panelGroup>
+											<p:inputText id="nome" label="Nome" required="true"
+												value="#{applicationIdentityBean.applicationIdentityEntity.name}" />
+										</h:panelGroup>
+										<h:outputText />
+
+										<h:outputLabel for="Locale" value="Local:" />
+										<h:panelGroup>
+											<p:inputText id="locale" label="Locale"
+												value="#{applicationIdentityBean.applicationIdentityEntity.locale}" />
+										</h:panelGroup>
+										<h:outputText />
+
+										<h:outputLabel for="image" value="Image:" />
+										<h:panelGroup>
+											<p:inputText id="image" label="Locale"
+												value="#{applicationIdentityBean.applicationIdentityEntity.image}" />
+										</h:panelGroup>
+										<h:outputText />
+
+
+										<h:outputLabel for="template" value="Template:" />
+										<h:panelGroup>
+											<p:inputText id="template" label="Template"
+												value="#{applicationIdentityBean.applicationIdentityEntity.template}" />
+										</h:panelGroup>
+										<h:outputText />
+
+
+										<h:outputLabel for="desc" value="Descrição:" />
+										<h:panelGroup>
+											<p:inputText id="desc" label="Descrição"
+												value="#{applicationIdentityBean.applicationIdentityEntity.description}" />
+										</h:panelGroup>
+										<h:outputText />
+
+										
+
+										<h:outputLabel for="enabled" value="Ativo" />
+										<p:selectBooleanCheckbox required="true" locale="pt_BR"
+											label="Tipo" id="enabled"
+											value="#{applicationIdentityBean.applicationIdentityEntity.enabled}" />
+										<h:outputText />
+
+										<p:outputLabel value="Cliente" />
+										<h:panelGroup>
+											<p:selectOneMenu label="Cliente" required="true"
+												converter="omnifaces.SelectItemsConverter" id="client"
+												value="#{applicationIdentityBean.applicationIdentityEntity.clientEntity}">
+												<f:selectItems itemLabel="#{_item.clientId}"
+													itemValue="#{_item}" value="#{clientBean.all}" var="_item" />
+											</p:selectOneMenu>
+										</h:panelGroup>
+										<h:outputText />
+
+									</h:panelGrid>
+
+									<div class="buttons">
+										<h:commandLink value="Salvar"
+											action='#{applicationIdentityBean.update}' update="messages"
+											styleClass="btn btn-primary" />
+										#{''}
+										<c:choose>
+											<c:when test='#{!empty applicationIdentityBean.id}'>
+												<h:link value="Cancelar" outcome="/administrator/application_search"
+													styleClass="btn btn-primary" />
+						#{''}
+						<h:commandLink value="Excluir"
+													action='#{applicationIdentityBean.delete}'
+													styleClass="btn btn-primary" />
+											</c:when>
+											<c:otherwise>
+												<h:link value="Cancelar" outcome="/administrator/application_search"
+													styleClass="btn btn-primary" />
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</p:tab>
+							</p:tabView>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+
+	</ui:define>
+
+
+</ui:composition>

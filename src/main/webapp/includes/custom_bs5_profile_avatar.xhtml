@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener='#{userEntityBean.retrieveActiveUser}' />
+	</f:metadata>
+	
+	
+	<style>
+.ui-datepicker {
+	z-index: 10003 !important;
+	top: 133px !important;
+	left: 15.5px !important;
+}
+
+.ui-inputfield2 {
+	margin-top: -0px !important;
+}
+
+.ui-inputfield {
+	border: none !important;
+}
+</style>
+
+	<section>
+		<div class="container py-3">
+		
+	<h4>Imagem do Perfil</h4>
+	<main class="bd-main">
+		<h:form id="userForm">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="body">
+						<div class="team-wrap">
+							<ui:repeat var="teste"
+								value="#{userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).toList()}">
+								<p:graphicImage style="width: 150px" rendered="#{teste != null}"
+									class="img-circle js-animating-object img-responsive"
+									value="#{teste.value}" />
+							</ui:repeat>
+							<p:graphicImage style="width: 150px"
+								rendered="#{userEntityBean.person.attributes.stream().filter(car->car.name.equals('picture')).toList().size() == 0}"
+								class="img-circle js-animating-object img-responsive"
+								value="/resources/images/camera.png" />
+							<p:commandButton style="font-size: 1.2em"
+								onclick="PF('imageCarouselDialog').show()" icon="fa fa-camera" />
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+					<div class="body">
+						<div class="form-group">
+							<span><i class="fa fa-user-circle-o" aria-hidden="true"></i>
+								<label for="item" class="control-label">Nome de Usuário</label>
+							</span>
+							<div class="form-line">
+								<p:outputLabel value="#{userEntityBean.person.username}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<span><i class="fa fa-user-circle" aria-hidden="true"></i>
+								<label for="item" class="control-label"> Nome Completo </label>
+							</span>
+							<div class="form-line">
+								<p:outputLabel
+									value="#{userEntityBean.person.name}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<span><i class="fa fa-envelope-o" aria-hidden="true"></i>
+								<label for="item" class="control-label"> E-mail</label> </span>
+							<div class="form-line">
+								<p:outputLabel value="#{userEntityBean.person.email}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	
+	<p:dialog header="Envio de Imagem" multiple="false"
+		widgetVar="imageCarouselDialog" resizable="false">
+		<h:form id="uploadShpForm" prependId="false">
+			<p:fileUpload cancelLabel="Cancelar" label="Arquivo"
+				uploadLabel="Enviar" update="#{viewid}:userForm @this"
+				oncomplete="PF('imageCarouselDialog').hide()"
+				listener="#{userEntityBean.importIMAGE}" mode="advanced"
+				dragDropSupport="false" 
+				allowTypes="/(\.|\/)(jpg|JPG|jpeg|jpg|png|PNG|gif|GIF)$/" />
+			<div style="clear: both" />
+		</h:form>
+	</p:dialog>
+	
+	
+	</main>
+	</div>
+	</section>
+	
+</ui:composition>

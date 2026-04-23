@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<link href="/themes/bs5-ecommerce/dist/css/bootstrap.min.css"
+		rel="stylesheet" crossorigin="anonymous" />
+	<script src="/themes/bs5-ecommerce/dist/js/bootstrap.min.js"></script>
+
+	<style>
+.dashed33 {
+	border-style: dashed;
+	border-color: coral;
+	border-width: 2px;
+}
+
+.dashed333 {
+	border-style: dashed;
+	border-color: gray;
+	border-width: 1px;
+}
+</style>
+
+
+
+
+
+
+	<p:remoteCommand name="rc" update="msgs sidebarForm"
+		action="#{moduloBean.executeSelect}"
+		oncomplete="PF('editWidget').show();" />
+
+
+	<h:form id="sidebarForm">
+		<p:sidebar position="#{moduloBean.position}" blockScroll="true"
+			style="overflow-y: scroll;width:350px !important; height:100% !important; 	margin-top: 0px !important; z-index: 50 !important;"
+			modal="false" responsive="true" fitViewport="false"
+			widgetVar="editWidget" id="editWidget">
+			<section>
+				<div class="container py-3">
+					<main class="bd-main">
+						<h:form id="widgetEditForm" class="py-3" prependId="false">
+							<div class="row clearfix">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="body">
+										<div class="row clearfix">
+											<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+												#{moduloBean.position} -
+												#{moduloBean.selectedRComponent.type}
+												#{moduloBean.selectedRComponent.id}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</h:form>
+					</main>
+				</div>
+			</section>
+		</p:sidebar>
+	</h:form>
+
+	<h:form id="viewWidgetForm">
+
+
+									<ui:include
+										src="/includes/widgets/custom_#{moduloBean.moduleComponentMap.abstractWidget}.xhtml">
+										<ui:param name="_block" value="#{moduloBean.moduleComponentMap.getBlock()}" />
+									</ui:include>
+		
+
+	</h:form>
+</ui:composition>

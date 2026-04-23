@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+					<div class="body">
+
+						<p:tabView id="tabapp" multiViewState="true">
+
+							<p:tab title="Dados do MenuLink">
+
+								<p:panel header="Menu Link">
+
+									<h:form>
+
+										<h:panelGrid columnClasses="label,component" columns="3">
+
+											<p:outputLabel value="Gcmid" />
+											<h:panelGroup>
+												<h:outputLabel locale="pt_BR"
+													value="#{urlMenuItemBean.urlMenuItem.id}" />
+											</h:panelGroup>
+											<h:outputText />
+
+
+											<p:outputLabel for="ativo" value="Ativo" />
+											<h:panelGroup>
+												<p:selectBooleanCheckbox required="true" locale="pt_BR"
+													label="Editável" id="ativo"
+													value="#{urlMenuItemBean.urlMenuItem.enabled}" />
+											</h:panelGroup>
+											<h:outputText />
+
+											<h:outputLabel for="nome" value="Nome:" />
+											<h:panelGroup>
+												<p:inputText id="nome" label="Nome" size="50"
+													maxLength="100" required="false"
+													value="#{urlMenuItemBean.urlMenuItem.name}" />
+											</h:panelGroup>
+											<h:outputText />
+
+											<h:outputLabel for="path" value="Caminho:" />
+											<h:panelGroup>
+												<p:inputText id="path" label="Caminho" size="50"
+													maxLength="100" required="false"
+													value="#{urlMenuItemBean.urlMenuItem.path}" />
+											</h:panelGroup>
+											<h:outputText />
+
+											<h:outputLabel for="title" value="Link:" />
+											<h:panelGroup>
+												<p:inputText id="title" label="Título" size="50"
+													maxLength="100" required="true"
+													value="#{urlMenuItemBean.urlMenuItem.link}" />
+											</h:panelGroup>
+											<h:outputText />
+
+											<h:outputLabel for="type" value="Tipo:" />
+											<h:panelGroup>
+												<p:inputText id="type" label="Tipo" size="50"
+													maxLength="100" required="false"
+													value="#{urlMenuItemBean.urlMenuItem.type}" />
+											</h:panelGroup>
+											<h:outputText />
+
+											<h:outputLabel for="language" value="Linguagem:" />
+											<h:panelGroup>
+												<p:inputText id="language" label="Linguagem" size="50"
+													maxLength="100" required="false"
+													value="#{urlMenuItemBean.urlMenuItem.languageId}" />
+											</h:panelGroup>
+											<h:outputText />
+
+											<h:outputLabel for="icon" value="Ícone" />
+											<h:panelGroup>
+												<p:inputText id="icone" label="Ícone" size="50"
+													maxLength="100" required="false"
+													value="#{urlMenuItemBean.urlMenuItem.icon}" />
+											</h:panelGroup>
+											<h:outputText />
+
+											<h:outputLabel for="link_href" value="Link Href:" />
+											<h:panelGroup>
+												<p:inputText id="link_href" label="Ícone" size="50"
+													maxLength="20" required="false"
+													value="#{urlMenuItemBean.urlMenuItem.link_href}" />
+											</h:panelGroup>
+											<h:outputText />
+
+											<h:outputLabel for="symbol_svg" value="Symbol Svg:" />
+											<h:panelGroup>
+												<p:textEditor id="symbol_svg"
+													value="#{urlMenuItemBean.urlMenuItem.symbol_svg}"
+													height="200">
+												</p:textEditor>
+											</h:panelGroup>
+											<h:outputText />
+
+											<h:outputLabel for="ordem" value="Ordem:" />
+											<h:panelGroup>
+												<p:inputText id="ordem" label="Título" size="50"
+													maxLength="100" required="true"
+													value="#{urlMenuItemBean.urlMenuItem.ordering}" />
+											</h:panelGroup>
+											<h:outputText />
+
+											<p:outputLabel for="parent" value="Item Pai:" />
+											<h:panelGroup>
+												<p:selectOneMenu label="Item Pai"
+													converter="omnifaces.SelectItemsConverter" id="parent"
+													value="#{urlMenuItemBean.urlMenuItem.parentId}">
+
+													<f:selectItem noSelectionOption="true" itemLabel="Raiz "
+														itemValue="#{null}" />
+													<f:selectItems itemLabel="#{_item.name}"
+														itemValue="#{_item}"
+														value="#{urlMenuItemBean.allRootItens}" var="_item" />
+												</p:selectOneMenu>
+											</h:panelGroup>
+											<h:outputText />
+
+
+
+
+										</h:panelGrid>
+
+
+
+										<div class="buttons">
+											<p:commandButton value="Salvar"
+												action='#{urlMenuItemBean.update}'
+												styleClass="btn btn-primary" icon="fa fa-save" />
+											#{''}
+											<c:choose>
+												<c:when test='#{!empty urlMenuItemBean.id}'>
+													<p:button value="Cancelar"
+														outcome="/administrator/menu_view" icon="fa fa-undo"
+														styleClass="btn btn-primary">
+														<f:param name="id" value='#{urlMenuItemBean.menu_id}' />
+													</p:button>
+													#{''}
+													<p:commandButton value="Excluir" icon="fa fa-trash"
+														action='#{urlMenuItemBean.delete}'
+														styleClass="btn btn-primary" />
+												</c:when>
+												<c:otherwise>
+													<p:button title="Cancelar"
+														outcome="/administrator/menu_view" icon="fa fa-undo"
+														styleClass="btn btn-primary" />
+												</c:otherwise>
+											</c:choose>
+										</div>
+
+									</h:form>
+
+
+
+
+								</p:panel>
+
+
+
+							</p:tab>
+
+
+
+							<p:tab title="Containers">
+
+								<p:dataTable var="_item" value="#{urlMenuItemBean.modulos}"
+									paginator="true" rows="100"
+									paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+									rowsPerPageTemplate="10, 50, 100" lazy="true"
+									widgetVar="modWidget" reflow="true" paginatorPosition="bottom"
+									id="_itemTable">
+
+									<p:column headerText="Ativo" sortBy="#{_item.enabled}">
+										<p:graphicImage rendered="#{_item.enabled}" class="img-circle"
+											value="/resources/true.png" />
+										<p:graphicImage rendered="#{!_item.enabled}"
+											class="img-circle" value="/resources/false.png" />
+									</p:column>
+
+									<p:column headerText="Nome" filterBy="#{_item.name}"
+										sortBy="#{_item.name}">
+										<h:outputText value="#{_item.name}" />
+									</p:column>
+
+
+
+									<p:column headerText="Posição" filterBy="#{_item.include}"
+										sortBy="#{_item.include}">
+										<h:outputText value="#{_item.include}" />
+									</p:column>
+
+
+
+									<p:column headerText="Widgets">
+										<h:outputText
+											value="#{_item.components.stream().filter(b->b.id > 0)
+              .map(b->b.abstractWidget.nome)
+              .toList()}" />
+									</p:column>
+
+									<p:column>
+										<f:facet name="header">
+											<h:outputText value="Ação" />
+										</f:facet>
+										<p:button icon="fa fa-th-list" title="Exibir"
+											outcome="module_view">
+											<o:pathParam value="0" />
+											<o:pathParam value="#{_item.id}" />
+										</p:button>
+										#{''} 
+										
+									</p:column>
+
+
+								</p:dataTable>
+
+							</p:tab>
+
+						</p:tabView>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+
+	</ui:define>
+
+
+</ui:composition>

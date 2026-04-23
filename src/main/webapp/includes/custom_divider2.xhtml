@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:p="http://primefaces.org/ui"> 
+  	 
+  	  <link href="#{request.contextPath}/includes/gallery/ekko-lightbox.css" rel="stylesheet"/>
+  	   <script src="#{request.contextPath}/includes/gallery/ekko-lightbox.js"></script>
+ 	
+ <h:outputScript id="script_gallery" target="body">
+	/* <![CDATA[ */
+            $(document).ready(function ($) {
+                // delegate calls to data-toggle="lightbox"
+                $(document).on('click', '[data-toggle="lightbox"]:not([data-gallery="navigateTo"]):not([data-gallery="example-gallery-11"])', function(event) {
+                    event.preventDefault();
+                    return $(this).ekkoLightbox({
+                        onShown: function() {
+                            if (window.console) {
+                               // return console.log('Checking our the events huh?');
+                            }
+                        },
+						onNavigate: function(direction, itemIndex) {
+                            if (window.console) {
+                               // return console.log('Navigating '+direction+'. Current item: '+itemIndex);
+                            }
+						}
+                    });
+                });
+
+                // disable wrapping
+                $(document).on('click', '[data-toggle="lightbox"][data-gallery="example-gallery-11"]', function(event) {
+                    event.preventDefault();
+                    return $(this).ekkoLightbox({
+                        wrapping: false
+                    });
+                });
+
+                //Programmatically call
+                $('#open-image').click(function (e) {
+                    e.preventDefault();
+                    $(this).ekkoLightbox();
+                });
+                $('#open-youtube').click(function (e) {
+                    e.preventDefault();
+                    $(this).ekkoLightbox();
+                });
+
+				// navigateTo
+                $(document).on('click', '[data-toggle="lightbox"][data-gallery="navigateTo"]', function(event) {
+                    event.preventDefault();
+
+                    return $(this).ekkoLightbox({
+                        onShown: function() {
+
+							this.modal().on('click', '.modal-footer a', function(e) {
+
+								e.preventDefault();
+								this.navigateTo(2);
+
+                            }.bind(this));
+
+                        }
+                    });
+                });
+
+
+               
+            });
+       /* ]]> */
+</h:outputScript>  
+ 	
+ 	 <div class="container py-5">
+         <div class="row">
+    <div class="offset-md-2 col-md-8">
+        <div class="row">
+            <a href="#{request.contextPath}/files/127.0.0.1/images/geoazul_lotes.png" 
+            data-title="A random title1" data-footer="A custom footer text1"
+            data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+                <img src="#{request.contextPath}/files/127.0.0.1/images/geoazul_lotes_thumb.png" class="img-fluid"/>
+            </a>
+           
+        </div>
+        
+    </div>
+</div>  
+     </div>
+</ui:composition>

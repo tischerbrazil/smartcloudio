@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="jakarta.faces.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core"
+	xmlns:ui="jakarta.faces.facelets" lang="#{p:language()}"
+	xml:lang="#{p:language()}">
+<c:set var="dev" value="#{faces.development}" scope="application" />
+<f:view locale="#{activeLocale.value}">
+	<h:head id="cab">
+		<ui:insert name="head" />
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+		<meta name="viewport" content="width=device-width,maximum-scale=2" />
+		<link rel="canonical" href="#{activeLocale.canonicalURL}" />
+		<h:outputStylesheet library="webjars"
+			name="font-awesome/5.15.4/css/all.min-jsf.css" />
+		<h:outputStylesheet library="webjars"
+			name="font-awesome/5.15.4/css/v4-shims.min-jsf.css" />
+		<c:forEach items="#{activeLocale.others}" var="otherLocale">
+			<link rel="alternate" hreflang="#{otherLocale.languageTag}"
+				href="#{activeLocale.canonicalURL(otherLocale)}" />
+		</c:forEach>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta name="robots" content="noindex"/>
+		<meta name="googlebot" content="noindex"/>
+		<meta
+			content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
+			name="viewport" />
+		<link rel="shortcut icon" type="image/x-icon"
+			href='#{resource["favicon.ico"]}' />
+		<title>#{abstractIdentityBean.abstractIdentityEntity.title}</title>
+		<script>
+			window.addEventListener("load", function() {
+				setTimeout(function() {
+					document.querySelector('body').classList.add('loaded');
+				}, 300);
+			});
+		</script>
+		<style>
+.dropdown-item {
+	margin-right: 20px !important;
+}
+
+video {
+	max-width: 100%;
+	height: auto;
+}
+
+.note-float-left {
+	border: 5px solid transparent;
+	padding-right: 10px;
+}
+
+.note-float-right {
+	border: 5px solid transparent;
+	padding-left: 10px;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+</style>
+		
+		<h:outputStylesheet library="webjars"
+			name="font-awesome/5.15.4/css/all.min-jsf.css" />
+		<h:outputStylesheet library="webjars"
+			name="font-awesome/5.15.4/css/v4-shims.min-jsf.css" />
+		<link
+			href="#{request.contextPath}/themes/bootstrap/qui/css/offcanvas.css"
+			rel="stylesheet" />
+		<ui:fragment rendered="true">
+			<link
+				href="#{request.contextPath}/themes/bootstrap/qui/b4/css/bootstrap.min.css"
+				rel="stylesheet" />
+		</ui:fragment>
+		<ui:fragment rendered="false">
+			<link
+				href="#{request.contextPath}/themes/bootstrap/qui/b4/css/bootstrap-night.css"
+				rel="stylesheet" />
+		</ui:fragment>
+		<link
+			href="#{request.contextPath}/themes/theme/font/materialicons.css"
+			rel="stylesheet" />
+		<link
+			href="#{request.contextPath}/themes/bootstrap/qui/b4/css/material_style.css"
+			rel="stylesheet" />
+		<h:outputScript name="locales/locale-#{p:language()}.js"
+			library="primefaces" />
+		<ui:insert name="header" />
+		<meta name="color-scheme" content="light dark" />
+		
+		<h:outputScript name="locales/locale-#{p:language()}.js"
+			library="primefaces" />
+		
+
+		
+	</h:head>
+	<h:body>
+		<div class="preloader">
+			<div class="spinner-border text-primary" role="status">
+				<span class="sr-only">Carregando...</span>
+			</div>
+		</div>
+		
+		
+	
+		
+    
+
+
+
+		
+		
+		
+
+		<nav
+			class="#{abstractIdentityBean.abstractIdentityEntity.strings.at('/nav_class').asText()}"
+			aria-label="Main navigation">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#{request.contextPath}/index"> <p:graphicImage
+						value="/files/#{userData2.realmEntity}/images/logo.png" /></a> <a
+					class="navbar-brand"
+					href="#{facesContext.externalContext.requestContextPath}"> <span>#{abstractIdentityBean.abstractIdentityEntity.title}</span>
+				</a>
+				<button class="navbar-toggler p-0 border-0" type="button"
+					data-toggle="offcanvas" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse offcanvas-collapse"
+					id="navbarsExampleDefault">
+					<ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+					</ul>
+					<ul class="navbar-nav ml-auto">
+						<li><p:outputPanel rendered="false">
+								<p:linkButton id="btnNotifications" url="#" value="Mensagens" />
+								
+							</p:outputPanel></li>
+						<c:forEach
+							items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'top_navbar').toList()}"
+							var="_module">
+							<ui:include src="#{_module.complete}">
+								<ui:param name="id" value="#{_module.components.at('/id').asLong()}" />
+							</ui:include>
+						</c:forEach>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<ui:insert name="main" />
+		<ui:insert name="content" />
+		<p:ajaxStatus styleClass="status-indicator">
+			<f:facet name="start">
+				<i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+	</h:body>
+	<script
+		src="#{request.contextPath}/themes/bootstrap/qui/b4/libs/feather-icons/dist/feather.min.js" />
+	<script>
+		feather.replace({
+			'width' : '2em',
+			'height' : '2em'
+		})
+	</script>
+	<script
+		src="#{request.contextPath}/themes/bootstrap/qui/b4/js/bootstrap.bundle.min.js" />
+	<script
+		src="#{request.contextPath}/themes/bootstrap/qui/js/offcanvas.js" />
+	<h:outputScript name="layout.js" library="scripts" />
+	
+	
+	<c:if test="#{activeUser.can('VIEW_ADMIN_PAGES')}">
+							
+			<ui:include src="/includes/custom_bs53_footer_debug.xhtml"/>
+			
+		</c:if>
+</f:view>
+</html>

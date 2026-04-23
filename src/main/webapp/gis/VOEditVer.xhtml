@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="userDetailFormVer">
+
+		<p:panelGrid id="display" columns="3" cellpadding="4"
+			style="margin:0 auto;">
+			<h:outputText
+				rendered="#{applicationEntityBean.editedVerticeObra.pointri == null}"
+				value="Vertice" />
+			<h:panelGroup />
+
+			<h:outputText value="Descritivo" />
+			<h:inputText width="70"
+				value="#{applicationEntityBean.editedVerticeObra.descritivo}" />
+			<h:panelGroup />
+
+			<h:outputText value="Mapa Desc." />
+			<p:selectBooleanCheckbox label="Imprimir Descritivo" id="printC"
+				value="#{applicationEntityBean.editedVerticeObra.printConf}" />
+			<h:panelGroup />
+
+			<h:outputText value="Mapa Dist." />
+			<p:selectBooleanCheckbox label="Imprimir Distancia" id="printD"
+				value="#{applicationEntityBean.editedVerticeObra.printDist}" />
+			<h:panelGroup />
+
+			<h:outputText value="Mapa Marco" />
+			<p:selectBooleanCheckbox label="Imprimir Marco" id="printM"
+				value="#{applicationEntityBean.editedVerticeObra.printMarco}" />
+			<h:panelGroup />
+
+			<h:outputText width="50" value="Matricula" />
+			<h:inputText value="#{applicationEntityBean.editedVerticeObra.matricula}" />
+			<h:panelGroup />
+
+			<h:outputText width="50" value="CNS" />
+			<h:inputText value="#{applicationEntityBean.editedVerticeObra.cns}" />
+			<h:panelGroup />
+
+			<h:outputText value="Tipo Limite" />
+			<p:selectOneMenu id="tipoLimite1" required="true"
+				value="#{applicationEntityBean.editedVerticeObra.tipoLimite}">
+				<f:selectItem itemValue="LA1" itemLabel="LA1 - CERCA" />
+				<f:selectItem itemValue="LA2" itemLabel="LA2 - MURO" />
+				<f:selectItem itemValue="LA3" itemLabel="LA3 - ESTRADA" />
+				<f:selectItem itemValue="LA4" itemLabel="LA4 - VALA" />
+				<f:selectItem itemValue="LA5" itemLabel="LA5 - CANAL" />
+				<f:selectItem itemValue="LA6" itemLabel="LA6 - LINHA IDEAL" />
+				<f:selectItem itemValue="LA7" itemLabel="LA7 - LIMITE ARTIFICIAL NT" />
+				<f:selectItem itemValue="LN1" itemLabel="LN1 - CURSO D'AGUA" />
+				<f:selectItem itemValue="LN2" itemLabel="LN2 - LINHA DE CUMEADA" />
+				<f:selectItem itemValue="LN3" itemLabel="LN3 - GROTA" />
+				<f:selectItem itemValue="LN4" itemLabel="LN4 - CRISTA DE ENCOSTA" />
+				<f:selectItem itemValue="LN5" itemLabel="LN5 - PE DE ENCOSTA" />
+				<f:selectItem itemValue="LN6" itemLabel="LN6 - LIMITE NATURAL NT" />
+			</p:selectOneMenu>
+			<h:panelGroup />
+		</p:panelGrid>
+
+		<p:commandButton value="Salvar" icon="pi pi-save"
+			action="#{applicationEntityBean.updateVO2}"
+			oncomplete="PF('userDialogVer').hide();"
+			update="pointForm:display:vertices" />
+
+		<p:commandButton value="Excluir" icon="pi pi-trash"
+			action="#{applicationEntityBean.deleteVO}"
+			oncomplete="PF('userDialogVer').hide();"
+			update="pointForm:display:vertices" />
+
+		<p:commandButton value="Cancelar" icon="pi pi-done"
+			oncomplete="PF('userDialogVer').hide()" />
+
+	</h:form>
+
+</ui:composition>

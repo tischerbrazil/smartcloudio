@@ -1,0 +1,1757 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html">
+    
+	/**
+	* ----------------------- MIDDLE START ------------------------
+	*/
+
+const rasterOSM = new ol.layer.Tile({
+  		source: new ol.source.OSM(),
+	});
+	
+	
+	<ui:repeat var="layer"
+		value="#{applicationEntityBean.applicationEntity.layers}">
+
+
+		<h:panelGroup rendered="#{layer.dtype == 'linestring'}">
+var source<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.source.Vector({
+	loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/linestrings/#{layer.id}',{
+			type: 'GET',
+			data: {
+				typename: 'l<h:outputText value="#{layer.layerToString()}"
+				escape="true" />',
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				source<h:outputText value="#{layer.layerToString()}" escape="true" />.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+	});
+	var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.layer.Vector({
+	<h:outputText value="minResolution: #{layer.minres}," escape="true" />
+			<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+	opacity: <h:outputText value="#{layer.opacity.toString()}" escape="true" />,
+	source: source<h:outputText value="#{layer.layerToString()}"
+				escape="true" />,
+	name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	title: '<h:outputText value="#{layer.title}" escape="true" />',
+	style: <h:outputText rendered="#{layer.scriptStyle != 'symbol'}"
+				value="psf#{layer.layerToString()}" escape="true" />
+	});
+</h:panelGroup>
+
+
+
+
+
+
+		<h:panelGroup rendered="#{layer.dtype == 'point'}">
+
+var source<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.source.Vector({
+	loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/points/#{layer.id}',{
+			type: 'GET',
+			data: {
+				typename: 'l<h:outputText value="#{layer.layerToString()}"
+				escape="true" />',
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				source<h:outputText value="#{layer.layerToString()}" escape="true" />.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+	});
+
+
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.layer.Vector({
+	<h:outputText value="minResolution: #{layer.minres}," escape="true" />
+			<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+	opacity: <h:outputText value="#{layer.opacity.toString()}" escape="true" />,
+	source: source<h:outputText value="#{layer.layerToString()}"
+				escape="true" />,
+	name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	title: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	style: 
+			<h:outputText
+				rendered="#{layer.scriptStyle != 'imagem' and layer.scriptStyle != 'x' and layer.scriptStyle != 'symbol'}"
+				value="psf#{layer.layerToString()}" escape="true" />
+	});
+	
+	
+</h:panelGroup>
+
+
+
+		<h:panelGroup rendered="#{layer.dtype == 'polygon'}">
+	var source<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.source.Vector({
+	loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/polygons/#{layer.id}',{
+			type: 'GET',
+			data: {
+				typename: 'l<h:outputText value="#{layer.layerToString()}"
+				escape="true" />',
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				source<h:outputText value="#{layer.layerToString()}" escape="true" />.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+	});
+
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.layer.Vector({
+	<h:outputText value="minResolution: #{layer.minres}," escape="true" />
+			<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+	opacity: <h:outputText value="#{layer.opacity.toString()}" escape="true" />,
+	source: source<h:outputText value="#{layer.layerToString()}"
+				escape="true" />,
+	name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	title: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	style: <h:outputText rendered="#{layer.scriptStyle != 'symbol'}"
+				value="psf#{layer.layerToString()}" escape="true" />
+	});
+</h:panelGroup>
+
+
+
+
+		<h:panelGroup rendered="#{layer.dtype == 'multipolygon'}">
+	var source<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.source.Vector({
+	loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/multipolygons/#{layer.id}',{
+			type: 'GET',
+			data: {
+				typename: 'l<h:outputText value="#{layer.layerToString()}"
+				escape="true" />',
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				source<h:outputText value="#{layer.layerToString()}" escape="true" />.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+	});
+
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.layer.Vector({
+	<h:outputText value="minResolution: #{layer.minres}," escape="true" />
+			<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+	opacity: <h:outputText value="#{layer.opacity.toString()}" escape="true" />,
+	source: source<h:outputText value="#{layer.layerToString()}"
+				escape="true" />,
+	name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	title: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	style: <h:outputText rendered="#{layer.scriptStyle != 'symbol'}"
+				value="psf#{layer.layerToString()}" escape="true" />
+	});
+</h:panelGroup>
+
+
+
+
+		<h:panelGroup rendered="#{layer.dtype == 'wmsgeoserver'}">
+
+
+
+
+
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = 
+new ol.layer.Image({
+
+  		visible: <h:outputText value="#{layer.selected}" escape="true" />,
+  		zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+  		opacity: <h:outputText value="#{layer.opacity.toString()}"
+				escape="true" />,
+  		name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+  		
+  		<h:outputText value="minResolution: #{layer.minres}" escape="true" />,
+			<h:outputText value="maxResolution: #{layer.maxres}" escape="true" />,
+	
+  		
+        source: new ol.source.ImageWMS({
+          ratio: 1,
+          url: url + '/' + workspace + '/wms',
+          params: {'FORMAT': format,
+                   'VERSION': '1.1.1',  
+                "LAYERS": workspace + ':#{layer.layerString()}',
+                "exceptions": 'application/vnd.ogc.se_inimage',
+          }
+        })
+      });
+<h:outputText value="#{layer.scriptStyle}" escape="false" />
+		</h:panelGroup>
+
+
+
+
+
+		<h:panelGroup
+			rendered="#{layer.dtype == 'tile'  and layer.strings.at('/type').asText() == 'Google'     }">
+			
+			
+    // var	apiKey = '#{layer.strings.at('/apiKey').asText()}';
+ 
+    
+    
+    var googleURL= 'https://mt0.google.com/vt/lyrs=s<h:outputText
+				value="&amp;" escape="false" />hl=en<h:outputText value="&amp;"
+				escape="false" />x={x}<h:outputText value="&amp;" escape="false" />y={y}<h:outputText
+				value="&amp;" escape="false" />z={z}';
+		    
+    var layer<h:outputText value="#{layer.layerToString()}"
+				escape="true" /> = 
+	new ol.layer.Tile({
+		  <h:outputText value="minResolution: #{layer.minres}," escape="true" />
+			<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	      visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	      zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+	      opacity: <h:outputText value="#{layer.opacity.toString()}"
+				escape="true" />,
+          name: '<h:outputText value="#{layer.layerString()}"
+				escape="true" />',
+          <h:panelGroup
+				rendered="#{layer.strings.at('/imagerySet').asText() == 'satellite.day'}">
+          source: new ol.source.ImageTile({
+                 url: googleURL,
+                 name : 'googleXYZ'
+          </h:panelGroup>
+
+			<h:panelGroup
+				rendered="#{layer.strings.at('/imagerySet').asText() == 'normal.day'}">
+          source: new ol.source.ImageTile({
+                 url: googleURL,
+                 name : 'googleXYZ'
+          </h:panelGroup>
+		})
+      });	
+
+</h:panelGroup>
+
+
+
+
+		<h:panelGroup
+			rendered="#{layer.dtype == 'tile'  and layer.strings.at('/type').asText() == 'Maptiler'     }">
+			
+			
+			   var	apiKey = '#{layer.strings.at('/apiKey').asText()}';
+    
+    		console.info('---- ' + apiKey);
+			
+		
+			
+			
+			var googleURL = '<h:outputText
+				value="#{layer.strings.at('/urlXYZ').asText()}" escape="false" />' + apiKey;
+ 
+    	console.info('---- ' + googleURL);
+
+		
+    var googleURL2= 'https://mt0.google.com/vt/lyrs=s<h:outputText
+				value="&amp;" escape="false" />hl=en<h:outputText value="&amp;"
+				escape="false" />x={x}<h:outputText value="&amp;" escape="false" />y={y}<h:outputText
+				value="&amp;" escape="false" />z={z}';
+		    
+    var layer<h:outputText value="#{layer.layerToString()}"
+				escape="true" /> = 
+	new ol.layer.Tile({
+		  <h:outputText value="minResolution: #{layer.minres}," escape="true" />
+			<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	      visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	      zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+	      opacity: <h:outputText value="#{layer.opacity.toString()}"
+				escape="true" />,
+          name: '<h:outputText value="#{layer.layerString()}"
+				escape="true" />',
+         
+          source: new ol.source.ImageTile({
+                 url: googleURL,
+                 name : 'googleXYZ'
+          
+		})
+      });	
+
+</h:panelGroup>
+
+
+
+
+
+		<h:panelGroup
+			rendered="#{layer.dtype == 'tile'  and layer.strings.at('/type').asText() == 'HERE2'     }">
+		var	apiKey = '#{layer.strings.at('/apiKey').asText()}';
+		var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = 
+		new ol.layer.Tile({
+		  <h:outputText value="minResolution: #{layer.minres}," escape="true" />
+			<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	      visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	      zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+	      opacity: <h:outputText value="#{layer.opacity.toString()}"
+				escape="true" />,
+          name: '<h:outputText value="#{layer.layerString()}"
+				escape="true" />',
+          <h:panelGroup
+				rendered="#{layer.strings.at('/imagerySet').asText() == 'satellite.day'}">
+          source: new ol.source.XYZ({
+                 url: 'https://{1-4}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/#{layer.strings.at('/imagerySet').asText()}/{z}/{x}/{y}/256/png8?apiKey=' + apiKey
+          </h:panelGroup>
+
+			<h:panelGroup
+				rendered="#{layer.strings.at('/imagerySet').asText() == 'normal.day'}">
+          source: new ol.source.XYZ({
+                 url: 'https://{1-4}.base.maps.ls.hereapi.com/maptile/2.1/maptile/newest/#{layer.strings.at('/imagerySet').asText()}/{z}/{x}/{y}/256/png8?apiKey=' + apiKey
+          </h:panelGroup>
+		})
+      });	
+
+</h:panelGroup>
+
+
+
+
+		<h:panelGroup
+			rendered="#{layer.dtype == 'tile'  and layer.strings.at('/type').asText() == 'BING'     }">
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = 
+	new ol.layer.Tile({
+		  <h:outputText value="minResolution: #{layer.minres}," escape="true" />
+			<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	      visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	      zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+	      opacity: <h:outputText value="#{layer.opacity.toString()}"
+				escape="true" />,
+          name: '<h:outputText value="#{layer.layerString()}"
+				escape="true" />',
+          preload: 'Infinity',
+          source: new ol.source.BingMaps	({
+            key: 'AvADKxRtJyL-w30Q3n4cWnCUlQbJiYi6TtvuX-RiRL2tuuqS8myB0zniVhr7_cx2',
+            imagerySet: 'Aerial'
+          })
+      });	
+</h:panelGroup>
+
+
+		<h:panelGroup rendered="#{layer.dtype == 'layervector'}">
+			<h:outputText value="#{layer.scriptStyle}" escape="false" />
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{layer.dtype == 'rastergeoserver'}">
+
+var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = 
+new ol.layer.Tile({
+
+  		visible: <h:outputText value="#{layer.selected}" escape="true" />,
+  		zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+  		opacity: <h:outputText value="#{layer.opacity.toString()}"
+				escape="true" />,
+  		name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+        source: new ol.source.TileWMS({
+          ratio: 1,
+          url: url + '/' + workspace + '/wms',
+          params: {'FORMAT': format,
+                   'VERSION': '1.1.1',  
+                "LAYERS": workspace + ':#{layer.layerString()}',
+                "exceptions": 'application/vnd.ogc.se_inimage',
+          }
+        })
+      });
+<h:outputText value="#{layer.scriptStyle}" escape="false" />
+		</h:panelGroup>
+	</ui:repeat>
+
+  		function scaleControl() {
+    		control = new ol.control.ScaleLine({
+      		units: 'metric',
+    		});
+    	return control;
+		}	
+
+      var mousePositionControl = new ol.control.MousePosition({
+        className: 'custom-mouse-position',
+        target: document.getElementById('location'),
+        coordinateFormat: ol.coordinate.createStringXY(5),
+        undefinedHTML: ' '
+      });
+  	
+             var layerXYZ = new ol.layer.Tile(
+				{
+					source : new ol.source.ImageTile(
+							{
+								url : 'https://{a-c}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png'
+										+ '?apikey=93064c0c55f7497ba938ab475ac2f208',
+								name : 'layerXYZ'
+							}),
+				});	
+				
+		
+		//-------------------------------------------------------------------------
+		switch (srsCode) {
+  		case "31980":
+  			var utm31980 = 
+			"+proj=utm +zone=20 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+			proj4.defs('EPSG:31980', utm31980);
+        	ol.proj.proj4.register(proj4);
+    		break;
+
+  		case "4674":
+  			var utm4674 = 
+			"+proj=longlat +ellps=GRS80 +no_defs +type=crs";
+			proj4.defs('EPSG:4674', utm4674);
+        	ol.proj.proj4.register(proj4);
+    		break;
+  
+  		default:
+    		
+		}
+		
+		//------------------------------------------------------------------------------------
+		
+		center = ol.proj.transform(center, projectionCode, projectionCode);
+
+
+
+
+		//==================================****************************************************
+
+
+		var addWmsLayer = function (namelayer, typelayer, strings, zindex) {
+		var stringsVars = JSON.parse(strings);
+        var layerADD;
+        var sourceADD;
+		switch (typelayer) {
+		
+  		case "tile":
+				var googleXYZ = new ol.layer.Tile(
+					{
+					    zIndex: zindex,
+						source : new ol.source.ImageTile(
+							{
+								url : stringsVars.urlXYZ,
+								name : stringsVars.type
+							}),
+					});
+    		 this.map.addLayer(googleXYZ);
+    		break;
+
+
+
+
+  		case "point":
+ 		sourceADD = new ol.source.Vector({
+		loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/points/' + namelayer,{
+			type: 'GET',
+			data: {
+				typename: 'l' + namelayer,
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				sourceADD.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+		});
+    	layerADD = new ol.layer.Vector({
+    	    zIndex: zindex,
+			visible: true,
+			source: sourceADD,
+			name: 'l' + namelayer + "-" + typelayer,
+			title: namelayer
+		});
+	
+	    this.map.addLayer(layerADD);
+        break;
+  
+  
+  
+  
+  
+
+  		case "polygon":
+ 		sourceADD = new ol.source.Vector({
+		loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/polygons/' + namelayer,{
+			type: 'GET',
+			data: {
+				typename: 'l' + namelayer,
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				sourceADD.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+		});
+
+    	layerADD = new ol.layer.Vector({
+    	    zIndex: zindex,
+			visible: true,
+			source: sourceADD,
+			name: 'l' + namelayer + "-" + typelayer,
+			title: namelayer
+		});
+	
+	    this.map.addLayer(layerADD);
+	 
+        break;
+  
+  
+  			case "linestring":
+ 		sourceADD = new ol.source.Vector({
+		loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/linestrings/' + namelayer,{
+			type: 'GET',
+			data: {
+				typename: 'l' + namelayer,
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				sourceADD.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+		});
+
+    	layerADD = new ol.layer.Vector({
+    	    zIndex: zindex,
+			visible: true,
+			source: sourceADD,
+			name: 'l' + namelayer + "-" + typelayer,
+			title: namelayer
+		});
+	
+	    this.map.addLayer(layerADD);
+	 
+        break;
+  
+  
+  
+  	case "multipolygon":
+ 		sourceADD = new ol.source.Vector({
+		loader: function(extent) {
+		$.ajax(restwork + '/api/oauth2/multipolygons/' + namelayer,{
+			type: 'GET',
+			data: {
+				typename: 'l' + namelayer,
+				bbox: extent.join(',') + ',projectionCode'
+				},
+			}).done(function(response) {
+				formatWFS = new ol.format.GeoJSON(),
+				sourceADD.addFeatures(formatWFS.readFeatures(response))
+				});
+		},
+		 strategy: ol.loadingstrategy.bbox,
+		});
+
+    	layerADD = new ol.layer.Vector({
+    	    zIndex: zindex,
+			visible: true,
+			source: sourceADD,
+			name: 'l' + namelayer + "-" + typelayer,
+			title: namelayer
+		});
+	
+	    this.map.addLayer(layerADD);
+	 
+        break;
+  //=============================================================================================
+  
+        case "wmsgeoserver":
+     
+        layerADD =  new ol.layer.Tile({
+        zIndex: zindex,
+  		visible: true,
+  		name: namelayer,
+        source: new ol.source.TileWMS({
+          ratio: 1,
+          url: url + '/' + workspace + '/wms',
+          params: {'FORMAT': format,
+                   'VERSION': '1.1.1',  
+                    "LAYERS": workspace + ':' + namelayer,
+                    "exceptions": 'application/vnd.ogc.se_inimage',
+          }
+        })
+      });
+          this.map.addLayer(layerADD);
+          
+        	break;
+        	
+        	
+        	  case "rastergeoserver":
+     
+        
+        layerADD =  new ol.layer.Tile({
+        zIndex: zindex,
+  		visible: true,
+  		name: namelayer,
+        source: new ol.source.TileWMS({
+          ratio: 1,
+          url: url + '/' + workspace + '/wms',
+          params: {'FORMAT': format,
+                   'VERSION': '1.1.1',  
+                    "LAYERS": workspace + ':' + namelayer,
+                    "exceptions": 'application/vnd.ogc.se_inimage',
+          }
+        })
+      });
+          this.map.addLayer(layerADD);
+          
+        	break;
+  
+  		default:
+    		console.log('Sorry, we are out of');
+		}
+	};
+
+	
+  
+  		var viewNew = new ol.View({
+			projection: projectionCode,
+			center : center,
+			zoom : zoom,
+		 	<h:outputText
+		value="minResolution: #{applicationEntityBean.applicationEntity.minres},"
+		escape="true" />
+	<h:outputText
+		value="maxResolution: #{applicationEntityBean.applicationEntity.maxres}"
+		escape="true" />
+		});
+		
+
+
+		const typeSelect = document.getElementById('type');
+		const showSegments = document.getElementById('segments');
+		const clearPrevious = document.getElementById('clear');
+ 
+
+const style = new ol.style.Style({
+  fill: new ol.style.Fill({
+    color: 'rgba(255, 255, 255, 0.2)',
+  }),
+  stroke: new ol.style.Stroke({
+    color: 'rgba(0, 0, 0, 0.5)',
+    lineDash: [10, 10],
+    width: 2,
+  }),
+  image: new ol.style.Circle({
+    radius: 5,
+    stroke: new ol.style.Stroke({
+      color: 'rgba(0, 0, 0, 0.7)',
+    }),
+    fill: new ol.style.Fill({
+      color: 'rgba(255, 255, 255, 0.2)',
+    }),
+  }),
+});
+ 
+ 
+ 
+ const labelStyle = new ol.style.Style({
+  text: new ol.style.Text({
+    font: '14px Calibri,sans-serif',
+    fill: new ol.style.Fill({
+      color: 'rgba(255, 255, 255, 1)',
+    }),
+    backgroundFill: new ol.style.Fill({
+      color: 'rgba(0, 0, 0, 0.7)',
+    }),
+    padding: [3, 3, 3, 3],
+    textBaseline: 'bottom',
+    offsetY: -15,
+  }),
+  image: new ol.style.RegularShape({
+    radius: 8,
+    points: 3,
+    angle: Math.PI,
+    displacement: [0, 10],
+    fill: new ol.style.Fill({
+      color: 'rgba(0, 0, 0, 0.7)',
+    }),
+  }),
+});
+ 
+ 
+ 
+		
+	const tipStyle = new ol.style.Style({
+    text: new ol.style.Text({
+    font: '12px Calibri,sans-serif',
+    fill: new ol.style.Fill({
+      color: 'rgba(255, 255, 255, 1)',
+    }),
+    backgroundFill: new ol.style.Fill({
+      color: 'rgba(0, 0, 0, 0.4)',
+    }),
+    padding: [2, 2, 2, 2],
+    textAlign: 'left',
+    offsetX: 15,
+  }),
+});
+		
+        
+  const modifyStyle = new ol.style.Style({
+  image: new ol.style.Circle({
+    radius: 5,
+    stroke: new ol.style.Stroke({
+      color: 'rgba(0, 0, 0, 0.7)',
+    }),
+    fill: new ol.style.Fill({
+      color: 'rgba(0, 0, 0, 0.4)',
+    }),
+  }),
+  text: new ol.style.Text({
+    text: 'Drag to modify',
+    font: '12px Calibri,sans-serif',
+    fill: new ol.style.Fill({
+      color: 'rgba(255, 255, 255, 1)',
+    }),
+    backgroundFill: new ol.style.Fill({
+      color: 'rgba(0, 0, 0, 0.7)',
+    }),
+    padding: [2, 2, 2, 2],
+    textAlign: 'left',
+    offsetX: 15,
+  	}),
+	});
+        
+    
+    const segmentStyle = new ol.style.Style({
+  text: new ol.style.Text({
+    font: '12px Calibri,sans-serif',
+    fill: new ol.style.Fill({
+      color: 'rgba(255, 255, 255, 1)',
+    }),
+    backgroundFill: new ol.style.Fill({
+      color: 'rgba(0, 0, 0, 0.4)',
+    }),
+    padding: [2, 2, 2, 2],
+    textBaseline: 'bottom',
+    offsetY: -12,
+  }),
+  image: new ol.style.RegularShape({
+    radius: 6,
+    points: 3,
+    angle: Math.PI,
+    displacement: [0, 8],
+    fill: new ol.style.Fill({
+      color: 'rgba(0, 0, 0, 0.4)',
+    }),
+  }),
+	});   
+	
+	
+	 const segmentStyles = [segmentStyle];
+
+const formatLength = function (line) {
+  const length = ol.sphere.getLength(line);
+  let output;
+  if (length <h:outputText value="&gt;" escape="false" /> 100) {
+    output = Math.round((length / 1000) * 100) / 100 + ' km';
+  } else {
+    output = Math.round(length * 100) / 100 + ' m';
+  }
+  return output; 
+};
+
+
+const formatArea = function (polygon) {
+  const area = ol.sphere.getArea(polygon);
+  let output;
+  if (area <h:outputText value="&gt;" escape="false" /> 10000) {
+    output = Math.round((area / 1000000) * 100) / 100 + ' km\xB2';
+  } else {
+    output = Math.round(area * 100) / 100 + ' m\xB2';
+  }
+  return output;
+};
+        
+         
+        
+    const raster = new ol.layer.Tile({
+  		source: new ol.source.OSM(),
+	});
+
+const source = new ol.source.Vector();
+
+const modify = new ol.interaction.Modify({source: source, style: modifyStyle});
+
+let tipPoint;
+
+
+
+function styleFunction(feature, segments, drawType, tip) {
+  const styles = [];
+  const geometry = feature.getGeometry();
+  const type = geometry.getType();
+  let point, label, line;
+  
+  if (!drawType || drawType === type || type === 'Point') {
+    styles.push(style);
+    if (type === 'Polygon') {
+      point = geometry.getInteriorPoint();
+      label = formatArea(geometry);
+      line = new ol.geom.LineString(geometry.getCoordinates()[0]);
+    } else if (type === 'LineString') {
+      point = new ol.geom.Point(geometry.getLastCoordinate());
+      label = formatLength(geometry);
+      line = geometry;
+    }
+  }
+  
+  
+   if (segments <h:outputText value=" &amp;&amp;" escape="false" /> line) {
+    let count = 0;
+    line.forEachSegment(function (a, b) {
+      const segment = new ol.geom.LineString([a, b]);
+      const label = formatLength(segment);
+      if (segmentStyles.length - 1 <h:outputText value="&lt;"
+		escape="false" /> count) {
+        segmentStyles.push(segmentStyle.clone());
+      }
+      const segmentPoint = new ol.geom.Point(segment.getCoordinateAt(0.5));
+      segmentStyles[count].setGeometry(segmentPoint);
+      segmentStyles[count].getText().setText(label);
+      styles.push(segmentStyles[count]);
+      count++;
+    });
+  }
+  
+  if (label) {
+    labelStyle.setGeometry(point);
+    labelStyle.getText().setText(label);
+    styles.push(labelStyle);
+  }
+  if (
+    tip <h:outputText value="&amp;&amp;" escape="false" />
+    type === 'Point' <h:outputText value="&amp;&amp;" escape="false" />
+    !modify.getOverlay().getSource().getFeatures().length
+  ) {
+    tipPoint = geometry;
+    tipStyle.getText().setText(tip);
+    styles.push(tipStyle);
+  }
+  return styles;
+}
+
+
+const layer000000000000000000 = new ol.layer.Vector({
+    zIndex: 1000,
+   name: 'l000000000000000000-group',
+  source: source,
+  style: function (feature) {
+    return styleFunction(feature, showSegments.checked);
+  },
+});
+
+
+
+        
+   
+        
+       var teste8 =  new ol.style.Style({
+       
+       text: new ol.style.Text({
+      	font: '36px sans-serif',
+      
+        text: '33',
+        
+      fill: new ol.style.Fill({
+        color: [255, 255, 255, 1],
+      }),
+      
+      
+      
+     textAlign: 'center'
+      
+      
+    }),
+    
+    image: new ol.style.Circle({
+      radius: 30,
+      fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
+      stroke: new ol.style.Stroke({color: 'red', width: 4}),
+    })
+ 
+       
+       
+  });
+
+// Create feature and layer
+
+// 
+
+var coordUm = [-60.1427,-12.7481];
+var projectionCodeOrig =  'EPSG:4326';
+var pontCol = ol.proj.transform(coordUm, projectionCodeOrig, projectionCode);
+console.info("-----pontCol------ " + pontCol);
+const pointFeaturex = new ol.Feature({ geometry: new ol.geom.Point(pontCol) });
+const vectorLayerx = new ol.layer.Vector({ 
+    source: new ol.source.Vector({ features: [pointFeaturex] }) ,
+    style: teste8
+});
+        
+        
+        
+        
+        <ui:repeat var="layer"
+		value="#{applicationEntityBean.applicationEntity.layers}">
+
+		<h:panelGroup rendered="#{layer.dtype == 'group'}">
+	
+	console.info('---------------OLA-------------------');
+	
+	var layer<h:outputText value="#{layer.layerToString()}" escape="true" /> = new ol.layer.Group({
+	<h:outputText value="minResolution: #{layer.minres}," escape="true" />
+			<h:outputText value="maxResolution: #{layer.maxres}," escape="true" />
+	visible: <h:outputText value="#{layer.selected}" escape="true" />,
+	zIndex: <h:outputText value="#{layer.orderlayer}" escape="true" />,
+	opacity: <h:outputText value="#{layer.opacity.toString()}" escape="true" />,
+	name: '<h:outputText value="#{layer.layerString()}" escape="true" />',
+	title: '<h:outputText value="#{layer.title}" escape="true" />',
+	
+    layers: [
+
+
+	<ui:repeat var="layer44" value="#{layer.childrens}">
+	layer#{layer44.layerToString()},
+	
+	</ui:repeat>
+
+       
+      ],
+    });
+	
+</h:panelGroup>
+
+	</ui:repeat>
+
+
+
+const source55 = new ol.source.Vector({
+	wrapX: false
+	});
+
+const vector55 = new ol.layer.Vector({
+  source: source55,
+   zIndex:2000
+});
+ 
+        
+	     var map = new ol.Map({ 
+			controls : ol.control.defaults.defaults({
+				zoom : false,
+				attribution : true,
+				rotate : false
+			}).extend([ mousePositionControl, scaleControl() ]),
+			layers : [   
+			<ui:repeat var="layer"
+		value="#{applicationEntityBean.applicationEntity.layers.stream().filter(l -> l.getFather() == null).toList()}">
+	
+						layer<h:outputText value="#{layer.layerToString()}" escape="true" />,
+					
+	</ui:repeat> layer000000000000000000, vector55
+			],
+			target : 'map',
+			view : viewNew
+		});
+		
+		
+	
+		
+		var visibleLayer = function (namelayer, visible) {
+		
+		console.info('-------namelayer-------------' + namelayer);
+		console.info('-------visible---------------' + visible);
+		
+		console.info('NOME CAMADA' + namelayer);
+		 map.getLayers().forEach(function(layer, i) {
+		 var lname = layer.get('name');
+		 if (layer instanceof ol.layer.Group) {
+			layer.getLayers().forEach(function(layerG, iG) {
+			var lnameG = layerG.get('name');
+		 	if (lnameG === namelayer) {
+		  		 layerG.setVisible(visible);
+			}
+		 });
+		 };
+		 if (lname === namelayer) {
+		 	layer.setVisible(visible);
+		 }
+		});
+	  };
+	
+		var opacityLayer = function (namelayer, opacity) {
+		
+		console.info('-------namelayer-------------' + namelayer);
+		console.info('-------opacity---------------' + opacity);
+		
+			map.getLayers().forEach(function(layer, i) {
+			var lname = layer.get('name');
+			 if (layer instanceof ol.layer.Group) {
+			layer.getLayers().forEach(function(layerG, iG) {
+			var lnameG = layerG.get('name');
+		 	if (lnameG === namelayer) {
+		  		 layerG.setOpacity(parseFloat(opacity));
+			}
+		 });
+		 };
+		 	if (lname === namelayer) {
+		  		layer.setOpacity(parseFloat(opacity));
+			}
+		});
+	  	};
+
+		map.addInteraction(modify);
+		
+		
+		let draw; // global so we can remove it later
+
+function addInteraction() {
+  const drawType = typeSelect.value;
+  const activeTip =
+    'Clique para continuar o desenho ' +
+    (drawType === 'Polygon' ? 'do polygno' : 'da linha');
+  const idleTip = 'Clique para iniciar a medição';
+  let tip = idleTip;
+  draw = new ol.interaction.Draw({
+    source: source,
+    type: drawType,
+    style: function (feature) {
+      return styleFunction(feature, showSegments.checked, drawType, tip);
+    },
+  });
+  draw.on('drawstart', function () {
+    if (clearPrevious.checked) {
+      source.clear();
+    }
+    modify.setActive(false);
+    tip = activeTip;
+  });
+  draw.on('drawend', function () {
+    modifyStyle.setGeometry(tipPoint);
+    modify.setActive(true);
+    map.once('pointermove', function () {
+      modifyStyle.setGeometry(null);
+    });
+    tip = idleTip;
+  });
+  modify.setActive(true);
+  map.addInteraction(draw);
+}
+
+var measureActive;
+
+var initMeasure = function() {
+      if (measureActive == true){
+         measureActive = false;
+         map.removeInteraction(draw);
+         
+         
+        map.removeInteraction(interaction);
+		map.removeInteraction(select);
+         
+         layer000000000000000000.getSource().clear();
+         var element = document.getElementById("ribbonControl:medicoes_button");
+		 element.classList.remove("ui-split-red");
+      }else{
+         map.removeInteraction(interaction);
+		 map.removeInteraction(select);
+         measureActive = true;
+         addInteraction();
+         var element = document.getElementById("ribbonControl:medicoes_button");
+		 element.classList.add("ui-split-red");
+      }
+    };
+		
+ typeSelect.onchange = function () {
+  map.removeInteraction(draw);
+  addInteraction();
+};
+
+showSegments.onchange = function () {
+  layer000000000000000000.changed();
+  draw.getOverlay().changed();
+};
+
+
+
+		
+		
+
+		var METERS_PER_UNIT = {
+  		'm': 1,
+  		'degrees': 111194.87428468118
+	  };
+	  
+		var DOTS_PER_INCH = 72;
+		
+		
+		map.getView().on('change:resolution', function(evt) {
+        var resolution = evt.target.get('resolution');
+        var units = map.getView().getProjection().getUnits();
+        var dpi = 25.4 / 0.28;
+        var mpu = METERS_PER_UNIT[units];
+        var scale = (resolution * mpu * 39.37 * dpi) ;
+        var res = map.getView().getResolution();
+        var zom = map.getView().getZoom();
+        
+        if (scale <h:outputText value="&gt;" escape="false" /> 9500 
+		
+		<h:outputText value=" &amp;&amp;" escape="false" /> 
+		
+		scale <h:outputText value="&lt;" escape="false" /> 950000) {
+        scale = Math.round(scale / 1000) + 'K';
+    } else if (scale      <h:outputText value="&gt;" escape="false" />     950000) {
+        scale = Math.round(scale / 1000000) + 'M';
+    } else {
+        scale = Math.round(scale);
+    } 
+
+        document.getElementById('scale').innerHTML = "Scale = 1 : " + scale + "  Res: " + res + " Zoom: " + zom;
+      });
+		
+		var fetchData3 = function (rr, pp, prorig) {
+
+	var origemEPSG = "EPSG:" + prorig;
+		switch (origemEPSG) {
+  		case "EPSG:31980":
+  			var utm31980 = 
+			"+proj=utm +zone=20 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+			proj4.defs('EPSG:31980', utm31980);
+        	ol.proj.proj4.register(proj4);
+    		center = ol.proj.transform([rr, pp], origemEPSG, projectionCode);
+    		break;
+  		case "EPSG:4674":
+  			var utm4674 = 
+			"+proj=longlat +ellps=GRS80 +no_defs +type=crs";
+			proj4.defs('EPSG:4674', utm4674);
+        	ol.proj.proj4.register(proj4);
+    		center = ol.proj.transform([rr, pp], origemEPSG, projectionCode);
+    		break;
+    	case "EPSG:3857":
+    		center = ol.proj.transform([rr, pp], origemEPSG, projectionCode);
+    		break;
+    	case "EPSG:4326":
+    		center = ol.proj.transform([rr, pp], origemEPSG, projectionCode);
+    		break;
+  		default:
+    		console.log(`COORDENADAS OUTRAS DIF 31980 OU 4674 OU 4326 OU 3857`);
+		}
+		//------------------------------------------------------------------------------------
+		viewNew.setCenter(center);
+	    // viewNew.centerOn(center);
+	    	PF('editlayerGeoDialog').hide();
+		};
+		
+		
+		
+		
+		
+
+
+
+	
+
+	var changeSRID = function () {
+	  	search('3857');
+	};
+		
+	var str33 = '{"nome":""}';
+	var fetchDataJson = function () {
+	  
+	$.ajax(restworkSufix,{
+		type: 'POST',
+		dataType: 'json',
+		processData: false,
+		contentType: 'application/json',
+		data: str33,
+		
+  success: function(data) {
+	},
+  error: function(jqXHR, textStatus, errorThrown) {
+     alert("Error in processing! "+ textStatus);
+  }
+		}).done();
+
+	};
+	
+	
+	
+	
+
+
+
+	var fetchDataX = function (layerid) {
+		
+		
+		
+		extractValues = layerid.split("-");
+		var layertype = extractValues[1];
+		//$(document.getElementById('ribbonControl:btnDrawPoly')).addClass('ui-state-disabled');
+		//$(document.getElementById('ribbonControl:btnDrawLine')).addClass('ui-state-disabled');
+		//$(document.getElementById('ribbonControl:btnDrawVertex')).addClass('ui-state-disabled');
+console.info('ALERT ' + layertype);
+		switch(layertype) {
+		case 'Point':
+			$(document.getElementById('ribbonControl:btnDrawVertex')).removeClass('ui-state-disabled');
+		break;
+		case 'MultiPolygon':
+			$(document.getElementById('ribbonControl:btnDrawPoly')).removeClass('ui-state-disabled');
+		break;
+		case 'Polygon':
+			$(document.getElementById('ribbonControl:btnDrawPoly')).removeClass('ui-state-disabled');
+		break;
+		case 'Linestring':
+			$(document.getElementById('ribbonControl:btnDrawLine')).removeClass('ui-state-disabled');
+		break;
+		}
+		var visibilityInput = $(layerid + ' input.visible');
+		layerSelected = layerid;
+	}
+
+
+	$('.btnMenu2').on('click', function(event) {
+		
+		var extractValues = new Array();
+		var layerid = $(this).attr('id');
+		extractValues = layerid.split("-");
+		var layertype = extractValues[1];
+		$(document.getElementById('ribbonControl:btnDrawPoly')).addClass('ui-state-disabled');
+		$(document.getElementById('ribbonControl:btnDrawLine')).addClass('ui-state-disabled');
+		$(document.getElementById('ribbonControl:btnDrawVertex')).addClass('ui-state-disabled');
+
+		switch(layertype) {
+		case 'Point':
+			$(document.getElementById('ribbonControl:btnDrawVertex')).removeClass('ui-state-disabled');
+		break;
+		case 'MultiPolygon':
+			$(document.getElementById('ribbonControl:btnDrawPoly')).removeClass('ui-state-disabled');
+		break;
+		case 'Polygon':
+			$(document.getElementById('ribbonControl:btnDrawPoly')).removeClass('ui-state-disabled');
+		break;
+		case 'Linestring':
+			$(document.getElementById('ribbonControl:btnDrawLine')).removeClass('ui-state-disabled');
+		break;
+		}
+		var visibilityInput = $(layerid + ' input.visible');
+		layerSelected = layerid;
+	});
+		
+	function afterLoad(xhr, status, args) {    
+   		objEdit([{name:'objectid', value: args.idobject}]);
+  	}
+  	
+  	
+  	
+  	
+
+	var refreshLayer = function (layerName) {
+	
+ 	var layerRefresh = findBy(layerName);
+	if (layerRefresh != null){
+		layerRefresh.getSource().refresh();
+	}
+ };
+ 
+ 
+ 
+	
+	
+	var showPF = function () {
+		PF('layerDialog').show();
+	}
+	
+	
+	
+	
+	var fetchData33 = function () {
+	    map.getLayers().forEach(function(layer, i) {
+		var lname = layer.get('name');
+		bindInputs( lname, layer);
+	});
+	};
+	
+	function bindInputs(layerid, layer) {
+
+		
+		var visibilityInput = $('#' +layerid + ' input.visible');
+  		visibilityInput.on('change', function() {
+			var checado = this.checked;
+    		layerSelected = layerid;
+
+    layer.setVisible(this.checked);
+  	});
+   		visibilityInput.prop('checked', layer.getVisible());
+  		//var opacityInput = $(layerid + ' input.opacity'); //FIXME
+  		var opacityInput = $('#' +layerid + ' input.opacity');
+  		opacityInput.on('input change', function() {
+    	layer.setOpacity(parseFloat(this.value));
+  			});
+  		opacityInput.val(String(layer.getOpacity()));
+	}
+	
+	
+		var testPrint22 = function() {
+		
+		const mapCanvas = document.createElement('canvas');
+  const size = map.getSize();
+  mapCanvas.width = size[0];
+  mapCanvas.height = size[1];
+  
+  //map.once('rendercomplete'), () => {
+    
+map.once('rendercomplete', function(event) {
+ 
+  console.log('Map rendering complete!');
+  
+   map.setTarget('map');
+   
+    var tee  = mapCanvas.toDataURL();
+   console.info('--- ' + tee);
+   
+ 
+});
+		
+		
+		};
+		
+		const dims = {
+  a0: [1189, 841],
+  a1: [841, 594],
+  a2: [594, 420],
+  a3: [420, 297],
+  a4: [297, 210],
+  a5: [210, 148],
+};
+
+	
+		
+		const exportOptions = {
+  useCORS: true,
+  ignoreElements: function (element) {
+    const className = element.className || '';
+    return (
+      className.includes('ol-control')
+    );
+  },
+};
+		
+		
+		
+		
+		
+		
+		
+		
+		const scaleLine = new ol.control.ScaleLine({bar: true, text: true, minWidth: 125});
+		
+		
+		
+	
+var testPrint = function() {
+
+console.info('------OK--------------');
+
+ const mapCanvas = document.createElement('canvas');
+       const size = map.getSize(); // Returns [width, height] in pixels
+const width = size[0];
+const height = size[1];
+      mapCanvas.width = width;
+      mapCanvas.height = height; 
+      
+
+console.info('------OK--------------' + width);
+console.info('------OK--------------' + height);
+
+      const mapContext = mapCanvas.getContext('2d');
+      
+      
+    const tempCanvas = document.createElement('canvas');
+	const tempCtx = tempCanvas.getContext('2d');
+	
+	// 3. Define margin (left) and final dimensions
+	const marginLeft = 200; // 20px margin
+	tempCanvas.width = mapCanvas.width - marginLeft;
+	tempCanvas.height = mapCanvas.height;
+      
+      
+      Array.prototype.forEach.call(
+        document.querySelectorAll('.ol-layer canvas'),
+        function (canvas) {
+        
+            const opacity = canvas.parentNode.style.opacity;
+            mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+            const transform = canvas.style.transform;
+            // Get the transform parameters from the style's transform matrix
+            const matrix = transform
+              .match(/^matrix\(([^\(]*)\)$/)[1] 
+              .split(',')
+              .map(Number);
+            // Apply the transform to the export map context
+            CanvasRenderingContext2D.prototype.setTransform.apply(
+              mapContext,
+              matrix,
+            ); 
+            mapContext.drawImage(canvas, 100, 100);
+            
+            tempCtx.drawImage(
+  				mapCanvas,
+  				marginLeft, 0, // SX, SY (start 20px in)
+  				tempCanvas.width, tempCanvas.height, // SW, SH
+  				0, 0, // DX, DY
+  				tempCanvas.width, tempCanvas.height // DW, DH
+			);
+            
+             // const imagePNG = canvas.toDataURL();
+            // const imagePNG = tempCanvas.toDataURL();
+             
+             const imagePNG = tempCanvas.toDataURL('image/png');
+
+      
+       
+       // 1. Create a JavaScript object
+  var myDataObject = {
+    id: "Print God is Trust!",
+    data: imagePNG
+	};
+
+
+	// 2. Stringify the object into a JSON string
+	var jsonString = JSON.stringify(myDataObject); //
+
+	// 3. Send the request using $.ajax()
+	$.ajax({
+    url: 'http://127.0.0.1/api/bacen/print',
+    type: 'POST', //
+    contentType: 'application/json', // Inform the server the body is JSON
+    data: jsonString, // The stringified JSON data
+    dataType: 'json', // Expect JSON in the server's response
+    success: function(response) {
+        // Handle successful response
+        console.log("Success:", response);
+    },
+    error: function(xhr, status, error) {
+        // Handle errors
+        console.error("Error:", error);
+    }
+});
+          
+        },
+      );
+     
+
+};
+
+var testPrint33 = function() {
+
+
+   
+    document.body.style.cursor = 'progress';
+
+    const format = "a4";
+    const resolution = "100";
+    const scale = "5000";
+   
+    const width = Math.round(( 200  * resolution) / 25.4);
+    const height = Math.round(( 200 * resolution) / 25.4);
+    
+  
+    
+    const viewResolution = map.getView().getResolution();
+    
+    const scaleResolution =
+      scale /
+      ol.proj.getPointResolution(
+        map.getView().getProjection(),
+        resolution / 25.4,
+        map.getView().getCenter(),
+      );
+
+    map.once('rendercomplete', function () {
+      exportOptions.width = width;
+      	
+      exportOptions.height = height;
+      	console.info("---WH------: " + width + " - " + height);
+      	console.info("---WH-22-----: " + 	map.getViewport() );
+      	console.info("---WH-33-----: " + 	exportOptions);
+    
+      
+      
+
+      
+      	    console.info("---WH-23-----: " + 	map.getViewport().children  );
+      html2canvas(map.getViewport(), exportOptions).then(function (canvas) {
+      
+        const pdf = new window.jspdf.jsPDF('landscape', undefined, format);
+   
+       // pdf.addImage(
+       //   canvas.toDataURL('image/jpeg'),
+       //   'JPEG',
+       //   0,
+       //   0,
+       //   dim[0],
+       //   dim[1],
+       // );
+       // pdf.save('map.pdf');
+       
+       const imagePNG = canvas.toDataURL();
+      
+       
+       // 1. Create a JavaScript object
+  var myDataObject = {
+    id: "Print God is Trust!",
+    data: imagePNG
+	};
+
+
+	// 2. Stringify the object into a JSON string
+	var jsonString = JSON.stringify(myDataObject); //
+
+	// 3. Send the request using $.ajax()
+	$.ajax({
+    url: 'http://127.0.0.1/api/bacen/print',
+    type: 'POST', //
+    contentType: 'application/json', // Inform the server the body is JSON
+    data: jsonString, // The stringified JSON data
+    dataType: 'json', // Expect JSON in the server's response
+    success: function(response) {
+        // Handle successful response
+        console.log("Success:", response);
+    },
+    error: function(xhr, status, error) {
+        // Handle errors
+        console.error("Error:", error);
+    }
+});
+       
+       
+       
+       
+       
+        // Reset original map size
+        scaleLine.setDpi(undefined);
+        map.getTargetElement().style.width = '';
+        map.getTargetElement().style.height = '';
+        map.updateSize();
+        map.getView().setResolution(viewResolution);
+       
+        document.body.style.cursor = 'auto';
+      });
+    });
+
+    // Set print size
+    scaleLine.setDpi(resolution);
+    map.getTargetElement().style.width = width + 'px';
+    map.getTargetElement().style.height = height + 'px';
+    	console.info("---WH------: " + width + " - " + height);
+    map.updateSize();
+    map.getView().setResolution(scaleResolution);
+  
+  
+  
+ 
+};
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    
+    
+    
+  
+var printPDFScreen = function() {
+ const mapCanvas = document.createElement('canvas');
+       const size = map.getSize(); 
+      const width = size[0];
+      const height = size[1];
+      mapCanvas.width = width;
+      mapCanvas.height = height; 
+      const mapContext = mapCanvas.getContext('2d');
+      const tempCanvas = document.createElement('canvas');
+	  const tempCtx = tempCanvas.getContext('2d');
+	  
+	
+	
+      
+      Array.prototype.forEach.call(
+        document.querySelectorAll('.ol-layer canvas'),
+        function (canvas) {
+        
+            const opacity = canvas.parentNode.style.opacity;
+            mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+            const transform = canvas.style.transform;
+            // Get the transform parameters from the style's transform matrix
+            const matrix = transform
+              .match(/^matrix\(([^\(]*)\)$/)[1] 
+              .split(',')
+              .map(Number);
+            // Apply the transform to the export map context
+            CanvasRenderingContext2D.prototype.setTransform.apply(
+              mapContext,
+              matrix,
+            ); 
+            mapContext.fillStyle = 'blue'; 
+            mapContext.drawImage(canvas, 0, 0);
+            
+           
+ 
+             const imagePNG = mapCanvas.toDataURL('image/png');
+
+      
+       
+    
+  var myDataObject = {
+    id: "Print God is Trust!",
+    data: imagePNG,
+    ext: extPrint,
+    format: "a4",
+    res: "res",
+    scale: scale,
+    layerid: layerPrint,
+    geometryid: objPrint
+	};
+
+
+	
+	var jsonString = JSON.stringify(myDataObject); //
+
+	
+	$.ajax({
+    url:  restwork + '/api/bacen/print',
+    type: 'POST', 
+    contentType: 'application/json', 
+    data: jsonString, 
+    dataType: 'json', 
+    success: function(response) {
+        // Handle successful response
+        console.log("Success:", response);
+    },
+    error: function(xhr, status, error) {
+        // Handle errors
+        console.error("Error:", error);
+    }
+});
+          
+        },
+      );
+     
+
+
+
+};
+	 
+	 
+	   var teste33 =  new ol.style.Style({
+       fill: new ol.style.Fill({color: 'rgba(255, 255, 255, 0.5)'}),
+      	stroke: new ol.style.Stroke({color: 'red', width: 2}),
+  });
+	 
+
+let extPrint;
+let draw33; // global so we can remove it later
+
+function addInteraction33() {
+console.info(' ADD ITER ' );
+
+let geometryFunction;
+
+ geometryFunction = new ol.interaction.Draw.createRegularPolygon(4);
+ 
+ // draw33 = new ol.interaction.Draw({
+  //    source: source55,
+   //   type: 'Circle',
+   //      style: teste33,
+   //   geometryFunction: geometryFunction,
+   // });
+ 
+
+    draw33 = new ol.interaction.DrawRegular ({
+      source: source55,
+      sides: 4,
+      canRotate: false,
+      style: teste33
+    });
+    
+  	draw33.on('drawstart', function () {
+      source55.clear();
+
+  	});
+  	
+  	draw33.on('drawend', function (e) {
+
+    const feature = e.feature;
+    feature.setStyle(teste33);
+
+    const geometry = e.feature.getGeometry();
+    const extent = geometry.getExtent(); // Returns [minX, minY, maxX, maxY]
+    
+	var topLeft = map.getPixelFromCoordinate([extent[0], extent[3]]);
+	var bottomRight = map.getPixelFromCoordinate([extent[2], extent[1]]);
+
+	console.log('Top Left Pixel:', topLeft);
+	console.log('Bottom R ight Pixel:', bottomRight);
+
+
+  	extPrint = topLeft.concat(bottomRight);
+  	
+   	console.log(' EXT 1 ............ : ', extPrint);
+	console.log(' EXT 2 ............ : ', extent);
+	
+	console.log(' layerPrint........ : ', layerPrint);
+	console.log(' objPrint ......... : ', objPrint);
+	
+	
+            
+            
+
+    
+  });
+    
+    map.addInteraction(draw33);
+  }
+
+
+function removeInteraction33() {
+  	extPrint = null;
+  	layerPrint = null;
+    objPrint = null;
+    select.getFeatures().clear();
+    source55.clear();
+    map.removeInteraction(draw33);
+    activatePrintScreen = false;
+  }
+	
+
+
+
+	 
+	 
+/**
+* ---------------------------- MIDDLE END ------------------------
+ 
+</ui:composition>

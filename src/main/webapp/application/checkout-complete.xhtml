@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+	<f:metadata>
+       
+	</f:metadata>	
+	<ui:define name="content">
+		<style type="text/css">
+.label {
+	width: 20%;
+	padding: 4px;
+}
+
+.value {
+	width: 80%;
+	padding: 4px;
+}
+
+.grid {
+	width: 100%;
+}
+
+.error {
+	color: red;
+}
+
+.outputLabel {
+	font-weight: bold;
+}
+
+.grid {
+	width: 33%;
+	padding: 4px;
+}
+
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-number {
+	background: #e64949;
+	color: #fff;
+	border-color: #2014a7;
+}
+
+body .ui-steps .ui-steps-item.ui-state-highlight .ui-steps-title {
+	font-weight: 700;
+}
+
+.someCssClassName {
+	background-image:
+		url("/files/192.168.0.131/images/paypal.png")
+		!important;
+	background-color: #4CAF50; /* Green */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+</style>
+		
+		
+		<div style="text-align: center">
+		<br/>
+		<h2>O pagamento foi realizado com sucesso!</h2>
+		<br/>
+		<h3>Estamos em processo de separação dos produtos para serem enviados.</h3>
+		
+		<br/>
+		<p:button 
+			 icon="fa fa-home" 
+			 outcome="/application/index" styleClass="btn btn-primary" 
+			
+			    class="btn bg-pink waves-effect" 
+                            value="HOME" />  
+                            #{''}
+                            
+                            <p:button 
+			 icon="fa fa-shipping-fast" 
+			 outcome="/application/index" styleClass="btn btn-primary" 
+			
+			    class="btn bg-pink waves-effect" 
+                            value="Meu Pedidos" >
+                           
+                            <f:param name="gcmid" value="185"/>
+                            </p:button>  
+			
+		</div>
+		
+		 
+		
+		
+		
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core" xmlns:o="http://omnifaces.org/ui"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+	
+	
+
+	<style>
+.img3 {
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 5px;
+}
+
+.note-float-right {
+	border: 10 px;
+	border-radius: 4px;
+	padding: 7px;
+}
+</style>
+	<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="card1">
+						<div class="body">
+							<h:form>
+								<ui:repeat id="contentBeanPageItems" var="_itemData"
+									value="#{abstractGeometryBean.tableDataShape}">
+									<div>
+										<h3>#{_itemData['Nome'].value}</h3>
+										<h4>
+											<h:outputLabel escape="false"
+												value="#{_itemData['title'].value}" />
+										</h4>
+										<hr />
+
+										
+
+										<p:graphicImage
+											rendered="#{_itemData['Imagem'].value != null}"
+											value="#{_itemData['Imagem'].value}"
+											class="img3 content_img js-animating-object img-responsive pull-right" />
+										<h:outputText escape="false"
+											value="#{_itemData['description'].value}" />
+									</div>
+								</ui:repeat>
+								<hr />
+								<div align="center">
+									<p:button class="btn btn-primary" outcome="/index"
+										style="margin-left: 10px"
+										value="#{compjson.field.at('/label_button').asText()}">
+										 <o:pathParam value="#{compjson.field.at('/gcmid_redirect').asText()}" />
+									</p:button>
+								</div>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- FOOTER -->
+	</section>
+</ui:composition>

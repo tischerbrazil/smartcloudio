@@ -1,0 +1,2 @@
+/subsystem=undertow/application-security-domain=other:add(security-domain=ApplicationDomain, integrated-jaspi=false)
+/socket-binding-group=standard-sockets:write-attribute(name=port-offset,value=100)

@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.ui-galleria-close {
+	top: 60px !important;
+}
+
+.urlPostItem-item .urlPostItem-item-content {
+	border: 1px solid var(- -surface-d);
+	border-radius: 3px;
+	margin: .3rem;
+	padding: 0rem 0;
+}
+
+.urlPostItem-item .urlPostItem-image {
+	width: 100%;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+}
+
+.urlPostItem-badge {
+	margin-bottom: 3px"
+  	border-radius: 2px;
+	padding: .25em .5rem;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 12px;
+	letter-spacing: .3px;
+}
+
+.urlPostItem-badge.status-instock {
+	background: #C8E6C9;
+	color: #256029;
+}
+
+.urlPostItem-badge.status-outofstock {
+	background: #FFCDD2;
+	color: #C63737;
+}
+
+.urlPostItem-badge.status-lowstock {
+	background: #FEEDAF;
+	color: #8A5340;
+}
+</style>
+	
+	<section class="slice pt-3 pb-3">
+		<div class="container">
+			<div class="card">
+				<div align="center">
+					<h4>#{compjson.title}</h4>
+				</div>
+				<p:carousel value="#{articleBean.getLayerById(compjson.image)}"
+					var="urlPostItem" circular="true" autoplayInterval="5000"
+					numVisible="1" numScroll="1"
+					responsiveOptions="#{articleBean.responsiveOptions}">
+					<div class="urlPostItem-item">
+						<div class="urlPostItem-item-content">
+							<div class="p-mb-3">
+								<p:link outcome="/article">
+									<img styleClass="urlPostItem-image"
+										src="#{request.scheme}://#{request.serverName}#{request.contextPath}#{urlPostItem.medias.stream().findFirst().get().getFilename()}" />
+									<f:param name="id" value="#{urlPostItem.uuid}" />
+									<f:param name="gcmid"
+										value="#{compjson.field.get('gcmid').asText()}" />
+								</p:link>
+							</div>
+							<div style="padding: 7px">
+								<h4 class="p-mb-1">#{urlPostItem.nome}</h4>
+								<h6 class="p-mt-0 p-mb-3">
+									<h:outputText escape="false"
+										value="#{urlPostItem.strings.at('/introduction').asText()}">
+									</h:outputText>
+								</h6>
+								<div class="p-mt-5"></div>
+							</div>
+						</div>
+					</div>
+				</p:carousel>
+			</div>
+		</div>
+	</section>
+</ui:composition>

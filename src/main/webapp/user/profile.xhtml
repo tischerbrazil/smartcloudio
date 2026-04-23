@@ -1,0 +1,30 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+>
+	<ui:define name="content">
+		<k:form id="userForm">
+			<h2>#{i18n['user_profile.header.account']}</h2>
+
+			<k:input id="email" value="#{profileBacking.person.email}" disabled="true" />
+
+			<k:input id="fullName" value="#{profileBacking.person.fullName}" />
+
+		
+			<k:buttons>
+				<k:button id="save" action="#{profileBacking.save}" />
+			</k:buttons>
+		</k:form>
+
+		
+	</ui:define>
+</ui:composition>

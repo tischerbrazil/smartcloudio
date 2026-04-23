@@ -1,0 +1,151 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.ui-galleria-close {
+	top: 60px !important;
+}
+.product-item .product-item-content {
+        border: 1px solid var(--surface-d);
+        border-radius: 3px;
+        margin: .3rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .product-item .product-image {
+        width: 50%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    }
+    
+    
+    .product-badge {
+  margin-bottom: 3px"
+  border-radius: 2px;
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px; 
+  }
+  
+  .product-badge.status-instock {
+    background: #C8E6C9;
+    color: #256029; }
+    
+  .product-badge.status-outofstock {
+    background: #FFCDD2;
+    color: #C63737; }
+    
+  .product-badge.status-lowstock {
+    background: #FEEDAF;
+    color: #8A5340; }
+    
+</style>
+
+		
+		
+		
+		<div class="container">
+  <div class="row">
+    <div class="col-sm">
+    
+    
+ <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+ <h5>Milho MF 2023 por <a href="https://br.tradingview.com/symbols/GLOBALPRIME-CORN/" rel="noopener" target="_blank">
+TradingView</a> </h5>
+  <div id="tradingview_a3e5b"></div>
+  <div class="tradingview-widget-copyright">
+  
+   </div>
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script type="text/javascript">
+  new TradingView.widget(
+  {
+  "autosize": true,
+  "symbol": "GLOBALPRIME:CORN",
+  "interval": "180",
+  "timezone": "America/Sao_Paulo",
+  "theme": "light",
+  "style": "2",
+  "locale": "br",
+  "toolbar_bg": "#f1f3f6",
+  "enable_publishing": false,
+  "hide_top_toolbar": true,
+  "hide_legend": true,
+  "container_id": "tradingview_a3e5b"
+}
+  );
+  </script>
+</div>
+<!-- TradingView Widget END -->
+ 
+ 
+ 
+   </div>
+    <div class="col-sm">
+     <!-- TradingView Widget BEGIN -->
+						<div class="tradingview-widget-container">
+<h5>Soja MF 2023 por <a href="https://br.tradingview.com/symbols/GLOBALPRIME-CORN/" rel="noopener" target="_blank">
+TradingView</a> </h5>
+							<div id="tradingview_60531"></div>
+  <div class="tradingview-widget-copyright">
+  <a href="https://br.tradingview.com/symbols/GLOBALPRIME-SOYBEAN/" rel="noopener" target="_blank"><span class="blue-text">Gráfico de SOYBEAN</span></a> por TradingView</div>
+  <script type="text/javascript">
+  new TradingView.widget(
+  {
+  "autosize": true,
+  "symbol": "GLOBALPRIME:SOYBEAN",
+  "interval": "180",
+  "timezone": "America/Sao_Paulo",
+  "theme": "light",
+  "style": "2",
+  "locale": "br",
+  "toolbar_bg": "#f1f3f6",
+  "enable_publishing": false,
+  "hide_top_toolbar": true,
+  "hide_legend": true,
+  "container_id": "tradingview_60531"
+}
+  );
+  </script>
+</div>
+						<!-- TradingView Widget END -->
+    </div>
+   
+  </div>
+</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				
+				
+				
+				
+        
+        <style type="text/css">
+    .ui-chart {
+        margin-bottom: 50px;
+    }
+</style>
+
+
+
+ 
+	
+</ui:composition>

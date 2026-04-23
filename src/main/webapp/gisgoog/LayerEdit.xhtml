@@ -1,0 +1,272 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui">
+			
+	<h:form id="SelectedLayerForm" >
+  	<div align="right" class="buttons">
+	
+		<p:commandButton value="Salvar"
+			oncomplete="PF('editlayerDialog').hide();changeStyleLayer#{projectBasicEntityBean.selectedLayer.toString()}(#{projectBasicEntityBean.selectedLayer.labelStyle});fetchData33()"
+			update="message :layersForm2:layers" style="font-size: 15px;padding: 3px" 
+			action='#{projectBasicEntityBean.updateLayer}' icon="fa fa-save" />
+			
+		<p:commandButton value="Cancelar" oncomplete="PF('editlayerDialog').hide();"
+			icon="fa fa-mail-reply" title="Cancelar" style="font-size: 15px;padding: 3px" />
+			
+		<p:commandButton ajax="true" rendered="false" style="font-size: 15px;padding: 3px" id="atualizar" value="Atualizar" update="SelectedLayerForm" />
+
+		<p:commandButton  value="Excluir" update="message :layersForm2:layers"
+			oncomplete="PF('editLayerDialog').hide();fetchData();"
+			action='#{projectBasicEntityBean.deleteLayer()}'
+			icon="fa fa-trash" style="font-size: 15px;padding: 3px" />
+			
+	</div>
+	<p:tabView id="tablayer">
+	<p:tab title="Propriedades">
+		<h:panelGrid id="display" columnClasses="label,component,required" columns="3">
+
+				<h:outputLabel id="visible" for="visibleX" value="Visível" />
+				<p:selectBooleanCheckbox required="true" locale="pt_BR"
+					label="visible" id="visibleX"
+					value="#{projectBasicEntityBean.selectedLayer.selected}" />
+				<h:outputText />
+				
+				<p:outputLabel rendered="false" for="lang"  value="Linguagem:"/> 
+				<h:panelGroup rendered="false">
+     	        	<p:selectOneMenu rendered="false" id="lang" value="#{projectBasicEntityBean.locale}">
+            			<f:selectItems value="#{projectBasicEntityBean.countries}" /> 
+            			<p:ajax  rendered="false" event="change" listener="#{projectBasicEntityBean.onSelect2}" />  
+	         		</p:selectOneMenu>
+         			<h:message rendered="false" for="lang" styleClass="error"/>
+         		</h:panelGroup>
+				<h:outputText rendered="false"/> 
+				
+				<p:outputLabel rendered="#{projectBasicEntityBean.selectedLayer.dtype == 'Point'}" for="icon"  value="Icone"/> 
+				<h:panelGroup rendered="#{projectBasicEntityBean.selectedLayer.dtype == 'Point'}">
+     	        	<p:selectOneMenu id="icon" value="#{projectBasicEntityBean.selectedLayer.iconcategory}">
+            		  	<f:selectItem itemValue="NONE" itemLabel="Não Exibir" />
+            		  	<f:selectItem itemValue="ENTITY" itemLabel="Definir na Geometria" />
+           			  	<f:selectItem itemValue="CATEGORY" itemLabel="Definir na Categoria" />
+            			<f:selectItem itemValue="LAYERCATEGORY" itemLabel="Definir na Classe Pai" />
+	         		</p:selectOneMenu>
+         			<h:message for="icon" styleClass="error"/>
+         		</h:panelGroup>
+				<h:outputText rendered="#{projectBasicEntityBean.selectedLayer.dtype == 'Point'}"/> 
+			
+			<h:outputLabel id="editable" for="editableX" value="Editável" />
+				<p:selectBooleanCheckbox required="true" locale="pt_BR"
+					label="Editável" id="editableX"
+					value="#{projectBasicEntityBean.selectedLayer.editable}" />
+				<h:outputText />
+
+				<h:outputLabel rendered="false"  id="imagemx" for="image2" value="Imagem" />
+				<p:inputText  rendered="false" required="false" locale="pt_BR"
+					 label="Imagem" id="image2"
+					size="50" maxlength="50"
+					value="#{projectBasicEntityBean.selectedLayer.image}" />
+				<h:outputText  rendered="false" />
+
+				<h:outputLabel  rendered="false" id="zoomLabel" for="zoom" value="Zoom" />
+				<p:inputNumber  rendered="false" required="true" locale="pt_BR"
+					requiredMessage="Zoom Requerido!" label="Zoom" id="zoom"
+					size="50" maxlength="50"
+					value="#{projectBasicEntityBean.selectedLayer.zoom}" />
+				<h:outputText  rendered="false" />
+
+			 	<h:outputLabel id="nomex" for="nome2" value="Nome" />
+				<p:inputText required="true" locale="pt_BR"
+					requiredMessage="Nome Requerido!" label="Nome" id="nome2"
+					size="50" maxlength="50"
+					value="#{projectBasicEntityBean.selectedLayer.name}" />
+				<h:outputText />
+				<h:outputLabel id="titlex" for="title" value="Título" />
+				<p:inputText required="true" locale="pt_BR"
+					label="Título" id="title"
+					size="50" maxlength="50"
+					value="#{projectBasicEntityBean.selectedLayer.title}" />
+				<h:outputText />
+				<h:outputLabel id="descriptionx" for="description" value="Descrição" />
+				<p:textEditor  id="description"  value="#{projectBasicEntityBean.selectedLayer.description}" 
+					height="70" width="300" >
+					 <f:facet name="toolbar">
+             			<span class="ql-formats">
+                			<button class="ql-bold"></button>
+                			<button class="ql-italic"></button>
+                			<button class="ql-underline"></button>
+                			<button class="ql-strike"></button>
+            			</span>
+            			<span class="ql-formats">
+                			<select class="ql-font"></select>
+                			<select class="ql-size"></select>
+            			</span>
+        				</f:facet>
+				</p:textEditor>
+				<h:outputText />
+		</h:panelGrid>
+	</p:tab>
+	<p:tab title="Categorias">	
+		<div align="right">	
+			<p:commandButton rendered="true"  value="Nova Categoria"  id="newcat" 
+ 				onclick="catEdit([{name:'categoryid', value:'new'}]);" />    
+        </div>	      
+        <p:dataTable emptyMessage="Nenhuma Categoria Encontrada!" scrollable="true" scrollHeight="220" rendered="#{projectBasicEntityBean.selectedLayer.layerCategories != null}"  
+              	styleClass="table table-hover table-responsive" rowIndexVar="rowIndex" var="_categ" value="#{projectBasicEntityBean.selectedLayer.layerCategories}">  
+      	<p:column  headerText="Categorias da Camada">  
+      		<p:commandButton  icon="fa #{_categ.iconflag}" title="View"
+			onclick="catEdit([{name:'categoryid', value:'#{_categ.id}'}]);" />
+        	<h:outputText value="#{_categ.categoryname}" /> 
+        	 	<h:outputText value=" - (#{_categ.geometrias.size()})" />  
+        </p:column>  
+       	</p:dataTable>
+    </p:tab>
+	<p:tab rendered="false" title="Style">
+		<h:panelGrid columns="2" cellpadding="10">
+			<p:graphicImage width="100" value="/resources/images/logcloud3.png" />
+				<h:outputText value="After a break of more than 5 years..." />
+		</h:panelGrid>
+	</p:tab>
+	
+	<p:tab  title="Rótulo">
+		<h:panelGrid id="display2" columnClasses="label,component,label,component"	columns="4">
+		
+			<h:outputText value="Texto" />
+			<p:selectOneMenu id="text"	value="#{projectBasicEntityBean.selectedLayer.labelStyle.text}">
+				<f:selectItem itemValue="hide" itemLabel="Ocultar" />
+				<f:selectItem itemValue="normal" itemLabel="Normal" />
+				<f:selectItem itemValue="shorten" itemLabel="Reduzido" />
+				<f:selectItem itemValue="wrap" itemLabel="Cortar" />
+			</p:selectOneMenu>
+					
+			<h:outputText value="Resolucao Máxima" />
+			<p:selectOneMenu id="rmax"	value="#{projectBasicEntityBean.selectedLayer.labelStyle.maxres}">
+			<f:selectItem itemValue="1" itemLabel="1" />
+			<f:selectItem itemValue="2" itemLabel="2" />
+			<f:selectItem itemValue="4" itemLabel="4" />
+				<f:selectItem itemValue="8" itemLabel="8" />
+				<f:selectItem itemValue="16" itemLabel="16" />
+				<f:selectItem itemValue="32" itemLabel="32" />
+				<f:selectItem itemValue="75" itemLabel="75" />
+				<f:selectItem itemValue="150" itemLabel="150" />
+				<f:selectItem itemValue="300" itemLabel="300" />
+				<f:selectItem itemValue="600" itemLabel="600" />
+				<f:selectItem itemValue="1200" itemLabel="1200" />
+				<f:selectItem itemValue="2400" itemLabel="2400" />
+				<f:selectItem itemValue="9600" itemLabel="9600" />
+				<f:selectItem itemValue="19200" itemLabel="19200" />
+				<f:selectItem itemValue="38400" itemLabel="38400" />
+			</p:selectOneMenu>
+		
+			<h:outputText value="Alinhamento" />
+			<p:selectOneMenu id="align"	value="#{projectBasicEntityBean.selectedLayer.labelStyle.align}">
+				<f:selectItem itemValue="center" itemLabel="Centro" />
+				<f:selectItem itemValue="start" itemLabel="Inicio" />
+				<f:selectItem itemValue="left" itemLabel="Esquerdo" />
+				<f:selectItem itemValue="right" itemLabel="Direito" />
+				<f:selectItem itemValue="end" itemLabel="Final" />
+			</p:selectOneMenu>
+		
+			<h:outputText value="Linha de Base" />
+			<p:selectOneMenu id="baseline"	value="#{projectBasicEntityBean.selectedLayer.labelStyle.baseline}">
+				<f:selectItem itemValue="alphabetic" itemLabel="Alfabético" />
+				<f:selectItem itemValue="bottom" itemLabel="Inferior" />
+				<f:selectItem itemValue="hanging" itemLabel="Suspenso" />
+				<f:selectItem itemValue="ideographic" itemLabel="Ideográfico" />
+				<f:selectItem itemValue="middle" itemLabel="Centraliado" />
+				<f:selectItem itemValue="top" itemLabel="Superior" />
+			</p:selectOneMenu>
+		
+			<h:outputText value="Fonte" />
+			<p:selectOneMenu id="fonte"	value="#{projectBasicEntityBean.selectedLayer.labelStyle.font}">
+				<f:selectItem itemValue="Arial" itemLabel="Arial" />
+				<f:selectItem itemValue="Verdana" itemLabel="Verdana" />
+				<f:selectItem itemValue="Courier New" itemLabel="Courier New" />
+				<f:selectItem itemValue="Quattrocento Sans"	itemLabel="Quattrocento Sans" />
+				<f:selectItem itemValue="Sans" itemLabel="Sans" />
+			</p:selectOneMenu>
+			
+			<h:outputText value="Negrito" />
+			<p:selectBooleanCheckbox value="#{projectBasicEntityBean.selectedLayer.labelStyle.weight}" />
+	
+			<h:outputText value="Offset X" />
+			<p:spinner id="offsetX" size="2" value="#{projectBasicEntityBean.selectedLayer.labelStyle.offsetX}" min="0" max="10" />
+	
+			<h:outputText value="Offset Y" />
+			<p:spinner id="offsetY" size="2" value="#{projectBasicEntityBean.selectedLayer.labelStyle.offsetY}" min="0" max="10" />
+	
+			<h:outputText value="Tamanho Fonte" />
+			<p:spinner id="fontsize" size="2" value="#{projectBasicEntityBean.selectedLayer.labelStyle.size}" min="0" max="32" />
+						
+			<h:outputLabel id="color" value="Cor Fonte" />
+			<p:colorPicker	value="#{projectBasicEntityBean.selectedLayer.labelStyle.color}" />
+
+			<h:outputText value="Tamanho Contorno" />
+			<p:spinner id="offsetsize" size="2" value="#{projectBasicEntityBean.selectedLayer.labelStyle.owidth}" min="0" max="10" />
+					
+			<h:outputLabel id="corcontorno"  value="Cor Contorno" />
+			<p:colorPicker	value="#{projectBasicEntityBean.selectedLayer.labelStyle.ocolor}" />
+
+			<h:outputText value="Formato" />
+			<p:selectOneMenu id="formato" value="#{projectBasicEntityBean.selectedLayer.labelStyle.format}">
+				<f:selectItem itemValue="normal" itemLabel="Nenhum" />
+				<f:selectItem itemValue="hiden" itemLabel="Ocultar" />
+				<f:selectItem itemValue="shorten" itemLabel="Diminuir" />
+				<f:selectItem itemValue="wrap" itemLabel="Extender" />
+			</p:selectOneMenu>
+		
+			<h:outputLabel id="rotation"  value="Rotação" />
+   			<p:knob width="50" height="50" step="10" max="360" value="#{projectBasicEntityBean.selectedLayer.labelStyle.rotation}" />  
+		</h:panelGrid>
+	</p:tab>
+	
+	<p:tab   title="Campos">
+		<h:panelGroup id="displayfields">
+		<div align="right">	
+			<p:commandButton rendered="true"  value="Novo Campo"  id="newfield" 
+ 				onclick="fieldEdit([{name:'fieldid', value:'new'}]);" />    
+        </div>	   
+        
+		<p:dataTable emptyMessage="Nenhum Campo Encontrado!" id="fields" var="_field" value="#{projectBasicEntityBean.selectedLayer.fields}" widgetVar="fieldsTable" >                    
+        	<p:column headerText="Campos da Camada"> 
+           	<p:commandButton  update=":campoForm:display"  icon="fa fa-edit" title="Editar"
+			onclick="fieldEdit([{name:'fieldid', value:'#{_field.id}'}]);" />
+           	#{''}
+           	<h:outputText value="#{_field.name}" />	
+        	</p:column>
+    	</p:dataTable>
+    	</h:panelGroup>
+	</p:tab>
+			
+	<p:tab title="Geometrias">
+		<p:dataTable emptyMessage="Nenhuma Geometria Encontrada!" id="tbl" var="result" rendered="#{not empty projectBasicEntityBean.tableData}"
+		       value="#{projectBasicEntityBean.tableData}" rowIndexVar="rowIndex">
+		       <f:facet name="header"></f:facet>
+		 	<p:column>
+		     	<f:facet name="header">
+		        	<h:outputText value="Geometrias da Camada" />
+		        </f:facet>
+		         	<p:commandButton  icon="fa fa-edit" title="View"
+				onclick="objEdit([{name:'objectid', value:'#{result['Id'].value}'}]);" />	#{''}
+		       	<h:outputText value="#{result['Nome'].value}" />
+		 	</p:column>  
+		 
+		 	<p:columns  rendered="false" value="#{projectBasicEntityBean.tableHeaderNames}" var="mycolHeader" columnIndexVar="colIndex">
+		 		<f:facet name="header">
+		       		<h:outputText value="#{mycolHeader.value}" />
+			    </f:facet>
+	    		<h:outputText value="#{result[mycolHeader.value].value}" />	
+		 	</p:columns>
+
+		</p:dataTable>
+	</p:tab>
+	</p:tabView>
+	</h:form>
+	<h:form id="refresh"> 
+ 		<p:remoteCommand name="submit33" update="SelectedLayerForm" />
+	</h:form>
+</ui:composition>

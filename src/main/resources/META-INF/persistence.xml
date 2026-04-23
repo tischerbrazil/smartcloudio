@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="risteos">
+		<description>Forge Persistence Unit</description>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>
+
+		<mapping-file>META-INF/LoginToken.xml</mapping-file>
+		<mapping-file>META-INF/Person.xml</mapping-file>
+
+
+		<class>org.example.kickoff.model.Person</class>
+		<class>org.example.kickoff.model.Credentials</class>
+		<class>org.example.kickoff.model.LoginToken</class>
+
+		<class>com.erp.modules.inventory.entities.ErpProductUserMapping</class>
+		<class>org.example.kickoff.model.Newsletter</class>
+
+		<class>br.bancodobrasil.model.BancoBrasilApiToken</class>
+		<class>br.bancodobrasil.model.BancoBrasilPixPayment</class>
+		<class>org.geoazul.ecommerce.model.InstallmentMethod</class>
+
+		<class>br.safrapay.api.model.SafraPayCharge</class>
+		<class>br.safrapay.api.model.SafraPayTransaction</class>
+		<class>br.safrapay.api.model.SafraPayApiToken</class>
+		<class>br.safrapay.api.model.PersonCard</class>
+
+		<class>br.safrapay.api.model.SafraPayCustomer</class>
+		<class>br.safrapay.api.model.SafraPayCustomerPhone</class>
+
+
+
+
+		<class>org.geoazul.ecommerce.model.Message</class>
+		<class>com.erp.modules.shippingmethods.entities.ShippingMethod</class>
+		<class>br.com.correios.CorreiosApiToken</class>
+
+		<class>com.erp.modules.promocode.entities.PromoCode</class>
+		<class>org.geoazul.model.ctm.ParcelEntity</class>
+		<class>org.geoazul.model.ctm.ParcelUserMappingEntity</class>
+
+
+
+
+
+		<class>org.geoazul.ecommerce.view.shopping.ShoppingCartItem</class>
+		<class>org.geoazul.ecommerce.view.shopping.ShoppingCart</class>
+
+
+	
+
+		<class>org.geoazul.erp.Countries</class>
+		<class>org.geoazul.erp.Cities</class>
+		<class>org.geoazul.erp.States</class>
+
+
+
+
+		<class>com.erp.modules.inventory.entities.ProductUomCategory</class>
+		<class>com.erp.modules.inventory.entities.ProductUom</class>
+		<class>com.erp.modules.inventory.entities.Product</class>
+		<class>com.erp.modules.inventory.entities.Manufacturer</class>
+
+		<class>org.geoazul.model.app.ProductCategoryMapping</class>
+		<class>com.erp.modules.inventory.entities.ProductCategoryOne</class>
+
+		<class>com.erp.modules.inventory.entities.ProductSubgroup</class>
+		<class>com.erp.modules.inventory.entities.ProductGroup</class>
+
+		<class>com.erp.modules.inventory.entities.ProductAttribute</class>
+		<class>com.erp.modules.inventory.entities.ProductMedia</class>
+		<class>com.erp.modules.inventory.entities.Block</class>
+
+		<class>com.erp.modules.inventory.entities.Inventory</class>
+
+
+		<class>org.geoazul.model.Names</class>
+		<class>org.geoazul.model.Contador</class>
+
+		<class>org.geoazul.model.app.ApplicationEntity</class>
+		<class>org.geoazul.model.mobile.ApplicationMobileEntity</class>
+		<class>org.geoazul.model.app.ApplicationTemplateEntity</class>
+
+		<class>org.geoazul.model.app.ProjectRuralEntity</class>
+		<class>org.geoazul.model.app.ProjectUrbanEntity</class>
+		<class>org.geoazul.model.app.ProjectBasicEntity</class>
+
+		<class>org.geoazul.model.app.ApplicationAttributeEntity</class>
+
+		<class>org.geoazul.model.app.CompAttributeEntity</class>
+
+		<class>org.geoazul.model.app.AppUserMappingEntity</class>
+
+		<class>org.geoazul.model.app.AbstractIdentityEntity</class>
+
+		<class>org.geoazul.model.basic.AbstractGeometry</class>
+		<class>org.geoazul.model.basic.Point</class>
+		<class>org.geoazul.model.basic.Polygon</class>
+		<class>org.geoazul.model.basic.Linestring</class>
+		<class>org.geoazul.model.basic.MultiPolygon</class>
+
+		<class>org.geoazul.model.basic.AbstractWidget</class>
+
+		<class>org.geoazul.model.website.LayerItem</class>
+
+		<class>org.geoazul.model.basic.Layer</class>
+		<class>org.geoazul.model.basic.LayerEntity</class>
+		<class>org.geoazul.model.basic.LayerLinestring</class>
+		<class>org.geoazul.model.basic.LayerMultiPolygon</class>
+		<class>org.geoazul.model.basic.LayerPoint</class>
+		<class>org.geoazul.model.basic.LayerPolygon</class>
+
+
+		<class>org.geoazul.model.basic.LayerTile</class>
+
+		<class>org.geoazul.model.basic.LayerGeoserver</class>
+		<class>org.geoazul.model.basic.LayerRasterGeoserver</class>
+		<class>org.geoazul.model.basic.LayerWMSGeoserver</class>
+
+		<class>org.geoazul.model.basic.LayerGroup</class>
+
+		<class>org.geoazul.model.basic.LayerCategory</class>
+		<class>org.geoazul.model.basic.LayerLinestringCategory</class>
+		<class>org.geoazul.model.basic.LayerMultiPolygonCategory</class>
+		<class>org.geoazul.model.basic.LayerPointCategory</class>
+		<class>org.geoazul.model.basic.LayerPolygonCategory</class>
+		<class>org.geoazul.model.basic.LayerPostItemCategory</class>
+
+
+
+
+		<class>org.geoazul.model.basic.properties.Field</class>
+
+		<class>org.geoazul.model.basic.rural.LayerPolygonPoint</class>
+
+		<class>org.geoazul.model.basic.rural.PolygonPoint</class>
+
+		<class>org.geoazul.model.website.media.Media</class>
+		<class>org.geoazul.model.app.ApplicationIdentityEntity</class>
+		<class>org.geoazul.ecommerce.model.Item</class>
+
+
+
+		<class>org.geoazul.model.website.Document</class>
+
+		<class>org.geoazul.model.website.ModuleComponentMap</class>
+
+		<class>org.geoazul.model.website.ModuleMenuMap</class>
+		<class>org.geoazul.model.website.Modulo</class>
+
+		<class>org.geoazul.model.basic.Comp</class>
+		<class>org.geoazul.model.website.Component</class>
+
+		<class>org.geoazul.model.website.UrlRegister</class>
+
+
+
+		<class>org.geoazul.model.website.UrlMenu</class>
+		<class>org.geoazul.model.website.UrlMenuItem</class>
+
+
+
+		<class>org.geoazul.model.website.UrlPost</class>
+		<class>org.geoazul.model.website.UrlPostItem</class>
+
+		<class>org.geoazul.model.Address</class>
+		<class>org.geoazul.model.security.ClientAttributeEntity</class>
+		<class>org.geoazul.model.security.ClientEntity</class>
+
+		<class>org.geoazul.model.security.ClientComponentEntity</class>
+		<class>org.geoazul.model.security.ClientIdentityEntity</class>
+		<class>org.geoazul.model.security.ClientOAuthEntity</class>
+		<class>org.geoazul.model.security.ClientMobileEntity</class>
+		<class>org.geoazul.model.security.ClientServiceEntity</class>
+
+		<class>org.geoazul.model.security.GroupEntity</class>
+		<class>org.geoazul.model.security.GroupRoleMappingEntity</class>
+		<class>org.geoazul.model.security.IdentityProviderEntity</class>
+		<class>org.geoazul.model.security.IdentityProviderMapperEntity</class>
+		<class>org.geoazul.model.security.KeycloakModelUtils</class>
+		<class>org.geoazul.model.security.RealmAttributeEntity</class>
+		<class>org.geoazul.model.security.RealmEntity</class>
+
+		<class>org.geoazul.model.security.RequiredActionProviderEntity</class>
+		<class>org.geoazul.model.security.RoleAttributeEntity</class>
+		<class>org.geoazul.model.security.RoleEntity</class>
+		<class>org.geoazul.model.security.UserAttributeEntity</class>
+		<class>org.geoazul.model.security.UserRoleMappingEntity</class>
+
+
+
+
+
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+		<properties>
+
+
+		
+
+
+           
+
+			<property
+				name="jakarta.persistence.schema-generation.database.action"
+				value="none" />
+
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.use_sql_comments" value="false" />
+
+			<property name="hibernate.connection.autocommit"
+				value="true" />
+
+
+			<property name="hibernate.connection.driver_class"
+				value="org.postgresql.Driver" />
+			<property name="hibernate.connection.url"
+				value="jdbc:postgresql://localhost:5432/hgeo" />
+			<property name="hibernate.connection.username" value="smart" />
+			<property name="hibernate.connection.password"
+				value="8765gFddsaIyfDdd" />
+
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.PostgreSQLDialect" />
+
+			<property name="hibernate.enable_lazy_load_no_trans"
+				value="true" />
+			<!-- Needed because org.example.kickoff.config.InstantConverter is used, 
+				and Hibernate does not seem to fully apply it. Without this it will still 
+				think the SQL type is 3003 (org.hibernate.types.SqlTypes.TIMESTAMP_UTC) and 
+				therefor complain when it's actually 93 (java.sql.Types.TIMESTAMP). -->
+
+
+
+
+
+
+
+			<property name="wildfly.jpa.twophasebootstrap" value="false" />
+			<property
+				name="hibernate.discriminator.ignore_explicit_for_joined"
+				value="true" />
+
+
+			
+			<property name="wildfly.jpa.twophasebootstrap" value="false" /> <!-- https://issues.jboss.org/browse/WFLY-2727 -->
+	
+
+		</properties>
+	</persistence-unit>
+</persistence>

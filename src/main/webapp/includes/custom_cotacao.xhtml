@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.ui-galleria-close {
+	top: 60px !important;
+}
+
+.product-item .product-item-content {
+	border: 1px solid var(- -surface-d);
+	border-radius: 3px;
+	margin: .3rem;
+	text-align: center;
+	padding: 2rem 0;
+}
+
+.product-item .product-image {
+	width: 50%;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+}
+
+.product-badge {
+	margin-bottom: 3px"
+  border-radius: 2px;
+	padding: .25em .5rem;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 12px;
+	letter-spacing: .3px;
+}
+
+.product-badge.status-instock {
+	background: #C8E6C9;
+	color: #256029;
+}
+
+.product-badge.status-outofstock {
+	background: #FFCDD2;
+	color: #C63737;
+}
+
+.product-badge.status-lowstock {
+	background: #FEEDAF;
+	color: #8A5340;
+}
+</style>
+	
+		
+		
+	
+			<style type="text/css">
+.ui-chart {
+	margin-bottom: 50px;
+}
+</style>
+
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+    
+
+ 
+ <div id="cont_83ddccbf80850a7e4cf7437448d357b4"><script type="text/javascript" 
+ async="async" src="https://www.tempo.com/wid_loader/83ddccbf80850a7e4cf7437448d357b4">
+ </script>
+ </div>
+
+ 
+    </div>
+    <div class="col-sm">
+						<div class="tradingview-widget-container">
+							<h4>Cotação Dolar em Tempo Real</h4>
+							<div id="tradingview_0fd8a"></div>
+							<div class="tradingview-widget-copyright">
+								<a
+									href="https://br.tradingview.com/symbols/USDBRL/?exchange=FX_IDC"
+									rel="noopener" target="_blank"><span class="blue-text">Gráfico
+										USDBRL</span></a> por TradingView
+							</div>
+
+							<script type="text/javascript">
+  new TradingView.widget(
+  {
+  "autosize": true,
+  "symbol": "FX_IDC:USDBRL",
+  "interval": "D",
+  "timezone": "BRT/UTC",
+  "theme": "light",
+  "style": "2",
+  "locale": "br",
+  "toolbar_bg": "#f1f3f6",
+  "enable_publishing": false,
+  "hide_top_toolbar": true,
+   "hide_legend": true,
+  "allow_symbol_change": true,
+  "container_id": "tradingview_0fd8a"
+}
+  );
+  </script>
+						</div>
+    </div>
+   
+  </div>
+</div>
+</ui:composition>

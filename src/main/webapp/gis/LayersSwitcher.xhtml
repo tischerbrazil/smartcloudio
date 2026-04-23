@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:p="http://primefaces.org/ui" > 
+
+	
+	<h:form id="layersFormSwitcher">  
+	
+	<style>
+		.hideOpacity .layerswitcher-opacity 
+		{	display:none;
+		}
+		.hideOpacity .ol-layerswitcher .layerup
+		{	height: 1.5em;
+		}
+		.showPercent .layerSwitcher .ol-layerswitcher .layerswitcher-opacity-label {
+			display: block;
+		}
+
+		.ol-header > div 
+		{	width:100%; 
+		}
+		.toggleVisibility
+		{	padding-left: 1.6em;
+			cursor: pointer;
+			border-bottom: 2px solid #369;
+			margin-bottom: 0.5em; 
+		}
+		.toggleVisibility:before
+		{	background-color: #fff;
+			border: 2px solid #369;
+			box-sizing: border-box;
+			content: "";
+			display: block;
+			height: 1.2em;
+			left: 0.1em;
+			margin: 0;
+			position: absolute;
+			width: 1.2em;
+		}
+		.toggleVisibility.show:before
+		{	background: #369;
+		}
+
+	</style>
+	
+	<div class="external layerSwitcher"><b>Camadas</b></div>
+
+	<div class="options">
+		<input id="opb" type="checkbox" onchange="$('body').toggleClass('hideOpacity');" />
+		<label for="opb">Ocultar Transparência</label>
+
+	</div>
+	
+	
+	
+	
+	
+    </h:form> 
+</ui:composition>

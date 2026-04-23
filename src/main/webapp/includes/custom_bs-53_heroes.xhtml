@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+
+      <div class="container px-4 py-5">
+        <div class="row align-items-center g-5 py-5">
+          <div class="col-10 col-sm-8 col-lg-6">
+             <img
+              src="#{compjson.field.at('/image').asText()}"
+              class="d-block mx-lg-auto img-fluid"
+              alt="Bootstrap Themes"
+              loading="lazy"
+            />
+          </div>
+          <div class="col-lg-6">
+            <h4 class="display-6 fw-bold text-body-emphasis lh-1 mb-3">
+              #{compjson.field.at('/title').asText()}
+            </h4> 
+            <p class="lead">
+              #{compjson.field.at('/description').asText()}
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <p:button icon="fa fa-edit" title="#{compjson.field.at('/linkname').asText()}" 
+              styleClass="btn btn-primary btn-lg px-4 me-md-2"
+				value="#{compjson.field.at('/linkname').asText()}" 
+				href="#{compjson.field.at('/linkahref').asText()}">			
+			  </p:button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+</ui:composition>

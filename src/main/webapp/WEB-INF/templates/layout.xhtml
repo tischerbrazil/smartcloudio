@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="#{activeLocale.languageTag}"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<c:set var="dev" value="#{faces.development}" scope="application" />
+
+	<f:view contentType="text/html" locale="#{activeLocale.value}">
+		<ui:insert name="metadata" />
+
+		<h:head id="head">
+			<title><ui:insert name="title">#{page.home ? '' : i18n[page.name += '.title']}</ui:insert>#{page.home ? '' : ' | '}#{i18n['this.name']}</title>
+			<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+			<meta name="viewport" content="width=device-width,maximum-scale=2" />
+
+		</h:head>
+		<h:body id="page_#{page.name}" a:data-unloadmessage="#{i18n['general.unloadmessage']}">
+			<ui:include src="/WEB-INF/includes/layout/resources-body.xhtml" />
+		
+			<main class="ui-helper-clearfix">
+				<header>
+					<h1><ui:insert name="h1">#{i18n[page.name += '.title']}</ui:insert></h1>
+				</header>
+				<article>
+					<ui:insert name="content">
+						<section>
+							<p>This is a minimal Java EE skeleton application.</p>
+						</section>
+					</ui:insert>
+					<p:messages id="messages" closable="true" redisplay="false">
+						<p:autoUpdate /> <!-- Note: auto-updates only on PrimeFaces ajax requests, not on JSF/OmniFaces ajax requests! -->
+					</p:messages>
+				</article>
+				<div id="overlay" class="ui-widget-overlay" />
+			</main>
+		</h:body>
+	</f:view>
+</html>

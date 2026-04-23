@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:c="jakarta.tags.core"
+	xmlns:pt="jakarta.faces.passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml">
+
+
+	<ui:define name="main">
+
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+
+						<h:form id="create">
+							<h:messages globalOnly="true" styleClass="error" />
+
+
+							<p:tabView id="tabapp">
+
+								<p:tab title="Dados do Widget">
+
+
+
+									<div class="form-group">
+										<span><i class="material-icons">account_box</i> <label
+											for="compdef" class="control-label">Comp Def.</label> </span>
+										<div class="form-line">
+
+											<p:selectOneMenu id="enumTipoLei"
+												value="#{abstractWidgetBean.abstractWidget.compDef}">
+												<f:selectItems value="#{abstractWidgetBean.enumCompDef}"
+													var="compDef" itemLabel="#{compDef}" itemValue="#{compDef}" />
+											</p:selectOneMenu>
+
+
+										</div>
+									</div>
+
+
+					
+
+									<div class="form-group">
+										<span><i class="material-icons">account_box</i> <label
+											for="name" class="control-label">Nome do Widget</label> </span>
+										<div class="form-line">
+											<p:inputText class="form-control" id="name"
+												value="#{abstractWidgetBean.abstractWidget.nome}" />
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<span><i class="material-icons">account_box</i> <label
+											for="enabled" class="control-label">enabled</label> </span>
+										<div class="form-line">
+											<p:selectBooleanCheckbox
+												value="#{abstractWidgetBean.abstractWidget.enabled}" />
+										</div>
+									</div>
+
+									<div class="form-group">
+										<span><i class="material-icons">account_box</i> <label
+											for="icon" class="control-label">Icon</label> </span>
+										<div class="form-line">
+											<p:inputText class="form-control" id="icon"
+												value="#{abstractWidgetBean.abstractWidget.iconflag}" />
+										</div>
+									</div>
+
+									<div class="form-group">
+										<span><i class="material-icons">account_box</i> <label
+											for="strings" class="control-label">Strings</label> </span>
+										<div class="form-line">
+											<p:inputTextarea name="strings" converter="jsonConverter"
+												id="strings"
+												value="#{abstractWidgetBean.abstractWidget.strings}">
+											</p:inputTextarea>
+										</div>
+									</div>
+
+									<div class="buttons">
+										<p:commandButton ajax="false" value="Salvar2" 
+											action="#{abstractWidgetBean.update}" />
+										#{''}
+										<c:choose>
+											<c:when test='#{!empty abstractWidgetBean.id}'>
+												<p:button icon="fa fa-undo" outcome="widget_search">
+													<f:param name="id" value='#{abstractWidgetBean.id}' />
+												</p:button>
+						#{''}
+						<p:commandButton icon="fa fa-trash"
+													oncomplete="PF('confirmDialog').show()"
+													styleClass="button btn-danger btn-lg waves-effect" />
+												<p:dialog modal="true" showEffect="fade" hideEffect="fade"
+													header="Confirma Exclusão?" widgetVar="confirmDialog"
+													id="confirmDlg">
+													<div class="alert alert-info" role="alert">Obs. Todas
+														as referencias a este Widget serão excluidas!</div>
+													<p:commandButton ajax="false" icon="fa fa-check"
+														action='#{abstractWidgetBean.delete}'
+														styleClass="button btn-danger btn-lg waves-effect" />
+													<p:commandButton icon="fa fa-undo"
+														oncomplete="PF('confirmDialog').hide()"
+														styleClass="button btn-primary btn-lg waves-effect" />
+												</p:dialog>
+
+											</c:when>
+											<c:otherwise>
+						#{''}
+						<p:button icon="fa fa-undo"
+													styleClass="button btn-primary btn-lg waves-effect"
+													outcome="widget_search" title="Cancelar" alt="Cancelar" />
+											</c:otherwise>
+										</c:choose>
+									</div>
+
+								</p:tab>
+
+								<p:tab title="Inserções">
+
+
+									<p:dataTable id="urlPostBeanPageItems" styleClass="data-table"
+										value="#{abstractWidgetBean.abstractWidget.components}"
+										var="_item">
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Ordem" />
+											</f:facet>
+											<h:outputText id="itemOrder" value="#{_item.ordering}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Container" />
+											</f:facet>
+											<h:outputText id="itemContainer" value="#{_item.module.name}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Enabled" />
+											</f:facet>
+											<h:outputText id="itemEnabled" value="#{_item.enabled}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="App" />
+											</f:facet>
+											<p:outputLabel
+												value="#{_item.module.abstractIdentityEntity.name}" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Ação" />
+											</f:facet>
+											<p:button icon="fa fa-edit"
+												styleClass="button btn-primary btn-lg waves-effect"
+												outcome="/administrator/module_view" title="Editar Bloco"
+												alt="Editar Bloco">
+												<f:param name="id" value="#{_item.module.id}" />
+											</p:button>
+								#{''}
+								<p:button icon="fa fa-file-text"
+												styleClass="button btn-danger btn-lg  waves-effect"
+												outcome="/administrator/module_edit" title="Exibir Bloco"
+												alt="Exibir Bloco">
+												<f:param name="id" value="#{_item.module.id}" />
+											</p:button>
+										</p:column>
+									</p:dataTable>
+								</p:tab>
+							</p:tabView>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	</ui:define>
+</ui:composition>

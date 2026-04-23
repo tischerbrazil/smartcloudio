@@ -1,0 +1,34 @@
+/target/
+*/target/**
+
+!.mvn/wrapper/maven-wrapper.jar
+
+
+
+
+# compiled output
+/vue-project/dist
+/vue-project/tmp
+/vue-project/out-tsc
+
+
+# VUE
+/vue-project/node_modules
+/vue-project/node
+/vue-project/.github
+/vue-project/.vscode
+/vue-project/e2e
+/.externalToolBuilders
+
+.tern-project
+.externalToolBuilders
+.apt_generated
+.metadata
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+

@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="jakarta.faces.facelets">
+	
+	<script>
+	 function onMessage(message, channel, event) {
+         
+         console.log("Received: " + message);
+
+      }
+	</script>
+	
+			<f:websocket channel="helloWebsocket" onmessage="onMessage" />
+	
+	
+	  <section class="py-2 text-center container">
+        <div class="row py-lg-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Bem-vindo ao SmartCloudIO</h1>
+            <p class="lead text-body-secondary">
+					Você pode começar por aqui criando novos projetos, ou acessar um modelo
+					que criamos para você iniciar e praticar! 
+            </p>
+       
+             <p:button outcome="/application/project_edit" class="waves-effect"
+										value="Novo Projeto" />
+        
+          </div>
+        </div>
+      </section>
+      
+	  <h:form id="userapps" >
+	  <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            
+            
+            
+            
+            	<ui:repeat value="#{applicationEntityBean.appsUserMap}" 
+				var="_item" varStatus="varStatus" id="repeat">
+				
+			
+				
+				
+				
+            
+            
+            
+            <div class="col">
+              <div class="card shadow-sm">
+              <p:graphicImage class="img-fluid"
+										value="/files/#{request.serverName}/#{_item.app.id}/media/#{_item.app.image}" />
+                 
+                <div class="card-body">
+                  <p class="card-text">
+                    #{_item.app.name}
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                     
+					<p:button style="margin-left: 3px" icon="fa fa-map" title="GIS1dd" value="GIS"
+										href="/gis/dashboardNA/0/#{_item.app.id}">
+								
+									</p:button>
+									
+								
+									#{''}
+									<p:button style="margin-left: 3px" icon="fa fa-edit" title="Editar" value="Editar"
+										href="/application/project_edit/0/#{_item.app.id}">
+									</p:button>
+									
+									
+									#{''}
+									<p:commandButton style="margin-left: 3px" id="combut" icon="pi pi-heart" 
+									 widgetVar="saveButton"
+									value="#{_item.app.likes}" 
+									onclick="jQuery(this).attr('disabled', 'disabled')"
+									action="#{applicationEntityBean.sendMessage(varStatus.index.toString().concat(',').concat(_item.app.likes.toString().concat(',').concat(_item.app.id.toString())))}" 
+									   />
+
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            
+           </ui:repeat>
+            
+            </div>
+            </div>
+	  		</div>
+	  </h:form>
+	  
+	
+	
+	
+</ui:composition>

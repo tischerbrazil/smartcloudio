@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	<h:outputText value="#{urlMenuBean.getMenuItemsHover(true, id)}"
+		escape="false" />
+		
+		
+	<ui:fragment rendered="#{userData2.userEntity == null}">
+			<li class="nav-item dropdown dropdown-animate" data-toggle="hover">
+				<a id="dropdownUser" href="#" class="nav-link dropdown-toggle"
+				data-toggle="dropdown" role="button" aria-haspopup="true"
+				aria-expanded="false"><p:graphicImage
+						style="border-radius: 50%" width="28" height="21"
+						value="/resources/images/avatar.webp" />
+				</a>
+				<ul aria-labelledby="dropdownUser"
+					class="dropdown-menu dropdown-menu-single">
+					
+					<p:commandLink ajax="false" class="dropdown-item"
+				action="#{abstractIdentityBean.login}">
+				<i class="fa fa-sign-in"></i> Entrar (Login)
+				 </p:commandLink>
+	
+			<p:commandLink ajax="false" class="dropdown-item"
+				action="#{abstractIdentityBean.register}">
+				<i class="fa fa-registered"></i> Registrar-se
+				 </p:commandLink>
+
+				</ul>
+			</li>
+	</ui:fragment>
+	
+	<style>
+	
+	.c-avatar{
+	padding-top: 5px;
+	margin-right: 10px;
+	margin-left: 10px;
+	border-radius:50em;
+	width:32px;
+	height:32px;
+	}
+	
+	.c-avatar-img{
+	width:100%;
+	height:auto;
+	border-radius:50em
+	}
+
+	</style>
+	
+	
+	<ui:fragment rendered="#{userData2.userEntity != null}">
+		<li class="has-children">
+		
+		<a id="dropdownUser" href="#" class="nav-link"> 
+		
+			<p:graphicImage id="proimg543"	 	style="border-radius: 50%" width="28" height="21" rendered="#{abstractIdentityBean.userAccount.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().isPresent()}"
+					value="#{abstractIdentityBean.userAccount.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().get().getValue()}" />
+					
+					<p:graphicImage id="proimg657"	 	style="border-radius: 50%" width="28" height="21" rendered="#{abstractIdentityBean.userAccount.attributes.stream().filter(car->car.name.equals('picture') and !car.temp).findFirst().isPresent() != true}"
+					value="/resources/images/avatar.webp" />
+			
+			</a>
+			
+		
+			
+			<ul class="dropdown arrow-top">
+				<a href="#{request.contextPath}/application/profile" class="dropdown-item"><i
+					class="fa fa-user"></i> Editar Perfil</a>
+					
+				<ui:fragment rendered="#{userData2.admin}">
+					<a href="#{request.contextPath}/administrator/index" class="dropdown-item"><i
+						class="fa fa-cog"></i> Administrar</a>
+				</ui:fragment>
+				<a href="#{request.contextPath}/application/index" class="dropdown-item"><i
+					class="fa fa-cube"></i> Dashboard</a>
+			
+				<p:commandLink  action="#{abstractIdentityBean.logout()}" class="dropdown-item">
+				<i class="fa fa-sign-out"></i> Sair</p:commandLink>
+					
+			</ul>
+		</li>
+	</ui:fragment>
+                              
+               
+           
+	
+</ui:composition>

@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:c="jakarta.tags.core"
+	xmlns:p="http://primefaces.org/ui">
+	<link href="#{request.contextPath}/themes/theme/css/geoazul.css"
+		rel="stylesheet" />
+
+	<style>
+.modal-content iframe {
+	margin: 0 auto;
+	display: block;
+}
+</style>
+	
+
+	<section class="slice py-5 py-lg-7">
+		<div class="container">
+
+			<div class="bs-example">
+
+
+				<!-- Modal HTML -->
+				<div id="myModal" class="modal fade ">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Vídeo Institucional</h5>
+								<button type="button" class="close" data-dismiss="modal">x</button>
+							</div>
+							<div class="modal-body">
+								<div class="embed-responsive embed-responsive-16by9">
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row align-items-center">
+				<div class="col-12 col-md-6 col-lg-6 order-md-2 mb-5 mb-md-0">
+					<div class="card border-0 shadow-lg zindex-100 mb-0">
+						<figure>
+							
+						</figure>
+						<div class="card-img-overlay d-flex justify-content-end">
+							<div class="text-center">
+								<a style="border-radius: 21px 21px 0 0; color: #fff;"
+									href="index">Promoção</a>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-12 col-md-6 col-lg-6 order-md-1 pr-md-5">
+
+					<h3 class="h3 mb-4">#{compjson.title}</h3>
+					<p class="lead text-muted">#{compjson.description}</p>
+					<div class="mt-5">
+
+
+
+						<c:forEach
+							items="#{compjson.strings.stream().filter(t->t.at('/position').asText() == 'cards').toArray()}"
+							var="_socialpos">
+
+
+							<a href="/post/00e9eeda-cb4a-4aef-a1f9-50cc17bb01d5"
+								class="btn btn-lg btn-primary btn-icon d-lg-inline-block"><span
+								class="btn-inner--text"><i data-feather="link"></i>
+									Conhecer</span> <span class="btn-inner--icon"></span></a>
+						</c:forEach>
+
+
+
+
+						<ui:fragment rendered="false">
+							<a href="#myModal" data-toggle="modal"
+								class="btn btn-lg btn-secondary btn-icon d-lg-inline-block"><span
+								class="btn-inner--text"> Vídeo</span> <span
+								class="btn-inner--icon"><i data-feather="play"></i></span></a>
+						</ui:fragment>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ui:composition>

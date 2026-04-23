@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough" xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="body">
+
+
+
+						<h:form id="meuform">
+
+							<div align="right">
+
+								#{''}
+								<p:button value="Novo" outcome="/administrator/application_edit"
+									styleClass="btn btn-primary" icon="pi pi-plus " />
+
+							</div>
+
+							<p:commandButton value="Limpar Filtro"
+								onclick="PF('appWidget').clearFilters()" />
+
+							<p:dataTable var="_item" value="#{applicationIdentityBean.model}"
+								paginator="true" rows="30"
+								paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+								rowsPerPageTemplate="5,10,15,30" lazy="true"
+								widgetVar="appWidget" reflow="true" paginatorPosition="bottom"
+								id="appTable">
+
+
+
+
+
+								<p:column headerText="Nome" filterBy="#{_item.name}"
+									sortBy="#{_item.name}">
+									<p:outputLabel value="#{_item.name}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Lang" />
+									</f:facet>
+									<p:outputLabel value="#{_item.locale}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Client" />
+									</f:facet>
+									<p:outputLabel value="#{_item.clientEntity.clientId}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="TIPO" />
+									</f:facet>
+									<p:outputLabel value="#{_item.dtype}" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Ativo" />
+									</f:facet>
+									<p:graphicImage rendered="#{_item.enabled}" class="img-circle"
+										value="/resources/true.png" />
+									<p:graphicImage rendered="#{!_item.enabled}" class="img-circle"
+										value="/resources/false.png" />
+								</p:column>
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Ação" />
+									</f:facet>
+									<p:button icon="fa fa-th-list" title="Exibir"
+										outcome="/administrator/application_view">
+										  <o:pathParam value="0" />
+										<o:pathParam value="#{_item.id}" />
+									</p:button>
+
+
+								</p:column>
+
+
+
+
+
+
+							</p:dataTable>
+						</h:form>
+
+
+
+
+
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+
+	</ui:define>
+
+
+</ui:composition>

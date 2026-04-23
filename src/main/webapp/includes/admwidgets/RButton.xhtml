@@ -1,0 +1,12 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+
+
+	
+	<p:commandButton value="#{city.value}" 	onclick="rc([{name: 'blockid', value: #{blockid} }, {name: 'columnid', value: #{columnid}}, {name: 'orderid', value: #{city.order}},{name: 'parentid', value: #{city.parentId}}])"
+		title="#{city.title}"
+		styleClass="#{city.styleClass}" icon="#{city.icon} dashBackBut" />
+
+</ui:composition>

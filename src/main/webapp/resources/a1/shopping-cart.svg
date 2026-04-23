@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="64px"
+   width="64px"
+   version="1.1"
+   id="Capa_1"
+   viewBox="-37.74 -37.74 547.18 547.18"
+   xml:space="preserve"
+   sodipodi:docname="shopping-cart.svg"
+   stroke-width="47.170100000000005"
+   stroke="#1f0a0a"
+   fill="#1f0a0a"
+   transform="matrix(1, 0, 0, 1, 0, 0)"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"><metadata
+   id="metadata14"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
+   id="defs12" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1294"
+   inkscape:window-height="704"
+   id="namedview10"
+   showgrid="false"
+   inkscape:zoom="5.2149125"
+   inkscape:cx="-16.10274"
+   inkscape:cy="35.582162"
+   inkscape:window-x="72"
+   inkscape:window-y="27"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g6" />
+
+<g
+   id="SVGRepo_bgCarrier"
+   stroke-width="0" />
+
+<g
+   id="SVGRepo_tracerCarrier"
+   stroke-linejoin="round"
+   stroke-linecap="round" />
+
+<g
+   id="SVGRepo_iconCarrier"
+   transform="matrix(1.0535494,0,0,1.180846,-12.810101,-43.524278)"
+   style="fill:#ff0000"> <g
+   id="g6"
+   style="fill:#ff0000"> <path
+   d="m 433.601,67.001 c -24.7,-24.7 -57.4,-38.2 -92.3,-38.2 -34.9,0 -67.7,13.6 -92.4,38.3 l -12.9,12.9 -13.1,-13.1 c -24.7,-24.7 -57.6,-38.4 -92.5,-38.4 -34.8,0 -67.6,13.6 -92.2,38.2 -24.7,24.7 -38.3,57.5 -38.2,92.4 0,34.9 13.7,67.6 38.4,92.3 l 187.8,187.8 c 2.6,2.6 6.1,4 9.5,4 3.4,0 6.9,-1.3 9.5,-3.9 l 188.2,-187.5 c 24.7,-24.7 38.3,-57.5 38.3,-92.4 0.1,-34.9 -13.4,-67.7 -38.1,-92.4 z m -19.2,165.7 -178.7,178 -178.3,-178.3 c -19.6,-19.6 -30.4,-45.6 -30.4,-73.3 0,-27.7 10.7,-53.7 30.3,-73.2 19.5,-19.5 45.5,-30.3 73.1,-30.3 27.7,0 53.8,10.8 73.4,30.4 l 22.6,22.6 c 5.3,5.3 13.8,5.3 19.1,0 l 22.4,-22.4 c 19.6,-19.6 45.7,-30.4 73.3,-30.4 27.6,0 53.6,10.8 73.2,30.3 19.6,19.6 30.3,45.6 30.3,73.3 0.1,27.7 -10.7,53.7 -30.3,73.3 z"
+   id="path4"
+   inkscape:connector-curvature="0"
+   style="fill:#ff0000;stroke:#ff000e;stroke-opacity:1" /> </g> </g>
+
+</svg>

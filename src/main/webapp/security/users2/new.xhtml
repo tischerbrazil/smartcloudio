@@ -1,0 +1,26 @@
+<ui:composition template="/themes/bs5-ecommerce/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+	
+	<ui:define name="content">
+		
+		<k:form id="editUserForm">
+			<k:input id="firstName" value="#{newUserBacking.person.firstName}" />
+			<k:input id="lastName" value="#{newUserBacking.person.lastName}" />
+			<k:input id="email" type="email" value="#{newUserBacking.person.email}" />
+			
+			<k:buttons>
+				<k:button id="cancel" path="admin/users" />
+				<k:button id="save" action="#{newUserBacking.create}" />
+			</k:buttons>
+		</k:form>
+	</ui:define>
+</ui:composition>

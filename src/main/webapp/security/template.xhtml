@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:p="http://primefaces.org/ui" 
+        contentType="text/html"
+        encoding="UTF-8">
+
+    <!--HEAD-->
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/favicon.png"/>
+
+        <title><ui:insert name="title"/></title>
+
+       
+
+    </h:head>
+
+    <!--BODY-->
+    <h:body>
+
+<ui:insert name="content"/>
+
+<h:form>
+    <p:growl id="selectedThemeGrowl" showDetail="true" severity="info" escape="false" />
+    	<hr/>
+    	<h1>#{guestPreferences.theme}</h1>
+    	<hr/>
+    
+        <p:themeSwitcher id="basic" style="width:165px" update="selectedThemeGrowl">
+            <f:selectItem itemLabel="Choose Theme" itemValue="" />
+            <f:selectItems value="#{themeSwitcherView.themes}" var="theme" itemLabel="#{theme.displayName}" itemValue="#{theme.name}"/>
+        
+        
+         <p:ajax listener="#{guestPreferences.changeTheme}" />
+        </p:themeSwitcher>
+ 
+        
+    <h3>Responsive</h3>
+<div class="ui-g">
+    <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+    <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+    <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+    <div class="ui-g-12 ui-md-6 ui-lg-3">ui-g-12 ui-md-6 ui-lg-3</div>
+</div>
+ 
+<div class="ui-g">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">ui-g-12 ui-md-6 ui-lg-4</div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">ui-g-12 ui-md-6 ui-lg-4</div>
+    <div class="ui-g-12 ui-lg-4">ui-g-12 ui-lg-4</div>
+</div>
+ 
+    <p:separator />
+ 
+    <p:dialog header="Dialog" widgetVar="dlg" minHeight="40" modal="true">
+        <h:outputText value="Resistance to PrimeFaces is futile!" />
+    </p:dialog>
+ 
+    <p:commandButton value="Dialog" onclick="PF('dlg').show()" type="button" style="display:block;"/>
+ 
+    <p:panel header="Panel" style="margin:20px 0px">
+        Panel Content
+    </p:panel>
+ 
+    <p:spinner />
+ 
+    <p:toolbar style="margin:20px 0px">
+        <f:facet name="left">
+            <p:commandButton type="button" value="New" icon="pi pi-file" />
+            <p:commandButton type="button" value="Open" icon="pi pi-folder-open"/>
+            <p:commandButton type="button" title="Save" icon="pi pi-save"/>
+            <p:commandButton type="button" title="Delete" icon="pi pi-trash"/>
+            <p:commandButton type="button" title="Print" icon="pi pi-print"/>
+        </f:facet>
+ 
+        <f:facet name="right">
+            <p:menuButton value="Navigate">
+                <p:menuitem value="Home" url="http://www.primefaces.org" />
+                <p:menuitem value="ShowCase" url="http://www.primefaces.org/showcase" />
+                <p:menuitem value="TouchFaces" url="http://www.primefaces.org/showcase/touch" />
+            </p:menuButton>
+        </f:facet>
+    </p:toolbar>
+ 
+    <p:accordionPanel>
+        <p:tab title="Tab1">Tab1 Content</p:tab>
+        <p:tab title="Tab2">Tab2 Content</p:tab>
+        <p:tab title="Tab3">Tab3 Content</p:tab>
+    </p:accordionPanel>
+ 
+</h:form>
+
+
+
+      
+                <h2><ui:insert name="title"/></h2>
+
+                <p><ui:insert name="description"/></p>
+            
+
+    </h:body>
+</f:view>
+</html>

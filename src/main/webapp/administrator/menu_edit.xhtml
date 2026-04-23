@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<f:metadata>
+		<f:event type="preRenderView" listener='#{urlMenuBean.retrieve}' />
+		<f:viewParam name="id" value='#{urlMenuBean.id}' />
+	</f:metadata>
+
+	<ui:define name="content">
+		<section class="slice py-8">
+		
+		<div class="container py-5">
+		 <p:panel header="Edição de Menu">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="body">
+							<h:form id="search">
+								<h:panelGrid columnClasses="label,component" columns="3">
+									<p:outputLabel for="app" value="App:" />
+									<h:panelGroup>
+										<p:selectOneMenu label="Extensão"
+											converter="omnifaces.SelectItemsConverter" id="app"
+											value="#{urlMenuBean.urlMenu.applicationEntity}">
+											<f:selectItem />
+											<f:selectItems itemLabel="#{_item.name}" itemValue="#{_item}"
+												value="#{urlMenuBean.allIdentityApps}" var="_item" />
+										</p:selectOneMenu>
+									</h:panelGroup>
+									<h:outputText />
+									<h:outputLabel for="nome" value="Nome:" />
+									<h:panelGroup>
+										<p:inputText id="nome" label="Nome" size="50" maxLength="100"
+											required="true" value="#{urlMenuBean.urlMenu.name}" />
+									</h:panelGroup>
+									<h:outputText />
+									<h:outputLabel for="title" value="Título:" />
+									<h:panelGroup>
+										<p:inputText id="title" label="Título" size="50"
+											maxLength="100" required="true"
+											value="#{urlMenuBean.urlMenu.title}" />
+									</h:panelGroup>
+									
+									<h:outputText />
+									<h:outputLabel for="order" value="Ordem:" />
+									<h:panelGroup>
+										<p:inputText id="ordem" label="Ordem" size="50"
+											maxLength="100" required="true"
+											value="#{urlMenuBean.urlMenu.orderlayer}" />
+									</h:panelGroup>
+									
+									<h:outputText />
+									<h:outputLabel for="descricao" value="Descrição:" />
+									<h:panelGroup>
+										<p:textEditor allowImages="true" id="descricao"
+											value="#{urlMenuBean.urlMenu.description}" height="200">
+											<f:facet name="toolbar">
+												<span class="ql-formats">
+													<button class="ql-bold"></button>
+													<button class="ql-italic"></button>
+													<button class="ql-underline"></button>
+													<button class="ql-strike"></button>
+												</span>
+												<span class="ql-formats"> <select class="ql-font"></select>
+													<select class="ql-size"></select>
+												</span>
+											</f:facet>
+										</p:textEditor>
+									</h:panelGroup>
+									<h:outputText />
+								</h:panelGrid>
+								<div class="buttons">
+									<h:commandLink value="Salvar" action='#{urlMenuBean.update}'
+										styleClass="btn btn-primary" />
+									#{''}
+									<c:choose>
+										<c:when test='#{!empty urlMenuBean.id}'>
+											<h:link value="Cancelar" outcome="/administrator/menu_search"
+												styleClass="btn btn-primary" />
+						#{''}
+						<h:commandLink value="Excluir" action='#{urlMenuBean.delete}'
+												styleClass="btn btn-primary" />
+										</c:when>
+										<c:otherwise>
+											<h:link value="Cancelar" outcome="/administrator/menu_search"
+												styleClass="btn btn-primary" />
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</h:form>
+						</div>
+					</div>
+				</div>
+				</p:panel>
+			</div>
+			
+		</section>
+	</ui:define>
+</ui:composition>

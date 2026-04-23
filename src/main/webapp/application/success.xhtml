@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+	template="#{abstractIdentityBean.abstractIdentityEntity.template}/pageTemplate.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html"
+	xmlns:ui="jakarta.faces.facelets"
+	xmlns:a="jakarta.faces.passthrough"
+	xmlns:c="jakarta.tags.core"
+	xmlns:fn="jakarta.tags.functions"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:k="http://kickoff.example.org/ui">
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener='#{shoppingCartBean.retrieve_m}' />
+			<f:viewParam name="dominio" value="#{shoppingCartBean.dominio}" />
+	</f:metadata>
+	<ui:define name="content">
+		<section class="slice py-8">
+		<div class="container py-5">
+			<div class="row clearfix">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="card">
+						<div class="body">
+							<h:form id="search">
+								<p:messages id="messages" showSummary="false" showDetail="true"
+									closable="true">
+									<p:autoUpdate />
+								</p:messages>
+								<div align="center">
+									<p:graphicImage style="width: 150px"
+										value="/resources/images/logo.png" />
+									<h3>SMART CLOUD IO</h3>
+									<p>Bem-vindo!</p>
+									<p>
+										Para acessar seu web-site clique neste link:  
+										<a href="#{shoppingCartBean.dominio}">#{shoppingCartBean.dominio}</a>
+									</p>
+								</div>
+								<hr />
+								<div class="row clearfix">
+									<h1>#{shoppingCartBean.uuid}</h1>
+									<p:commandLink rendered="false" value="Visitar meu Domínio"
+										type="button" icon="pi pi-external-link" />
+								</div>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	</ui:define>
+</ui:composition>

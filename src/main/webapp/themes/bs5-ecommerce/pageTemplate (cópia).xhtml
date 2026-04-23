@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="jakarta.faces.core"
+	xmlns:pt="jakarta.faces.passthrough" xmlns:o="http://omnifaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="jakarta.tags.core" xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:ui="jakarta.faces.facelets" lang="#{p:language()}"
+	xml:lang="#{p:language()}">
+<c:set var="dev" value="#{faces.development}" scope="application" />
+<f:view locale="#{activeLocale.value}">
+	<h:head id="cab">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<title>#{abstractIdentityBean.abstractIdentityEntity.title}</title>
+		<meta name="robots" content="noindex" />
+		<meta name="googlebot" content="noindex" />
+		<meta name="generator" content="SmartCloudIO 7.0.2" />
+		<meta name="theme-color" content="#712cf9" />
+		<meta name="robots" content="noindex" />
+		<link href="/themes/bs53/docs/5.3/dist/css/bootstrap.min.css"
+			rel="stylesheet" crossorigin="anonymous" />
+		<link rel="stylesheet"
+			href="/themes/bs5-ecommerce/slide/dist/css/splide.min.css" />
+		<link rel="stylesheet"
+			href="/themes/bs5-ecommerce/splide/dist/css/themes/splide-skyblue.min.css" />
+		<link rel="stylesheet" href="/themes/bs5-ecommerce/css/style.css" />
+		<link rel="stylesheet"
+			href="/themes/bs5-ecommerce/icons/bootstrap-icons.css" />
+		<h:outputStylesheet library="webjars"
+			name="font-awesome/5.15.4/css/all.min-jsf.css" />
+		<h:outputStylesheet library="webjars"
+			name="font-awesome/5.15.4/css/v4-shims.min-jsf.css" />
+		<c:forEach varStatus="looph"
+			items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'head').toList()}"
+			var="moduloh">
+			<f:subview id="thing0_#{looph.index}">
+				<ui:include src="#{moduloh.complete}">
+					<ui:param name="id"
+						value="#{moduloh.components.at('/id').asText()}" />
+					<ui:param name="uuid" value="#{abstractIdentityBean.uuid}" />
+					<ui:param name="viewid" value="thing0_#{looph.index}" />
+					<ui:param name="cgmid" value="#{abstractIdentityBean.gcmid}" />
+					<ui:param name="compjson" value="#{moduloh.compJson}" />
+					<ui:param name="fields" value="#{moduloh.fields}" />
+				</ui:include>
+			</f:subview>
+		</c:forEach>
+		<h:outputScript name="locales/locale-#{p:language()}.js"
+			library="primefaces" />
+
+		<!-- Google tag (gtag.js) -->
+		<script async="async"
+			src="https://www.googletagmanager.com/gtag/js?id=G-LXRZZHRJGY"></script>
+		<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LXRZZHRJGY');
+</script>
+		<ui:insert name="head" />
+	</h:head>
+	<h:body>
+		<!-- START LOADING -->
+		<div class="spinner-wrapper">
+			<div class="spinner-border" role="status">
+				<span class="visually-hidden">Carregando...</span>
+			</div>
+		</div>
+		<!-- END LOADING -->
+		<header>
+			<!-- START ALERT TOP BAR -->
+			<ui:fragment rendered="true">
+
+				<div class="alert alert-primary" role="alert">
+					<img src="/themes/bs5-ecommerce/img/Icons/logo-pix-icone-256.png"
+						width="20" height="20" /> <span>Pague no PIX e ganhe um
+						desconto de 5%</span>
+				</div>
+				<!-- END ALERT TOP BAR -->
+			</ui:fragment>
+			<!-- START NAVBAR HEADER -->
+			<section class="navbar navbar-expand-lg" id="navbar1">
+				<div class="col-md-2" onclick="redirectBtnindex()" href="Login.html">
+					<img src="/resources/logo.png" alt="" width="" height="75" />
+				</div>
+				<button class="navbar-toggler d-lg-none" id="main">
+					<span class="navbar-toggler-icon"> <a href="#"
+						data-bs-toggle="modal" data-bs-target="#exampleModal"> <ion-icon
+								name="menu-outline"></ion-icon>
+					</a>
+					</span>
+				</button>
+				
+				
+				<h:form class="d-lg-flex mb-2 mb-lg-0 mx-auto w-100" id="mobile">
+					<div class="busca">
+						<ui:fragment
+							rendered="#{abstractIdentityBean.gcmid ne abstractIdentityBean.abstractIdentityEntity.strings.at('/gcmid-ecommerce').asText()}">
+							<div class="ui-inputgroup">
+								<span class="ui-input-icon-left"> <i class="pi pi-search" />
+									<p:inputText type="search" id="globalSearch" size="12"
+										value="#{productBean.globalSearch}"
+										placeholder="O que você procura?">
+
+									</p:inputText>
+								</span>
+								<p:commandButton ajax="false" id="globalFilter0" value="Buscar"
+									styleClass="ui-button-danger"
+									action="#{productBean.ecommerceRedirect()}">
+								</p:commandButton>
+							</div>
+						</ui:fragment>
+						<ui:fragment
+							rendered="#{abstractIdentityBean.gcmid eq abstractIdentityBean.abstractIdentityEntity.strings.at('/gcmid-ecommerce').asText()}">
+							<div class="ui-inputgroup">
+								<span class="ui-input-icon-left"> <i class="pi pi-search" />
+									<p:inputText size="12" type="search" id="globalSearch1"
+										value="#{productBean.globalSearch}"
+										placeholder="O que você procura?">
+										<p:ajax event="search" update="thing_0:form"
+											listener="#{productBean.processSearch()}" />
+									</p:inputText>
+								</span>
+								<p:commandButton id="globalFilter1" value="Buscar"
+									styleClass="ui-button-danger" update="thing_0:form"
+									action="#{productBean.processSearch()}">
+								</p:commandButton>
+							</div>
+						</ui:fragment>
+					</div>
+				</h:form>
+				<p:dialog header="Login" widgetVar="loginDialog" resizable="true">
+					<ui:include src="/viewResponsive.xhtml" />
+				</p:dialog>
+				<div class="col-md-3">
+					<div class="d-flex d-md-flex flex-row align-items-center">
+						<c:forEach varStatus="loop2"
+							items="#{abstractIdentityBean.moduleFiltersAll.stream().filter(t -> t.htmltag == 'top_navbar_right').toList()}"
+							var="modulox">
+							<f:subview id="thing2_#{loop2.index}">
+								<ui:include src="#{modulox.complete}">
+									<ui:param name="id"
+										value="#{modulox.components.at('/id').asText()}" />
+									<ui:param name="uuid" value="#{abstractIdentityBean.uuid}" />
+									<ui:param name="viewid" value="thing2_#{loop2.index}" />
+									<ui:param name="cgmid" value="#{abstractIdentityBean.gcmid}" />
+									<ui:param name="compjson" value="#{modulox.compJson}" />
+									<ui:param name="fields" value="#{modulox.fields}" />
+								</ui:include>
+							</f:subview>
+						</c:forEach>
+						<div title="" class="col-md-3" id="iconsoutline">
+							<style>
+.ui-button.rounded-button.ui-button-icon-only {
+	border-radius: 50% !important;
+	height: 3.3rem !important;
+	width: 3.3rem !important;
+	size: 1.5rem !important;
+	border: 3px solid #fff !important;
+	background: #333 important;
+	color: #fff !important;
+	transition: background-color 0.15s, color 0.15s, border-color 0.15s,
+		box-shadow 0.15s !important;
+}
+
+</style>
+							<p:commandButton
+								styleClass="shop-bag rounded-button ui-button-outlined"
+								 onclick="PF('loginDialog').show();"
+								id="personx" type="button" icon="pi pi-heart" />
+						</div>
+						<div class="col-md-3" id="iconsperson">
+
+							<p:commandButton id="person" type="button"
+								icon="pi pi-user"
+								styleClass="shop-bag rounded-button ui-button-outlined" />
+							<p:tieredMenu overlay="true" trigger="person" my="left top"
+								at="left bottom" style="width:200px">
+
+								<p:menuitem value="Delete" icon="pi pi-fw pi-trash" />
+								<p:divider />
+								<p:menuitem value="Export" icon="pi pi-fw pi-external-link" />
+
+							</p:tieredMenu>
+
+
+						</div>
+
+
+
+
+
+
+						<p:overlayPanel for="cart" style="width:350px">
+
+
+
+						</p:overlayPanel>
+
+
+						<div class="col-md-3" id="">
+							<p:commandButton
+								styleClass="shop-bag rounded-button ui-button-outlined"
+								icon="pi pi-shopping-cart" id="cart" type="button">
+
+							</p:commandButton>
+
+
+
+						</div>
+
+					</div>
+				</div>
+			</section>
+			<!-- END NAVBAR HEADER -->
+
+
+
+
+
+
+
+
+
+
+
+
+			<ui:insert name="header" />
+
+		</header>
+
+
+
+
+
+		<main>
+
+			<ui:insert name="main" />
+
+		</main>
+		
+		
+
+
+		<ui:insert name="content" />
+		
+		
+		
+<div class="container-fluid container-sm">
+
+  <div class="clearfix">
+  <img src="http://10.0.0.105/themes/bs5-ecommerce/img/a1.png" 
+  
+  class="col-md-4 float-md-end mb-3 ms-md-3" alt="..."/>
+  
+   
+
+  <p>
+    A paragraph of placeholder text. We're using it here to show the use of the clearfix class. We're adding quite a few meaningless phrases here to demonstrate how the columns interact here with the floated image.
+  </p>
+
+  <p>
+    As you can see the paragraphs gracefully wrap around the floated image. Now imagine how this would look with some actual content in here, rather than just this boring placeholder text that goes on and on, but actually conveys no tangible information at. It simply takes up space and should not really be read.
+  </p>
+
+  <p>
+    And yet, here you are, still persevering in reading this placeholder text, hoping for some more insights, or some hidden easter egg of content. A joke, perhaps. Unfortunately, there's none of that here.
+  </p>
+  
+  <img src="http://10.0.0.105/themes/bs5-ecommerce/img/a2.png" class="col-md-4 float-md-start mb-3 ms-md-3" alt="..."/>
+  
+  <p>
+    A paragraph of placeholder text. We're using it here to show the use of the clearfix class. We're adding quite a few meaningless phrases here to demonstrate how the columns interact here with the floated image.
+  </p>
+
+  <p>
+    As you can see the paragraphs gracefully wrap around the floated image. Now imagine how this would look with some actual content in here, rather than just this boring placeholder text that goes on and on, but actually conveys no tangible information at. It simply takes up space and should not really be read.
+  </p>
+
+  <p>
+    And yet, here you are, still persevering in reading this placeholder text, hoping for some more insights, or some hidden easter egg of content. A joke, perhaps. Unfortunately, there's none of that here.
+  </p>
+</div>
+<img src="http://10.0.0.105/themes/bs5-ecommerce/img/a3.png" class="img-thumbnail" alt="..."/>
+</div>
+
+		<ui:fragment
+			rendered="#{abstractIdentityBean.abstractIdentityEntity.clientEntity.id ne '/ecommerce/'}">
+			<script src="/themes/bs5-ecommerce/js/index12.js"></script>
+		</ui:fragment>
+
+		<ui:fragment
+			rendered="#{abstractIdentityBean.abstractIdentityEntity.clientEntity.id eq '/ecommerce/'}">
+			<script src="/themes/bs5-ecommerce/js/ecommerce.js"></script>
+		</ui:fragment>
+
+
+		<script src="/themes/bs53/docs/5.3/dist/js/bootstrap.min.js"></script>
+		<script src="/themes/bs5-ecommerce/popper/popper.min.js"></script>
+		<script src="/themes/bs53/docs/5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+		<!-- SPLIDE JS LINK-->
+		<script src="/themes/bs5-ecommerce/splide/dist/js/splide.min.js"></script>
+		<script
+			src="/themes/bs5-ecommerce/splide/splide-extension-auto-scroll.min.js"></script>
+		<!-- JS-COOKIES-->
+		<script src="/themes/bs5-ecommerce/cookie/js.cookie.min.js
+"></script>
+
+		<!-- ionicon link -->
+		<script type="module"
+			src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+		<script type="module"
+			src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+
+		<c:if test="#{activeUser.can('VIEW_ADMIN_PAGES')}">
+
+
+			<h:form id="platform">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="card">
+						<div class="body">
+							<p:dataTable rendered="true" id="modules" styleClass="data-table"
+								value="#{abstractIdentityBean.moduleFiltersAll}" var="_item">
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="COMP" />
+									</f:facet>
+									<p:outputLabel value="#{_item.components}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="FIELDS" />
+									</f:facet>
+									<p:outputLabel value="#{_item.fields}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="ORDER2" />
+									</f:facet>
+									<p:outputLabel value="#{_item.ordering2}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="INCLUDE" />
+									</f:facet>
+									<p:outputLabel value="#{_item.htmltag}" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Widget" />
+									</f:facet>
+
+									<p:outputLabel value="#{_item.widget_id}" />
+
+								</p:column>
+
+
+
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="COMPONENT" />
+									</f:facet>
+
+									<h:link value="#{_item.moduloId}"
+										outcome="/administrator/module_view"
+										styleClass="btn btn-primary">
+
+										<f:param name="id" value='#{_item.type}' />
+									</h:link>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</c:if>
+	</h:body>
+</f:view>
+</html>

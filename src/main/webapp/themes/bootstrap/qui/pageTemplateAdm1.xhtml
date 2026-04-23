@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="#{activeLocale.languageTag}"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="jakarta.faces.html"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:f="jakarta.faces.core"
+	xmlns:c="jakarta.tags.core"
+	xmlns:ui="jakarta.faces.facelets">
+
+	<f:view locale="#{activeLocale.value}">
+	
+	<h:head id="cab"> 
+	
+	<ui:insert name="head" />
+	<meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+	
+	<link rel="icon" href='#{resource["favicon.ico"]}' />
+	<title>#{abstractIdentityBean.abstractIdentityEntity.title}</title>
+	
+	<link href="#{request.contextPath}/themes/theme/font/inconsolata.css" rel="stylesheet" type="text/css"/>
+    <link href="#{request.contextPath}/themes/theme/font/materialicons.css" rel="stylesheet"/>
+    <link href="#{request.contextPath}/themes/theme/material/plugins/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="#{request.contextPath}/themes/theme/material/plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="#{request.contextPath}/themes/theme/material/plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="#{request.contextPath}/themes/theme/material/css/style.css" rel="stylesheet"/>
+    <link href="#{request.contextPath}/themes/theme/material/css/themes/all-themes.css" rel="stylesheet" />
+   
+    
+    <style>
+		font-family: 'Inconsolata', monospace;
+	.inline-block {
+   		display: inline-block;
+	}
+	.inline-block2 {
+    	display: inline-block;
+    	vertical-align:top;
+	}
+	.button {
+  		width: 50px;
+  		height: 50px;
+	}
+	.ui-icon {
+  		width: 18px !important;
+  		font-size: 18px !important;
+	}
+
+	.ui-button{
+		color:#FFF !important;
+		background-image: none !important;
+	}
+	</style>
+	
+	<ui:insert name="header" />
+	
+	</h:head>
+
+	<h:body class="theme-deep-purple ls-closed overlay-close" >
+	
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-green">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+		<ui:include src="menu_top.xhtml"/>
+	<section>	
+	 	<ui:include src="menu_left.xhtml"/>
+	  	<ui:include src="menu_right.xhtml"/>
+	</section>
+		
+	
+
+
+	<ui:insert name="main" />
+	
+	<ui:insert name="content" />
+	
+	<ui:insert name="footer" />
+	
+    <script src="#{request.contextPath}/themes/theme/material/js/admin_adm.js"></script>
+    
+	</h:body>
+
+    <script src="#{request.contextPath}/themes/theme/material/plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="#{request.contextPath}/themes/theme/material/plugins/node-waves/waves.js"></script>
+    <script src="#{request.contextPath}/themes/theme/material/plugins/jquery-countto/jquery.countTo.js"></script>
+    <script src="#{request.contextPath}/themes/theme/material/js/pages/index.js"></script>
+    <script src="#{request.contextPath}/themes/theme/material/js/demo.js"></script>
+    <script src="#{request.contextPath}/themes/bootstrap-m-ize/material/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <ui:insert name="footerjs" />
+    
+    </f:view>
+
+</html>
+
+

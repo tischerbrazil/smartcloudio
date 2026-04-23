@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core"
+	xmlns:h="jakarta.faces.html" xmlns:p="http://primefaces.org/ui">
+	<p:commandButton id="uuu" rendered="false"
+		style="margin-right: 10px; padding-right: 10px" icon="fa fa-image"
+		onclick="imageEdit([{name: 'fileTypeDirection', value: 'TESTE'} ])"
+		value="Enviar Arquivo" />
+	<div class="row">
+		<div class="form-group">
+			<span><i class="fa fa-user-o" aria-hidden="true"> </i> <label
+				for="textvalue" class="control-label"> Link do Vídeo</label> </span>
+			<div class="form-line">
+				<p:inputText value="#{productAllBean.selectedRComponent.value}"
+					class="form-control" id="rvideoValue" type="text"
+					placeholder="Digite aqui o link do vídeo" />
+				<p:tooltip for="rvideoValue" value="Link do Vídeo" position="left" />
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group">
+			<span><i class="fa fa-user-o" aria-hidden="true"> </i> <label
+				for="textvalue" class="control-label"> Imagem Fundo</label> </span>
+			<div class="form-line">
+
+				<p:inputText value="#{productAllBean.selectedRComponent.poster}"
+					class="form-control" id="rvideoPoster" type="text"
+					placeholder="Digite aqui a imagem de fundo" />
+
+				<p:tooltip for="rvideoPoster" value="Imagem de Fundo"
+					position="left" />
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group">
+			<span><i class="fa fa-user-o" aria-hidden="true"> </i> <label
+				for="textvalue" class="control-label"> PreLoad</label> </span>
+			<div class="form-line">
+				<p:inputText value="#{productAllBean.selectedRComponent.preload}"
+					class="form-control" id="rvideoPreload" type="text"
+					placeholder="Digite aqui o preload" />
+				<p:tooltip for="rvideoPreload" value="Preload do vídeo HTML5"
+					position="left" />
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<div class="form-group">
+				<span><i class="fa fa-user-o" aria-hidden="true"> </i> <label
+					for="fullName" class="control-label"> Largura</label> </span>
+				<div class="form-line">
+					<p:inputText value="#{productAllBean.selectedRComponent.width}"
+						class="form-control" id="rvideoWidth" type="text" placeholder="" />
+
+					<p:tooltip for="rvideoWidth"
+						value="Digital a Largura do Vídeo em Pixels ou %" position="left" />
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<div class="form-group">
+				<span><i class="fa fa-user-o" aria-hidden="true"> </i> <label
+					for="fullName" class="control-label"> Altura</label> </span>
+				<div class="form-line">
+					<p:inputText value="#{productAllBean.selectedRComponent.height}"
+						class="form-control" id="rvideoHeoght" type="text" placeholder="" />
+
+					<p:tooltip for="rvideoHeoght"
+						value="Digital a Altura do Vídeo em Pixels ou %" position="left" />
+				</div>
+			</div>
+		</div>
+	</div>
+</ui:composition>
