@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>			
+		Conte\u00fado do Email
+	</comment>
+
+
+	<!-- NOTE: Don't indent CDATA content! -->
+
+	<!-- NOTE: Don't use HTML <br> or <p>, this will be taken care of automatically based on newlines! -->
+	<!--       The code will convert 2 successive newlines to <br/><br/> not <p>.                      -->
+	<!--       Note that block elements like <blockquote> and <ul> already start at a new "paragraph". -->
+
+	<entry key="default_salutation_content_text"><![CDATA[
+Prezado {toUser.fullName},
+	]]></entry>
+
+
+	<!-- New user registered ====================================================================================== -->
+
+	<entry key="newUserRegistered_subject_content_text"><![CDATA[
+Confirme seu email
+	]]></entry>
+
+	<entry key="newUserRegistered_body_content_HTML"><![CDATA[
+Para concluir sua inscri\u00E7\u00E3o, confirme seu endere\u00E7o de e-mail clicando no bot\u00E3o abaixo.
+
+<a href="*|CTA1_URL|*">*|CTA1_URL|*</a>
+	]]></entry>
+
+	<entry key="newUserRegistered_call_to_action_label_text"><![CDATA[
+Confirme seu Email
+	]]>
+	</entry>
+
+
+	<!-- New User Email Verified =================================================================================== -->
+
+	<entry key="newEmailVerified_subject_content_text"><![CDATA[
+Usu\u00e1rio confirmardo com sucesso
+	]]></entry>
+
+	<entry key="newEmailVerified_body_content_HTML"><![CDATA[
+O usu\u00e1rio abaixo acabou de concluir a inscri\u00E7\u00E3o em nosso website:
+
+<ul>
+<li>Email: {user.email}</li>
+<li>Usu\u00e1rio: {user.fullName}</li>
+<li>Refer\u00EAncia: {referral}</li>
+</ul>
+	]]></entry>
+
+
+	<!-- User request password ===================================================================================== -->
+
+	<entry key="resetPassword_subject_content_text">
+	<![CDATA[
+Redefinir senha
+	]]>
+	</entry>
+
+	<entry key="resetPassword_body_content_HTML">
+	<![CDATA[
+Recebemos uma solicita\u00E7\u00E3o do endere\u00E7o IP {ip} para redefinir a senha da sua conta.
+Se voc\u00EA n\u00E3o solicitou essa redefini\u00E7\u00E3o, apenas ignore este e-mail.
+Caso contr\u00e1rio, clique no link abaixo para redefinir sua senha.
+Este pedido ser\u00e1 v\u00e1lido at\u00EA {expiration,dateTime,long}.
+	]]>
+	</entry>
+
+	<entry key="resetPassword_call_to_action_label_text">
+	<![CDATA[
+Redefinir senha
+	]]>
+	</entry>
+
+</properties>
